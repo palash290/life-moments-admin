@@ -1,0 +1,20 @@
+{
+    "home": "Home",
+    "about": "About Us",
+    "share": "Share",
+    "info": "Channel Information",
+    "name": "Name",
+    "email": "Email",
+    "mobile": "Mobile",
+    "subscribe": "Subscribe Now",
+    "product": {
+      "id": "ID",
+      "title": "Title",
+      "price": "Price",
+      "description": "Description",
+      "category": "Category",
+      "image": "Image",
+      "rating": "Rating"
+    }
+  }
+  

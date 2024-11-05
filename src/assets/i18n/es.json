@@ -1,0 +1,20 @@
+{
+    "home": "Inicio",
+    "about": "Sobre Nosotros",
+    "share": "Compartir",
+    "info": "Información del Canal",
+    "name": "Nombre",
+    "email": "Correo Electrónico",
+    "mobile": "Móvil",
+    "subscribe": "Suscribirse Ahora",
+    "product": {
+      "id": "ID",
+      "title": "Título",
+      "price": "Precio",
+      "description": "Descripción",
+      "category": "Categoría",
+      "image": "Imagen",
+      "rating": "Calificación"
+    }
+  }
+  
