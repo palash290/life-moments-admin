@@ -1,0 +1,35 @@
+.image-carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ct_preview_img {
+    text-align: center;
+}
+
+.btn-left,
+.btn-right {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-left:hover,
+.btn-right:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+.ct_preview_img img{
+    height: 400px;
+    object-fit: contain;
+    width: 100%;
+}

@@ -1,0 +1,192 @@
+@media screen and (max-width:991px){
+    .ct_dashbaord_main.ct_active .ct_sidebar_menu {
+        left: -100%;
+
+    }
+    
+    .ct_dashbaord_main.ct_active .ct_content_right {
+        left: -100%;
+    }
+    
+    .ct_dashbaord_main.ct_active .ct_content_right {
+        width: 96%;
+    }
+    .ct_dashbaord_main.ct_active .ct_toggle_side {
+        left: 0px;
+        top: 30px;
+        background-color: #fff;
+    }
+    .ct_dashbaord_main.ct_active .ct_toggle_side span{
+        background-color: #060606;
+    }
+    .ct_toggle_side{
+        display: flex;
+    }
+    .ct_dashbaord_main.ct_active .ct_dashbaord_middle {
+        margin-left: -4%;
+    }
+    .ct_computer_img img {
+        width: 300px;
+      
+    }
+    .ct_new_project_cnt{
+        text-align: center;
+    }
+    .ct_banner_left_cnt{
+        text-align: center;
+    }
+    .ct_btn_fit {
+        width: fit-content;
+        margin: auto;
+    }
+    .ct_banner_right_img{
+        margin-right: 0px;
+    }
+    .ct_login_right_form {
+        margin-inline: 30px !important;
+    }
+    .ct_grid_h5{
+        grid-template-columns: repeat(4,1fr);
+    
+    }
+    .ct_left_login_img{
+        display: none;
+    }
+    .ct_edit_file_cnt{
+        right: 58px;
+    }
+}
+
+
+@media screen and (max-width:767px){
+    .ct_project_summary_head{
+        flex-direction: column;
+        gap: 15px;
+    }
+    .ct_flex_wrap_767{
+        flex-direction: column;
+        gap: 15px !important;
+    }
+    .ct_content_right {
+        width: 100%;
+    }
+    .ct_w_50_res{
+        width: 50% !important;
+    }
+    .ct_get_started_cnt{
+        text-align: center;
+    }
+    .ct_get_started_cnt a {
+        margin: auto;
+    }
+    .ct_get_started_cnt p{
+        text-align: center;
+    }
+    .ct_dashbaord_middle{
+        padding-inline: 15px;
+    }
+    .ct_fs_22 {
+        font-size: 18px;
+    }
+    .ct_user_name_info{
+        display: none;
+    }
+    button.ct_logout_btn.ct_white_btn{
+        background-color: transparent;
+        width: auto;
+    }
+    .ct_responsive_wrap{
+        flex-direction: column;
+    }
+    .ct_responsive_wrap, .ct_responsive_wrap  .ct_days_select ,.ct_responsive_wrap  .ct_days_select select {
+        width: 100%;
+    }
+    .Committed_Price .modal-body,.Committed_Price .modal-footer{
+        padding-inline: 20px;
+    }
+    .ct_side_logo  img{
+        width: 198px !important;
+    }
+    .ct_mob_responsive_wrap{
+        flex-direction: column;
+    }
+    .ct_mob_d_none{
+        display: none;
+    }
+    .ct_menu_link ul {
+        position: fixed;
+        top: 0px;
+        width: 300px;
+        height: 100vh;
+        background-color: #000;
+        right: -100%;
+        z-index: 999;
+        transition: 0.6s ease all;
+    }
+    .ct_grid_h5{
+        grid-template-columns: repeat(3,1fr);
+    
+    }
+    .ct_menu_link ul {
+        flex-direction: column;
+        align-items: self-start;
+        list-style: none;
+        padding: 70px 30px;
+    }
+    .ct_close_menu_icon {
+        position: absolute;
+        display: block;
+        right: 15px;
+        top: 15px;
+    }
+    .ct_menu_link.active ul{
+        right: 0px;
+    }
+    .ct_toggle_icon{
+        display: block;
+        margin-right: 30px;
+    }
+    .ct_menu_link {
+        margin-left: auto;
+    }
+    .ct_navbar_main {
+        padding-inline: 15px;
+    }
+    .ct_logo img {
+        width: 122px;
+    }
+    .ct_banner_left_cnt {
+        width: 85%;
+    }
+    .ct_small_box{
+        left: 15px;
+    }
+    .ct_banner_left_cnt h2,.ct_head_title h1 
+        {
+        font-size: 28px;
+       
+    }
+    .ct_head_title p br{
+        display: none;
+    }
+    .ct_team_card{
+        margin-bottom: 50px;
+    }
+
+    .ct_fs_50 {
+        font-size: 40px;
+    }
+    /* .ct_login_right_form {
+        width: 80% !important;
+    } */
+     .ct_fs_24{
+        font-size: 20px;
+     }
+}
+
+@media screen and (max-width:575px){
+    .ct_grid_6 {
+       
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

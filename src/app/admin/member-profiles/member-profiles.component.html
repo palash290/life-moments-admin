@@ -1,1 +1,58 @@
-<p>member-profiles works!</p>
+<div class="ct_dashbaord_middle">
+  <div class="d-flex align-items-center justify-content-between">
+    <h4 class="mb-0 ct_fs_22">All Member Profile</h4>
+    <div class="d-flex align-items-center gap-3">
+      <div class="position-relative ct_search_input">
+        <input type="text" class="form-control" placeholder="Search " />
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="row ct_mt_30">
+    <div class="col-lg-12 mb-4 mb-lg-0">
+      <div class="table-responsive">
+        <table class="table ct_project_table">
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Display Name</th>
+              <th>Gender</th>
+              <th>DOB</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data">
+              <td>
+                <a routerLink="/admin/main/family-member">
+                  <div class="d-flex align-items-center gap-2">
+                    <img [src]='item.image' class="ct_img_40 ct_border_2" />
+                    <p class="mb-0 ct_fs_16 ct_green_text">{{item.name}}</p>
+                  </div>
+                </a>
+              </td>
+              <td>{{item.displayName}}</td>
+              <td>
+                <div *ngIf="item.gender == 'M'">
+                  Male
+                </div>
+                <div *ngIf="item.gender == 'F'">
+                  Female
+                </div>
+              </td>
+              <td>{{item.dob}}</td>
+              <td class="text-end">
+                <div class="form-check form-switch ct_custom_switch d-flex justify-content-end">
+                  <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="item.isBlocked"
+                  [ngModel]="item.isBlocked == 0" id="flexSwitchCheckChecked" />
+                </div>
+              </td>
+            </tr>
+         
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

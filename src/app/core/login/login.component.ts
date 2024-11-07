@@ -39,7 +39,7 @@ export class LoginComponent {
       this.srevice.loginUser(formURlData.toString()).subscribe({
         next: (resp) => {
           if (resp.success == true) {
-            this.route.navigateByUrl("/user/main/all-users");
+            this.route.navigateByUrl("/admin/main/dashboard");
             this.srevice.setToken(resp.token);
             this.toastr.success(resp.message);
             this.loading = false;

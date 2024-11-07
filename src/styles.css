@@ -1,2 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/ngx-toastr/toastr.css";
+
+/* .ng-image-slider .ng-image-slider-container .main .main-inner .img-div.image-popup{
+    width: 500px !important;
+} */
+.ng-image-slider,.ng-image-slider .ng-image-slider-container .main,.ng-image-slider .ng-image-slider-container .main .main-inner .img-div img, .ng-image-slider .ng-image-slider-container .main .main-inner .img-div video{
+    height: 400px !important;
+}
+
+.ng-image-slider .ng-image-slider-container .main .main-inner{
+    width: auto !important;
+}
+
+.error-message {
+    color: red;
+  }
+  

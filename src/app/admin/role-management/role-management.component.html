@@ -1,1 +1,61 @@
-<p>role-management works!</p>
+<div class="ct_dashbaord_middle">
+  <div class="d-flex align-items-center justify-content-between">
+    <h4 class="mb-0 ct_fs_22">Select Sub- Admin</h4>
+    <div class="d-flex align-items-center gap-3">
+      <div class="position-relative ct_search_input">
+        <input type="text" class="form-control" placeholder="Search " />
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <a routerLink="/admin/main/multiple-privileges" class="ct_green_btn px-5">
+        Next
+      </a>
+    </div>
+  </div>
+
+  <div class="row ct_mt_30">
+    <div class="col-lg-12 mb-4 mb-lg-0">
+      <div class="table-responsive">
+        <table class="table ct_project_table">
+          <thead>
+            <tr>
+              <th>
+                <div class="ct_checkbox_main">
+                  <div>
+                    <input type="checkbox" [(ngModel)]="checkAll" (change)="toggleAllCheckboxes()" id="ct_checkbox_cbx"
+                      class="ct_hidden-xs-up ct_checkbox_cbx_12" />
+                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
+                  </div>
+                </div>
+              </th>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Email Address</th>
+              <th>Contact no.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data">
+              <td class="w-15">
+                <div class="ct_checkbox_main">
+                  <div>
+                    <input type="checkbox" [(ngModel)]="item.checked" (change)="updateSelectedIds()"
+                      id="ct_checkbox_cbx{{ item.id }}" class="ct_hidden-xs-up ct_checkbox_cbx_12" />
+                    <label for="ct_checkbox_cbx{{ item.id }}" class="ct_checkbox_cbx"></label>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <a routerLink="/admin/main/privileges" class="ct_green_text">{{ item.name }}</a>
+              </td>
+              <td>{{ item.role }}</td>
+              <td>{{ item.email }}</td>
+              <td class="text-end">{{ item.contact }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </div>
+    </div>
+  </div>
+</div>
