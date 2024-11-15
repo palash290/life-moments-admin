@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   apiUrl: '',
-  baseUrl: 'https://www.ren-tie.com:4000/api/'
-  //baseUrl: 'http://192.168.29.100:4001/api/'
+  //baseUrl: 'https://www.ren-tie.com:4000/api/'
+  baseUrl: 'http://192.168.29.44:4001/'
 }
 /*
  * For easier debugging in development mode, you can import the following file

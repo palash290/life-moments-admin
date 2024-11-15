@@ -15,13 +15,15 @@ import { PrivilegesComponent } from './role-management/privileges/privileges.com
 import { MultiplePrivilegesComponent } from './role-management/multiple-privileges/multiple-privileges.component';
 import { FamilyMembersComponent } from './member-profiles/family-members/family-members.component';
 import { SubAlbumsComponent } from './member-profiles/sub-albums/sub-albums.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { TimelineDateComponent } from './timeline/timeline-date/timeline-date.component';
 import { TimelineMonthComponent } from './timeline/timeline-month/timeline-month.component';
 import { PhotoAlbumComponent } from './timeline/photo-album/photo-album.component';
 import { AlbumComponent } from './member-profiles/album/album.component';
+import { SubAdminsComponent } from './sub-admins/sub-admins.component';
+import { NgxEditorModule } from 'ngx-editor';
 
 
 @NgModule({
@@ -44,12 +46,15 @@ import { AlbumComponent } from './member-profiles/album/album.component';
     TimelineDateComponent,
     TimelineMonthComponent,
     PhotoAlbumComponent,
-    AlbumComponent
+    AlbumComponent,
+    SubAdminsComponent,
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
+    NgxEditorModule
   ]
 })
 export class AdminModule { }

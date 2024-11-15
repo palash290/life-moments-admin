@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SharedService } from '../../shared/services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-role-management',
@@ -11,29 +13,54 @@ export class RoleManagementComponent {
   selectedIds: number[] = [];
   data: any[] = [];
 
+  //Pagination//
+  currentPage: number = 1;
+  pageSize: number = 10;
+  searchQuery: any = '';
+  hasMoreData: boolean = true;
+
+  constructor(private service: SharedService, private route: Router) { }
+
+
   ngOnInit() {
-    this.loadData();
+    this.getSubAdmins();
   }
 
-  loadData() {
-    // Mock API call to fetch data
-    this.data = [
-      { id: 1, name: 'Vivian Aufderhar', role: 'Super Admin', email: 'Arturo_Strosin7yahoo.com', contact: '(555) 789-0123' },
-      { id: 2, name: 'John Doe', role: 'Admin', email: 'john_doe@gmail.com', contact: '(555) 123-4567' },
-      // More data objects here
-    ].map(item => ({ ...item, checked: false })); // Add `checked: false` to each item
+  getSubAdmins() {
+    this.service.getApi(`sub-admin/list-subadmin?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}`).subscribe({
+      next: resp => {
+        this.data = resp.subadmins;
+
+        this.data = resp.subadmins.map((item: { serialNumber: any; }, index: any) => {
+          item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
+          return item;
+        });
+        this.hasMoreData = resp.subadmins.length === this.pageSize;
+      },
+      error: error => {
+        console.log(error.message);
+      }
+    });
   }
 
-  // getUsers() {
-  //   this.service.getApi('getdashboard').subscribe({
-  //     next: (resp) => {
-  //       this.data = resp.users.map(user => ({ ...user, checked: false })); // Add `checked: false` to each user
-  //     },
-  //     error: (error) => {
-  //       console.log(error.message);
-  //     }
-  //   });
-  // }
+  goToPage(page: number) {
+    this.currentPage = page;
+    this.getSubAdmins();
+  }
+
+  nextPage() {
+    if (this.hasMoreData) {
+      this.currentPage++;
+      this.getSubAdmins();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.getSubAdmins();
+    }
+  }
 
 
   toggleAllCheckboxes() {
@@ -47,6 +74,16 @@ export class RoleManagementComponent {
       .map((item) => item.id);
 
     console.log('Selected IDs:', this.selectedIds);
+  }
+
+  assignRoleToMultiple() {
+    if (this.selectedIds?.length > 0) {
+      this.route.navigateByUrl(`/admin/main/privileges/${this.selectedIds?.length}`);
+    }
+  }
+
+  assignRoleToSingle(name: any) {
+    this.route.navigateByUrl(`/admin/main/privileges/${name}`);
   }
 
 

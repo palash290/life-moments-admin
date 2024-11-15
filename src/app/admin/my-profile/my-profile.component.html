@@ -7,29 +7,55 @@
         <div class="col-md-8 mx-auto">
             <div class="ct_white_bg_1 py-5">
                 <h4 class="ct_fs_24 mb-4 ct_fw_600"> Profile Detail</h4>
-                <form action="">
+                <form [formGroup]="profileForm">
                     <div class="form-group mb-4">
                         <label for="" class="mb-2">Full Name</label>
-                        <input type="text" class="form-control ct_input" placeholder="Enter first name"
-                            value="Alex meian" disabled>
+                        <input type="email" class="form-control ct_input" formControlName="name"
+                            placeholder="Enter first name" value="Alex meian">
+                        <div *ngIf="profileForm.controls['name'].invalid && profileForm.controls['name'].touched"
+                            class="error-message">
+                            <div *ngIf="profileForm.controls['name'].errors?.['required']">Please enter
+                                your name.</div>
+                        </div>
                     </div>
                     <div class="form-group mb-4">
                         <label for="" class="mb-2">Contact No</label>
-                        <input type="number" class="form-control ct_input" placeholder="Enter Contact No"
-                            value="+1234567989" disabled>
+                        <input type="number" class="form-control ct_input" formControlName="phone"
+                            placeholder="Enter Contact No" maxlength="13">
+                        <div *ngIf="profileForm.controls['phone'].invalid && profileForm.controls['phone'].touched"
+                            class="error-message">
+                            <div *ngIf="profileForm.controls['phone'].errors?.['required']">Please enter
+                                your contact number.</div>
+                        </div>
                     </div>
                     <div class="form-group mb-4">
                         <label for="" class="mb-2">Email</label>
-                        <input type="email" class="form-control ct_input" placeholder="Enter your email"
-                            value="alexmeian@gmail.com" disabled>
+                        <input type="email" class="form-control ct_input" formControlName="email"
+                            placeholder="Enter your email" value="alexmeian@gmail.com">
                     </div>
-                    <a href="edit-profile.html" class="ct_green_btn mt-5 px-5 mx-auto d-flex"
-                        style="width: fit-content;">Edit Profile</a>
+                    <a  (click)="onSubmit()" class="ct_green_btn mt-5 px-5 mx-auto d-flex"
+                        style="width: fit-content; cursor: pointer;">Edit Profile</a>
                 </form>
             </div>
         </div>
-
     </div>
+</div>
 
-
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
 </div>

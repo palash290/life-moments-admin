@@ -33,14 +33,14 @@ export class LoginComponent {
     this.loginForm.markAllAsTouched();
     if (this.loginForm.valid) {
       this.loading = true;
-      const formURlData = new URLSearchParams();
+      const formURlData = new URLSearchParams ();
       formURlData.set('email', this.loginForm.value.email);
       formURlData.set('password', this.loginForm.value.password);
       this.srevice.loginUser(formURlData.toString()).subscribe({
         next: (resp) => {
           if (resp.success == true) {
             this.route.navigateByUrl("/admin/main/dashboard");
-            this.srevice.setToken(resp.token);
+            this.srevice.setToken(resp.login_token);
             this.toastr.success(resp.message);
             this.loading = false;
           } else {

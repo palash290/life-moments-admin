@@ -1,15 +1,15 @@
 <div class="ct_dashbaord_middle">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center gap-3">
-            <a routerLink="/admin/main/albums" class="mb-0 ct_fs_22 text-dark ct_fw_500"><i
-                    class="fa-solid fa-arrow-left-long me-3 "></i>Back</a>
+            <!-- <a style="cursor: pointer;" (click)="backClicked()" class="mb-0 ct_fs_22 text-dark ct_fw_500"><i
+                    class="fa-solid fa-arrow-left-long me-3"></i>Back</a> -->
             <h4 class="mb-0 ct_fs_22 ct_fw_500"><img src="assets/img/men_user.png" alt="" class="ct_img_40 me-3">Zaire
                 Siphron’s Album</h4>
         </div>
         <div class="d-flex align-items-center gap-3">
             <div class="position-relative ct_search_input">
-                <input type="text" class="form-control" placeholder="Search" />
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <!-- <input type="text" class="form-control" placeholder="Search" />
+                <i class="fa-solid fa-magnifying-glass"></i> -->
             </div>
             <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add_album">Add New Photos</button>
         </div>
@@ -24,35 +24,38 @@
                         <div class="ct_checkbox_main">
                             <div>
                                 <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                    class="ct_hidden-xs-up ct_checkbox_cbx_12" [(ngModel)]="checkAll" (change)="toggleAllCheckboxes()">
+                                    class="ct_hidden-xs-up ct_checkbox_cbx_12" [(ngModel)]="checkAll"
+                                    (change)="toggleAllCheckboxes()">
                                 <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
                             </div>
                             <p class="mb-0">Select All</p>
                         </div>
                     </li>
                     <li>
-                        <button (click)="getSelectedIds()" class="ct_green_btn ct_btn_red px-md-5" data-bs-toggle="modal"
-                            data-bs-target="#delete_modal">Delete</button>
+                        <button (click)="getSelectedIds()" class="ct_green_btn ct_btn_red px-md-5"
+                            data-bs-toggle="modal" data-bs-target="#delete_modal">Delete</button>
                     </li>
                 </ul>
             </div>
 
-            <!-- <ul class="d-flex align-items-center gap-md-3 gap-2 mt-4 mb-3 ct_breadcrumb_list flex-wrap">
-                <li>Album 1 </li>
+            <ul class="d-flex align-items-center gap-md-3 gap-2 mt-4 mb-3 ct_breadcrumb_list flex-wrap">
+                <li style="cursor: pointer;" routerLink="/admin/main/timeline">{{year}} </li>
                 <li>>> </li>
-                <li>Sub - Albumname x </li>
+                <li style="cursor: pointer;" (click)="getMonth(year)">{{month}} </li>
                 <li>>> </li>
-                <li>Sub - Albumname x</li>
+                <li style="cursor: pointer;" (click)="backClicked()">{{day}}</li>
                 <li>>> </li>
-                <li class="border-0">18 Photos</li>
-            </ul> -->
+                <li class="border-0">{{picLength}} Photos</li>
+            </ul>
 
             <div class="ct_grid_6 mt-4">
                 <div class="ct_album_photo" *ngFor="let pic of imageObject; let i = index" (click)="openModal(i)">
-                    <img [src]="pic.image" alt="" data-bs-toggle="modal" data-bs-target="#preview_img">
+                    <img [src]="pic.images ? pic.images : 'assets/img/timeline_img.png'" alt="" data-bs-toggle="modal"
+                        data-bs-target="#preview_img">
                     <div class="ct_checkbox_main ct_file_select">
                         <div>
-                            <input type="checkbox" [(ngModel)]="pic.checked" id="ct_checkbox_cbx{{ pic.id }}" class="ct_hidden-xs-up ct_checkbox_cbx_12">
+                            <input type="checkbox" [(ngModel)]="pic.checked" id="ct_checkbox_cbx{{ pic.id }}"
+                                class="ct_hidden-xs-up ct_checkbox_cbx_12">
                             <label for="ct_checkbox_cbx{{ pic.id }}" class="ct_checkbox_cbx"></label>
                         </div>
                     </div>
@@ -81,9 +84,9 @@
                                     class="fa-solid fa-chevron-left"></i></a>
 
                             <div class="ct_preview_img mx-2">
-
-                                <img [src]="imageObject[currentIndex].image" [alt]="imageObject[currentIndex].alt">
-                                <h4 class="text-center mb-0 mt-3">{{ imageObject[currentIndex].alt }}</h4>
+                                <img [src]="imageObject[currentIndex]?.images">
+                                <h3 class="text-center mb-0 mt-3">{{ imageObject[currentIndex]?.title }}</h3>
+                                <h4 class="text-center mb-0 mt-3">{{ imageObject[currentIndex]?.description }}</h4>
                             </div>
 
                             <a href="javascript:void(0)" (click)="nextImage()" class=" mb-0 text-dark"><i

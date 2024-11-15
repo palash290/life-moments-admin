@@ -1,0 +1,5 @@
+.ct_modal_footer{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}

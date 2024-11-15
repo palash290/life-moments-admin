@@ -119,10 +119,10 @@
           </thead>
           <tbody>
 
-            <tr *ngFor="let item of data">
+            <tr *ngFor="let item of data; let i = index">
               <td>
                 <div class="d-flex align-items-center gap-2">
-                  <img src='assets/img/user_img.png' class="ct_img_40 ct_border_2" />
+                  <img [src]='item.image ? item.image : "assets/img/np_pro.png"' class="ct_img_40 ct_border_2" />
                   <p class="mb-0 ct_fs_16">{{item.name}}</p>
                 </div>
               </td>
@@ -139,7 +139,7 @@
               <td class="text-end">
                 <div class="form-check form-switch ct_custom_switch d-flex justify-content-end">
                   <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="item.isBlocked"
-                    [ngModel]="item.isBlocked == 0" id="flexSwitchCheckChecked" />
+                    [ngModel]="item.isBlocked == 0" id="flexSwitchCheckChecked" (click)="handleCheckboxChange(item)"/>
                 </div>
               </td>
             </tr>

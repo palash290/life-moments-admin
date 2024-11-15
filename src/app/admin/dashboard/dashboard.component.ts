@@ -13,12 +13,8 @@ export class DashboardComponent {
   data: any;
   totalCounts: any;
   searchQuery: string = '';
-  isFollowing: { [key: number | string]: boolean } = {};
-  avatar_url_fb: any;
   totalRevenue: any = 13500.43;
 
-  isCoach: boolean = true;
-  role: string | undefined;
 
   constructor(private service: SharedService, private toastr: ToastrService) { }
 
@@ -37,7 +33,6 @@ export class DashboardComponent {
         if (result.isConfirmed) {
           this.service.postAPI(`toggle-status/${row.id}`, null).subscribe({
             next: resp => {
-              //console.log(resp)
               this.toastr.success(resp.message);
               this.getUsers();
             }
@@ -75,13 +70,11 @@ export class DashboardComponent {
   ngOnInit() {
     this.getUsers();
     this.loadData();
-
   }
 
   loadData() {
-    // Mock API call to fetch data
     this.data = [
-      { id: 1, image: 'assets/img/user_img.png', name: 'Vivian Aufderhar', displayName: 'Vivian', gender: 'M', dob: '23-3-1999', isBlocked: true },
+      { id: 1, image: 'assets/img/np_pro.png', name: 'Vivian Aufderhar', displayName: 'Vivian', gender: 'M', dob: '23-3-1999', isBlocked: true },
       { id: 2, image: 'assets/img/user_img.png', name: 'Vivian Aufderhar', displayName: 'Vivian', gender: 'F', dob: '23-3-1999', isBlocked: false },
     ]
   }
@@ -98,16 +91,17 @@ export class DashboardComponent {
     });
   }
 
-  name: any;
-  email: any;
-  date: any;
-  avatar_url: any;
+  // name: any;
+  // email: any;
+  // date: any;
+  // avatar_url: any;
 
-  getUserById(data: any) {
-    this.name = data.full_name;
-    this.email = data.email;
-    this.date = data.createdAt;
-    this.avatar_url = data.avatar_url;
-  }
+  // getUserById(data: any) {
+  //   this.name = data.full_name;
+  //   this.email = data.email;
+  //   this.date = data.createdAt;
+  //   this.avatar_url = data.avatar_url;
+  // }
+
 
 }

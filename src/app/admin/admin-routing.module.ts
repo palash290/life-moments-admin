@@ -38,11 +38,11 @@ const routes: Routes = [
         component: RoleManagementComponent
       },
       {
-        path: 'privileges',
+        path: 'privileges/:name',
         component: PrivilegesComponent
       },
       {
-        path: 'multiple-privileges',
+        path: 'multiple-privileges/:length',
         component: MultiplePrivilegesComponent
       },
       {
@@ -50,15 +50,15 @@ const routes: Routes = [
         component: MemberProfilesComponent
       },
       {
-        path: 'family-member',
+        path: 'family-member/:parentId',
         component: FamilyMembersComponent
       },
       {
-        path: 'albums',
+        path: 'albums/:memberId',
         component: AlbumComponent
       },
       {
-        path: 'sub-albums',
+        path: 'sub-albums/:albumId',
         component: SubAlbumsComponent
       },
       {
@@ -78,15 +78,15 @@ const routes: Routes = [
         component: TimelineComponent
       },
       {
-        path: 'timeline-date',
+        path: 'timeline-date/:year/:month',
         component: TimelineDateComponent
       },
       {
-        path: 'timeline-month',
+        path: 'timeline-month/:year',
         component: TimelineMonthComponent
       },
       {
-        path: 'photo-album',
+        path: 'photo-album/:date',
         component: PhotoAlbumComponent
       },
       {

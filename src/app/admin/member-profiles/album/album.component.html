@@ -24,7 +24,8 @@
                         <div class="ct_checkbox_main">
                             <div>
                                 <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                    class="ct_hidden-xs-up ct_checkbox_cbx_12">
+                                    class="ct_hidden-xs-up ct_checkbox_cbx_12" [(ngModel)]="checkAll"
+                                    (change)="toggleAllCheckboxes()">
                                 <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
                             </div>
                             <p class="mb-0">Select All</p>
@@ -37,232 +38,28 @@
                 </ul>
             </div>
             <div class="ct_grid_6 mt-3">
-                <a href="sub-album.html" class="text-dark" routerLink="/admin/main/sub-albums">
+                <a *ngFor="let pic of data; let i = index" class="text-dark">
                     <figure class="ct_file_main mb-0">
                         <div class="ct_file_img">
-                            <img src="assets/img/file_img.png" alt="">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file">
+                            <img [src]="pic.image ? pic.image : 'assets/img/folder.png'" alt=""
+                                (click)="getSubalbum(pic.id)">
+                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file"
+                                style="cursor: pointer;">
                                 <i class="fa-regular fa-pen-to-square"></i>
+                            </div>
+                            <div class="ct_edit_file_cnt ct_total_count_btm" >
+                                <h4 class="mb-0 ct_fs_14">12</h4>
                             </div>
 
                             <div class="ct_checkbox_main ct_file_select">
                                 <div>
-                                    <input checked="" type="checkbox" id="ct_checkbox_cbx"
+                                    <input [(ngModel)]="pic.checked" type="checkbox" id="ct_checkbox_cbx{{ pic.id }}"
                                         class="ct_hidden-xs-up ct_checkbox_cbx_12">
-                                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
+                                    <label for="ct_checkbox_cbx{{ pic.id }}" class="ct_checkbox_cbx"></label>
                                 </div>
                             </div>
                         </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">Default Album</figcaption>
-                    </figure>
-                </a>
-                <a href="sub-album.html" class="text-dark">
-                    <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img src="assets/img/file_img.png" alt="">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-
-                            <div class="ct_checkbox_main ct_file_select">
-                                <div>
-                                    <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                        class="ct_hidden-xs-up ct_checkbox_cbx_12">
-                                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">Default Album</figcaption>
-                    </figure>
-                </a>
-                <a href="sub-album.html" class="text-dark">
-                    <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img src="assets/img/file_img.png" alt="">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-
-                            <div class="ct_checkbox_main ct_file_select">
-                                <div>
-                                    <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                        class="ct_hidden-xs-up ct_checkbox_cbx_12">
-                                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">Default Album</figcaption>
-                    </figure>
-                </a>
-                <a href="sub-album.html" class="text-dark">
-                    <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img src="assets/img/file_img.png" alt="">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-
-                            <div class="ct_checkbox_main ct_file_select">
-                                <div>
-                                    <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                        class="ct_hidden-xs-up ct_checkbox_cbx_12">
-                                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">Default Album</figcaption>
-                    </figure>
-                </a>
-                <a href="sub-album.html" class="text-dark">
-                    <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img src="assets/img/file_img.png" alt="">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-
-                            <div class="ct_checkbox_main ct_file_select">
-                                <div>
-                                    <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                        class="ct_hidden-xs-up ct_checkbox_cbx_12">
-                                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">Default Album</figcaption>
-                    </figure>
-                </a>
-                <a href="sub-album.html" class="text-dark">
-                    <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img src="assets/img/file_img.png" alt="">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-
-                            <div class="ct_checkbox_main ct_file_select">
-                                <div>
-                                    <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                        class="ct_hidden-xs-up ct_checkbox_cbx_12">
-                                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">Default Album</figcaption>
-                    </figure>
-                </a>
-                <a href="sub-album.html" class="text-dark">
-                    <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img src="assets/img/file_img.png" alt="">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-
-                            <div class="ct_checkbox_main ct_file_select">
-                                <div>
-                                    <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                        class="ct_hidden-xs-up ct_checkbox_cbx_12">
-                                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">Default Album</figcaption>
-                    </figure>
-                </a>
-                <a href="sub-album.html" class="text-dark">
-                    <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img src="assets/img/file_img.png" alt="">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-
-                            <div class="ct_checkbox_main ct_file_select">
-                                <div>
-                                    <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                        class="ct_hidden-xs-up ct_checkbox_cbx_12">
-                                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">Default Album</figcaption>
-                    </figure>
-                </a>
-                <a href="sub-album.html" class="text-dark">
-                    <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img src="assets/img/file_img.png" alt="">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-
-                            <div class="ct_checkbox_main ct_file_select">
-                                <div>
-                                    <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                        class="ct_hidden-xs-up ct_checkbox_cbx_12">
-                                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">Default Album</figcaption>
-                    </figure>
-                </a>
-                <a href="sub-album.html" class="text-dark">
-                    <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img src="assets/img/file_img.png" alt="">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-
-                            <div class="ct_checkbox_main ct_file_select">
-                                <div>
-                                    <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                        class="ct_hidden-xs-up ct_checkbox_cbx_12">
-                                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">Default Album</figcaption>
-                    </figure>
-                </a>
-                <a href="sub-album.html" class="text-dark">
-                    <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img src="assets/img/file_img.png" alt="">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-
-                            <div class="ct_checkbox_main ct_file_select">
-                                <div>
-                                    <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                        class="ct_hidden-xs-up ct_checkbox_cbx_12">
-                                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">Default Album</figcaption>
-                    </figure>
-                </a>
-                <a href="sub-album.html" class="text-dark">
-                    <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img src="assets/img/file_img.png" alt="">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-
-                            <div class="ct_checkbox_main ct_file_select">
-                                <div>
-                                    <input checked="" type="checkbox" id="ct_checkbox_cbx"
-                                        class="ct_hidden-xs-up ct_checkbox_cbx_12">
-                                    <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">Default Album</figcaption>
+                        <figcaption class="text-center ct_fw_600 mt-2">{{pic.title}}</figcaption>
                     </figure>
                 </a>
             </div>

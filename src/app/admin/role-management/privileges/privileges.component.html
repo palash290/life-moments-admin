@@ -4,9 +4,15 @@
         <div class="d-flex align-items-center gap-3">
             <a routerLink="/admin/main/roles-manage" class="mb-0 ct_fs_22 text-dark ct_fw_500"><i
                     class="fa-solid fa-arrow-left-long me-3 "></i>Back</a>
-            <h4 class="mb-0 ct_fs_22">Select Privileges - “Vivian Aufderhar”</h4>
+            <!-- <h4 class="mb-0 ct_fs_22">Select Privileges For - “{{name}} Sub- Admin”</h4> -->
+            <h4 class="mb-0 ct_fs_22">
+                Select Privileges For -
+                <span *ngIf="name; else showCount">{{ name }} </span>
+                <ng-template #showCount>{{ count }} Sub-Admin</ng-template>
+            </h4>
+
         </div>
-        
+
         <button class="ct_green_btn px-5">
             Update
         </button>

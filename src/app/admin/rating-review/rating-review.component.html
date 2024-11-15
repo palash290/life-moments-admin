@@ -17,40 +17,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr *ngFor="let item of data; let i = index">
                             <td>
                                 <div class="d-flex align-items-center gap-2">
-                                    <img src="assets/img/user_img.png" class="ct_img_40 ct_border_2" />
-                                    <p class="mb-0 ct_fs_16">Edmond Stark</p>
+                                    <img [src]='item.image ? item.image : "assets/img/np_pro.png"'
+                                        class="ct_img_40 ct_border_2" />
+                                    <p class="mb-0 ct_fs_16">{{item.name}}</p>
                                 </div>
                             </td>
                             <td>
                                 <ul class="ct_rating_star123 my-0 justify-content-start">
-                                    <li>
+                                    <!-- Full stars -->
+                                    <li *ngFor="let full of [].constructor(getFullStars(item.rating))">
                                         <i class="fa-solid fa-star ct_rated_star"></i>
                                     </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
+                                    <!-- Half star (if applicable) -->
+                                    <li *ngIf="hasHalfStar(item.rating)">
                                         <i class="fa-solid fa-star-half-stroke ct_rated_star"></i>
                                     </li>
-                                    <li>
+                                    <!-- Empty stars -->
+                                    <li *ngFor="let empty of [].constructor(getEmptyStars(item.rating))">
                                         <i class="fa-solid fa-star"></i>
                                     </li>
-                                    <li>
-                                        <i class="fa-solid fa-star"></i>
-                                    </li>
                                 </ul>
                             </td>
-                            <td>01:39 PM</td>
-                            <td>22-04-2024</td>
+                            <td>{{item.time}}</td>
+                            <td>{{item.date}}</td>
                             <td class="text-end">
-                                <a href="javascript:void(0)" class="ct_fw_500" data-bs-toggle="modal"
-                                    data-bs-target="#ct_see_review">See review</a>
+                                <a href="javascript:void(0)" (click)="viewReview(item)" class="ct_fw_500"
+                                    data-bs-toggle="modal" data-bs-target="#ct_see_review">See review</a>
                             </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <img src="assets/img/user_img.png" class="ct_img_40 ct_border_2" />
@@ -78,239 +76,7 @@
                                 <a href="javascript:void(0)" class="ct_fw_500" data-bs-toggle="modal"
                                     data-bs-target="#ct_see_review">See review</a>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="assets/img/user_img.png" class="ct_img_40 ct_border_2" />
-                                    <p class="mb-0 ct_fs_16">Edmond Stark</p>
-                                </div>
-                            </td>
-                            <td>
-                                <ul class="ct_rating_star123 my-0 justify-content-start">
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                </ul>
-                            </td>
-                            <td>01:39 PM</td>
-                            <td>22-04-2024</td>
-                            <td class="text-end">
-                                <a href="javascript:void(0)" class="ct_fw_500" data-bs-toggle="modal"
-                                    data-bs-target="#ct_see_review">See review</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="assets/img/user_img.png" class="ct_img_40 ct_border_2" />
-                                    <p class="mb-0 ct_fs_16">Edmond Stark</p>
-                                </div>
-                            </td>
-                            <td>
-                                <ul class="ct_rating_star123 my-0 justify-content-start">
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                </ul>
-                            </td>
-                            <td>01:39 PM</td>
-                            <td>22-04-2024</td>
-                            <td class="text-end">
-                                <a href="javascript:void(0)" class="ct_fw_500" data-bs-toggle="modal"
-                                    data-bs-target="#ct_see_review">See review</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="assets/img/user_img.png" class="ct_img_40 ct_border_2" />
-                                    <p class="mb-0 ct_fs_16">Edmond Stark</p>
-                                </div>
-                            </td>
-                            <td>
-                                <ul class="ct_rating_star123 my-0 justify-content-start">
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                </ul>
-                            </td>
-                            <td>01:39 PM</td>
-                            <td>22-04-2024</td>
-                            <td class="text-end">
-                                <a href="javascript:void(0)" class="ct_fw_500" data-bs-toggle="modal"
-                                    data-bs-target="#ct_see_review">See review</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="assets/img/user_img.png" class="ct_img_40 ct_border_2" />
-                                    <p class="mb-0 ct_fs_16">Edmond Stark</p>
-                                </div>
-                            </td>
-                            <td>
-                                <ul class="ct_rating_star123 my-0 justify-content-start">
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                </ul>
-                            </td>
-                            <td>01:39 PM</td>
-                            <td>22-04-2024</td>
-                            <td class="text-end">
-                                <a href="javascript:void(0)" class="ct_fw_500" data-bs-toggle="modal"
-                                    data-bs-target="#ct_see_review">See review</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="assets/img/user_img.png" class="ct_img_40 ct_border_2" />
-                                    <p class="mb-0 ct_fs_16">Edmond Stark</p>
-                                </div>
-                            </td>
-                            <td>
-                                <ul class="ct_rating_star123 my-0 justify-content-start">
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                </ul>
-                            </td>
-                            <td>01:39 PM</td>
-                            <td>22-04-2024</td>
-                            <td class="text-end">
-                                <a href="javascript:void(0)" class="ct_fw_500" data-bs-toggle="modal"
-                                    data-bs-target="#ct_see_review">See review</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="assets/img/user_img.png" class="ct_img_40 ct_border_2" />
-                                    <p class="mb-0 ct_fs_16">Edmond Stark</p>
-                                </div>
-                            </td>
-                            <td>
-                                <ul class="ct_rating_star123 my-0 justify-content-start">
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                </ul>
-                            </td>
-                            <td>01:39 PM</td>
-                            <td>22-04-2024</td>
-                            <td class="text-end">
-                                <a href="javascript:void(0)" class="ct_fw_500" data-bs-toggle="modal"
-                                    data-bs-target="#ct_see_review">See review</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="assets/img/user_img.png" class="ct_img_40 ct_border_2" />
-                                    <p class="mb-0 ct_fs_16">Edmond Stark</p>
-                                </div>
-                            </td>
-                            <td>
-                                <ul class="ct_rating_star123 my-0 justify-content-start">
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                </ul>
-                            </td>
-                            <td>01:39 PM</td>
-                            <td>22-04-2024</td>
-                            <td class="text-end">
-                                <a href="javascript:void(0)" class="ct_fw_500" data-bs-toggle="modal"
-                                    data-bs-target="#ct_see_review">See review</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="assets/img/user_img.png" class="ct_img_40 ct_border_2" />
-                                    <p class="mb-0 ct_fs_16">Edmond Stark</p>
-                                </div>
-                            </td>
-                            <td>
-                                <ul class="ct_rating_star123 my-0 justify-content-start">
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-star ct_rated_star"></i>
-                                    </li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                </ul>
-                            </td>
-                            <td>01:39 PM</td>
-                            <td>22-04-2024</td>
-                            <td class="text-end">
-                                <a href="javascript:void(0)" class="ct_fw_500" data-bs-toggle="modal"
-                                    data-bs-target="#ct_see_review">See review</a>
-                            </td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -332,15 +98,29 @@
                 <div class="pt-5">
                     <h4 class="mb-4 text-center">Review</h4>
                     <ul class="d-flex align-items-center gap-3 justify-content-center">
-                        <li>01:39 PM</li>
-                        <li>22-04-2024</li>
+                        <li>{{reviewDetails?.time}}</li>
+                        <li>{{reviewDetails?.date}}</li>
                     </ul>
+                    <!-- <ul class="ct_rating_star123 mb-2">
+                        <li><i class="fa-solid fa-star ct_rated_star"></i></li>
+                        <li><i class="fa-solid fa-star ct_rated_star"></i></li>
+                        <li><i class="fa-solid fa-star ct_rated_star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                    </ul> -->
                     <ul class="ct_rating_star123 mb-2">
-                        <li><i class="fa-solid fa-star ct_rated_star"></i></li>
-                        <li><i class="fa-solid fa-star ct_rated_star"></i></li>
-                        <li><i class="fa-solid fa-star ct_rated_star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
+                        <!-- Full stars -->
+                        <li *ngFor="let full of [].constructor(getFullStars(reviewDetails?.rating))">
+                            <i class="fa-solid fa-star ct_rated_star"></i>
+                        </li>
+                        <!-- Half star (if applicable) -->
+                        <li *ngIf="hasHalfStar(reviewDetails?.rating)">
+                            <i class="fa-solid fa-star-half-stroke ct_rated_star"></i>
+                        </li>
+                        <!-- Empty stars -->
+                        <li *ngFor="let empty of [].constructor(getEmptyStars(reviewDetails?.rating))">
+                            <i class="fa-solid fa-star"></i>
+                        </li>
                     </ul>
                     <p class="mb-0 text-center">
                         Lorem ipsum dolor sit amet consectetur. Quis urna turpis donec

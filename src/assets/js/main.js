@@ -1,76 +1,76 @@
 
 
-$(document).ready(function(){
+$(document).ready(function () {
     $(window).scroll(function () {
         var scroll = $(window).scrollTop();
         if (scroll >= 100) {
-          $("#toTop").fadeIn();
+            $("#toTop").fadeIn();
         } else {
-          $("#toTop").fadeOut();
+            $("#toTop").fadeOut();
         }
-      });
-      
-      $(document).on("click", "#toTop", function () {
+    });
+
+    $(document).on("click", "#toTop", function () {
         $("html, body").animate({ scrollTop: 0 }, 500);
-      });
+    });
 });
 
-$(document).ready(function(){
-    $('.ct_toggle_icon').click(function(){
-        $('.ct_menu_link').addClass('active')
+$(document).ready(function () {
+    $('.ct_toggle_icon').click(function () {
+        $('.ct_menu_link').addClass('ct_active')
     })
-    $('.ct_close_menu_icon').click(function(){
-        $('.ct_menu_link').removeClass('active')
+    $('.ct_close_menu_icon').click(function () {
+        $('.ct_menu_link').removeClass('ct_active')
     })
 
     $('.ct_product_slider').owlCarousel({
         center: true,
-        dots:true,
-        nav:true,
-        items:1,
-        loop:true,
+        dots: true,
+        nav: true,
+        items: 1,
+        loop: true,
         stagePadding: 100,
-        autoplay:true,
-autoplayTimeout:3000 ,
-smartSpeed: 1500,
-        margin:20,
-        responsive:{
-            600:{
-                items:2
+        autoplay: true,
+        autoplayTimeout: 3000,
+        smartSpeed: 1500,
+        margin: 20,
+        responsive: {
+            600: {
+                items: 2
             }
         }
     });
 
 
     $('.ct_client_logo_slider').owlCarousel({
-        loop:true,
-        margin:10,
-        autoplay:true,
+        loop: true,
+        margin: 10,
+        autoplay: true,
         smartSpeed: 1000,
-        autoplayTimeout:2000 ,
-        nav:true,
-        responsive:{
-            0:{
-                items:1
+        autoplayTimeout: 2000,
+        nav: true,
+        responsive: {
+            0: {
+                items: 1
             },
-            600:{
-                items:3
+            600: {
+                items: 3
             },
-            1000:{
-                items:5
+            1000: {
+                items: 5
             }
         }
     })
 
     AOS.init();
 
-    
+
 })
 
 
 
-$(document).ready(function(){
-    $('.ct_toggle_side').click(function(){
+$(document).ready(function () {
+    $('.ct_toggle_side').click(function () {
         $('.ct_dashbaord_main').toggleClass('ct_active')
     })
 })
@@ -85,9 +85,9 @@ var opts = {
     lineWidth: 0.3, // The line thickness
     radiusScale: 0.9, // Relative radius
     pointer: {
-      length: 0.42, // // Relative to gauge radius
-      strokeWidth: 0.029, // The thickness
-      color: '#000000' // Fill color
+        length: 0.42, // // Relative to gauge radius
+        strokeWidth: 0.029, // The thickness
+        color: '#000000' // Fill color
     },
     limitMax: true,     // If false, max value increases automatically if value > maxValue
     limitMin: true,     // If true, the min value of the gauge will be fixed
@@ -108,24 +108,24 @@ var opts = {
     //   subColor: '#ffffff'
     // },
     staticZones: [
-     {strokeStyle: "#F03E3E", min: 70, max: 80}, // Red from 70 to 80
-     {strokeStyle: "#FFDD00", min: 80, max: 90}, // Yellow 80 to 90
-     {strokeStyle: "#30B32D", min: 90, max: 100}, // Green 90 to 100
+        { strokeStyle: "#F03E3E", min: 70, max: 80 }, // Red from 70 to 80
+        { strokeStyle: "#FFDD00", min: 80, max: 90 }, // Yellow 80 to 90
+        { strokeStyle: "#30B32D", min: 90, max: 100 }, // Green 90 to 100
     ],
     staticLabels: {
-    font: "10px sans-serif",  // Specifies font
-    labels: [70, 80, 90, 100],  // Print labels at these values
-    color: "#000000",  // Optional: Label text color
-    fractionDigits: 0  // Optional: Numerical precision. 0=round off.
-  },
-    
-  };
-  var target = document.getElementById('foo'); // your canvas element
-  var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-  gauge.maxValue = 100; // set max gauge value
-  gauge.setMinValue(70);  // Prefer setter over gauge.minValue = 0
-  gauge.animationSpeed = 10; // set animation speed (32 is default value)
-  gauge.set(92); // set actual value
+        font: "10px sans-serif",  // Specifies font
+        labels: [70, 80, 90, 100],  // Print labels at these values
+        color: "#000000",  // Optional: Label text color
+        fractionDigits: 0  // Optional: Numerical precision. 0=round off.
+    },
+
+};
+var target = document.getElementById('foo'); // your canvas element
+var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+gauge.maxValue = 100; // set max gauge value
+gauge.setMinValue(70);  // Prefer setter over gauge.minValue = 0
+gauge.animationSpeed = 10; // set animation speed (32 is default value)
+gauge.set(92); // set actual value
 
 
 

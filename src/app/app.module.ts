@@ -18,7 +18,7 @@ import { ToastrModule } from 'ngx-toastr';
     LoginComponent,
     ForgotPasswordComponent,
     DashboardComponent,
-    SubAdminsComponent,
+   
     FilterPipe
   ],
   imports: [

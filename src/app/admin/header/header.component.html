@@ -14,18 +14,18 @@
       </button>
     </div>
   </div> -->
-<div class="ct_toggle_side" onClick={HandleShowMenu}>
+<div class="ct_toggle_side" (click)="toggleMenu()">
   <span></span>
   <span></span>
   <span></span>
 </div>
 <div class="ct_dashboard_head">
   <div class="ms-auto">
-    <button class="ct_logout_btn ct_white_btn dropdown ct_custom_dropdown">
+    <!-- <button class="ct_logout_btn ct_white_btn dropdown ct_custom_dropdown">
       <div class=" ">
         <div class="ct_user_name_info " id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          <h6>Alex meian</h6>
-          <p class="mb-0">Prodcut manager</p>
+          <h6>{{name}}</h6>
+          <p class="mb-0"></p>
         </div>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
           <li><a class="dropdown-item" routerLink="/admin/main/my-profile">My Profile</a></li>
@@ -35,7 +35,24 @@
         </ul>
       </div>
       <i class="fa-solid fa-angle-down text-dark"></i>
-    </button>
+    </button> -->
+    <button class="ct_logout_btn ct_white_btn dropdown ct_custom_dropdown py-3">
+      <div class=" ">
+       <div class="ct_user_name_info d-flex align-items-center gap-2 justify-content-between " id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
+        <div>
+         <h6 class="mb-0">Alex meian</h6>
+         <!-- <p class="mb-0">Prodcut manager</p> -->
+        </div>
+         <i class="fa-solid fa-angle-down text-dark" style="pointer-events: none;"></i>
+       </div>
+       <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(15px, 42px);">
+         <li><a class="dropdown-item" routerLink="/admin/main/my-profile">My Profile</a></li>
+         <li><a class="dropdown-item" routerLink="/admin/main/change-password">Change Password</a></li>
+         <li><a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ct_logout_modal">Log Out</a></li>
+       </ul>
+      </div>
+   
+     </button>
   </div>
 </div>
 
@@ -66,13 +83,31 @@
           <button type="button" class="ct_green_btn ct_green_outline_btn" data-bs-dismiss="modal">Cancel</button>
           <a (click)="logout()" type="button" class=" bg-danger  ct_green_btn ct_btn_red  justify-content-center"
             style="border-color: rgb(220, 53, 69)">Yes Logout!</a>
-            <button hidden type="button" class="btn btn-secondary" #closeModal
-            data-bs-dismiss="modal">Close</button>
+          <button hidden type="button" class="btn btn-secondary" #closeModal data-bs-dismiss="modal">Close</button>
         </div>
         <div>
         </div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<div class="ct_loader_main" *ngIf="loading">
+  <div class="loadingio-spinner-spinner-977el9wwy2v">
+    <div class="ldio-4j5ay0xf86g">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
   </div>
 </div>

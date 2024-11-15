@@ -3,10 +3,11 @@
     <h4 class="mb-0 ct_fs_22">Select Sub- Admin</h4>
     <div class="d-flex align-items-center gap-3">
       <div class="position-relative ct_search_input">
-        <input type="text" class="form-control" placeholder="Search " />
+        <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchQuery"
+          (ngModelChange)="getSubAdmins()" />
         <i class="fa-solid fa-magnifying-glass"></i>
       </div>
-      <a routerLink="/admin/main/multiple-privileges" class="ct_green_btn px-5">
+      <a (click)="assignRoleToMultiple()" class="ct_green_btn px-5">
         Next
       </a>
     </div>
@@ -45,15 +46,29 @@
                 </div>
               </td>
               <td>
-                <a routerLink="/admin/main/privileges" class="ct_green_text">{{ item.name }}</a>
+                <a (click)="assignRoleToSingle(item.name)" class="ct_green_text">{{ item.name }}</a>
               </td>
-              <td>{{ item.role }}</td>
+              <td>Sub-Admin</td>
               <td>{{ item.email }}</td>
-              <td class="text-end">{{ item.contact }}</td>
+              <td class="text-end">{{ item.contact_no }}</td>
             </tr>
           </tbody>
+          <div *ngIf="data?.length == 0 || !data" class="text-center">
+            <p class="ct_fs_15 mt-5">No items found</p>
+          </div>
         </table>
+      </div>
+      <!-- Pagination Controls -->
+      <div class="d-flex justify-content-between align-items-center mt-3">
 
+        <!-- Pagination Controls -->
+        <div class="pagination-controls">
+          <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+          <button>
+            {{ currentPage }}
+          </button>
+          <button (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+        </div>
 
       </div>
     </div>

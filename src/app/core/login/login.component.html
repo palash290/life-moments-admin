@@ -48,7 +48,6 @@
                     Password is
                     required.</div>
                 </div>
-
               </div>
 
               <div class="ct_remember_text">
@@ -57,23 +56,21 @@
                               <label for="remember"> Remember Me </label>
                             </div> -->
                 <div class="ct_checkbox_main">
-                  <div>
+                  <!-- <div>
                     <input checked="" type="checkbox" id="ct_checkbox_cbx" class="ct_hidden-xs-up ct_checkbox_cbx_12">
                     <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
-                  </div>
-                  <p class="mb-0">Remember Me</p>
+                  </div> -->
+                  <!-- <p class="mb-0">Remember Me</p> -->
                 </div>
                 <div class="ct_forgot_link">
                   <a routerLink="/forgot-password">Forgot Password?</a>
                 </div>
               </div>
-
               <div class="mt-4 d-block" (click)="loginAndFetchData()">
-                <a routerLink="/admin/main/dashboard" type="button" class="ct_green_btn w-100 ct_h_50">
+                <a type="button" class="ct_green_btn w-100 ct_h_50">
                   Login
                 </a>
               </div>
-
             </form>
           </div>
         </div>
@@ -83,7 +80,20 @@
 </section>
 
 <div class="ct_loader_main" *ngIf="loading">
-  <div class="loadingio-spinner-spinner-977el9wwy2v"><div class="ldio-4j5ay0xf86g">
-    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-    </div></div>
+  <div class="loadingio-spinner-spinner-977el9wwy2v">
+    <div class="ldio-4j5ay0xf86g">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
 </div>
