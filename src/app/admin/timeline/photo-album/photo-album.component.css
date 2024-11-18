@@ -33,3 +33,62 @@ img {
     object-fit: contain;
     width: 100%;
 }
+
+
+
+
+
+
+.ct_video_icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    transform: translate(-50%,-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.4s ease all;
+    z-index: 1;
+    overflow: hidden;
+
+}
+.ct_video_icon:before{
+    content: "";
+    position: absolute;
+    inset: 0px;
+    background-color: #fff;
+    transform: scale(0);
+    transition: 0.4s ease all;
+    border-radius: 100px;
+    z-index: -1;
+}
+.ct_video_icon:hover svg path{
+        stroke: var(--dark_blue);
+}
+.ct_video_icon:hover:before{
+    transform: scale(1);
+}
+
+
+
+
+.fullscreen-button {
+    background: none; /* No background */
+    border: none; /* No border */
+    position: absolute; /* Position it relative to the video container */
+    bottom: 10px; /* Adjust position */
+    right: 10px; /* Adjust position */
+    color: rgb(20, 18, 18); /* Change the icon color */
+    font-size: 24px; /* Adjust icon size */
+    cursor: pointer; /* Change cursor on hover */
+    z-index: 10; /* Ensure it appears above the video */
+}
+
+.fullscreen-button:hover {
+    color: rgb(28, 25, 25); /* Change color on hover for better visibility */
+}

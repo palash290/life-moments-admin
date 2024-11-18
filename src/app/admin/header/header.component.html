@@ -38,21 +38,24 @@
     </button> -->
     <button class="ct_logout_btn ct_white_btn dropdown ct_custom_dropdown py-3">
       <div class=" ">
-       <div class="ct_user_name_info d-flex align-items-center gap-2 justify-content-between " id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
-        <div>
-         <h6 class="mb-0">Alex meian</h6>
-         <!-- <p class="mb-0">Prodcut manager</p> -->
+        <div class="ct_user_name_info d-flex align-items-center gap-2 justify-content-between " id="dropdownMenuButton1"
+          data-bs-toggle="dropdown" aria-expanded="true">
+          <div>
+            <h6 class="mb-0">{{name}}</h6>
+            <!-- <p class="mb-0">Prodcut manager</p> -->
+          </div>
+          <i class="fa-solid fa-angle-down text-dark" style="pointer-events: none;"></i>
         </div>
-         <i class="fa-solid fa-angle-down text-dark" style="pointer-events: none;"></i>
-       </div>
-       <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(15px, 42px);">
-         <li><a class="dropdown-item" routerLink="/admin/main/my-profile">My Profile</a></li>
-         <li><a class="dropdown-item" routerLink="/admin/main/change-password">Change Password</a></li>
-         <li><a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ct_logout_modal">Log Out</a></li>
-       </ul>
+        <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1" data-popper-placement="bottom-start"
+          style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(15px, 42px);">
+          <li><a class="dropdown-item" routerLink="/admin/main/my-profile">My Profile</a></li>
+          <li><a class="dropdown-item" routerLink="/admin/main/change-password">Change Password</a></li>
+          <li><a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
+              data-bs-target="#ct_logout_modal">Log Out</a></li>
+        </ul>
       </div>
-   
-     </button>
+
+    </button>
   </div>
 </div>
 

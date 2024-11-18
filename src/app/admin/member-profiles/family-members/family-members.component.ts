@@ -38,9 +38,9 @@ export class FamilyMembersComponent {
 
     this.initNewMemberForm();
     this.initNewPetForm();
-    //this.initEditMemberForm();
-    //this.initEditParentForm();
-    //this.initEditPetForm();
+    this.initEditMemberForm();
+    this.initEditParentForm();
+    this.initEditPetForm();
     this.loadData();
   }
 
@@ -93,10 +93,10 @@ export class FamilyMembersComponent {
   }
 
   initEditPetForm() {
-    this.newPetForm = new FormGroup({
+    this.editPetForm = new FormGroup({
       image: new FormControl(null),
-      name: new FormControl('', Validators.required),
-      dName: new FormControl('', Validators.required),
+      name: new FormControl('cxzc', Validators.required),
+      dName: new FormControl('czx', Validators.required),
       gender: new FormControl('', Validators.required),
       dob: new FormControl('', Validators.required),
       isAlive: new FormControl('', Validators.required),
@@ -105,30 +105,93 @@ export class FamilyMembersComponent {
     })
   }
 
+  editPetProfile!: File;
+
+  handleFileInputEditPet(event: any) {
+    const file = event.target.files[0];
+    const img = document.getElementById('blahPet') as HTMLImageElement;
+
+    if (img && file) {
+      img.style.display = 'block';
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement.files && inputElement.files?.length > 0) {
+      this.editPetProfile = inputElement.files[0];
+    }
+  }
+
   initEditMemberForm() {
     this.editMemberForm = new FormGroup({
       image: new FormControl(null),
-      name: new FormControl(this.singleMemberData.name, Validators.required),
-      dName: new FormControl(this.singleMemberData.dName, Validators.required),
-      gender: new FormControl(this.singleMemberData.gender, Validators.required),
-      dob: new FormControl(this.singleMemberData.dob, Validators.required),
-      isAlive: new FormControl(this.singleMemberData.isAlive, Validators.required),
-      relationName: new FormControl(this.singleMemberData.relationName, Validators.required),
-      relationWith: new FormControl(this.singleMemberData.relationWith, Validators.required),
+      name: new FormControl('this.singleMemberData.name', Validators.required),
+      dName: new FormControl('this.singleMemberData.dName', Validators.required),
+      gender: new FormControl('', Validators.required),
+      dob: new FormControl('', Validators.required),
+      isAlive: new FormControl('', Validators.required),
+      relationName: new FormControl('', Validators.required),
+      relationWith: new FormControl('', Validators.required),
     })
+  }
+
+  editMemberProfile!: File;
+
+  handleFileInputEditMember(event: any) {
+    const file = event.target.files[0];
+    const img = document.getElementById('blagEditMem') as HTMLImageElement;
+
+    if (img && file) {
+      img.style.display = 'block';
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement.files && inputElement.files?.length > 0) {
+      this.editMemberProfile = inputElement.files[0];
+    }
   }
 
   initEditParentForm() {
     this.editParentForm = new FormGroup({
       image: new FormControl(null),
-      name: new FormControl(this.singleMemberData.name, Validators.required),
-      dName: new FormControl(this.singleMemberData.dName, Validators.required),
-      gender: new FormControl(this.singleMemberData.gender, Validators.required),
-      dob: new FormControl(this.singleMemberData.dob, Validators.required),
-      isAlive: new FormControl(this.singleMemberData.isAlive, Validators.required),
-      relationName: new FormControl(this.singleMemberData.relationName, Validators.required),
-      relationWith: new FormControl(this.singleMemberData.relationWith, Validators.required),
+      name: new FormControl('this.singleMemberData.name', Validators.required),
+      dName: new FormControl('this.singleMemberData.dName', Validators.required),
+      gender: new FormControl('', Validators.required),
+      dob: new FormControl('', Validators.required),
+      isAlive: new FormControl('', Validators.required),
+      relationName: new FormControl('', Validators.required),
+      relationWith: new FormControl('', Validators.required),
     })
+  }
+
+  editParentProfile!: File;
+
+  handleFileInputEditParent(event: any) {
+    const file = event.target.files[0];
+    const img = document.getElementById('blah2') as HTMLImageElement;
+
+    if (img && file) {
+      img.style.display = 'block';
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement.files && inputElement.files?.length > 0) {
+      this.editParentProfile = inputElement.files[0];
+    }
   }
 
   onImageSelected(event: Event, type: any): void {
@@ -199,7 +262,22 @@ export class FamilyMembersComponent {
     this.newPetForm.get('dob')?.updateValueAndValidity();
   }
 
+  onEditPetDOBChange(): void {
+    const isDOBUnknown = this.editPetForm.get('isDOBUnknown')?.value;
 
+    if (isDOBUnknown) {
+      // Disable the dob field and clear validators when DOB is unknown
+      this.editPetForm.get('dob')?.disable();
+      this.editPetForm.get('dob')?.clearValidators();
+    } else {
+      // Enable the dob field and add back the required validator
+      this.editPetForm.get('dob')?.enable();
+      this.editPetForm.get('dob')?.setValidators(Validators.required);
+    }
+
+    // Update validity to apply the changes
+    this.editPetForm.get('dob')?.updateValueAndValidity();
+  }
 
   addNewMember(): void {
     this.newMemberForm.markAllAsTouched();
@@ -227,6 +305,103 @@ export class FamilyMembersComponent {
             this.toastr.success(resp.message);
             this.addMemLoader = false;
             this.closeModalAdd.nativeElement.click();
+            this.parentImage1 = null;
+          } else {
+            this.toastr.warning(resp.message);
+            this.addMemLoader = false;
+          }
+        },
+        error: (error) => {
+          this.addMemLoader = false;
+          if (error.error.message) {
+            this.toastr.error(error.error.message);
+          } else {
+            this.toastr.error('Something went wrong!');
+          }
+        }
+      });
+    } else {
+      console.log('Form is invalid');
+    }
+  }
+
+  @ViewChild('closeModalEditMember') closeModalEditMember!: ElementRef;
+
+  editmember(): void {
+    this.editMemberForm.markAllAsTouched();
+    if (this.editMemberForm.valid) {
+      console.log('Form Values:', this.editMemberForm.value);
+      this.addMemLoader = true;
+      const formURlData = new FormData();
+      if (this.editMemberProfile) {
+        formURlData.append('image', this.editMemberProfile);
+      }
+      formURlData.set('name', this.editMemberForm.value.name);
+      formURlData.set('dName', this.editMemberForm.value.dName);
+      formURlData.set('gender', this.editMemberForm.value.gender);
+      formURlData.set('dob', this.editMemberForm.value.dob);
+      formURlData.set('isalive', this.editMemberForm.value.isAlive);
+      formURlData.set('rName', this.editMemberForm.value.relationName);
+      formURlData.set('rWith', this.editMemberForm.value.relationWith);
+      if (this.editMemberForm.value.isAdult) {
+        formURlData.set('18+', this.editMemberForm.value.isAdult);
+      }
+
+      this.service.postAPIFormData('dfs/fsfs', formURlData).subscribe({
+        next: (resp) => {
+          if (resp.success == true) {
+            this.toastr.success(resp.message);
+            this.addMemLoader = false;
+            this.closeModalEditParent.nativeElement.click();
+            this.parentImage1 = null;
+          } else {
+            this.toastr.warning(resp.message);
+            this.addMemLoader = false;
+          }
+        },
+        error: (error) => {
+          this.addMemLoader = false;
+          if (error.error.message) {
+            this.toastr.error(error.error.message);
+          } else {
+            this.toastr.error('Something went wrong!');
+          }
+        }
+      });
+    } else {
+      console.log('Form is invalid');
+    }
+  }
+
+
+  @ViewChild('closeModalEditParent') closeModalEditParent!: ElementRef;
+
+  editParent(): void {
+    this.editParentForm.markAllAsTouched();
+    if (this.editParentForm.valid) {
+      console.log('Form Values:', this.editParentForm.value);
+      this.addMemLoader = true;
+      const formURlData = new FormData();
+      if (this.editParentProfile) {
+        formURlData.append('image', this.editParentProfile);
+      }
+      formURlData.set('name', this.editParentForm.value.name);
+      formURlData.set('dName', this.editParentForm.value.dName);
+      formURlData.set('gender', this.editParentForm.value.gender);
+      formURlData.set('dob', this.editParentForm.value.dob);
+      formURlData.set('isalive', this.editParentForm.value.isAlive);
+      formURlData.set('rName', this.editParentForm.value.relationName);
+      formURlData.set('rWith', this.editParentForm.value.relationWith);
+      if (this.editParentForm.value.isAdult) {
+        formURlData.set('18+', this.editParentForm.value.isAdult);
+      }
+
+      this.service.postAPIFormData('dfs/fsfs', formURlData).subscribe({
+        next: (resp) => {
+          if (resp.success == true) {
+            this.toastr.success(resp.message);
+            this.addMemLoader = false;
+            this.closeModalEditParent.nativeElement.click();
             this.parentImage1 = null;
           } else {
             this.toastr.warning(resp.message);
@@ -292,6 +467,56 @@ export class FamilyMembersComponent {
     }
   }
 
+  @ViewChild('closeModalEditPet') closeModalEditPet!: ElementRef;
+
+  editPet(): void {
+    this.editPetForm.markAllAsTouched();
+    if (this.editPetForm.valid) {
+      console.log('Form Values:', this.editPetForm.value);
+      this.addMemLoader = true;
+      const formURlData = new FormData();
+      if (this.editParentProfile) {
+        formURlData.append('image', this.editParentProfile);
+      }
+      formURlData.set('name', this.editPetForm.value.name);
+      formURlData.set('dName', this.editPetForm.value.dName);
+      formURlData.set('gender', this.editPetForm.value.gender);
+      if (this.editPetForm.value.dob) {
+        formURlData.set('dob', this.editPetForm.value.dob);
+      }
+      formURlData.set('isalive', this.editPetForm.value.isAlive);
+      formURlData.set('rName', this.editPetForm.value.relationName);
+      formURlData.set('rWith', this.editPetForm.value.relationWith);
+      // if (this.editPetForm.value.isAdult) {
+      //   formURlData.set('18+', this.editPetForm.value.isAdult);
+      // }
+
+      this.service.postAPIFormData('dfs/fsfs', formURlData).subscribe({
+        next: (resp) => {
+          if (resp.success == true) {
+            this.toastr.success(resp.message);
+            this.addMemLoader = false;
+            this.closeModalEditPet.nativeElement.click();
+            this.parentImage1 = null;
+          } else {
+            this.toastr.warning(resp.message);
+            this.addMemLoader = false;
+          }
+        },
+        error: (error) => {
+          this.addMemLoader = false;
+          if (error.error.message) {
+            this.toastr.error(error.error.message);
+          } else {
+            this.toastr.error('Something went wrong!');
+          }
+        }
+      });
+    } else {
+      console.log('Form is invalid');
+    }
+  }
+
   getSingleMemberData(id: any) {
     //to save selected id
     this.memberId = id;
@@ -305,8 +530,44 @@ export class FamilyMembersComponent {
     });
   }
 
+  @ViewChild('closeModalViewMember') closeModalViewMember!: ElementRef;
+  @ViewChild('closeModalViewPet') closeModalViewPet!: ElementRef;
+  @ViewChild('closeModalViewParent') closeModalViewParent!: ElementRef;
+
   getMemberAlbum() {
-    this.route.navigateByUrl(`/admin/main/sub-albums/${this.memberId}`);
+    this.closeModalViewMember.nativeElement.click();
+    this.closeModalViewPet.nativeElement.click();
+    this.closeModalViewParent.nativeElement.click();
+    this.route.navigateByUrl(`/admin/main/albums/${this.memberId}`);
+  }
+
+
+  relationNames: any;
+  relationId: any;
+  getRelationNames() {
+    this.service.getApi('sub-admin/get-language').subscribe(response => {
+      if (response.success) {
+        this.relationNames = response.data;
+        if (this.relationNames.length > 0) {
+          this.relationId = this.relationNames[0].code;
+        }
+      }
+    });
+  }
+
+  onRelationChange(event: any): void {
+    const selectedId = event.target.value;
+    const selectedCategory = this.relationNames.find((language: { code: any; }) => language.code == selectedId);
+
+    //const selectedCategory = this.categories.find(category => category.id === event.value);
+
+    if (selectedCategory) {
+      this.relationId = selectedCategory.code;
+      //this.selectedCategoryName = selectedCategory.name;
+      console.log('Selected Category ID:', this.relationId);
+      //this.getPrivacy(this.relationId)
+      // console.log('Selected Category Name:', this.selectedCategoryName);
+    }
   }
 
 

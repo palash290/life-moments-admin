@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../../../shared/services/shared.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-sub-albums',
@@ -14,7 +15,7 @@ export class SubAlbumsComponent {
   selectedIds: number[] = [];
   albumId!: any;
 
-  constructor(private router: Router, private route: ActivatedRoute, private service: SharedService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private service: SharedService, private location: Location) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -74,6 +75,10 @@ export class SubAlbumsComponent {
 
   getPhotos(userId: number) {
     this.router.navigateByUrl(`/admin/main/photo-album/${userId}`);
+  }
+
+  backClicked() {
+    this.location.back();
   }
 
 

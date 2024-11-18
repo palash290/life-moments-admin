@@ -40,7 +40,7 @@ export class MyProfileComponent {
       next: (resp) => {
         this.userEmail = resp.profile.email;
         this.name = resp.profile.name;
-        this.phone = resp.profile.phone;
+        this.phone = resp.profile.contact_no;
 
         this.profileForm.patchValue({
           name: this.name,
@@ -62,14 +62,14 @@ export class MyProfileComponent {
     // }
     this.profileForm.markAllAsTouched();
     
-    if (this.profileForm.valid) {
+    //if (this.profileForm.valid) {
       this.loading = true;
       const formURlData = new URLSearchParams();
       formURlData.set('name', this.profileForm.value.name);
       formURlData.set('email', this.userEmail);
       formURlData.set('contact_no', this.profileForm.value.phone);
      
-      this.service.postAPI('admin/update-profile', formURlData.toString()).subscribe({
+      this.service.postAPI('sub-admin/update-profile', formURlData.toString()).subscribe({
         next: (resp) => {
           if (resp.success === true) {
             this.toastr.success(resp.message);
@@ -86,10 +86,10 @@ export class MyProfileComponent {
           this.loading = false;
         }
       });
-    } else {
-      //this.loading = false;
-      this.toastr.warning('Please check all the fields!');
-    }
+    // } else {
+    //   //this.loading = false;
+    //   this.toastr.warning('Please check all the fields!');
+    // }
   }
 
   

@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../shared/services/shared.service';
+import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-album',
@@ -13,7 +15,7 @@ export class AlbumComponent {
   checkAll = false;
   selectedIds: number[] = [];
 
-  constructor(private route: Router, private service: SharedService) { }
+  constructor(private route: Router, private service: SharedService, private location: Location, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.loadData();
@@ -70,16 +72,175 @@ export class AlbumComponent {
       .map((item) => item.id);
   }
 
+
+  deleteAlbumsId: any = '';
+
   getSelectedIds() {
     const selectedIds = this.data
       .filter((item) => item.checked)
-      .map((item) => item.id);
+      .map((item) => item.id)
+      .join(',')
 
+    this.deleteAlbumsId = selectedIds;
     console.log('Selected IDs:', selectedIds);
   }
 
   getSubalbum(albumId: number) {
     this.route.navigateByUrl(`/admin/main/sub-albums/${albumId}`);
+  }
+
+  backClicked() {
+    this.location.back();
+  }
+
+
+  ieditImagePreview: string | null = null;
+  selectedEditAlbumImage: any;
+  editDetails: any;
+  editAlbumName: any;
+
+  getAlbumDetails(det: any) {
+    console.log(det);
+    this.editDetails = det;
+    this.ieditImagePreview = this.editDetails.image;
+  }
+
+
+  albumName: any;
+  imagePreview: string | null = null;
+  selectedAlbumImage: any;
+
+  onFileSelected(event: Event, type: any) {
+
+    const fileInput = event.target as HTMLInputElement;
+    if (type == 'add') {
+      if (fileInput.files && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        this.selectedAlbumImage = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.imagePreview = reader.result as string;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    if (type == 'edit') {
+      if (fileInput.files && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        this.selectedEditAlbumImage = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.ieditImagePreview = reader.result as string;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+  }
+
+  @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
+
+  submitAlbum() {
+    console.log('Album Name:', this.albumName);
+    console.log('Selected File:', this.selectedAlbumImage);
+    const formURlData = new FormData();
+    if (this.selectedAlbumImage) {
+      formURlData.append('image', this.selectedAlbumImage);
+    }
+    formURlData.set('Album Name:', this.albumName);
+
+    this.service.postAPIFormData('dfs/fsfs', formURlData).subscribe({
+      next: (resp) => {
+        if (resp.success == true) {
+          this.toastr.success(resp.message);
+          this.closeModalAdd.nativeElement.click();
+        } else {
+          this.toastr.warning(resp.message);
+
+        }
+      },
+      error: (error) => {
+
+        if (error.error.message) {
+          this.toastr.error(error.error.message);
+        } else {
+          this.toastr.error('Something went wrong!');
+        }
+      }
+    });
+  }
+
+
+  @ViewChild('closeModalEdit') closeModalEdit!: ElementRef;
+
+  submitEditAlbum() {
+    const formURlData = new FormData();
+    if (this.selectedEditAlbumImage) {
+      formURlData.append('image', this.selectedEditAlbumImage);
+    }
+    formURlData.set('Album Name:', this.editAlbumName);
+
+    this.service.postAPIFormData('dfs/fsfs', formURlData).subscribe({
+      next: (resp) => {
+        if (resp.success == true) {
+          this.toastr.success(resp.message);
+          this.closeModalEdit.nativeElement.click();
+
+        } else {
+          this.toastr.warning(resp.message);
+
+        }
+      },
+      error: (error) => {
+
+        if (error.error.message) {
+          this.toastr.error(error.error.message);
+        } else {
+          this.toastr.error('Something went wrong!');
+        }
+      }
+    });
+  }
+
+
+
+
+
+  @ViewChild('closeModalDel') closeModalDel!: ElementRef;
+
+  btnDelLoader: boolean = false;
+
+  deleteAlbums() {
+    if (!this.deleteAlbumsId) {
+      this.toastr.error('Plese select image/video to delete!');
+      return
+    }
+    this.btnDelLoader = true;
+    const formURlData = new URLSearchParams();
+    formURlData.set('ids', this.deleteAlbumsId);
+    //formURlData.set('date', this.date);
+    this.service.postAPI(`sub-admin/delete-subadminid`, formURlData).subscribe({
+      next: (resp) => {
+        if (resp.success) {
+          this.closeModalDel.nativeElement.click();
+          this.loadData();
+          this.btnDelLoader = false;
+          this.toastr.success(resp.message);
+        } else {
+          this.btnDelLoader = false;
+          this.toastr.warning(resp.message);
+          this.loadData();
+        }
+      }, error: error => {
+        this.btnDelLoader = false;
+        if (error.error.message) {
+          this.toastr.error(error.error.message);
+        } else {
+          this.toastr.error('Something went wrong!');
+        }
+      }
+    });
   }
 
 
