@@ -1,0 +1,207 @@
+<div class="ct_dashbaord_middle">
+    <div class="d-flex align-items-center justify-content-between">
+        <a (click)="backClicked()" style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+            class="fa-solid fa-arrow-left-long me-1 "></i>Back</a>
+        <!-- <h4 class="mb-0 ct_fs_22">Timeline</h4> -->
+    </div>
+    <div class="row ct_mt_30">
+        <div class="col-lg-12 mb-5 mb-lg-0">
+            <div>
+                <ul class="d-flex align-items-center gap-md-4 gap-3 justify-content-end">
+                   
+                    <!-- <li>12 item selected</li> -->
+
+                    <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
+                        <select class="form-control py-2 h-auto ct_input" [(ngModel)]="filterValue" (change)="applyFilter()">
+                            <option value="">All</option>
+                            <option value="Photo">Photos</option>
+                            <option value="Video">Videos</option>
+                            <option value="PDF">PDF</option>
+                        </select>
+                    </div>
+
+                    <!-- <li>
+                        <div class="ct_checkbox_main">
+                            <div>
+                                <input checked="" type="checkbox" id="ct_checkbox_cbx"
+                                    class="ct_hidden-xs-up ct_checkbox_cbx_12" [(ngModel)]="checkAll"
+                                    (change)="toggleAllCheckboxes()">
+                                <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
+                            </div>
+                            <p class="mb-0">Select All</p>
+                        </div>
+                    </li>
+                    <li>
+                        <button (click)="getSelectedIds()" class="ct_green_btn ct_btn_red px-md-5"
+                            data-bs-toggle="modal" data-bs-target="#ct_delete_modal">Delete</button>
+                    </li> -->
+                </ul>
+            </div>
+
+            <!-- <ul class="d-flex align-items-center gap-md-3 gap-2 mt-4 mb-3 ct_breadcrumb_list flex-wrap">
+                <li style="cursor: pointer;" routerLink="/admin/main/timeline">{{year}} </li>
+                <li>>> </li>
+                <li style="cursor: pointer;" (click)="getMonth(year)">{{month}} </li>
+                <li>>> </li>
+                <li style="cursor: pointer;" (click)="backClicked()">{{day}}</li>
+                <li>>> </li>
+                <li class="border-0">{{picLength}} Files</li>
+            </ul> -->
+
+            <div class="ct_grid_6 mt-4" [ngClass]="{'ct_grid_2_conditon': photos?.length == 2}">
+                <div class="ct_album_photo ct_max_w_214" *ngFor="let pic of filteredPhotos; let i = index" (click)="openModal(i)">
+                    <div *ngIf="pic.albumItemType == 'Photo'">
+                        <img [src]="pic.images_url ? pic.images_url : 'assets/img/timeline_img.png'" alt="Not Found"
+                            data-bs-toggle="modal" data-bs-target="#preview_img" style="cursor: pointer;" class="ct_img_h_214">
+                    </div>
+
+                    <div *ngIf="pic.albumItemType == 'Video'">
+                        <video class="ct_img_h_214" [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'"
+                            style="filter: brightness(0.8);object-position: bottom;" #videoPlayer1
+                            (timeupdate)="onTimeUpdate1(videoPlayer1)"
+                            (loadedmetadata)="setVideoDuration1(videoPlayer1)" width="100%" height="290" playsinline
+                            preload="metadata" crossorigin="anonymous">
+                            <!-- poster="https://assets.codepen.io/32795/poster.png" -->
+                            <source [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'" type="video/mp4">
+                            <source [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'" type="video/webm">
+                            <source [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'" type="video/mov">
+                            <source [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'" type="video/ogg">
+                        </video>
+
+                        <div class="ct_video_icon" style="cursor: pointer;" data-bs-toggle="modal"
+                            data-bs-target="#preview_img">
+                            <a>
+                                <svg width="17" height="18" viewBox="0 0 17 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.0185 7.50999L4.2285 2.11332C3.92347 1.96068 3.58447 1.88859 3.24372 1.9039C2.90298 1.91921 2.57181 2.02141 2.2817 2.20079C1.99158 2.38017 1.75217 2.63077 1.58621 2.92876C1.42025 3.22675 1.33325 3.56223 1.3335 3.90332V14.0967C1.33325 14.4377 1.42025 14.7732 1.58621 15.0712C1.75217 15.3692 1.99158 15.6198 2.2817 15.7992C2.57181 15.9786 2.90298 16.0808 3.24372 16.0961C3.58447 16.1114 3.92347 16.0393 4.2285 15.8867L15.0185 10.49C15.295 10.3514 15.5274 10.1387 15.6899 9.87553C15.8523 9.61239 15.9384 9.30924 15.9384 8.99999C15.9384 8.69074 15.8523 8.38759 15.6899 8.12444C15.5274 7.8613 15.295 7.64855 15.0185 7.50999Z"
+                                        stroke="white" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="pic.albumItemType == 'PDF'" class="pdf">
+                        <div>
+                            <div data-bs-toggle="modal" data-bs-target="#preview_img" class="ct_pdf_model"></div>
+
+                            <iframe scrolling="no" [src]="sanitizeUrl(pic.images_url)" width="100%" height="250"
+                                class="ct_pdf_scroll ct_img_h_214"></iframe>
+                        </div>
+                    </div>
+
+                    <div class="ct_checkbox_main ct_file_select">
+                        <!-- <div>
+                            <input type="checkbox" [(ngModel)]="pic.checked" id="ct_checkbox_cbx{{ pic.id }}"
+                                class="ct_hidden-xs-up ct_checkbox_cbx_12">
+                            <label for="ct_checkbox_cbx{{ pic.id }}" class="ct_checkbox_cbx"></label>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="filteredPhotos?.length == 0 || !filteredPhotos" class="text-center">
+                <p class="ct_fs_15 mt-5">No media found</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- view photo  S -->
+
+<div class="modal fade Committed_Price" id="preview_img" tabindex="-1" aria-labelledby="preview_imgLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content p-3">
+            <div class="modal-body px-0 pt-0">
+                <div class="">
+                    <form action="">
+                        <div class="image-carousel">
+                            <a href="javascript:void(0)" (click)="prevImage()" class=" mb-0 text-dark"><i
+                                    class="fa-solid fa-chevron-left"></i></a>
+
+                            <div class="ct_preview_img mx-2">
+                                <div *ngIf="filteredPhotos[currentIndex]?.albumItemType == 'Photo'">
+                                    <img [src]="filteredPhotos[currentIndex]?.images_url">
+                                </div>
+                                <div class="position-relative" *ngIf="filteredPhotos[currentIndex]?.albumItemType == 'Video'">
+                                    <video
+                                        [src]="filteredPhotos[currentIndex]?.images_url ? filteredPhotos[currentIndex]?.images_url : 'assets/img/demo.png'"
+                                        style="filter: brightness(0.8);object-position: bottom;" #videoPlayer1
+                                        (timeupdate)="onTimeUpdate1(videoPlayer1)"
+                                        (click)="toggleVideo1(videoPlayer1, filteredPhotos[currentIndex]?.id)"
+                                        (loadedmetadata)="setVideoDuration1(videoPlayer1)" width="100%" height="290"
+                                        playsinline preload="metadata" crossorigin="anonymous">
+                                        <!-- poster="https://assets.codepen.io/32795/poster.png" -->
+                                        <source
+                                            [src]="filteredPhotos[currentIndex]?.images_url ? filteredPhotos[currentIndex]?.images_url : 'assets/img/demo.png'"
+                                            type="video/mp4">
+                                        <source
+                                            [src]="filteredPhotos[currentIndex]?.images_url ? filteredPhotos[currentIndex]?.images_url : 'assets/img/demo.png'"
+                                            type="video/webm">
+                                        <source
+                                            [src]="filteredPhotos[currentIndex]?.images_url ? filteredPhotos[currentIndex]?.images_url : 'assets/img/demo.png'"
+                                            type="video/mov">
+                                        <source
+                                            [src]="filteredPhotos[currentIndex]?.images_url ? filteredPhotos[currentIndex]?.images_url : 'assets/img/demo.png'"
+                                            type="video/ogg">
+                                    </video>
+
+                                    <!-- Fullscreen Button with Font Awesome Icon -->
+                                    <button (click)="toggleFullscreen(videoPlayer1)" class="fullscreen-button">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+
+                                    <!-- Seek bar -->
+                                    <!-- <input type="range" class="custom-seekbar1" *ngIf="currentVideoId1 === videoPlayer1"
+                                        (input)="onSeek1($event, videoPlayer1)" [value]="seekValue" /> -->
+
+                                    <div class="ct_video_icon" *ngIf="!isVideoPlaying1(videoPlayer1)"
+                                        (click)="toggleVideo1(videoPlayer1, photos[currentIndex]?.id)"
+                                        style="cursor: pointer;">
+                                        <a>
+                                            <svg width="17" height="18" viewBox="0 0 17 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M15.0185 7.50999L4.2285 2.11332C3.92347 1.96068 3.58447 1.88859 3.24372 1.9039C2.90298 1.91921 2.57181 2.02141 2.2817 2.20079C1.99158 2.38017 1.75217 2.63077 1.58621 2.92876C1.42025 3.22675 1.33325 3.56223 1.3335 3.90332V14.0967C1.33325 14.4377 1.42025 14.7732 1.58621 15.0712C1.75217 15.3692 1.99158 15.6198 2.2817 15.7992C2.57181 15.9786 2.90298 16.0808 3.24372 16.0961C3.58447 16.1114 3.92347 16.0393 4.2285 15.8867L15.0185 10.49C15.295 10.3514 15.5274 10.1387 15.6899 9.87553C15.8523 9.61239 15.9384 9.30924 15.9384 8.99999C15.9384 8.69074 15.8523 8.38759 15.6899 8.12444C15.5274 7.8613 15.295 7.64855 15.0185 7.50999Z"
+                                                    stroke="white" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </div>
+
+                                </div>
+                                <div *ngIf="filteredPhotos[currentIndex]?.albumItemType == 'PDF'">
+                                    <iframe [src]="sanitizeUrl(filteredPhotos[currentIndex]?.images_url)" width="100%"
+                                        height="250" class="ct_pdf_scroll"></iframe>
+                                </div>
+                                <h3 class="text-center mb-0 mt-3">{{ filteredPhotos[currentIndex]?.title }}</h3>
+                                <h4 class="text-center mb-0 mt-3">{{ filteredPhotos[currentIndex]?.description }}</h4>
+                            </div>
+
+                            <a href="javascript:void(0)" (click)="nextImage()" class=" mb-0 text-dark"><i
+                                    class="fa-solid fa-chevron-right"></i></a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-0">
+                <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
+                    data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="ct_green_btn ct_h_50" (click)="downloadImage()">
+                    <i class="fa-solid fa-download me-2"></i> Download
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

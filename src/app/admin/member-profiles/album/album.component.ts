@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../../../shared/services/shared.service';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
@@ -14,52 +14,84 @@ export class AlbumComponent {
   data: any[] = [];
   checkAll = false;
   selectedIds: number[] = [];
+  memberId: any;
+  role: any;
+  loading: boolean = false;
 
-  constructor(private route: Router, private service: SharedService, private location: Location, private toastr: ToastrService) { }
+  constructor(private rout: ActivatedRoute, private route: Router, private service: SharedService, private location: Location, private toastr: ToastrService) { }
+
+  // backClicked() {
+  //   this.location.back();
+  // }
+
+  goBack() {
+    this.route.navigateByUrl(`/admin/main/family-member/${this.itemId}/${this.itemEmail}`);
+    localStorage.removeItem('itemId')
+    localStorage.removeItem('itemEmail')
+  }
+
+  itemId: any;
+  itemEmail: any;
 
   ngOnInit() {
-    this.loadData();
+    this.rout.paramMap.subscribe((params) => {
+      this.memberId = params.get('memberId');
+      //this.role = params.get('role');
+      console.log(this.memberId, this.role);
+    });
+
+    this.getUsers();
+
+    this.itemId = localStorage.getItem('itemId')
+    this.itemEmail = localStorage.getItem('itemEmail')
   }
 
-  loadData() {
-    this.data = [
-      {
-        id: 1,
-        image: '',
-        title: 'Image 1',
-        alt: 'Image 1 description'
-      },
-      {
-        id: 2,
-        image: 'assets/img/men_user.png',
-        title: 'Image 2',
-        alt: 'Image 2 description'
-      },
-      {
-        id: 3,
-        image: '',
-        title: 'Image 3',
-        alt: 'Image 3 description'
-      },
-      {
-        id: 4,
-        image: 'assets/img/timeline_img.png',
-        title: 'Image 4',
-        alt: 'Image 4 description'
-      },
-    ].map(item => ({ ...item, checked: false }));
-  }
-
-  // getUsers() {
-  //   this.service.getApi('getdashboard').subscribe({
-  //     next: resp => {
-  //       this.data = resp.users;
+  // loadData() {
+  //   this.data = [
+  //     {
+  //       id: 1,
+  //       image: '',
+  //       title: 'Image 1',
+  //       alt: 'Image 1 description'
   //     },
-  //     error: error => {
-  //       console.log(error.message);
-  //     }
-  //   });
+  //     {
+  //       id: 2,
+  //       image: 'assets/img/men_user.png',
+  //       title: 'Image 2',
+  //       alt: 'Image 2 description'
+  //     },
+  //     {
+  //       id: 3,
+  //       image: '',
+  //       title: 'Image 3',
+  //       alt: 'Image 3 description'
+  //     },
+  //     {
+  //       id: 4,
+  //       image: 'assets/img/timeline_img.png',
+  //       title: 'Image 4',
+  //       alt: 'Image 4 description'
+  //     },
+  //   ].map(item => ({ ...item, checked: false }));
   // }
+
+  getUsers() {
+    this.loading = true;
+    const formURlData = new URLSearchParams();
+    formURlData.set('user_id', this.memberId);
+    this.service.postAPI('sub-admin/getalbumByuser_id', formURlData).subscribe({
+      next: resp => {
+        this.data = resp;
+        this.loading = false;
+      },
+      error: error => {
+        this.loading = false;
+        console.log(error.message);
+      }
+    });
+  }
+
+  selectedCount: number = 0;
 
   toggleAllCheckboxes() {
     this.data.forEach((item) => (item.checked = this.checkAll));
@@ -70,6 +102,9 @@ export class AlbumComponent {
     this.selectedIds = this.data
       .filter((item) => item.checked)
       .map((item) => item.id);
+
+    this.selectedCount = this.selectedIds.length; // Store the count
+    console.log('Selected IDs length:', this.selectedCount);
   }
 
 
@@ -82,15 +117,18 @@ export class AlbumComponent {
       .join(',')
 
     this.deleteAlbumsId = selectedIds;
-    console.log('Selected IDs:', selectedIds);
+    console.log('Selected IDs:', selectedIds?.length);
   }
 
-  getSubalbum(albumId: number) {
-    this.route.navigateByUrl(`/admin/main/sub-albums/${albumId}`);
-  }
-
-  backClicked() {
-    this.location.back();
+  getSubalbum(album: any) {
+ 
+    if (album.containsSubAlbums) {
+      this.route.navigateByUrl(`/admin/main/sub-albums/${album.id}/${this.memberId}`);
+    } else {
+      this.service.setData(album.albumItems);
+      this.route.navigateByUrl(`/admin/main/sub-album-photos`);
+      //this.toastr.warning('No sub-album found!')
+    }
   }
 
 
@@ -224,13 +262,13 @@ export class AlbumComponent {
       next: (resp) => {
         if (resp.success) {
           this.closeModalDel.nativeElement.click();
-          this.loadData();
+          this.getUsers();
           this.btnDelLoader = false;
           this.toastr.success(resp.message);
         } else {
           this.btnDelLoader = false;
           this.toastr.warning(resp.message);
-          this.loadData();
+          this.getUsers();
         }
       }, error: error => {
         this.btnDelLoader = false;
@@ -245,3 +283,16 @@ export class AlbumComponent {
 
 
 }
+
+
+// "id": 26432,
+//         "subAlbums": [],
+//         "created_at": "19 / 11 / 2024",
+//         "parentAlbumId": null,
+//         "appUserId": 2947,
+//         "containsSubAlbums": false,
+//         "parentAlbum": null,
+//         "name": "Default Album",
+//         "albumItems": [],
+//         "totalalbumphoto": 0,
+//         "cover_image": ""

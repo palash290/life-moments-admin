@@ -19,7 +19,6 @@ import { ToastrModule } from 'ngx-toastr';
     ForgotPasswordComponent,
     DashboardComponent,
    
-    FilterPipe
   ],
   imports: [
     BrowserModule,

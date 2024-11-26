@@ -36,6 +36,16 @@ export class ChangePasswordComponent {
 
   submitForm() {
     this.form.markAllAsTouched();
+
+    // Check for spaces in current_password and new_password
+    const currPassword = this.form.value.current_password?.trim();
+    const newPassword = this.form.value.new_password?.trim();
+
+    if (!currPassword || !newPassword) {
+      //this.toastr.warning('Passwords cannot be empty or just spaces.');
+      return; // Prevent submission if passwords are empty or only spaces
+    }
+
     if (this.form.valid && !this.passwordMismatch) {
       this.loading = true;
       const formURlData = new URLSearchParams();

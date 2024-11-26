@@ -105,3 +105,84 @@ button.btn-close.ct_close {
     top: -7px;
     color: #fff;
 }
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.pagination-controls .ct_previous,.pagination-controls .ct_nxt{
+    padding: 4px 10px;
+    border: 1px solid #f5f5f5;
+    color: #000;
+    background: #f5f5f5;
+    outline: none;
+    transition: 0.4s ease all;
+    border-radius: 5px;
+}
+.pagination-controls .ct_previous:hover,.pagination-controls .ct_nxt:hover{
+background-color: #0d9c00;
+color: #fff;
+}
+.pagination-controls button:nth-child(2) {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #f5f5f5;
+    background-color: #0d9e00;
+    color: #fff;
+    transition: 0.4s ease all;
+    border-radius: 5px;
+}
+.pagination-controls button:hover:nth-child(2){
+    color: #000;
+    background-color: #fff;
+}
+
+.form-check-input[type="radio"]:checked {
+    background: var(--orange);
+    border-color: #fff;
+}
+.form-check-input[type="radio"]:focus{
+    box-shadow: unset;
+}
+
+.ct_img_h_214{
+    height: 214px !important;
+    object-fit: cover;
+    /* max-width: 214px !important; */
+}
+
+.fullscreen-button{
+    position: absolute !important;
+    bottom: 10px !important;
+    right: 10px !important;
+    background-color: #ffffffa6 !important;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000 !important;
+  border: 1px solid #fff !important;
+    outline: none;
+}
+
+.ct_back_btn_4 {
+    width: auto;
+    height: 30px;
+    background: #f5f5f5;
+    display: flex
+;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border-radius: 5px;
+    padding-inline: 10px;
+    transition: 0.4s ease all;
+}
+.ct_back_btn_4:hover{
+    color: #0d9e00 !important;
+}
+.ct_max_w_214{
+    max-width: 214px;
+}

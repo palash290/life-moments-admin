@@ -91,7 +91,7 @@ export class SubAdminsComponent {
 
   initUpdateForm() {
     this.editAdmin = new FormGroup({
-      email: new FormControl(this.updateDet?.email, [Validators.required, Validators.email]),
+      email: new FormControl({value: this.updateDet?.email, disabled: true}, [Validators.required, Validators.email]),
       name: new FormControl(this.updateDet?.name, Validators.required),
       password: new FormControl(this.updateDet?.password, Validators.required),
       phone: new FormControl(this.updateDet?.contact_no, [Validators.required, Validators.pattern(this.pattern1)]),
@@ -149,7 +149,7 @@ export class SubAdminsComponent {
     if (this.editAdmin.valid) {
       this.btnEditLoader = true;
       const formURlData = new URLSearchParams();
-      formURlData.set('email', this.editAdmin.value.email);
+      formURlData.set('email', this.updateDet?.email);
       formURlData.set('name', this.editAdmin.value.name);
       formURlData.set('password', this.editAdmin.value.password);
       formURlData.set('contact_no', this.editAdmin.value.phone);

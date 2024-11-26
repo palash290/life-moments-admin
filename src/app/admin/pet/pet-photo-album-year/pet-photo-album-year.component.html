@@ -1,0 +1,463 @@
+<div class="ct_dashbaord_middle">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+            <a (click)="backClicked()" style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+                class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
+            <!-- <a style="cursor: pointer;" (click)="backClicked()" class="mb-0 ct_fs_22 text-dark ct_fw_500"><i
+                    class="fa-solid fa-arrow-left-long me-3"></i>Back</a>
+            <h4 class="mb-0 ct_fs_22 ct_fw_500"><img src="assets/img/men_user.png" alt="" class="ct_img_40 me-3">Zaire
+                Siphron’s Album</h4> -->
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative ct_search_input">
+                <!-- <input type="text" class="form-control" placeholder="Search" />
+                <i class="fa-solid fa-magnifying-glass"></i> -->
+            </div>
+            <!-- <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add_album">Add New Photos</button> -->
+        </div>
+    </div>
+
+    <div class="row ct_mt_30">
+        <div class="col-lg-12 mb-5 mb-lg-0">
+            <div>
+                <ul class="d-flex align-items-center gap-md-4 gap-3 justify-content-end">
+                    <!-- <li>12 item selected</li> -->
+
+                    <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
+                        <select class="form-control py-2 h-auto ct_input" [(ngModel)]="filterValue" (ngModelChange)="onFilterChange($event)">
+                            <option value="">All</option>
+                            <option value="Photo">Photos</option>
+                            <option value="Video">Videos</option>
+                            <option value="PDF">PDF</option>
+                        </select>
+                    </div>
+
+                    <!-- <li>
+                        <div class="ct_checkbox_main">
+                            <div>
+                                <input checked="" type="checkbox" id="ct_checkbox_cbx"
+                                    class="ct_hidden-xs-up ct_checkbox_cbx_12" [(ngModel)]="checkAll"
+                                    (change)="toggleAllCheckboxes()">
+                                <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
+                            </div>
+                            <p class="mb-0">Select All</p>
+                        </div>
+                    </li>
+                    <li>
+                        <button (click)="getSelectedIds()" class="ct_green_btn ct_btn_red px-md-5"
+                            data-bs-toggle="modal" data-bs-target="#ct_delete_modal">Delete</button>
+                    </li> -->
+                </ul>
+            </div>
+
+            <!-- <ul class="d-flex align-items-center gap-md-3 gap-2 mt-4 mb-3 ct_breadcrumb_list flex-wrap">
+                <li style="cursor: pointer;" routerLink="/admin/main/timeline">{{year}} </li>
+                <li>>> </li>
+                <li style="cursor: pointer;" (click)="getMonth(year)">{{month}} </li>
+                <li>>> </li>
+                <li style="cursor: pointer;" (click)="backClicked()">{{day}}</li>
+                <li>>> </li>
+                <li class="border-0">{{picLength}} Files</li>
+            </ul> -->
+
+            <div class="ct_grid_6 mt-4" [ngClass]="{'ct_grid_2_conditon': imageObject?.length == 2}">
+                <div class="ct_album_photo ct_max_w_214" *ngFor="let pic of imageObject; let i = index" (click)="openModal(i)">
+                    <div *ngIf="pic.type == 'Photo'">
+                        <img [src]="pic.images_url ? pic.images_url : 'assets/img/timeline_img.png'" alt="Not Found"
+                            data-bs-toggle="modal" data-bs-target="#preview_img" style="cursor: pointer;" class="ct_img_h_214">
+                    </div>
+
+                    <div *ngIf="pic.type == 'Video'">
+                        <video class="ct_img_h_214" [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'"
+                            style="filter: brightness(0.8);object-position: bottom;" #videoPlayer1
+                            (timeupdate)="onTimeUpdate1(videoPlayer1)"
+                            (loadedmetadata)="setVideoDuration1(videoPlayer1)" width="100%" height="290" playsinline
+                            preload="metadata" crossorigin="anonymous">
+                            <!-- poster="https://assets.codepen.io/32795/poster.png" -->
+                            <source [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'" type="video/mp4">
+                            <source [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'" type="video/webm">
+                            <source [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'" type="video/mov">
+                            <source [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'" type="video/ogg">
+                        </video>
+
+                        <div class="ct_video_icon" style="cursor: pointer;" data-bs-toggle="modal"
+                            data-bs-target="#preview_img">
+                            <a>
+                                <svg width="17" height="18" viewBox="0 0 17 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.0185 7.50999L4.2285 2.11332C3.92347 1.96068 3.58447 1.88859 3.24372 1.9039C2.90298 1.91921 2.57181 2.02141 2.2817 2.20079C1.99158 2.38017 1.75217 2.63077 1.58621 2.92876C1.42025 3.22675 1.33325 3.56223 1.3335 3.90332V14.0967C1.33325 14.4377 1.42025 14.7732 1.58621 15.0712C1.75217 15.3692 1.99158 15.6198 2.2817 15.7992C2.57181 15.9786 2.90298 16.0808 3.24372 16.0961C3.58447 16.1114 3.92347 16.0393 4.2285 15.8867L15.0185 10.49C15.295 10.3514 15.5274 10.1387 15.6899 9.87553C15.8523 9.61239 15.9384 9.30924 15.9384 8.99999C15.9384 8.69074 15.8523 8.38759 15.6899 8.12444C15.5274 7.8613 15.295 7.64855 15.0185 7.50999Z"
+                                        stroke="white" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="pic.type == 'PDF'" class="pdf">
+                        <div>
+                            <div data-bs-toggle="modal" data-bs-target="#preview_img" class="ct_pdf_model"></div>
+
+                            <iframe scrolling="no" [src]="sanitizeUrl(pic.images_url)" width="100%" height="250"
+                                class="ct_pdf_scroll ct_img_h_214"></iframe>
+                        </div>
+                    </div>
+
+                    <div class="ct_checkbox_main ct_file_select">
+                        <!-- <div>
+                            <input type="checkbox" [(ngModel)]="pic.checked" id="ct_checkbox_cbx{{ pic.id }}"
+                                class="ct_hidden-xs-up ct_checkbox_cbx_12">
+                            <label for="ct_checkbox_cbx{{ pic.id }}" class="ct_checkbox_cbx"></label>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="imageObject?.length == 0 || !imageObject" class="text-center">
+                <p class="ct_fs_15 mt-5">No media found</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- view photo  S -->
+
+<div class="modal fade Committed_Price" id="preview_img" tabindex="-1" aria-labelledby="preview_imgLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content p-3">
+            <div class="modal-body px-0 pt-0">
+                <div class="">
+                    <form action="">
+                        <div class="image-carousel">
+                            <a href="javascript:void(0)" (click)="prevImage()" class=" mb-0 text-dark"><i
+                                    class="fa-solid fa-chevron-left"></i></a>
+
+                            <div class="ct_preview_img mx-2">
+                                <div *ngIf="imageObject[currentIndex]?.type == 'Photo'">
+                                    <img [src]="imageObject[currentIndex]?.images_url">
+                                </div>
+                                <div class="position-relative" *ngIf="imageObject[currentIndex]?.type == 'Video'">
+                                    <video
+                                        [src]="imageObject[currentIndex]?.images_url ? imageObject[currentIndex]?.images_url : 'assets/img/demo.png'"
+                                        style="filter: brightness(0.8);object-position: bottom;" #videoPlayer1
+                                        (timeupdate)="onTimeUpdate1(videoPlayer1)"
+                                        (click)="toggleVideo1(videoPlayer1, imageObject[currentIndex]?.id)"
+                                        (loadedmetadata)="setVideoDuration1(videoPlayer1)" width="100%" height="290"
+                                        playsinline preload="metadata" crossorigin="anonymous">
+                                        <!-- poster="https://assets.codepen.io/32795/poster.png" -->
+                                        <source
+                                            [src]="imageObject[currentIndex]?.images_url ? imageObject[currentIndex]?.images_url : 'assets/img/demo.png'"
+                                            type="video/mp4">
+                                        <source
+                                            [src]="imageObject[currentIndex]?.images_url ? imageObject[currentIndex]?.images_url : 'assets/img/demo.png'"
+                                            type="video/webm">
+                                        <source
+                                            [src]="imageObject[currentIndex]?.images_url ? imageObject[currentIndex]?.images_url : 'assets/img/demo.png'"
+                                            type="video/mov">
+                                        <source
+                                            [src]="imageObject[currentIndex]?.images_url ? imageObject[currentIndex]?.images_url : 'assets/img/demo.png'"
+                                            type="video/ogg">
+                                    </video>
+
+                                    <!-- Fullscreen Button with Font Awesome Icon -->
+                                    <button (click)="toggleFullscreen(videoPlayer1)" class="fullscreen-button">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+
+                                    <!-- Seek bar -->
+                                    <!-- <input type="range" class="custom-seekbar1" *ngIf="currentVideoId1 === videoPlayer1"
+                                        (input)="onSeek1($event, videoPlayer1)" [value]="seekValue" /> -->
+
+                                    <div class="ct_video_icon" *ngIf="!isVideoPlaying1(videoPlayer1)"
+                                        (click)="toggleVideo1(videoPlayer1, imageObject[currentIndex]?.id)"
+                                        style="cursor: pointer;">
+                                        <a>
+                                            <svg width="17" height="18" viewBox="0 0 17 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M15.0185 7.50999L4.2285 2.11332C3.92347 1.96068 3.58447 1.88859 3.24372 1.9039C2.90298 1.91921 2.57181 2.02141 2.2817 2.20079C1.99158 2.38017 1.75217 2.63077 1.58621 2.92876C1.42025 3.22675 1.33325 3.56223 1.3335 3.90332V14.0967C1.33325 14.4377 1.42025 14.7732 1.58621 15.0712C1.75217 15.3692 1.99158 15.6198 2.2817 15.7992C2.57181 15.9786 2.90298 16.0808 3.24372 16.0961C3.58447 16.1114 3.92347 16.0393 4.2285 15.8867L15.0185 10.49C15.295 10.3514 15.5274 10.1387 15.6899 9.87553C15.8523 9.61239 15.9384 9.30924 15.9384 8.99999C15.9384 8.69074 15.8523 8.38759 15.6899 8.12444C15.5274 7.8613 15.295 7.64855 15.0185 7.50999Z"
+                                                    stroke="white" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </div>
+
+                                </div>
+                                <div *ngIf="imageObject[currentIndex]?.type == 'PDF'">
+                                    <iframe [src]="sanitizeUrl(imageObject[currentIndex]?.images_url)" width="100%"
+                                        height="250" class="ct_pdf_scroll"></iframe>
+                                </div>
+                                <h3 class="text-center mb-0 mt-3">{{ imageObject[currentIndex]?.title }}</h3>
+                                <h4 class="text-center mb-0 mt-3">{{ imageObject[currentIndex]?.description }}</h4>
+                            </div>
+
+                            <a href="javascript:void(0)" (click)="nextImage()" class=" mb-0 text-dark"><i
+                                    class="fa-solid fa-chevron-right"></i></a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-0">
+                <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
+                    data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="ct_green_btn ct_h_50" (click)="downloadImage()">
+                    <i class="fa-solid fa-download me-2"></i> Download
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="modal fade Committed_Price" id="preview_img" tabindex="-1" aria-labelledby="preview_imgLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content p-3">
+      <div class="modal-body px-0 pt-0">
+        <div class="image-slider-container ct_preview_img">
+          <ng-image-slider [images]="imageObject" [imageSize]="{ width: '100%', height: 'auto' }"
+                           [showArrow]="true" [infinite]="true" (arrowClick)="onImageChange($event)">
+          </ng-image-slider>
+          <h4 class="text-center mb-0 mt-3">{{ imageObject[activeImageIndex]?.alt }}</h4>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-0">
+        <button type="button" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
+                data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="ct_green_btn ct_h_50"
+                (click)="downloadImage(imageObject[activeImageIndex].image)">
+          <i class="fa fa-download me-2"></i> Download
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<!--  view family  E -->
+
+
+<!-- add Album photo/video family  S -->
+
+<div class="modal fade Committed_Price" id="add_album" tabindex="-1" aria-labelledby="add_albumLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content pb-5 ct_px_50">
+            <div class="modal-body px-0">
+                <div class="pt-5">
+                    <h4 class="ct_fw_500 mb-5 text-center">Add New Files</h4>
+
+                    <div class="form-group mb-3">
+
+                        <label for="ct_file_edit" class="position-relative mx-auto mb-4 d-flex justify-content-center">
+
+                            <div *ngIf="this.imagePreviews.length == 0">
+                                <input type="file" class="d-none" id="ct_file_edit" (change)="onFileSelected($event)"
+                                    multiple>
+                            </div>
+
+
+                            <div *ngIf="this.imagePreviews.length == 0" class="ct_file_change">
+                                <img [src]='demoFile' alt="File Preview">
+
+                                <div class="ct_edit_icon ct_file_edit_icon">
+                                    <svg width="26" height="24" viewBox="0 0 26 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M8.23622 0.496129C8.41543 0.188911 8.74433 0 9.1 0H16.9C17.2557 0 17.5846 0.188911
+                                         17.7638 0.496129L19.5744 3.6H22C24.2091 3.6 26 5.39086 26 7.6V19.9C26 22.1091 24.2091
+                                          23.9 22 23.9H4C1.79086 23.9 0 22.1091 0 19.9V7.6C0 5.39086 1.79086 3.6 4 3.6H6.42563L8.23622
+                                           0.496129ZM9.67437 2L7.86378 5.10387C7.68457 5.41109 7.35567 5.6 7 5.6H4C2.89543 5.6 2 6.49543 
+                                           2 7.6V19.9C2 21.0046 2.89543 21.9 4 21.9H22C23.1046 21.9 24 21.0046 24 19.9V7.6C24 6.49543 23.1046
+                                            5.6 22 5.6H19C18.6443 5.6 18.3154 5.41109 18.1362 5.10387L16.3256 2H9.67437ZM13 9.5C11.067 9.5 
+                                            9.5 11.067 9.5 13C9.5 14.933 11.067 16.5 13 16.5C14.933 16.5 16.5 14.933 16.5 13C16.5 11.067 14.933
+                                             9.5 13 9.5ZM7.5 13C7.5 9.96243 9.96243 7.5 13 7.5C16.0376 7.5 18.5 9.96243 18.5 13C18.5 16.0376 16.0376 18.5 13 18.5C9.96243 18.5 7.5 16.0376 7.5 13Z"
+                                            fill="white" />
+                                    </svg>
+                                </div>
+
+                            </div>
+
+                            <div class="ct_multiple_img_flex">
+                                <div class="position-relative" *ngFor="let preview of imagePreviews">
+                                    <img *ngIf="preview.startsWith('data:image/')" [src]="preview" alt="Image Preview">
+                                    <video *ngIf="preview.startsWith('blob:')" [src]="preview" width="100%"></video>
+
+                                    <button (click)="deletePreview(preview)" class="ct_multiple_img_dlt"><i
+                                            class="fa-solid fa-xmark"></i></button>
+                                </div>
+                            </div>
+
+                        </label>
+
+                        <label for="" class="mb-2">
+                            <span class="ct_fw_600 ct_fs_18">Add Title
+                            </span></label>
+                        <input type="text" class="form-control" placeholder="Enter Album Name"
+                            [(ngModel)]="albumName" />
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-0">
+                <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
+                    data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button (click)="submitImageAlbum()" type="button ct_" class="ct_green_btn ct_h_50">
+                    Add Image
+                </button>
+            </div>
+            <h6 style="cursor: pointer;" class="mb-0 text-center ct_green_text ct_fs_18 mt-3" data-bs-toggle="modal"
+                data-bs-target="#add-new-pet">
+                Want to add a PDF?</h6>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- add pdf S -->
+<div class="modal fade Committed_Price" id="add-new-pet" tabindex="-1" aria-labelledby="add-new-petLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content pb-5 ct_px_50">
+            <div class="modal-body px-0">
+                <div class="pt-5">
+                    <h4 class="ct_fw_500 mb-5 text-center">Add New PDFs</h4>
+
+                    <div class="form-group mb-3">
+                        <label for="ct_pdf_edit" class="position-relative mx-auto mb-4 d-flex justify-content-center">
+                            <div *ngIf="pdfPreviews.length === 0">
+                                <input type="file" class="d-none" id="ct_pdf_edit" (change)="onPdfSelected($event)"
+                                    multiple accept=".pdf">
+                            </div>
+
+                            <div *ngIf="pdfPreviews.length === 0" class="ct_file_change">
+                                <img [src]="demoFile" alt="PDF Placeholder">
+                                <div class="ct_edit_icon ct_file_edit_icon">
+                                    <svg width="26" height="24" viewBox="0 0 26 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M8.23622 0.496129C8.41543 0.188911 8.74433 0 9.1 0H16.9C17.2557 0 17.5846 0.188911
+                           17.7638 0.496129L19.5744 3.6H22C24.2091 3.6 26 5.39086 26 7.6V19.9C26 22.1091 24.2091
+                            23.9 22 23.9H4C1.79086 23.9 0 22.1091 0 19.9V7.6C0 5.39086 1.79086 3.6 4 3.6H6.42563L8.23622
+                             0.496129ZM9.67437 2L7.86378 5.10387C7.68457 5.41109 7.35567 5.6 7 5.6H4C2.89543 5.6 2 6.49543 
+                             2 7.6V19.9C2 21.0046 2.89543 21.9 4 21.9H22C23.1046 21.9 24 21.0046 24 19.9V7.6C24 6.49543 23.1046
+                              5.6 22 5.6H19C18.6443 5.6 18.3154 5.41109 18.1362 5.10387L16.3256 2H9.67437ZM13 9.5C11.067 9.5 
+                              9.5 11.067 9.5 13C9.5 14.933 11.067 16.5 13 16.5C14.933 16.5 16.5 14.933 16.5 13C16.5 11.067 14.933
+                               9.5 13 9.5ZM7.5 13C7.5 9.96243 9.96243 7.5 13 7.5C16.0376 7.5 18.5 9.96243 18.5 13C18.5 16.0376 16.0376 18.5 13 18.5C9.96243 18.5 7.5 16.0376 7.5 13Z"
+                                            fill="white" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="ct_multiple_img_flex">
+                                <div class="position-relative" *ngFor="let preview of pdfPreviews">
+                                    <!-- <p>{{ preview }}</p> -->
+                                    <iframe scrolling="no" [src]="preview.url" width="100%" height="200"
+                                        class="ct_pdf_scroll"></iframe>
+                                    <button (click)="deletePdfPreview(preview.name)" class="ct_multiple_img_dlt"><i
+                                            class="fa-solid fa-xmark"></i></button>
+                                </div>
+                            </div>
+                        </label>
+
+                        <label for="" class="mb-2">
+                            <span class="ct_fw_600 ct_fs_18">Add Title</span>
+                        </label>
+                        <input type="text" class="form-control" placeholder="Enter Album Name"
+                            [(ngModel)]="albumNamePdf" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-0">
+                <button type="button" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
+                    data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button (click)="submitPdfAlbum()" type="button" class="ct_green_btn ct_h_50">
+                    Add PDFs
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Delete modal -->
+
+<!-- Log out modal Css S -->
+<div class="modal fade ct_assets_modal" id="ct_delete_modal" tabindex="-1" aria-labelledby="ct_logout_modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body border-0 ">
+                <div class="pt-5">
+                    <img src="assets/img/remove.png" alt="" class="ct_img_60 mx-auto d-block mb-4">
+                    <h4 class="ct_fw_500 mb-3 text-center">Are you Sure?</h4>
+                    <p class="text-center">Do you really want to delete this? after deleting <br> you can't undone</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center">
+                    <button type="button" class="ct_green_btn ct_green_outline_btn"
+                        data-bs-dismiss="modal">Cancel</button>
+                    <a (click)="deleteImages()" type="button"
+                        class=" bg-danger  ct_green_btn ct_btn_red  justify-content-center"
+                        style="border-color: rgb(220, 53, 69)">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="spinner-border me-2" role="status" *ngIf="btnDelLoader">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <span *ngIf="!btnDelLoader">Yes Delete It!</span>
+                        </div>
+                    </a>
+                    <button hidden type="button" class="btn btn-secondary" #closeModalDel
+                        data-bs-dismiss="modal">Close</button>
+                </div>
+                <div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>

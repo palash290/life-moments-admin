@@ -1,0 +1,137 @@
+.image-carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ct_preview_img {
+    text-align: center;
+}
+
+.btn-left,
+.btn-right {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-left:hover,
+.btn-right:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+.ct_preview_img img{
+    height: 400px;
+    object-fit: contain;
+    width: 100%;
+}
+
+
+
+
+
+
+.ct_video_icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    transform: translate(-50%,-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.4s ease all;
+    z-index: 1;
+    overflow: hidden;
+
+}
+.ct_video_icon:before{
+    content: "";
+    position: absolute;
+    inset: 0px;
+    background-color: #fff;
+    transform: scale(0);
+    transition: 0.4s ease all;
+    border-radius: 100px;
+    z-index: -1;
+}
+.ct_video_icon:hover svg path{
+        stroke: var(--dark_blue);
+}
+.ct_video_icon:hover:before{
+    transform: scale(1);
+}
+
+
+
+
+.fullscreen-button {
+    background: none; /* No background */
+    border: none; /* No border */
+    position: absolute; /* Position it relative to the video container */
+    bottom: 10px; /* Adjust position */
+    right: 10px; /* Adjust position */
+    color: rgb(20, 18, 18); /* Change the icon color */
+    font-size: 24px; /* Adjust icon size */
+    cursor: pointer; /* Change cursor on hover */
+    z-index: 10; /* Ensure it appears above the video */
+}
+
+.fullscreen-button:hover {
+    color: rgb(28, 25, 25); /* Change color on hover for better visibility */
+}
+.ct_pdf_model {
+    position: absolute;
+    width: 100%;
+    background: transparent;
+    height: 100%;
+    inset: 0px;
+}
+
+
+
+
+
+
+
+.ct_multiple_img_flex{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  .ct_multiple_img_flex img,
+  .ct_multiple_img_flex video    {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+  .ct_multiple_img_dlt {
+    width: 18px;
+    height: 18px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    outline: none;
+    border: 0px;
+    background-color: var(--red);
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    font-size: 10px;
+  }

@@ -1,17 +1,17 @@
 <div class="ct_dashbaord_middle">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center gap-3">
-            <a (click)="backClicked()" style="cursor: pointer;" class="mb-0 ct_fs_22 text-dark ct_fw_500"><i
-                    class="fa-solid fa-arrow-left-long me-3 "></i>Back</a>
-            <h4 class="mb-0 ct_fs_22 ct_fw_500"><img src="assets/img/men_user.png" alt="" class="ct_img_40 me-3">Zaire
-                Siphron’s Album</h4>
+            <a (click)="goBack()" style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+                    class="fa-solid fa-arrow-left-long me-1 "></i>Back</a>
+            <!-- <h4 class="mb-0 ct_fs_22 ct_fw_500"><img src="assets/img/men_user.png" alt="" class="ct_img_40 me-3">Zaire
+                Siphron’s Album</h4> -->
         </div>
         <div class="d-flex align-items-center gap-3">
             <div class="position-relative ct_search_input">
-                <input type="text" class="form-control" placeholder="Search " />
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <!-- <input type="text" class="form-control" placeholder="Search " /> -->
+                <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
             </div>
-            <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add_album">Add New Album</button>
+            <!-- <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add_album">Add New Album</button> -->
         </div>
     </div>
 
@@ -19,9 +19,10 @@
         <div class="col-lg-12 mb-5 mb-lg-0">
             <div>
                 <ul class="d-flex align-items-center gap-md-4 gap-3 justify-content-end">
-                    <li>12 item selected</li>
+                    <li *ngIf="selectedCount > 0">{{ selectedCount }} {{ selectedCount > 1 ? 'albums' : 'album' }}
+                        selected</li>
                     <li>
-                        <div class="ct_checkbox_main">
+                        <!-- <div class="ct_checkbox_main">
                             <div>
                                 <input checked="" type="checkbox" id="ct_checkbox_cbx"
                                     class="ct_hidden-xs-up ct_checkbox_cbx_12" [(ngModel)]="checkAll"
@@ -29,39 +30,46 @@
                                 <label for="ct_checkbox_cbx" class="ct_checkbox_cbx"></label>
                             </div>
                             <p class="mb-0">Select All</p>
-                        </div>
+                        </div> -->
                     </li>
                     <li>
-                        <button (click)="getSelectedIds()" class="ct_green_btn ct_btn_red px-md-5" data-bs-toggle="modal"
-                            data-bs-target="#delete_modal">Delete</button>
+                        <!-- <button (click)="getSelectedIds()" class="ct_green_btn ct_btn_red px-md-5"
+                            data-bs-toggle="modal" data-bs-target="#delete_modal">Delete</button> -->
                     </li>
                 </ul>
             </div>
-            <div class="ct_grid_6 mt-3">
-                <a *ngFor="let pic of data; let i = index" class="text-dark">
+            <div class="ct_grid_6 mt-3" [ngClass]="{'ct_grid_2_conditon': data?.length == 2}">
+              <div *ngFor="let pic of data; let i = index" class="ct_max_w_214">
+                <a  class="text-dark ">
                     <figure class="ct_file_main mb-0">
                         <div class="ct_file_img">
                             <img [src]="pic.image ? pic.image : 'assets/img/folder.png'" alt=""
-                                (click)="getSubalbum(pic.id)">
-                            <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file"
+                                (click)="getSubalbum(pic)">
+                            <!-- <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file"
                                 style="cursor: pointer;" (click)="getAlbumDetails(pic)">
                                 <i class="fa-regular fa-pen-to-square"></i>
+                            </div> -->
+                            <div *ngIf="role == 'pet'" class="ct_edit_file_cnt ct_total_count_btm">
+                                <img src="assets/img/pet_paw.png" alt="">
+                                <!-- <h4 class="mb-0 ct_fs_14">12</h4> -->
                             </div>
-                            <div class="ct_edit_file_cnt ct_total_count_btm">
-                                <h4 class="mb-0 ct_fs_14">12</h4>
+
+                            <div *ngIf="pic.totalalbumphoto > 0" class="ct_edit_file_cnt ct_total_count_btm">
+                                <h4 class="mb-0 ct_fs_14">{{pic.totalalbumphoto}}</h4>
                             </div>
 
                             <div class="ct_checkbox_main ct_file_select">
-                                <div>
+                                <!-- <div>
                                     <input [(ngModel)]="pic.checked" type="checkbox" id="ct_checkbox_cbx{{ pic.id }}"
-                                        class="ct_hidden-xs-up ct_checkbox_cbx_12">
+                                        class="ct_hidden-xs-up ct_checkbox_cbx_12" (change)="updateSelectedIds()">
                                     <label for="ct_checkbox_cbx{{ pic.id }}" class="ct_checkbox_cbx"></label>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
-                        <figcaption class="text-center ct_fw_600 mt-2">{{pic.title}}</figcaption>
+                        <figcaption class="text-center ct_fw_600 mt-2">{{pic.name}}</figcaption>
                     </figure>
                 </a>
+              </div>
             </div>
         </div>
     </div>
@@ -222,6 +230,28 @@
                     data-bs-dismiss="modal">Close</button>
             </div>
 
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
     </div>
 </div>

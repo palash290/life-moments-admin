@@ -11,7 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 export class DashboardComponent {
 
   data: any;
-  totalCounts: any;
+  totalMembers: any;
+  totalFamilies: any;
   searchQuery: string = '';
   totalRevenue: any = 13500.43;
 
@@ -69,7 +70,7 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.getUsers();
-    this.loadData();
+    //this.loadData();
   }
 
   loadData() {
@@ -80,10 +81,11 @@ export class DashboardComponent {
   }
 
   getUsers() {
-    this.service.getApi('getdashboard').subscribe({
+    this.service.getApi('sub-admin/dashBoard').subscribe({
       next: resp => {
-        this.data = resp.users;
-        this.totalCounts = resp;
+        this.data = resp.data.getLatestUsers;
+        this.totalMembers = resp.data.totalMembers;
+        this.totalFamilies = resp.data.totalFamilies;
       },
       error: error => {
         console.log(error.message);
@@ -105,3 +107,36 @@ export class DashboardComponent {
 
 
 }
+// "id": 301,
+//                 "fullName": "Rahul Tiwari",
+//                 "displayName": "Rahulll",
+//                 "email": "rahutiw@gmail.com",
+//                 "gender": "male",
+//                 "password": "$2b$10$ujBXE6zGd8q9Y6jNDaNAsOLKvOswrwduJZ2rqKgxv4P6u.pliHP4S",
+//                 "show_password": "12345678",
+//                 "profile_image": "http://18.229.202.71:4000/images/1732089432767.png",
+//                 "verify_user": 0,
+//                 "token": "$2b$10$as10QtzoJAuchvwbbJ.Ik.38mHRF7ZW4OIp.1j3EIRpXICUn9VnW.",
+//                 "act_token": "d1S6aX6c",
+//                 "created_at": "2024-11-20T02:26:56.000Z",
+//                 "update_at": "2024-11-20T02:26:56.000Z",
+//                 "onBoardingDone": 1,
+//                 "familyTrees": null,
+//                 "memberInvitations": null,
+//                 "birth": "20/11/2016",
+//                 "alive": null,
+//                 "birthUnknown": null,
+//                 "memberType": null,
+//                 "avatarFileName": null,
+//                 "familyTreeId": 721,
+//                 "invitationsReceived": null,
+//                 "mainFamilyTree": null,
+//                 "albums": null,
+//                 "popup_status": "0",
+//                 "import_media_popup": 0,
+//                 "lock_me": 0,
+//                 "review": null,
+//                 "rating": null,
+//                 "delete_status": 0,
+//                 "login_date": null,
+//                 "other_gender": "none"

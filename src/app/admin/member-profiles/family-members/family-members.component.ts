@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-family-members',
@@ -24,24 +25,37 @@ export class FamilyMembersComponent {
   petImage1: any;
   memberId: any;
   parentId: any;
+  email: any;
   addMemLoader: boolean = false;
   addPetLoader: boolean = false;
+  searchQuery = '';
+  loading: boolean = false;
 
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  constructor(private aRoute: ActivatedRoute, private service: SharedService, private toastr: ToastrService, private route: Router) { }
+  constructor(private aRoute: ActivatedRoute, private service: SharedService, private toastr: ToastrService, private route: Router, private location: Location) { }
+  backClicked() {
+    //this.location.back();
+    this.route.navigateByUrl(`/admin/main/member-profile`);
+    localStorage.removeItem('itemId');
+    localStorage.removeItem('itemEmail');
+  }
   ////////////////parent is only edtiting////////////////////
   ngOnInit() {
     this.aRoute.paramMap.subscribe((params) => {
       this.parentId = params.get('parentId');
+      this.email = params.get('email');
     });
+    localStorage.setItem('itemId', this.parentId)
+    localStorage.setItem('itemEmail', this.email)
 
     this.initNewMemberForm();
     this.initNewPetForm();
     this.initEditMemberForm();
     this.initEditParentForm();
     this.initEditPetForm();
-    this.loadData();
+    //this.loadData();
+    this.getMembers();
   }
 
   loadData() {
@@ -53,16 +67,41 @@ export class FamilyMembersComponent {
     ]
   }
 
-  // getUsers() {
-  //   this.service.getApi('getdashboard').subscribe({
+  // getMembers() {
+  //   this.service.getApi(`sub-admin/get-all-members/${this.parentId}`).subscribe({
   //     next: (resp) => {
-  //       this.data = resp.users.map(user => ({ ...user, checked: false })); // Add `checked: false` to each user
+  //       this.data = resp.data; // Add `checked: false` to each user
   //     },
   //     error: (error) => {
   //       console.log(error.message);
   //     }
   //   });
   // }
+
+  filteredOutMembers: any[] = [];
+
+  getMembers() {
+    this.loading = true;
+    this.service.getApi(`sub-admin/get-all-members/${this.parentId}`).subscribe({
+      next: (resp) => {
+        this.loading = false;
+        // Filter data based on `relation_member_id`
+        this.data = resp.data.filter((item: { relation_member_id: number; }) => item.relation_member_id !== 0);
+
+        // Save filtered-out items in a separate variable
+        this.filteredOutMembers = resp.data.filter((item: { relation_member_id: number; }) => item.relation_member_id === 0);
+        console.log('this.filteredOutMembers', this.filteredOutMembers);
+
+        // Optional: Add `checked: false` property to each user in `this.data`
+        this.data.forEach(user => user.checked = false);
+      },
+      error: (error) => {
+        this.loading = false;
+        console.log(error.message);
+      }
+    });
+  }
+
 
   initNewMemberForm() {
     this.newMemberForm = new FormGroup({
@@ -517,17 +556,25 @@ export class FamilyMembersComponent {
     }
   }
 
-  getSingleMemberData(id: any) {
-    //to save selected id
-    this.memberId = id;
-    this.service.getApi(`https://www.c4c.gr:4000/admin/events/${id}`).subscribe({
-      next: resp => {
-        this.singleMemberData = resp.events;
-      },
-      error: error => {
-        console.log(error.message)
-      }
-    });
+  getParentId(id: any) {
+    this.memberId = id
+  }
+
+
+  singleMemberDetail: any
+  getSingleMemberData(detail: any) {
+    this.memberId = detail.id;
+    this.singleMemberDetail = detail;
+    console.log('this.singleMemberDetail', this.singleMemberDetail);
+
+    // this.service.getApi(`https://www.c4c.gr:4000/admin/events/${id}`).subscribe({
+    //   next: resp => {
+    //     this.singleMemberData = resp.events;
+    //   },
+    //   error: error => {
+    //     console.log(error.message)
+    //   }
+    // });
   }
 
   @ViewChild('closeModalViewMember') closeModalViewMember!: ElementRef;
@@ -539,6 +586,13 @@ export class FamilyMembersComponent {
     this.closeModalViewPet.nativeElement.click();
     this.closeModalViewParent.nativeElement.click();
     this.route.navigateByUrl(`/admin/main/albums/${this.memberId}`);
+  }
+
+  getMemberTimeline() {
+    this.closeModalViewMember.nativeElement.click();
+    this.closeModalViewPet.nativeElement.click();
+    this.closeModalViewParent.nativeElement.click();
+    this.route.navigateByUrl(`/admin/main/timeline/${this.memberId}`);
   }
 
 
@@ -570,5 +624,139 @@ export class FamilyMembersComponent {
     }
   }
 
+  calculateAge(birthDate: string): string {
+    // Parse the birthDate string in dd-mm-yyyy format
+    const [day, month, year] = birthDate?.split('/')?.map(Number);
+    const birth = new Date(year, month - 1, day); // Adjust for 0-based month index
+    const today = new Date();
+  
+    // Check if the birth date is in the future
+    if (birth > today) {
+      return "Invalid birth date (in the future)";
+    }
+  
+    // Calculate the difference in years, months, and days
+    let years = today.getFullYear() - birth.getFullYear();
+    let months = today.getMonth() - birth.getMonth();
+    let days = today.getDate() - birth.getDate();
+  
+    // Adjust for negative days
+    if (days < 0) {
+      months--;
+      const daysInLastMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      days += daysInLastMonth;
+    }
+  
+    // Adjust for negative months
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+  
+    // Return the result
+    if (years > 0) {
+      return `${years} year${years > 1 ? 's' : ''}`;
+    } else if (months > 0) {
+      // return `${months} month${months > 1 ? 's' : ''} old${days > 0 ? ` and ${days} day${days > 1 ? 's' : ''}` : ''}`;
+      return `${months} month${months > 1 ? 's' : ''} `;
+    } else {
+      return `${days} day${days > 1 ? 's' : ''}`;
+    }
+  }
+  
+  
+  
+  
+  
+  goToPetList(id: any){
+    this.route.navigateByUrl(`/admin/main/pet/${id}`);
+  }
+
 
 }
+
+
+// checked
+// :
+// false
+// created_at
+// :
+// "2024-11-19T08:13:25.000Z"
+// date_of_birth
+// :
+// "Below 18"
+// displayName
+// :
+// null
+// family_id
+// :
+// 719
+// first_name
+// :
+// "Son"
+// full_name
+// :
+// "Son M"
+// gender
+// :
+// "male"
+// has_child
+// :
+// "N"
+// id
+// :
+// 2950
+// image_link
+// :
+// "http://18.229.202.71:4000/images/1732023804775.png"
+// interview_popup
+// :
+// 0
+// is_alive
+// :
+// 4
+// is_edit
+// :
+// 0
+// last_inserted
+// :
+// "Y"
+// last_name
+// :
+// "M"
+// level_at_tree
+// :
+// 4
+// marital_status
+// :
+// "S"
+// other_gender
+// :
+// "none"
+// paw_popup
+// :
+// 0
+// popup_status
+// :
+// 1
+// relationName
+// :
+// "Son"
+// relationWith
+// :
+// { id: 2949, family_id: 719, user_id: 299, user_name: 'Brother', level_at_tree: 3, … }
+// relation_id
+// :
+// 15
+// relation_member_id
+// :
+// 2949
+// updated_at
+// :
+// "2024-11-19T08:13:25.000Z"
+// user_id
+// :
+// 299
+// user_name
+// :
+// "Son"

@@ -1,12 +1,20 @@
 <div class="ct_dashbaord_middle">
-    <div class="d-flex align-items-center justify-content-between">
-        <h4 class="mb-0 ct_fs_22">My Family Members</h4>
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+            <a (click)="backClicked()" style="cursor: pointer;"
+                class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+                    class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
+            <h4 class="mb-0 ct_fs_22">{{filteredOutMembers[0]?.full_name}}'s Family Members</h4>
+        </div>
         <div class="d-flex align-items-center gap-3">
             <div class="position-relative ct_search_input">
-                <input type="text" class="form-control" placeholder="Search " />
+                <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchQuery" />
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <button (click)="getRelationNames()" class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add-new-member">Add New Member</button>
+            <!-- <button (click)="getRelationNames()" class="ct_green_btn" data-bs-toggle="modal"
+                data-bs-target="#add-new-member">Add New Member</button> -->
+            <button class="ct_green_btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coming Soon">Add New
+                Member</button>
         </div>
     </div>
 
@@ -14,19 +22,24 @@
         <div class="col-lg-12 mb-4 mb-lg-0">
             <div class="d-flex align-items-center justify-content-between gap-2 ct_white_bg_1">
                 <div class="d-flex align-items-center gap-2">
-                    <img src="assets/img/np_pro.png" class="ct_img_40 ct_border_2" />
+                    <img [src]="filteredOutMembers[0]?.image_link" class="ct_img_40 ct_border_2" />
                     <div>
-                        <p class="mb-0 ct_fs_18 ct_fw_600">Claudia Reichel</p>
-                        <p class="mb-0 ct_fs_14"><span>claudiareichel111gmail.com</span></p>
-                        <p class="mb-0 ct_fs_14"><span class="ct_green_text">28 Years</span> <span
-                                class="ct_text_op_8">Claudia</span></p>
+                        <p class="mb-0 ct_fs_18 ct_fw_600">{{filteredOutMembers[0]?.full_name}}</p>
+                        <p class="mb-0 ct_fs_14"><span>{{email}}</span></p>
+                        <p class="mb-0 ct_fs_14"><span
+                                class="ct_green_text">{{filteredOutMembers[0]?.date_of_birth}}</span> </p>
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-4">
-                    <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal"
-                        data-bs-target="#view-family-parent"></i>
-                    <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
-                        data-bs-target="#edit-family-parent"></i>
+                    <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal" style="cursor: pointer"
+                        data-bs-target="#view-family-parent" (click)="getParentId(filteredOutMembers[0]?.id)"></i>
+                    <!-- <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
+                        data-bs-target="#edit-family-parent"></i> -->
+                    <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="tooltip"
+                        data-bs-placement="bottom" title="Coming Soon" style="cursor: pointer"></i>
+                    <i class="fa-solid fa-paw ct_green_text" style="cursor: pointer"
+                        (click)="goToPetList(filteredOutMembers[0]?.id)"></i>
+
                 </div>
 
             </div>
@@ -37,59 +50,103 @@
                             <th>Full Name</th>
                             <th>Display Name</th>
                             <th>Gender</th>
-                            <th>DOB</th>
-                            <th>Relationship</th>
-                            <th>Status</th>
+                            <!-- <th>DOB</th> -->
+                            <th>Relation</th>
+                            <th>Relationship With</th>
+                            <th>Is Alive</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of data">
+                        <tr *ngFor="let item of data | filter:searchQuery;">
                             <td>
                                 <a>
                                     <div class="d-flex align-items-center gap-2">
-                                        <img [src]='item.image' class="ct_img_40 ct_border_2" />
-                                        <p class="mb-0 ct_fs_16 ct_green_text">{{item.name}}</p>
+                                        <img [src]='item?.image_link ? item?.image_link : "http://18.229.202.71:4000/images/1727186679509.png"'
+                                            class="ct_img_40 ct_border_2" />
+                                        <p class="mb-0 ct_fs_16 ct_green_text">{{item.full_name}}</p>
                                     </div>
                                 </a>
                             </td>
-                            <td>{{item.displayName}}</td>
+                            <td>{{item.user_name}}</td>
                             <td>
-                                <div *ngIf="item.gender == 'M'">
+                                <!-- <div *ngIf="item.gender == 'male'">
                                     Male
                                 </div>
-                                <div *ngIf="item.gender == 'F'">
+                                <div *ngIf="item.gender == 'female'">
+                                    Female
+                                </div> -->
+                                @if(item.other_gender == 'none'){
+                                <div *ngIf="item.gender == 'male'">
+                                    Male
+                                </div>
+                                <div *ngIf="item.gender == 'female'">
                                     Female
                                 </div>
+                                } @else {
+                                <div *ngIf="item.other_gender == 'PreferNotToSay'">
+                                    Prefer Not To Say
+                                </div>
+                                <div *ngIf="item.other_gender == 'NonBinary'">
+                                    Non Binary
+                                </div>
+                                <div *ngIf="item.other_gender == 'GenderUnknown'">
+                                    Gender Unknown
+                                </div>
+                                }
                             </td>
-                            <td>{{item.dob}}</td>
-                            <td>{{item.relation}}</td>
+                            <!-- <td>{{item.dob}}</td> -->
+                            <td>{{item?.relationName}}</td>
+                            <td>{{item.relationWith?.user_name}}</td>
                             <td>
-                                Alive
+                                <div *ngIf="item.is_alive == '1'">
+                                    Yes
+                                </div>
+                                <div *ngIf="item.is_alive == '2'">
+                                    No
+                                </div>
+                                <div *ngIf="item.is_alive == '3'">
+                                    Not yet born
+                                </div>
+                                <div *ngIf="item.is_alive == '4'">
+                                    Angel Baby
+                                </div>
                             </td>
                             <td class="text-end">
                                 @if(item.relation == 'Pet'){
                                 <div class="d-flex align-items-center gap-3">
-                                    <i (click)="getSingleMemberData(item.id)" class="fa-regular fa-eye ct_green_text"
+                                    <i (click)="getSingleMemberData(item)" class="fa-regular fa-eye ct_green_text"
                                         data-bs-toggle="modal" data-bs-target="#view-pet"></i>
-                                    <i (click)="getSingleMemberData(item.id)"
+                                    <!-- <i (click)="getSingleMemberData(item.id)"
                                         class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
-                                        data-bs-target="#edit-pet"></i>
+                                        data-bs-target="#edit-pet"></i> -->
+                                    <i (click)="getSingleMemberData(item)"
+                                        class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" title="Coming Soon"></i>
                                 </div>
                                 } @else {
                                 <div class="d-flex align-items-center gap-3">
-                                    <i (click)="getSingleMemberData(item.id)" class="fa-regular fa-eye ct_green_text"
-                                        data-bs-toggle="modal" data-bs-target="#view-family"></i>
-                                    <i (click)="getSingleMemberData(item.id)"
+                                    <i (click)="getSingleMemberData(item)" class="fa-regular fa-eye ct_green_text"
+                                        data-bs-toggle="modal" data-bs-target="#view-family"
+                                        style="cursor: pointer"></i>
+                                    <!-- <i (click)="getSingleMemberData(item)"
                                         class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
-                                        data-bs-target="#edit-family-detail"></i>
+                                        data-bs-target="#edit-family-detail"></i> -->
+                                    <i (click)="getSingleMemberData(item)"
+                                        class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" title="Coming Soon" style="cursor: pointer"></i>
+                                    <i class="fa-solid fa-paw ct_green_text" style="cursor: pointer"
+                                        (click)="goToPetList(item.id)"></i>
                                 </div>
                                 }
-
+                                <!-- data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coming Soon" -->
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div *ngIf="(data | filter: searchQuery)?.length === 0" class="text-center">
+                <p class="ct_fs_15 mt-5">No members found</p>
             </div>
         </div>
     </div>
@@ -106,7 +163,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content ct_pb_50">
             <div class="modal-body">
-                <h4>Add Parent</h4>
+                <h4 class="ct_fs_24 ct_fw_600 text-center">Add Parent</h4>
                 <form [formGroup]="newMemberForm">
                     <div class="pt-5">
                         <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
@@ -224,7 +281,8 @@
                                         <option value="mother">Mother</option>
                                         <option value="son">Son</option>
                                     </select> -->
-                                    <select [(ngModel)]="relationId" (change)="onRelationChange($event)" class="form-control" formControlName="relationName">
+                                    <select [(ngModel)]="relationId" (change)="onRelationChange($event)"
+                                        class="form-control" formControlName="relationName">
                                         <option *ngFor="let lan of relationNames" [value]="lan.code">
                                             {{ lan.name }}
                                         </option>
@@ -337,7 +395,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                <h4>Edit Parent</h4>
+                <h4 class="ct_fs_24 ct_fw_600 text-center">Edit Parent</h4>
                 <form [formGroup]="editParentForm">
                     <div class="pt-5">
                         <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
@@ -486,9 +544,9 @@
                         </div>
 
 
-                        <button type="button ct_" class="ct_green_btn ct_h_50 w-100">
-                            <a (click)="getMemberAlbum()" class="text-white"> <svg width="22" class="me-2" height="22"
-                                    viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <button (click)="getMemberAlbum()" type="button ct_" class="ct_green_btn ct_h_50 w-100">
+                            <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22"
+                                    fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M6.5 2.75H17.5569C17.3235 2.09246 16.8924 1.52322 16.3228 1.12038C15.7531 0.717547 15.0727 0.500842 14.375 0.5H3.875C2.97989 0.5 2.12145 0.855579 1.48851 1.48851C0.855579 2.12145 0.5 2.97989 0.5 3.875V14.375C0.500842 15.0727 0.717547 15.7531 1.12038 16.3228C1.52322 16.8924 2.09246 17.3235 2.75 17.5569V6.5C2.75 5.50544 3.14509 4.55161 3.84835 3.84835C4.55161 3.14509 5.50544 2.75 6.5 2.75Z"
                                         fill="white" />
@@ -525,6 +583,7 @@
         </div>
     </div>
 </div>
+
 <!-- Edit parent Family Detail E -->
 
 
@@ -536,7 +595,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                <h4>Edit Pet</h4>
+                <h4 class="ct_fs_24 ct_fw_600 text-center">Edit Pet</h4>
                 <form [formGroup]="editPetForm">
                     <div class="pt-5">
                         <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
@@ -699,9 +758,9 @@
                         </div>
 
 
-                        <button type="button ct_" class="ct_green_btn ct_h_50 w-100">
-                            <a (click)="getMemberAlbum()" class="text-white"> <svg width="22" class="me-2" height="22"
-                                    viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <button (click)="getMemberAlbum()" type="button ct_" class="ct_green_btn ct_h_50 w-100">
+                            <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22"
+                                    fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M6.5 2.75H17.5569C17.3235 2.09246 16.8924 1.52322 16.3228 1.12038C15.7531 0.717547 15.0727 0.500842 14.375 0.5H3.875C2.97989 0.5 2.12145 0.855579 1.48851 1.48851C0.855579 2.12145 0.5 2.97989 0.5 3.875V14.375C0.500842 15.0727 0.717547 15.7531 1.12038 16.3228C1.52322 16.8924 2.09246 17.3235 2.75 17.5569V6.5C2.75 5.50544 3.14509 4.55161 3.84835 3.84835C4.55161 3.14509 5.50544 2.75 6.5 2.75Z"
                                         fill="white" />
@@ -750,7 +809,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                <h4>Edit Member</h4>
+                <h4 class="ct_fs_24 ct_fw_600 text-center">Edit Member</h4>
                 <!-- <form [formGroup]="editMemberForm"> -->
                 <form [formGroup]="editMemberForm">
                     <div class="pt-5">
@@ -1112,86 +1171,109 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                <h4>View Parent</h4>
+                <h4 class="ct_fs_24 ct_fw_600 text-center">View Parent</h4>
+                <!-- <i class="fas fa-edit"></i> -->
                 <div class="pt-5">
                     <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
-                        <img src="assets/img/men_user.png" alt="" class="ct_img_164 mx-auto d-block">
-
+                        <img [src]="filteredOutMembers[0]?.image_link" alt="" class="ct_img_164 mx-auto d-block">
                     </div>
                     <form action="">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Name <span class="ct_required_star">*</span></label>
-                                    <input type="text" class="form-control" disabled value="Zaire Siphron" />
+                                    <input type="text" class="form-control" disabled
+                                        [value]="filteredOutMembers[0]?.full_name" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Display Name <span
                                             class="ct_required_star">*</span></label>
-                                    <input type="text" class="form-control" disabled value="Siphron" />
+                                    <input type="text" class="form-control" placeholder="Display Name" disabled
+                                        [value]="filteredOutMembers[0]?.user_name" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Gender <span class="ct_required_star">*</span></label>
-                                    <select class="form-control" disabled>
-                                        <option value="">Male</option>
-                                        <option value="">Female</option>
-                                        <option value="">Other</option>
-                                    </select>
+                                    @if(filteredOutMembers[0]?.other_gender == 'none'){
+                                    <input type="text" class="form-control" placeholder="Display Name" disabled
+                                        [value]="filteredOutMembers[0]?.gender" />
+                                    } @else {
+                                    <input type="text" class="form-control" placeholder="Display Name" disabled
+                                        [value]="filteredOutMembers[0]?.other_gender" />
+                                    }
+
+
+                                    <!-- <select class="form-control" disabled [value]="filteredOutMembers[0]?.gender">
+                                        <option value="female">Female</option>
+                                        <option value="male">Male</option>
+                                        <option value="other">Other</option>
+                                    </select> -->
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Is person alive? <span
                                             class="ct_required_star">*</span></label>
-                                    <select class="form-control" disabled>
-                                        <option value="">Yes</option>
-                                        <option value="">No</option>
+                                    <select class="form-control" disabled [value]="filteredOutMembers[0]?.is_alive">
+                                        <option value="1">Yes</option>
+                                        <option value="0">Yes</option>
+                                        <option value="2">No</option>
+                                        <option value="4">Angel Baby</option>
+                                        <option value="3">Not Yet Born</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
+                            </div> -->
+                            <!-- <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Relation Name <span
                                             class="ct_required_star">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Display Name" disabled
+                                        [value]="filteredOutMembers[0]?.relationName" />
                                     <select class="form-control" disabled>
                                         <option value="">Father</option>
                                         <option value="">Mother</option>
                                         <option value="">Son</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
+                            </div> -->
+                            <!-- <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Relation with <span
                                             class="ct_required_star">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Display Name" disabled
+                                        [value]="filteredOutMembers[0]?.user_name" />
                                     <select class="form-control" disabled>
                                         <option value="">Harvey Lind</option>
                                         <option value="">Harvey Lind</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
+                            </div> -->
+                            <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Date of Birth <span
                                             class="ct_required_star">*</span></label>
-                                    <input type="date" class="form-control" disabled />
+                                    <input type="text" class="form-control" disabled
+                                        [value]="filteredOutMembers[0]?.date_of_birth" />
                                 </div>
                             </div>
-
-
                         </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767">
 
-                <button type="button ct_" class="ct_green_btn ct_h_50">
-                    <a (click)="getMemberAlbum()" class="text-white"> <svg width="22" class="me-2" height="22"
-                            viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <button (click)="getMemberTimeline()" type="button"
+                    class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark">
+                    View Timeline
+                </button>
+                <!-- data-bs-toggle="modal"
+                data-bs-target="#edit-family-detail" -->
+                <button (click)="getMemberAlbum()" type="button ct_" class="ct_green_btn ct_h_50">
+                    <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M6.5 2.75H17.5569C17.3235 2.09246 16.8924 1.52322 16.3228 1.12038C15.7531 0.717547 15.0727 0.500842 14.375 0.5H3.875C2.97989 0.5 2.12145 0.855579 1.48851 1.48851C0.855579 2.12145 0.5 2.97989 0.5 3.875V14.375C0.500842 15.0727 0.717547 15.7531 1.12038 16.3228C1.52322 16.8924 2.09246 17.3235 2.75 17.5569V6.5C2.75 5.50544 3.14509 4.55161 3.84835 3.84835C4.55161 3.14509 5.50544 2.75 6.5 2.75Z"
                                 fill="white" />
@@ -1227,23 +1309,30 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content pb-5 ct_px_50">
             <div class="modal-body px-0">
-                <h4>View Member</h4>
+                <h4 class="ct_fs_24 ct_fw_600 text-center">View Member</h4>
+                <!-- <i class="fas fa-edit" data-bs-toggle="modal" data-bs-target="#edit-family-detail"
+                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coming Soon"></i> -->
                 <div class="pt-5">
                     <div>
-                        <img src="assets/img/men_user.png" alt="" class="ct_img_164 mx-auto d-block ct_mb_32">
-                        <h4 class="mb-2 text-center ct_fs_24">Zaire Siphron, <span class="ct_green_text">42</span></h4>
-                        <p class="mb-0 ct_text_op_8 text-center ct_fw_500">Siphron</p>
+                        <img [src]="singleMemberDetail?.image_link" alt="" class="ct_img_164 mx-auto d-block ct_mb_32">
+                        <!-- <h4 class="mb-2 text-center ct_fs_24">{{singleMemberDetail?.full_name}}, <span
+                                class="ct_green_text">42</span></h4> -->
+                        <h4 class="mb-2 text-center ct_fs_24">{{singleMemberDetail?.full_name}}</h4>
+                        <p class="mb-0 ct_text_op_8 text-center ct_fw_500">{{singleMemberDetail?.user_name}}</p>
                     </div>
                     <form action="">
                         <div class="form-group mb-3">
-                            <label for="" class="mb-2"><span class="ct_green_text ct_fw_600 ct_fs_18">Son in low</span>
+                            <label for="" class="mb-2"><span
+                                    class="ct_green_text ct_fw_600 ct_fs_18">{{singleMemberDetail?.relationName}}</span>
                                 of</label>
-                            <select class="form-control">
+                            <input type="text" class="form-control" disabled
+                                [value]="singleMemberDetail?.relationWith?.full_name" />
+                            <!-- <select class="form-control">
                                 <option value="">Harvey Lind</option>
                                 <option value="">Harvey Lind</option>
                                 <option value="">Harvey Lind</option>
                                 <option value="">Harvey Lind</option>
-                            </select>
+                            </select> -->
                         </div>
                     </form>
                 </div>
@@ -1251,26 +1340,47 @@
             <div class="ct_light_grey_bg ct_p_16 ct_border_radius_5">
                 <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap ct_dash_brdr_btm">
                     <h6 class="ct_fs_16 ct_fw_500 mb-0 ct_green_text">Gender</h6>
-                    <h6 class="ct_fs_16 ct_fw_500 mb-0">Male</h6>
+                    <!-- <h6 class="ct_fs_16 ct_fw_500 mb-0">Male</h6> -->
+                    @if(singleMemberDetail?.other_gender == 'none'){
+                    <input type="text" class="form-control" placeholder="Display Name" disabled
+                        [value]="singleMemberDetail?.gender" />
+                    } @else {
+                    <input type="text" class="form-control" placeholder="Display Name" disabled
+                        [value]="singleMemberDetail?.other_gender" />
+                    }
+                    <!-- <select class="form-control" disabled [value]="singleMemberDetail?.gender">
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="other">Other</option>
+                    </select> -->
                 </div>
                 <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap pt-3">
                     <div>
                         <h6 class="ct_fs_16 ct_fw_500 mb-2 ct_green_text">Date of Birth</h6>
-                        <p class="ct_fs_14 ct_fw_500">31/03/1972</p>
+                        @if(singleMemberDetail?.date_of_birth != '01/01/1900'){
+                        <p class="ct_fs_14 ct_fw_500">{{singleMemberDetail?.date_of_birth}}</p>
+                        }
                     </div>
                     <div>
                         <h6 class="ct_fs_16 ct_fw_500 mb-2 ct_green_text">Is person alive?</h6>
-                        <p class="ct_fs_14 ct_fw_500 text-end">Yes</p>
+                        <!-- <p class="ct_fs_14 ct_fw_500 text-end">Yes</p> -->
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="singleMemberDetail?.is_alive == '0'">Yes</p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="singleMemberDetail?.is_alive == '1'">Yes</p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="singleMemberDetail?.is_alive == '2'">No</p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="singleMemberDetail?.is_alive == '3'">Not yet born
+                        </p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="singleMemberDetail?.is_alive == '4'">Angel Baby
+                        </p>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center border-0 gap-4 px-0 pb-0 ct_flex_wrap_767">
-                    <button type="button" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
-                        data-bs-toggle="modal" data-bs-target="#edit-family-detail">
-                        Edit Details
+                    <button (click)="getMemberTimeline()" type="button"
+                        class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark">
+                        View Timeline
                     </button>
-                    <button type="button ct_" class="ct_green_btn ct_h_50">
-                        <a (click)="getMemberAlbum()" class="text-white"> <svg width="22" class="me-2" height="22"
-                                viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <button (click)="getMemberAlbum()" type="button ct_" class="ct_green_btn ct_h_50">
+                        <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M6.5 2.75H17.5569C17.3235 2.09246 16.8924 1.52322 16.3228 1.12038C15.7531 0.717547 15.0727 0.500842 14.375 0.5H3.875C2.97989 0.5 2.12145 0.855579 1.48851 1.48851C0.855579 2.12145 0.5 2.97989 0.5 3.875V14.375C0.500842 15.0727 0.717547 15.7531 1.12038 16.3228C1.52322 16.8924 2.09246 17.3235 2.75 17.5569V6.5C2.75 5.50544 3.14509 4.55161 3.84835 3.84835C4.55161 3.14509 5.50544 2.75 6.5 2.75Z"
                                     fill="white" />
@@ -1308,7 +1418,9 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content pb-5 ct_px_50">
             <div class="modal-body px-0">
-                <h4>View Pet</h4>
+                <h4 class="ct_fs_24 ct_fw_600 text-center">View Pet</h4>
+                <!-- <i class="fas fa-edit" data-bs-toggle="modal" data-bs-target="#edit-pet" data-bs-toggle="tooltip"
+                    data-bs-placement="bottom" title="Coming Soon"></i> -->
                 <div class="pt-5">
                     <div>
                         <img src="assets/img/men_user.png" alt="" class="ct_img_164 mx-auto d-block ct_mb_32">
@@ -1345,13 +1457,12 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center border-0 gap-4 px-0 pb-0 ct_flex_wrap_767">
-                    <button type="button" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
-                        data-bs-toggle="modal" data-bs-target="#edit-family-detail">
-                        Edit Details
+                    <button type="button" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark">
+                        View Timeline
                     </button>
-                    <button type="button ct_" class="ct_green_btn ct_h_50">
-                        <a (click)="getMemberAlbum()" class="text-white"> <svg width="22" class="me-2" height="22"
-                                viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <button (click)="getMemberAlbum()" type="button ct_" class="ct_green_btn ct_h_50">
+                        <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M6.5 2.75H17.5569C17.3235 2.09246 16.8924 1.52322 16.3228 1.12038C15.7531 0.717547 15.0727 0.500842 14.375 0.5H3.875C2.97989 0.5 2.12145 0.855579 1.48851 1.48851C0.855579 2.12145 0.5 2.97989 0.5 3.875V14.375C0.500842 15.0727 0.717547 15.7531 1.12038 16.3228C1.52322 16.8924 2.09246 17.3235 2.75 17.5569V6.5C2.75 5.50544 3.14509 4.55161 3.84835 3.84835C4.55161 3.14509 5.50544 2.75 6.5 2.75Z"
                                     fill="white" />
@@ -1379,3 +1490,26 @@
     </div>
 </div>
 <!--  view pet E -->
+
+
+
+
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>

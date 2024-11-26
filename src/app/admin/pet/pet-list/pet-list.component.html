@@ -1,0 +1,230 @@
+<div class="ct_dashbaord_middle">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+            <a (click)="goBack()" style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+                    class="fa-solid fa-arrow-left-long me-1 "></i>Back</a>
+            <h4 class="mb-0 ct_fs_22">Pet List</h4>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative ct_search_input">
+                <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchQuery" />
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="row ct_mt_30">
+        <div class="col-lg-12 mb-4 mb-lg-0">
+            <div class="table-responsive">
+                <table class="table ct_project_table">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Display Name</th>
+                            <th>Owner Name</th>
+                            <th>Gender</th>
+                            <th>DOB</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of data | filter:searchQuery">
+                            <td>
+                                <a>
+                                    <div class="d-flex align-items-center gap-2" (click)="getPetDetails(item)"
+                                        style="cursor: pointer;">
+                                        <img [src]='item.images_url' class="ct_img_40 ct_border_2" />
+                                        <p class="mb-0 ct_fs_16 ct_green_text">{{item.name}}</p>
+                                    </div>
+                                </a>
+                            </td>
+                            <td>{{item.displayname}}</td>
+                            <td>{{item.owner_name}}</td>
+                            <td>
+                                <div *ngIf="item.gender == 'male'">
+                                    Male
+                                </div>
+                                <div *ngIf="item.gender == 'female'">
+                                    Female
+                                </div>
+                                <div *ngIf="item.gender == 'PreferNotToSay'">
+                                    Prefer Not To Say
+                                </div>
+                                <div *ngIf="item.gender == 'NonBinary'">
+                                    Non Binary
+                                </div>
+                                <div *ngIf="item.gender == 'GenderUnknown'">
+                                    Gender Unknown
+                                </div>
+                            </td>
+                            <td>{{item.dob}}</td>
+                            <!-- <td >
+                  <div class="form-check form-switch ct_custom_switch d-flex justify-content-end">
+                    <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="item.isBlocked"
+                      [ngModel]="item.isBlocked == 0" id="flexSwitchCheckChecked" />
+                  </div>
+                </td> -->
+                            <td class="text-end">
+                                <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal"
+                                    data-bs-target="#view-pet" (click)="getPetDetails(item)"
+                                    style="cursor: pointer;"></i>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- <div *ngIf="data?.length == 0 || !data" class="text-center">
+                <p class="ct_fs_15 mt-5">No pet found</p>
+            </div> -->
+            <div *ngIf="(data | filter: searchQuery)?.length === 0" class="text-center">
+                <p class="ct_fs_15 mt-5">No pet found</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- view pet  S -->
+<div class="modal fade Committed_Price" id="view-pet" tabindex="-1" aria-labelledby="view-familyLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content pb-5 ct_px_50">
+            <div class="modal-body px-0">
+                <h4 class="ct_fs_24 ct_fw_600 text-center">View Pet</h4>
+                <!-- <i class="fas fa-edit" data-bs-toggle="modal" data-bs-target="#edit-pet" data-bs-toggle="tooltip"
+                data-bs-placement="bottom" title="Coming Soon"></i> -->
+                <div class="pt-5">
+                    <div>
+                        @if(petDetails?.images_url){
+                        <img [src]="petDetails?.images_url" alt="" class="ct_img_164 mx-auto d-block ct_mb_32"
+                            style="border: solid var(--dark_green);">
+                        } @else{
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ct_img_164 mx-auto d-block ct_mb_32"
+                            style="border: solid var(--dark_green);" viewBox="0 0 16 16">
+                            <path id="Shape"
+                                d="M9.755,15.531A5.155,5.155,0,0,0,8,15.062a5.77,5.77,0,0,0-1.851.464,5.8,5.8,0,0,1-1.928.464q-1.759,0-1.76-1.521A4.6,4.6,0,0,1,3,12.474a8.935,8.935,0,0,1,1.342-2.005,7.972,7.972,0,0,1,1.8-1.521A3.6,3.6,0,0,1,8,8.333a4.119,4.119,0,0,1,2.452,1.016,8.968,8.968,0,0,1,2.2,2.469,5.2,5.2,0,0,1,.885,2.65,1.737,1.737,0,0,1-.164.8,1.04,1.04,0,0,1-.466.469,2.279,2.279,0,0,1-.62.208,4.1,4.1,0,0,1-.731.058A5.186,5.186,0,0,1,9.755,15.531Zm2.437-5.468a2.58,2.58,0,0,1-.4-1.448,4.163,4.163,0,0,1,.337-1.589,3.864,3.864,0,0,1,.967-1.4,1.98,1.98,0,0,1,1.361-.579,1.289,1.289,0,0,1,1.144.62A2.6,2.6,0,0,1,16,7.125a4.127,4.127,0,0,1-.337,1.583A3.863,3.863,0,0,1,14.7,10.1a1.979,1.979,0,0,1-1.361.578A1.291,1.291,0,0,1,12.192,10.063ZM1.3,10.1A3.863,3.863,0,0,1,.337,8.708,4.127,4.127,0,0,1,0,7.125,2.6,2.6,0,0,1,.4,5.672a1.289,1.289,0,0,1,1.144-.62,1.983,1.983,0,0,1,1.361.579,3.875,3.875,0,0,1,.967,1.4,4.161,4.161,0,0,1,.336,1.589,2.58,2.58,0,0,1-.4,1.448,1.291,1.291,0,0,1-1.145.614A1.978,1.978,0,0,1,1.3,10.1ZM9.289,5.729a2.32,2.32,0,0,1-.607-.964A3.783,3.783,0,0,1,8.5,3.583a4.665,4.665,0,0,1,.289-1.578A3.779,3.779,0,0,1,9.669.6,1.828,1.828,0,0,1,11,0a1.406,1.406,0,0,1,1.01.406,2.318,2.318,0,0,1,.606.964A3.783,3.783,0,0,1,12.8,2.552a4.7,4.7,0,0,1-.288,1.572,3.769,3.769,0,0,1-.885,1.412,1.837,1.837,0,0,1-1.328.6A1.4,1.4,0,0,1,9.289,5.729ZM4.375,5.537A3.769,3.769,0,0,1,3.49,4.125,4.7,4.7,0,0,1,3.2,2.552,3.757,3.757,0,0,1,3.385,1.37,2.309,2.309,0,0,1,3.991.406,1.406,1.406,0,0,1,5,0,1.828,1.828,0,0,1,6.332.6a3.79,3.79,0,0,1,.88,1.406A4.685,4.685,0,0,1,7.5,3.583a3.757,3.757,0,0,1-.183,1.183,2.309,2.309,0,0,1-.606.964,1.406,1.406,0,0,1-1.01.406A1.837,1.837,0,0,1,4.375,5.537Z"
+                                fill="#0EB200" />
+                        </svg>
+                        }
+
+
+                        <!-- <img src="assets/img/pet.svg" alt="" class="ct_img_164 mx-auto d-block ct_mb_32"> -->
+                        <h4 class="mb-2 text-center ct_fs_24">{{petDetails?.name}}</h4>
+                        <p class="mb-0 ct_text_op_8 text-center ct_fw_500">{{petDetails?.displayname}}</p>
+                    </div>
+                    <form action="">
+                        <div class="form-group mb-3">
+                            <label for="" class="mb-2"><span class="ct_green_text ct_fw_600 ct_fs_18">Pet</span>
+                                of</label>
+                            <input type="text" class="form-control" disabled [value]="petDetails?.owner_name" />
+                            <!-- <select class="form-control">
+                                <option value="">Harvey Lind</option>
+                                <option value="">Harvey Lind</option>
+                                <option value="">Harvey Lind</option>
+                                <option value="">Harvey Lind</option>
+                            </select> -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="ct_light_grey_bg ct_p_16 ct_border_radius_5">
+                <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap ct_dash_brdr_btm">
+                    <h6 class="ct_fs_16 ct_fw_500 mb-0 ct_green_text">Gender</h6>
+                    <!-- <h6 class="ct_fs_16 ct_fw_500 mb-0">Male</h6> -->
+                    <select class="form-control" disabled [value]="petDetails?.gender">
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="PreferNotToSay">Prefer Not To Say</option>
+                        <option value="NonBinary">Non Binary</option>
+                        <option value="GenderUnknown">Gender Unknown</option>
+
+                    </select>
+                </div>
+                <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap pt-3">
+                    <div>
+                        <h6 class="ct_fs_16 ct_fw_500 mb-2 ct_green_text">Date of Birth</h6>
+                        <p class="ct_fs_14 ct_fw_500">{{petDetails?.dob}}</p>
+                    </div>
+                    <div>
+                        <h6 class="ct_fs_16 ct_fw_500 mb-2 ct_green_text">Is pet alive?</h6>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="petDetails?.is_alive == '0'">No</p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="petDetails?.is_alive == '1'">Yes</p>
+                        <!-- <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="petDetails?.is_alive == '2'">No</p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="petDetails?.is_alive == '3'">Not yet born</p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="petDetails?.is_alive == '4'">Angel Baby</p> -->
+
+                        <!-- <div *ngIf="item.is_alive == '1'">
+                            Yes
+                        </div>
+                        <div *ngIf="item.is_alive == '2'">
+                            No
+                        </div>
+                        <div *ngIf="item.is_alive == '3'">
+                            Not yet born
+                        </div>
+                        <div *ngIf="item.is_alive == '4'">
+                            Angel Baby
+                        </div> -->
+
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center border-0 gap-4 px-0 pb-0 ct_flex_wrap_767">
+                    <button (click)="getPetTimeline()" type="button"
+                        class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark">
+                        View Timeline
+                    </button>
+                    <button (click)="getPetAlbum()" type="button ct_" class="ct_green_btn ct_h_50">
+                        <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M6.5 2.75H17.5569C17.3235 2.09246 16.8924 1.52322 16.3228 1.12038C15.7531 0.717547 15.0727 0.500842 14.375 0.5H3.875C2.97989 0.5 2.12145 0.855579 1.48851 1.48851C0.855579 2.12145 0.5 2.97989 0.5 3.875V14.375C0.500842 15.0727 0.717547 15.7531 1.12038 16.3228C1.52322 16.8924 2.09246 17.3235 2.75 17.5569V6.5C2.75 5.50544 3.14509 4.55161 3.84835 3.84835C4.55161 3.14509 5.50544 2.75 6.5 2.75Z"
+                                    fill="white" />
+                                <path
+                                    d="M10.7727 11.8215C10.4213 11.8215 10.1364 12.1206 10.1364 12.4896V16.1639C10.1364 16.5328 10.4213 16.8319 10.7727 16.8319H15.2273C15.5787 16.8319 15.8636 16.5328 15.8636 16.1639V12.4896C15.8636 12.1206 15.5787 11.8215 15.2273 11.8215H10.7727Z"
+                                    fill="white" />
+                                <path
+                                    d="M14.2728 9.50418V11.1534H11.7273V9.50418C11.7273 9.14982 11.8614 8.80997 12.1001 8.5594C12.3388 8.30883 12.6625 8.16806 13.0001 8.16806C13.3376 8.16806 13.6613 8.30883 13.9 8.5594C14.1387 8.80997 14.2728 9.14982 14.2728 9.50418Z"
+                                    fill="white" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M18.125 21.5H7.625C6.7299 21.5 5.87145 21.1444 5.23852 20.5115C4.60558 19.8786 4.25 19.0201 4.25 18.125V7.625C4.25 6.7299 4.60558 5.87145 5.23852 5.23852C5.87145 4.60558 6.7299 4.25 7.625 4.25H18.125C19.0201 4.25 19.8786 4.60558 20.5115 5.23852C21.1444 5.87145 21.5 6.7299 21.5 7.625V18.125C21.5 19.0201 21.1444 19.8786 20.5115 20.5115C19.8786 21.1444 19.0201 21.5 18.125 21.5ZM11.6501 8.08701C12.0081 7.71115 12.4937 7.5 13.0001 7.5C13.5064 7.5 13.992 7.71115 14.35 8.08701C14.708 8.46287 14.9091 8.97264 14.9091 9.50418V11.1534H15.2273C15.9302 11.1534 16.5 11.7516 16.5 12.4896V16.1639C16.5 16.9018 15.9302 17.5 15.2273 17.5H10.7727C10.0698 17.5 9.5 16.9018 9.5 16.1639V12.4896C9.5 11.7516 10.0698 11.1534 10.7727 11.1534H11.091V9.50418C11.091 8.97264 11.2921 8.46287 11.6501 8.08701Z"
+                                    fill="white" />
+                                <rect x="7.5" y="6.5" width="11" height="12" fill="white" />
+                                <path
+                                    d="M16.2143 8.5H9.78571C9.44484 8.50039 9.11803 8.64099 8.87699 8.89095C8.63595 9.14092 8.50037 9.47983 8.5 9.83333V15.1667C8.50037 15.5202 8.63595 15.8591 8.87699 16.109C9.11803 16.359 9.44484 16.4996 9.78571 16.5H16.2143C16.5552 16.4996 16.882 16.359 17.123 16.109C17.364 15.8591 17.4996 15.5202 17.5 15.1667V9.83333C17.4996 9.47983 17.364 9.14092 17.123 8.89095C16.882 8.64099 16.5552 8.50039 16.2143 8.5ZM14.6071 9.83333C14.7979 9.83333 14.9843 9.89198 15.1429 10.0019C15.3014 10.1117 15.425 10.2679 15.498 10.4506C15.571 10.6334 15.5901 10.8344 15.5529 11.0284C15.5157 11.2224 15.4239 11.4006 15.289 11.5404C15.1541 11.6803 14.9823 11.7755 14.7953 11.8141C14.6082 11.8527 14.4143 11.8329 14.2381 11.7572C14.0619 11.6815 13.9113 11.5534 13.8054 11.3889C13.6994 11.2245 13.6429 11.0311 13.6429 10.8333C13.6431 10.5682 13.7448 10.314 13.9256 10.1265C14.1064 9.93905 14.3515 9.83361 14.6071 9.83333ZM9.78571 15.8333C9.61522 15.8333 9.4517 15.7631 9.33115 15.6381C9.21059 15.513 9.14286 15.3435 9.14286 15.1667V13.7577L11.0481 12.0015C11.232 11.8324 11.471 11.7424 11.7166 11.7497C11.9622 11.7571 12.1959 11.8613 12.37 12.041L13.6748 13.3913L11.3199 15.8333H9.78571ZM16.8571 15.1667C16.8571 15.3435 16.7894 15.513 16.6689 15.6381C16.5483 15.7631 16.3848 15.8333 16.2143 15.8333H12.2292L14.6684 13.3038C14.8411 13.1514 15.0603 13.0675 15.287 13.0669C15.5137 13.0663 15.7333 13.149 15.9067 13.3004L16.8571 14.1217V15.1667Z"
+                                    fill="#0EAE00" />
+                            </svg>View Full Album </a>
+                    </button>
+                    <button hidden type="button" class="btn btn-secondary" #closeModalViewPet
+                        data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>

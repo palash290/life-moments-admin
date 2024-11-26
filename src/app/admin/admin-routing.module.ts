@@ -19,6 +19,17 @@ import { TimelineDateComponent } from './timeline/timeline-date/timeline-date.co
 import { TimelineMonthComponent } from './timeline/timeline-month/timeline-month.component';
 import { PhotoAlbumComponent } from './timeline/photo-album/photo-album.component';
 import { AlbumComponent } from './member-profiles/album/album.component';
+import { PhotoAlbumDateComponent } from './timeline/photo-album-date/photo-album-date.component';
+import { PhotoAlbumMonthComponent } from './timeline/photo-album-month/photo-album-month.component';
+import { PetListComponent } from './pet/pet-list/pet-list.component';
+import { PetTimelineComponent } from './pet/pet-timeline/pet-timeline.component';
+import { PetPhotoAlbumYearComponent } from './pet/pet-photo-album-year/pet-photo-album-year.component';
+import { PetPhotoAlbumMonthComponent } from './pet/pet-photo-album-month/pet-photo-album-month.component';
+import { SubAlbumPhotosComponent } from './member-profiles/sub-album-photos/sub-album-photos.component';
+import { PetAlbumComponent } from './pet/pet-album/pet-album.component';
+import { PetSubAlbumComponent } from './pet/pet-sub-album/pet-sub-album.component';
+import { PetSubAlbumPhotosComponent } from './pet/pet-sub-album-photos/pet-sub-album-photos.component';
+import { PetPhotoAlbumDateComponent } from './pet/pet-photo-album-date/pet-photo-album-date.component';
 
 const routes: Routes = [
   {
@@ -50,7 +61,7 @@ const routes: Routes = [
         component: MemberProfilesComponent
       },
       {
-        path: 'family-member/:parentId',
+        path: 'family-member/:parentId/:email',
         component: FamilyMembersComponent
       },
       {
@@ -58,7 +69,7 @@ const routes: Routes = [
         component: AlbumComponent
       },
       {
-        path: 'sub-albums/:albumId',
+        path: 'sub-albums/:albumId/:userId',
         component: SubAlbumsComponent
       },
       {
@@ -74,7 +85,7 @@ const routes: Routes = [
         component: PrivacyComponent
       },
       {
-        path: 'timeline',
+        path: 'timeline/:id',
         component: TimelineComponent
       },
       {
@@ -86,9 +97,19 @@ const routes: Routes = [
         component: TimelineMonthComponent
       },
       {
-        path: 'photo-album/:date',
+        path: 'photo-album/:date/:userId',
         component: PhotoAlbumComponent
       },
+      {
+        path: 'photo-album-month/:year/:month/:userId',
+        component: PhotoAlbumMonthComponent
+      },
+      {
+        path: 'photo-album-date/:userId/:date',
+        component: PhotoAlbumDateComponent
+      },
+
+
       {
         path: 'my-profile',
         component: MyProfileComponent
@@ -96,6 +117,46 @@ const routes: Routes = [
       {
         path: 'change-password',
         component: ChangePasswordComponent
+      },
+      {
+        path: 'pet/:ownerId',
+        component: PetListComponent
+      },
+      {
+        path: 'pet-timeline/:id/:ownerId',
+        component: PetTimelineComponent
+      },
+
+      {
+        path: 'pet-photo-album-year/:date/:userId',
+        component: PetPhotoAlbumYearComponent
+      },
+      {
+        path: 'pet-photo-album-month/:year/:month/:userId',
+        component: PetPhotoAlbumMonthComponent
+      },
+
+      {
+        path: 'pet-photo-album-date/:userId/:date',
+        component: PetPhotoAlbumDateComponent
+      },
+
+      {
+        path: 'sub-album-photos',
+        component: SubAlbumPhotosComponent
+      },
+
+      {
+        path: 'pet-albums/:petId',
+        component: PetAlbumComponent
+      },
+      {
+        path: 'pet-sub-albums/:albumId/:petId',
+        component: PetSubAlbumComponent
+      },
+      {
+        path: 'pet-sub-album-photos',
+        component: PetSubAlbumPhotosComponent
       },
     ]
   }

@@ -81,5 +81,20 @@ export class SharedService {
     this.route.navigateByUrl('/login')
   }
 
+  private photoAlbumData: any;
+
+  setData(data: any) {
+    this.photoAlbumData = data;
+  }
+
+  getData() {
+    return this.photoAlbumData;
+  }
+
+  clearData() {
+    this.photoAlbumData = null;
+  }
+
+
   
 }

@@ -11,6 +11,9 @@ import { Editor, Toolbar } from 'ngx-editor';
 })
 export class PrivacyComponent {
 
+    // Dropdown selection
+    selectedEditor = 'about_us';
+    
   about_us: any = '';
   privacyResult: any = '';
   termsResult: any = '';
@@ -146,7 +149,7 @@ export class PrivacyComponent {
       next: (resp) => {
         if (resp.status == 200) {
           this.toastr.success(resp.message);
-          this.getPrivacy('en');
+          this.getPrivacy(this.languageId);
           this.btnLoader = false;
         } else {
           this.toastr.warning(resp.message);

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../../../shared/services/shared.service';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-photo-album',
@@ -16,12 +17,27 @@ export class PhotoAlbumComponent {
   imageObject: any[] = [];
   selectedIds: number[] = [];
   date: any;
+  userId: any;
   day: any;
   month: any;
   year: any;
-  filterValue: any = "Photos";
+  filterValue: any = "";
+  demoFile: any = 'assets/img/file_img.png';
+  loading: boolean = false;
 
-  constructor(private route: ActivatedRoute, private service: SharedService, private location: Location, private router: Router, private toastr: ToastrService) { }
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private service: SharedService, private location: Location, private router: Router, private toastr: ToastrService) { }
+
+  // backClicked() {
+  //   this.location.back();
+  // }
+
+  goBack(){
+    this.router.navigateByUrl(`/admin/main/timeline/${this.userId}`);
+  }
+  
+  sanitizeUrl(url: any): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 
   ngOnInit() {
 
@@ -34,6 +50,7 @@ export class PhotoAlbumComponent {
 
     this.route.paramMap.subscribe((params) => {
       this.date = params.get('date');
+      this.userId = params.get('userId');
     });
 
     if (this.date) {
@@ -44,59 +61,71 @@ export class PhotoAlbumComponent {
     }
 
     //this.loadData();
-    this.getPhotosAlbum('Photos');
-  }
-
-  onFilterChange(value: string): void {
-    console.log('Selected filter value:', value);
-    // Handle the value change logic here
-    this.getPhotosAlbum(value);
+    this.getPhotosAlbum();
   }
 
   picLength: any;
 
-  getPhotosAlbum(filterVal: any) {
+  // getPhotosAlbum(filterVal: any) {
+  //   const formURlData = new URLSearchParams();
+  //   formURlData.set('year', this.date);
+  //   // formURlData.set('type', this.filterValue);
+  //   formURlData.set('user_id', this.userId);
+  //   this.service.postAPI(`sub-admin/getYealydata_photos`, formURlData.toString()).subscribe({
+  //     next: resp => {
+  //       this.imageObject = resp.yearly?.map((item: any) => ({ ...item, checked: false })).reverse();
+  //       this.picLength = this.imageObject.length;
+  //     },
+  //     error: error => {
+  //       console.log(error.message);
+  //     }
+  //   });
+  // }
+
+  filteredImages: any[] = [];
+  
+
+  getPhotosAlbum() {
+    this.loading = true;
     const formURlData = new URLSearchParams();
-    formURlData.set('date', this.date);
-    this.service.postAPI(`sub-admin/get-timelinealbum?filter=${filterVal}`, formURlData).subscribe({
-      next: resp => {
-        this.imageObject = resp.data.map((item: any) => ({ ...item, checked: false }));
-        this.picLength = this.imageObject.length;
+    formURlData.set('year', this.date);
+    formURlData.set('user_id', this.userId);
+    formURlData.set('type', this.filterValue);
+    this.service.postAPI(`sub-admin/getYealydata_photos`, formURlData.toString()).subscribe({
+      next: (resp) => {
+        //debugger
+        if(resp.success){
+          this.loading = false;
+          this.imageObject = resp.yearly?.map((item: any) => ({ ...item, checked: false })).reverse();
+          this.filteredImages = [...this.imageObject]; // Initialize filteredImages
+          this.picLength = this.filteredImages.length;
+        }  else{
+          this.imageObject = []
+          this.loading = false;
+        }
+        
       },
-      error: error => {
+      error: (error) => {
         console.log(error.message);
       }
     });
   }
 
-  loadData() {
-    this.imageObject = [
-      {
-        id: 1,
-        images: 'assets/img/girl.png',
-        thumbImage: 'assets/img/girl.png',
-        title: 'Image 1 description'
-      },
-      {
-        id: 2,
-        images: 'http://18.229.202.71:4000/album/1718262071634.jpg',
-        thumbImage: 'assets/img/men_user.png',
-        title: 'Image 2 description'
-      },
-      {
-        id: 3,
-        images: 'assets/img/old_men.png',
-        thumbImage: 'assets/img/old_men.png',
-        title: 'Image 3 description'
-      },
-      {
-        id: 4,
-        images: 'assets/img/timeline_img.png',
-        thumbImage: 'assets/img/timeline_img.png',
-        title: 'Image 4 description'
-      },
-    ].map(item => ({ ...item, checked: false }));
+  onFilterChange(value: string): void {
+    console.log('Selected filter value:', value);
+    // Handle the value change logic here
+    this.getPhotosAlbum();
   }
+  // onFilterChange(filter: string) {
+  //   this.filterValue = filter;
+
+  //   if (filter) {
+  //     this.filteredImages = this.imageObject.filter((pic) => pic.type === filter);
+  //   } else {
+  //     this.filteredImages = [...this.imageObject]; // Show all if no filter
+  //   }
+  // }
+
 
   toggleAllCheckboxes() {
     this.imageObject.forEach((item) => (item.checked = this.checkAll));
@@ -137,13 +166,13 @@ export class PhotoAlbumComponent {
       next: (resp) => {
         if (resp.success) {
           this.closeModalDel.nativeElement.click();
-          this.getPhotosAlbum('Photos');
+          this.getPhotosAlbum();
           this.btnDelLoader = false;
           this.toastr.success(resp.message);
         } else {
           this.btnDelLoader = false;
           this.toastr.warning(resp.message);
-          this.getPhotosAlbum('Photos');
+          this.getPhotosAlbum();
         }
       }, error: error => {
         this.btnDelLoader = false;
@@ -219,7 +248,7 @@ export class PhotoAlbumComponent {
   // }
 
   downloadImage() {
-    const mediaUrl = this.imageObject[this.currentIndex].images; // Media URL
+    const mediaUrl = this.imageObject[this.currentIndex].images_url; // Media URL
     const mediaTitle = this.imageObject[this.currentIndex].title; // File title
     const fileExtension = mediaUrl.split('.').pop(); // Extract file extension
 
@@ -244,9 +273,8 @@ export class PhotoAlbumComponent {
       });
   }
 
-  backClicked() {
-    this.location.back();
-  }
+
+
 
   getMonth(year: any) {
     this.router.navigateByUrl(`/admin/main/timeline-month/${year}`);
@@ -323,53 +351,205 @@ export class PhotoAlbumComponent {
 
 
 
+  ////add photos////
 
-  albumName: any;
-  imagePreview: string | null = null;
-  selectedAlbumImage: any;
+  albumName: string | null = null;
+  imagePreviews: string[] = []; // To store previews of selected files
+  //selectedFiles: File[] = []; // To store selected files
+  selectedAlbumFiles: any;
+  selectedFilePreview: string | null = null;
 
-  onFileSelected(event: Event) {
+  triggerFileInput() {
+    const fileInput = document.getElementById('ct_file_edit') as HTMLElement;
+    fileInput.click();
+  }
+
+  readonly MAX_FILE_LIMIT = 20; // Set max limit of files
+
+  onFileSelected(event: Event): void {
     const fileInput = event.target as HTMLInputElement;
+
     if (fileInput.files && fileInput.files.length > 0) {
-      const file = fileInput.files[0];
-      this.selectedAlbumImage = fileInput.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-      };
-      reader.readAsDataURL(file);
+      const files = Array.from(fileInput.files); // Convert FileList to an array
+
+      // Check if the total number of files exceeds the limit
+      if (files.length > 20) {
+        this.toastr.warning('You can only select up to 20 files.');
+        fileInput.value = ''; // Reset the file input to prevent further processing
+        return;
+      }
+
+      // Store all selected files
+      this.selectedAlbumFiles = files;
+
+      // Clear previous previews
+      this.imagePreviews = [];
+
+      // Process files
+      files.forEach(file => {
+        const reader = new FileReader();
+
+        if (file.type.startsWith('image/')) {
+          // Preview image files
+          reader.onload = () => {
+            this.imagePreviews.push(reader.result as string);
+          };
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+          // Preview video files (using URL.createObjectURL)
+          this.imagePreviews.push(URL.createObjectURL(file));
+        }
+      });
     }
   }
 
-  submitAlbum() {
-    console.log('Album Name:', this.albumName);
-    console.log('Selected File:', this.selectedAlbumImage);
-    const formURlData = new FormData();
-    if (this.selectedAlbumImage) {
-      formURlData.append('image', this.selectedAlbumImage);
+
+  deletePreview(preview: string): void {
+    // Remove the preview from the imagePreviews array
+    this.imagePreviews = this.imagePreviews.filter(item => item !== preview);
+
+    // Optional: You can also remove the corresponding file from selectedAlbumFiles if needed
+    this.selectedAlbumFiles = this.selectedAlbumFiles.filter((file: Blob, index: any) => {
+      const reader = new FileReader();
+      let filePreview = '';
+      reader.onloadend = () => {
+        filePreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+      return filePreview !== preview;
+    });
+    // If all files are removed, reset the previews
+    if (this.imagePreviews.length === 0) {
+      this.resetPreviews();
     }
-    formURlData.set('Album Name:', this.albumName);
+  }
 
+
+  submitImageAlbum(): void {
+    // Check if album name is provided
+    if (!this.albumName || this.albumName.trim().length === 0) {
+      this.toastr.warning('Please provide a valid album name.');
+      return;
+    }
+
+    // Check if there are files selected
+    if (this.selectedAlbumFiles.length === 0) {
+      this.toastr.warning('Please select at least one file to upload.');
+      return;
+    }
+
+    // Prepare the FormData object
+    const formURlData = new FormData();
+    formURlData.append('albumName', this.albumName.trim());
+
+    // Append all selected files to the FormData object
+    this.selectedAlbumFiles.forEach((file: string | Blob, index: any) => {
+      formURlData.append(`file_${index}`, file);
+    });
+
+    // Call the service to submit the album
     this.service.postAPIFormData('dfs/fsfs', formURlData).subscribe({
-      next: (resp) => {
-        if (resp.success == true) {
+      next: resp => {
+        if (resp.success) {
           this.toastr.success(resp.message);
-
+          this.resetPreviews(); // Reset the form on success
         } else {
           this.toastr.warning(resp.message);
-
         }
       },
-      error: (error) => {
-
-        if (error.error.message) {
-          this.toastr.error(error.error.message);
-        } else {
-          this.toastr.error('Something went wrong!');
-        }
+      error: error => {
+        const errorMessage = error.error?.message || 'Something went wrong!';
+        this.toastr.error(errorMessage);
       }
     });
   }
+
+  resetPreviews(): void {
+    this.imagePreviews = [];
+    this.selectedAlbumFiles = [];
+  }
+  ////end////
+
+  // getFilePreview(file: File): string {
+  //   return URL.createObjectURL(file); // Generate a blob URL for file preview
+  // }
+
+  pdfPreviews: { name: string; url: SafeResourceUrl }[] = [];
+  selectedPdfFiles: File[] = [];
+  albumNamePdf: string = '';
+
+  onPdfSelected(event: Event): void {
+    const fileInput = event.target as HTMLInputElement;
+
+    if (fileInput.files && fileInput.files.length > 0) {
+      const files = Array.from(fileInput.files); // Convert FileList to an array
+      const newFiles = files.filter(file => file.type === 'application/pdf');
+
+      if (this.pdfPreviews.length + newFiles.length > 5) {
+        this.toastr.warning('You can only upload up to 5 PDFs.');
+        return;
+      }
+
+      newFiles.forEach(file => {
+        const url = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
+        this.selectedPdfFiles.push(file);
+        this.pdfPreviews.push({ name: file.name, url });
+      });
+    }
+  }
+
+  deletePdfPreview(pdfName: string): void {
+    const index = this.pdfPreviews.findIndex(preview => preview.name === pdfName);
+    if (index > -1) {
+      this.pdfPreviews.splice(index, 1);
+      this.selectedPdfFiles.splice(index, 1);
+    }
+  }
+
+  submitPdfAlbum(): void {
+    if (!this.albumNamePdf) {
+      this.toastr.warning('Please provide an album name.');
+      return;
+    }
+
+    if (this.selectedPdfFiles.length === 0) {
+      this.toastr.warning('Please add at least one PDF.');
+      return;
+    }
+
+    const formURlData = new FormData();
+    formURlData.append('albumName', this.albumNamePdf);
+
+    this.selectedPdfFiles.forEach((file, index) => {
+      formURlData.append(`file_${index}`, file);
+    });
+
+    // Replace with your API call
+    // Call the service to submit the album
+    this.service.postAPIFormData('dfs/fsfs', formURlData).subscribe({
+      next: resp => {
+        if (resp.success) {
+          this.toastr.success('Album created successfully!');
+          this.resetForm();
+        } else {
+          this.toastr.warning(resp.message);
+        }
+      },
+      error: error => {
+        const errorMessage = error.error?.message || 'Something went wrong!';
+        this.toastr.error(errorMessage);
+      }
+    });
+
+
+  }
+
+  resetForm(): void {
+    this.albumNamePdf = '';
+    this.pdfPreviews = [];
+    this.selectedPdfFiles = [];
+  }
+
 
 
 }

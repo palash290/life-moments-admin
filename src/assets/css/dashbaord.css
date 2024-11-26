@@ -949,6 +949,9 @@ input[type=number] {
     flex-wrap: wrap;
     grid-template-columns: repeat(auto-fit, minmax(214px, 1fr));
 }
+.ct_grid_2_conditon{
+    grid-template-columns: repeat(auto-fit, minmax(214px, 0fr)) !important;
+}
 
 .ct_edit_icon.ct_file_edit_icon {
     width: 30px;
@@ -1031,8 +1034,10 @@ ul.ct_rating_star123 li i {
 
 .ct_timeline_box {
     position: relative;
-    border: 6px solid #0CA000;
+    border: 1px solid #0CA000;
     border-radius: 8px;
+    max-width: 214px;
+    overflow: hidden;
 }
 
 .ct_timeline_box h4 {

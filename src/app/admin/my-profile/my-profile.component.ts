@@ -62,7 +62,7 @@ export class MyProfileComponent {
     // }
     this.profileForm.markAllAsTouched();
     
-    //if (this.profileForm.valid) {
+    if (this.profileForm.valid) {
       this.loading = true;
       const formURlData = new URLSearchParams();
       formURlData.set('name', this.profileForm.value.name);
@@ -86,10 +86,10 @@ export class MyProfileComponent {
           this.loading = false;
         }
       });
-    // } else {
-    //   //this.loading = false;
-    //   this.toastr.warning('Please check all the fields!');
-    // }
+    } else {
+      //this.loading = false;
+      this.toastr.warning('Please check all the fields!');
+    }
   }
 
   

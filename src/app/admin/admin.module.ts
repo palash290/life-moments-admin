@@ -24,6 +24,18 @@ import { PhotoAlbumComponent } from './timeline/photo-album/photo-album.componen
 import { AlbumComponent } from './member-profiles/album/album.component';
 import { SubAdminsComponent } from './sub-admins/sub-admins.component';
 import { NgxEditorModule } from 'ngx-editor';
+import { PhotoAlbumDateComponent } from './timeline/photo-album-date/photo-album-date.component';
+import { PhotoAlbumMonthComponent } from './timeline/photo-album-month/photo-album-month.component';
+import { PetListComponent } from './pet/pet-list/pet-list.component';
+import { PetTimelineComponent } from './pet/pet-timeline/pet-timeline.component';
+import { PetPhotoAlbumYearComponent } from './pet/pet-photo-album-year/pet-photo-album-year.component';
+import { PetPhotoAlbumMonthComponent } from './pet/pet-photo-album-month/pet-photo-album-month.component';
+import { SubAlbumPhotosComponent } from './member-profiles/sub-album-photos/sub-album-photos.component';
+import { FilterPipe } from '../shared/filter.pipe';
+import { PetAlbumComponent } from './pet/pet-album/pet-album.component';
+import { PetSubAlbumComponent } from './pet/pet-sub-album/pet-sub-album.component';
+import { PetSubAlbumPhotosComponent } from './pet/pet-sub-album-photos/pet-sub-album-photos.component';
+import { PetPhotoAlbumDateComponent } from './pet/pet-photo-album-date/pet-photo-album-date.component';
 
 
 @NgModule({
@@ -48,13 +60,27 @@ import { NgxEditorModule } from 'ngx-editor';
     PhotoAlbumComponent,
     AlbumComponent,
     SubAdminsComponent,
+    PhotoAlbumDateComponent,
+    PhotoAlbumMonthComponent,
+    PetListComponent,
+    PetTimelineComponent,
+    PetPhotoAlbumYearComponent,
+    PetPhotoAlbumMonthComponent,
+    SubAlbumPhotosComponent,
+    FilterPipe,
+    PetAlbumComponent,
+    PetSubAlbumComponent,
+    PetSubAlbumPhotosComponent,
+    PetPhotoAlbumDateComponent
+
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxEditorModule
+    NgxEditorModule,
+    
   ]
 })
 export class AdminModule { }

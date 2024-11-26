@@ -3,7 +3,7 @@
     <h4 class="mb-0 ct_fs_22">All Member Profile</h4>
     <div class="d-flex align-items-center gap-3">
       <div class="position-relative ct_search_input">
-        <input type="text" class="form-control" placeholder="Search " />
+        <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchQuery" />
         <i class="fa-solid fa-magnifying-glass"></i>
       </div>
     </div>
@@ -17,42 +17,91 @@
             <tr>
               <th>Full Name</th>
               <th>Display Name</th>
+              <th>Email</th>
               <th>Gender</th>
               <th>DOB</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of data">
+            <tr *ngFor="let item of data | filter:searchQuery;">
               <td>
-                <a routerLink="/admin/main/family-member/11">
+                <a style="cursor: pointer;" (click)="getMemberAlbum(item)">
                   <div class="d-flex align-items-center gap-2">
-                    <img [src]='item.image' class="ct_img_40 ct_border_2" />
-                    <p class="mb-0 ct_fs_16 ct_green_text">{{item.name}}</p>
+                    <img [src]='item.profile_image' class="ct_img_40 ct_border_2" />
+                    <p class="mb-0 ct_fs_16 ct_green_text">{{item.fullName}}</p>
                   </div>
                 </a>
               </td>
               <td>{{item.displayName}}</td>
+              <td>{{item.email}}</td>
               <td>
-                <div *ngIf="item.gender == 'M'">
+                <!-- <div *ngIf="item.gender == 'male'">
                   Male
                 </div>
-                <div *ngIf="item.gender == 'F'">
+                <div *ngIf="item.gender == 'female'">
+                  Female
+                </div> -->
+                @if(item.other_gender == 'none'){
+                <div *ngIf="item.gender == 'male'">
+                  Male
+                </div>
+                <div *ngIf="item.gender == 'female'">
                   Female
                 </div>
+                } @else {
+                <div *ngIf="item.other_gender == 'PreferNotToSay'">
+                  Prefer Not To Say
+                </div>
+                <div *ngIf="item.other_gender == 'NonBinary'">
+                  Non Binary
+                </div>
+                <div *ngIf="item.other_gender == 'GenderUnknown'">
+                  Gender Unknown
+                </div>
+                }
               </td>
-              <td>{{item.dob}}</td>
-              <td class="text-end">
+              <td class="text-end">{{item.birth}}</td>
+              <!-- <td >
                 <div class="form-check form-switch ct_custom_switch d-flex justify-content-end">
                   <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="item.isBlocked"
-                  [ngModel]="item.isBlocked == 0" id="flexSwitchCheckChecked" />
+                    [ngModel]="item.isBlocked == 0" id="flexSwitchCheckChecked" />
                 </div>
-              </td>
+              </td> -->
+              <td class="text-end">
+                <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal"
+                    data-bs-target="#view-pet" (click)="getMemberAlbum(item)" style="cursor: pointer"></i>
+            </td>
             </tr>
-         
           </tbody>
         </table>
       </div>
+      <div *ngIf="(data | filter: searchQuery)?.length === 0" class="text-center">
+        <p class="ct_fs_15 mt-5">No members found</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="ct_loader_main" *ngIf="loading">
+  <div class="loadingio-spinner-spinner-977el9wwy2v">
+    <div class="ldio-4j5ay0xf86g">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
   </div>
 </div>

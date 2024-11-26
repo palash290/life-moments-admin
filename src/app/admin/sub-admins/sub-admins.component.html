@@ -29,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of data; let i = index">
+                        <tr *ngFor="let item of data | filter:searchQuery; let i = index">
                             <td class="w-15">{{ item.serialNumber }}</td>
                             <td>{{item.name}}</td>
                             <td>Sub-Admin</td>
@@ -53,22 +53,25 @@
                             </td>
                         </tr>
                     </tbody>
-                    <div *ngIf="data?.length == 0 || !data" class="text-center">
+                    <!-- <div *ngIf="data?.length == 0 || !data" class="text-center">
                         <p class="ct_fs_15 mt-5">No items found</p>
-                    </div>
+                    </div> -->
                 </table>
             </div>
+            <div *ngIf="(data | filter: searchQuery)?.length === 0" class="text-center">
+                <p class="ct_fs_15 mt-5">No sub-admin found</p>
+              </div>
 
             <!-- Pagination Controls -->
             <div class="d-flex justify-content-between align-items-center mt-3">
 
                 <!-- Pagination Controls -->
                 <div class="pagination-controls">
-                    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+                    <button (click)="previousPage()" class="ct_previous" [disabled]="currentPage === 1">Previous</button>
                     <button>
                         {{ currentPage }}
                     </button>
-                    <button (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+                    <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
                 </div>
 
             </div>
@@ -109,9 +112,9 @@
                                 placeholder="Enter Contact No" maxlength="13">
                             <div *ngIf="adminForm.controls['phone'].invalid && adminForm.controls['phone'].touched"
                                 class="error-message">
-                                <div *ngIf="adminForm.controls['phone'].errors?.['required']">Contact
+                                <div *ngIf="adminForm.controls['phone'].errors?.['required']" class="ct_fs_14">Contact
                                     number is required.</div>
-                                <div *ngIf="adminForm.controls['phone'].errors?.['pattern']">Contact number must be
+                                <div *ngIf="adminForm.controls['phone'].errors?.['pattern']" class="ct_fs_14">Contact number must be
                                     between 10 and 12 digits.</div>
                             </div>
                         </div>
@@ -200,9 +203,9 @@
                                 placeholder="Enter Contact No" maxlength="13">
                             <div *ngIf="editAdmin.controls['phone'].invalid && editAdmin.controls['phone'].touched"
                                 class="error-message">
-                                <div *ngIf="editAdmin.controls['phone'].errors?.['required']">Contact
+                                <div *ngIf="editAdmin.controls['phone'].errors?.['required']" class="ct_fs_14">Contact
                                     number is required.</div>
-                                <div *ngIf="editAdmin.controls['phone'].errors?.['pattern']">Contact number must be
+                                <div *ngIf="editAdmin.controls['phone'].errors?.['pattern']" class="ct_fs_14">Contact number must be
                                     between 10 and 12 digits.</div>
                             </div>
                         </div>
