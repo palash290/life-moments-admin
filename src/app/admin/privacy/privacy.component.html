@@ -5,7 +5,8 @@
 
       <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2 ">
         <span class="ct_text_op_5  ct_fs_13" style="white-space: nowrap;">Select Language :</span>
-        <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px;" [(ngModel)]="languageId" (change)="onLanguageChange($event)">
+        <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px;" [(ngModel)]="languageId"
+          (change)="onLanguageChange($event)">
           <option *ngFor="let lan of languages" [value]="lan.code">
             {{ lan.name }}
           </option>
@@ -26,37 +27,24 @@
   <div class="row ct_mt_30">
     <div class="col-lg-12 mb-4 mb-lg-0">
 
-  <!-- Radio buttons for selecting the editor -->
-  <div class="form-group mb-3">
-    <label for="" class="mb-2">Select Section</label>
-    <div>
-      <label class="form-check-label me-3">
-        <input 
-          type="radio" 
-          class="form-check-input" 
-          name="editorSelection" 
-          value="about_us" 
-          [(ngModel)]="selectedEditor" 
-          checked> About Us
-      </label>
-      <label class="form-check-label me-3">
-        <input 
-          type="radio" 
-          class="form-check-input" 
-          name="editorSelection" 
-          value="privacy_policy" 
-          [(ngModel)]="selectedEditor"> Privacy Policy
-      </label>
-      <label class="form-check-label">
-        <input 
-          type="radio" 
-          class="form-check-input" 
-          name="editorSelection" 
-          value="terms_conditions" 
-          [(ngModel)]="selectedEditor"> Terms Of Use
-      </label>
-    </div>
-  </div>
+      <!-- Radio buttons for selecting the editor -->
+      <div class="form-group mb-3">
+        <label for="" class="mb-2">Select Section</label>
+        <div>
+          <label class="form-check-label me-3">
+            <input type="radio" class="form-check-input" name="editorSelection" value="about_us"
+              [(ngModel)]="selectedEditor" checked> About Us
+          </label>
+          <label class="form-check-label me-3">
+            <input type="radio" class="form-check-input" name="editorSelection" value="privacy_policy"
+              [(ngModel)]="selectedEditor"> Privacy Policy
+          </label>
+          <label class="form-check-label">
+            <input type="radio" class="form-check-input" name="editorSelection" value="terms_conditions"
+              [(ngModel)]="selectedEditor"> Terms Of Use
+          </label>
+        </div>
+      </div>
 
       <div *ngIf="selectedEditor === 'about_us'" class="form-group mb-3">
         <!-- <label for="" class="mb-2 ">About Us</label> -->

@@ -38,6 +38,7 @@ import { PetSubAlbumPhotosComponent } from './pet/pet-sub-album-photos/pet-sub-a
 import { PetPhotoAlbumDateComponent } from './pet/pet-photo-album-date/pet-photo-album-date.component';
 import { InterviewComponent } from './interview/interview.component';
 import { FaqComponent } from './faq/faq.component';
+import { QuestionsComponent } from './interview/questions/questions.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { FaqComponent } from './faq/faq.component';
     PetSubAlbumPhotosComponent,
     PetPhotoAlbumDateComponent,
     InterviewComponent,
-    FaqComponent
+    FaqComponent,
+    QuestionsComponent
 
   ],
   imports: [
