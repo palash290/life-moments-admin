@@ -59,6 +59,7 @@ export class FamilyMembersComponent {
     this.getMembers();
 
     this.newMemberForm.get('gender')?.valueChanges.subscribe((gender) => {
+      debugger
       if (gender === 'male') {
         this.filteredRelations = [...this.maleRelations];
       } else if (gender === 'female') {
@@ -69,6 +70,20 @@ export class FamilyMembersComponent {
 
       // Reset relationName field when gender changes
       this.newMemberForm.get('relationName')?.setValue('');
+    });
+
+    this.editMemberForm.get('gender')?.valueChanges.subscribe((gender) => {
+      debugger
+      if (gender === 'male') {
+        this.filteredRelationsEdit = [...this.maleRelationsEdit];
+      } else if (gender === 'female') {
+        this.filteredRelationsEdit = [...this.femaleRelationsEdit];
+      } else {
+        this.filteredRelationsEdit = [...this.allRelationsEdit];
+      }
+
+      // Reset relationName field when gender changes
+      this.editMemberForm.get('relationName')?.setValue('');
     });
 
   }
@@ -125,7 +140,7 @@ export class FamilyMembersComponent {
       isAdult: new FormControl({ value: false, disabled: true }),
       isDOBUnknown: new FormControl(''),
     })
-    this.filteredRelations = [...this.maleRelations, ...this.femaleRelations, ...this.allRelations];
+    this.filteredRelations = [...this.allRelations];
   }
 
   initNewPetForm() {
@@ -183,9 +198,33 @@ export class FamilyMembersComponent {
       gender: new FormControl(this.singleMemberDetail?.gender, Validators.required),
       dob: new FormControl(this.convertDateFormat(this.singleMemberDetail?.date_of_birth), Validators.required),
       isAlive: new FormControl(this.singleMemberDetail?.is_alive, Validators.required),
-      relationName: new FormControl(this.singleMemberDetail?.relationName, Validators.required),
+      relationName: new FormControl(this.singleMemberDetail?.relation_id, Validators.required),
       relationWith: new FormControl(this.singleMemberDetail?.relationWith.id, Validators.required),
     })
+    // Set initial filteredRelationsEdit based on the current gender
+    const initialGender = this.singleMemberDetail?.gender;
+    if (initialGender === 'male') {
+      this.filteredRelationsEdit = [...this.maleRelationsEdit];
+    } else if (initialGender === 'female') {
+      this.filteredRelationsEdit = [...this.femaleRelationsEdit];
+    } else {
+      this.filteredRelationsEdit = [...this.allRelationsEdit];
+    }
+
+    // Subscribe to gender changes to dynamically filter relations
+    this.editMemberForm.get('gender')?.valueChanges.subscribe((gender) => {
+      console.log('Edit Member Form - Gender Changed:', gender); // Debug log
+      if (gender === 'male') {
+        this.filteredRelationsEdit = [...this.maleRelationsEdit];
+      } else if (gender === 'female') {
+        this.filteredRelationsEdit = [...this.femaleRelationsEdit];
+      } else {
+        this.filteredRelationsEdit = [...this.allRelationsEdit];
+      }
+
+      // Reset relationName field when gender changes
+      this.editMemberForm.get('relationName')?.setValue('');
+    });
   }
 
   convertDateFormat(dateString: string): string {
@@ -312,13 +351,13 @@ export class FamilyMembersComponent {
   initEditParentForm() {
     this.editParentForm = new FormGroup({
       image: new FormControl(null),
-      name: new FormControl('this.singleMemberData.name', Validators.required),
-      dName: new FormControl('this.singleMemberData.dName', Validators.required),
-      gender: new FormControl('', Validators.required),
-      dob: new FormControl('', Validators.required),
-      isAlive: new FormControl('', Validators.required),
-      relationName: new FormControl('', Validators.required),
-      relationWith: new FormControl('', Validators.required),
+      name: new FormControl(this.filteredOutMembers[0]?.full_name, Validators.required),
+      dName: new FormControl(this.filteredOutMembers[0]?.user_name, Validators.required),
+      gender: new FormControl(this.filteredOutMembers[0]?.gender, Validators.required),
+      dob: new FormControl(this.convertDateFormat(this.filteredOutMembers[0]?.date_of_birth), Validators.required),
+      //isAlive: new FormControl(this.filteredOutMembers[0]?.is_alive, Validators.required),
+      //relationName: new FormControl('', Validators.required),
+      //relationWith: new FormControl('', Validators.required),
     })
   }
 
@@ -593,7 +632,7 @@ export class FamilyMembersComponent {
     'Step-Child': 'sub-admin/editStepSonInTree',
     'Step-Daughter': 'sub-admin/editStepDaughterInTree',
     Child: 'sub-admin/editStepSonInTree',
-    Brother: 'sub-admin/editBrotherInTree',
+    'Brother': 'sub-admin/editBrotherInTree',
     'Step-Brother': 'sub-admin/editStepBrotherInTree',
     'Step-Sibiling': 'sub-admin/editStepBrotherInTree',
     Sister: 'sub-admin/editSisterInTree',
@@ -608,14 +647,20 @@ export class FamilyMembersComponent {
     dependent: 'sub-admin/editStepSonInTree',
   };
 
-  relationCaseId: any;
+  relationId: any = '';
+
+  onRelationChange(event: any): void {
+    this.relationId = event.target.value;
+  }
+
+  relationCaseId: any = '';
 
   onRelationCaseChange(event: any): void {
     const selectedValue = event.target.value;
-  
+
     // Find the selected relation object
     const selectedRelation = this.filteredRelations.find(relation => relation.value === selectedValue);
-  
+
     if (selectedRelation) {
       console.log('Selected Relation:', selectedRelation); // Logs the entire object
       console.log('ID:', selectedRelation.id); // Logs the relation ID
@@ -623,7 +668,30 @@ export class FamilyMembersComponent {
       this.relationCaseId = selectedRelation.id;
     }
   }
-  
+
+  relationCaseValue: any = '';
+
+  // Handling relationName change in edit form
+  onRelationCaseChangeEdit(event: any): void {
+    const selectedValue = event.target.value;
+
+    // Find the selected relation object
+    const selectedRelation = this.filteredRelationsEdit.find(relation => relation.id === selectedValue);
+
+    if (selectedRelation) {
+      console.log('Selected Relation for Edit:', selectedRelation); // Logs the entire object
+      console.log('ID:', selectedRelation.id); // Logs the relation ID
+      console.log('Label:', selectedRelation.value); // Logs the relation label
+      this.relationCaseValue = selectedRelation.value;
+      this.relationCaseId = selectedRelation.id;
+      // // Optionally set the entire object in the edit form
+      // this.editMemberForm.patchValue({
+      //   relationName: selectedRelation, // Store the entire object
+      // });
+    }
+  }
+
+
 
   addNewMember(): void {
     this.newMemberForm.markAllAsTouched();
@@ -682,7 +750,8 @@ export class FamilyMembersComponent {
             this.addMemLoader = false;
             this.closeModalAdd.nativeElement.click();
             this.parentImage1 = null;
-            this.relationId = ''
+            this.relationId = '';
+            this.relationCaseId = '';
             this.getMembers();
           } else {
             this.toastr.warning(resp.message);
@@ -722,7 +791,7 @@ export class FamilyMembersComponent {
     if (this.editMemberForm.valid) {
       console.log('Form Values:', this.editMemberForm.value);
 
-      const selectedRelation = this.editMemberForm.value.relationName;
+      const selectedRelation = this.relationCaseValue;
       const apiUrl = this.relationEditApiMap[selectedRelation];
 
       if (!apiUrl) {
@@ -738,6 +807,8 @@ export class FamilyMembersComponent {
 
       if (this.relationId) {
         formURlData.set('id', this.relationId);
+      } else {
+        formURlData.set('id', this.singleMemberDetail?.relationWith.id)
       }
 
       formURlData.set('family_id', this.parentDetail[0]?.family_id);
@@ -767,7 +838,7 @@ export class FamilyMembersComponent {
       }
 
       formURlData.set('is_alive', this.editMemberForm.value.isAlive);
-      formURlData.set('relation_id', this.editMemberForm.value.relationWith);
+      formURlData.set('relation_id', this.relationCaseId);
       formURlData.set('oldid', this.memberId);
 
       this.service.postAPIFormData(apiUrl, formURlData).subscribe({
@@ -777,12 +848,17 @@ export class FamilyMembersComponent {
             this.editMemLoader = false;
             this.closeModalEditMember.nativeElement.click();
             this.parentImage1 = null;
+            this.relationId = '';
+            this.relationCaseId = '';
+            this.getMembers();
           } else {
             this.toastr.warning(resp.message);
             this.editMemLoader = false;
+            this.getMembers();
           }
         },
         error: (error) => {
+          this.getMembers();
           this.editMemLoader = false;
           if (error.error.message) {
             this.toastr.error(error.error.message);
@@ -796,43 +872,60 @@ export class FamilyMembersComponent {
     }
   }
 
-
+  addParentLoader: boolean = false;
   @ViewChild('closeModalEditParent') closeModalEditParent!: ElementRef;
 
   editParent(): void {
     this.editParentForm.markAllAsTouched();
     if (this.editParentForm.valid) {
       console.log('Form Values:', this.editParentForm.value);
-      this.addMemLoader = true;
-      const formURlData = new FormData();
+      this.addParentLoader = true;
+      const formURlData: any = new FormData();
       if (this.editParentProfile) {
-        formURlData.append('image', this.editParentProfile);
+        formURlData.append('avatar', this.editParentProfile);
       }
-      formURlData.set('name', this.editParentForm.value.name);
-      formURlData.set('dName', this.editParentForm.value.dName);
-      formURlData.set('gender', this.editParentForm.value.gender);
-      formURlData.set('dob', this.editParentForm.value.dob);
-      formURlData.set('isalive', this.editParentForm.value.isAlive);
-      formURlData.set('rName', this.editParentForm.value.relationName);
-      formURlData.set('rWith', this.editParentForm.value.relationWith);
-      if (this.editParentForm.value.isAdult) {
-        formURlData.set('18+', this.editParentForm.value.isAdult);
+      formURlData.set('full_name', this.editParentForm.value.name);
+      formURlData.set('displayName', this.editParentForm.value.dName);
+      //formURlData.set('birth', this.editParentForm.value.dob);
+
+      const dob = this.editParentForm.value.dob;
+
+      const isDOBUnknown = this.newMemberForm.get('isDOBUnknown')?.value;
+      if (!isDOBUnknown) {
+        if (dob) {
+          const formattedDOB = this.formatDateToDDMMYYYY(dob);
+          formURlData.set('birth', formattedDOB);
+        }
       }
 
-      this.service.postAPIFormData('dfs/fsfs', formURlData).subscribe({
+      formURlData.set('user_id', this.parentId);
+
+      formURlData.set('onboardingDone', null);
+      formURlData.set('gender', this.editParentForm.value.gender);
+      if (this.editParentForm.value.gender == 'prefer-not-to-say') {
+        formURlData.set('other_gender', 'prefer-not-to-say');
+      } else {
+        formURlData.set('other_gender', null);
+      }
+
+
+      this.service.postAPIFormData('sub-admin/editProfile', formURlData).subscribe({
         next: (resp) => {
-          if (resp.success == true) {
-            this.toastr.success(resp.message);
-            this.addMemLoader = false;
+          if (resp.id) {
+            this.toastr.success('Details updated successfully!');
+            this.addParentLoader = false;
             this.closeModalEditParent.nativeElement.click();
             this.parentImage1 = null;
+            this.getMembers();
           } else {
             this.toastr.warning(resp.message);
-            this.addMemLoader = false;
+            this.addParentLoader = false;
+            this.getMembers();
           }
         },
         error: (error) => {
-          this.addMemLoader = false;
+          this.getMembers();
+          this.addParentLoader = false;
           if (error.error.message) {
             this.toastr.error(error.error.message);
           } else {
@@ -941,7 +1034,8 @@ export class FamilyMembersComponent {
   }
 
   getParentId(id: any) {
-    this.memberId = id
+    this.memberId = id;
+    this.initEditParentForm();
   }
 
 
@@ -951,15 +1045,6 @@ export class FamilyMembersComponent {
     this.singleMemberDetail = detail;
     this.initEditMemberForm();
     console.log('this.singleMemberDetail', this.singleMemberDetail);
-
-    // this.service.getApi(`https://www.c4c.gr:4000/admin/events/${id}`).subscribe({
-    //   next: resp => {
-    //     this.singleMemberData = resp.events;
-    //   },
-    //   error: error => {
-    //     console.log(error.message)
-    //   }
-    // });
   }
 
   @ViewChild('closeModalViewMember') closeModalViewMember!: ElementRef;
@@ -980,25 +1065,6 @@ export class FamilyMembersComponent {
     this.route.navigateByUrl(`/admin/main/timeline/${this.memberId}`);
   }
 
-
-  relationNames: any;
-  relationId: any = '';
-
-  onRelationChange(event: any): void {
-    //debugger
-    this.relationId = event.target.value;
-    //const selectedCategory = this.relationNames.find((language: { id: any; }) => language.id == selectedId);
-
-    //const selectedCategory = this.categories.find(category => category.id === event.value);
-
-    // if (selectedCategory) {
-    //   this.relationId = selectedCategory.id;
-    //   //this.selectedCategoryName = selectedCategory.name;
-    //   console.log('Selected Category ID:', this.relationId);
-    //   //this.getPrivacy(this.relationId)
-    //   //console.log('Selected Category Name:', this.selectedCategoryName);
-    // }
-  }
 
   calculateAge(birthDate: string): string {
     // Parse the birthDate string in dd-mm-yyyy format

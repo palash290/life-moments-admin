@@ -34,7 +34,8 @@
                     <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal" style="cursor: pointer"
                         data-bs-target="#view-family-parent" (click)="getParentId(filteredOutMembers[0]?.id)"></i>
                     <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
-                        data-bs-target="#edit-family-parent" style="cursor: pointer"></i>
+                        data-bs-target="#edit-family-parent" style="cursor: pointer"
+                        (click)="getParentId(filteredOutMembers[0]?.id)"></i>
                     <!-- <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" title="Coming Soon" style="cursor: pointer"></i> -->
                     <i class="fa-solid fa-paw ct_green_text" style="cursor: pointer"
@@ -312,7 +313,7 @@
                                         <option value="grandparent1">Grandparent 1</option>
                                         <option value="grandparent2">Grandparent 2</option> -->
                                     </select>
-                                    <!-- <select [(ngModel)]="relationId" (change)="onRelationChange($event)"
+                                    <!-- <select [(ngModel)]="relationId"
                                         class="form-control" formControlName="relationName">
                                         <option *ngFor="let lan of relationNames" [value]="lan.code">
                                             {{ lan.name }}
@@ -337,7 +338,7 @@
                                         class="form-control" formControlName="relationWith">
                                         <option value="" disabled>Select</option>
                                         <option *ngFor="let lan of allMemberList" [value]="lan?.id">
-                                            {{ lan?.user_name }}
+                                            {{ lan?.full_name }}
                                         </option>
                                     </select>
                                     <div *ngIf="newMemberForm.controls['relationWith'].invalid && newMemberForm.controls['relationWith'].touched"
@@ -432,8 +433,9 @@
                 <form [formGroup]="editParentForm">
                     <div class="pt-5">
                         <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
-                            <img id="blah2" src="assets/img/men_user.png" alt="" class="ct_img_164 mx-auto d-block"
-                                style="border: solid var(--dark_green);">
+                            <img id="blah2"
+                                [src]="filteredOutMembers[0]?.image_link ? filteredOutMembers[0]?.image_link : 'http://18.229.202.71:4000/images/1727186679509.png'"
+                                alt="" class="ct_img_164 mx-auto d-block" style="border: solid var(--dark_green);">
                             <label for="ct_edit_img">
                                 <input accept="image/*" type="file" id="ct_edit_img" class="d-none"
                                     (change)="handleFileInputEditParent($event)" formControlName="image">
@@ -486,9 +488,11 @@
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Gender <span class="ct_required_star">*</span></label>
                                     <select class="form-control" formControlName="gender">
-                                        <option value="">Male</option>
-                                        <option value="">Female</option>
-                                        <option value="">Other</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="non-binary">Non-binary</option>
+                                        <option value="prefer-not-to-say">Prefer not to say</option>
+                                        <option value="unknown">Gender unknown</option>
                                     </select>
                                     <div *ngIf="editParentForm.controls['gender'].invalid && editParentForm.controls['gender'].touched"
                                         class="error-message">
@@ -501,13 +505,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Is person alive? <span
                                             class="ct_required_star">*</span></label>
                                     <select class="form-control" formControlName="isAlive">
-                                        <option value="">Yes</option>
-                                        <option value="">No</option>
+                                        <option value="1">Yes</option>
+                                        <option value="3">Not yet born</option>
+                                        <option value="4">Angel baby</option>
+                                        <option value="2">No</option>
                                     </select>
                                     <div *ngIf="editParentForm.controls['isAlive'].invalid && editParentForm.controls['isAlive'].touched"
                                         class="error-message">
@@ -519,8 +525,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
+                            </div> -->
+                            <!-- <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Relation Name <span
                                             class="ct_required_star">*</span></label>
@@ -558,8 +564,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
+                            </div> -->
+                            <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Date of Birth <span
                                             class="ct_required_star">*</span></label>
@@ -578,7 +584,7 @@
                         </div>
 
 
-                        <button (click)="getMemberAlbum()" type="button ct_" class="ct_green_btn ct_h_50 w-100">
+                        <!-- <button (click)="getMemberAlbum()" type="button ct_" class="ct_green_btn ct_h_50 w-100">
                             <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22"
                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -598,7 +604,7 @@
                                         d="M16.2143 8.5H9.78571C9.44484 8.50039 9.11803 8.64099 8.87699 8.89095C8.63595 9.14092 8.50037 9.47983 8.5 9.83333V15.1667C8.50037 15.5202 8.63595 15.8591 8.87699 16.109C9.11803 16.359 9.44484 16.4996 9.78571 16.5H16.2143C16.5552 16.4996 16.882 16.359 17.123 16.109C17.364 15.8591 17.4996 15.5202 17.5 15.1667V9.83333C17.4996 9.47983 17.364 9.14092 17.123 8.89095C16.882 8.64099 16.5552 8.50039 16.2143 8.5ZM14.6071 9.83333C14.7979 9.83333 14.9843 9.89198 15.1429 10.0019C15.3014 10.1117 15.425 10.2679 15.498 10.4506C15.571 10.6334 15.5901 10.8344 15.5529 11.0284C15.5157 11.2224 15.4239 11.4006 15.289 11.5404C15.1541 11.6803 14.9823 11.7755 14.7953 11.8141C14.6082 11.8527 14.4143 11.8329 14.2381 11.7572C14.0619 11.6815 13.9113 11.5534 13.8054 11.3889C13.6994 11.2245 13.6429 11.0311 13.6429 10.8333C13.6431 10.5682 13.7448 10.314 13.9256 10.1265C14.1064 9.93905 14.3515 9.83361 14.6071 9.83333ZM9.78571 15.8333C9.61522 15.8333 9.4517 15.7631 9.33115 15.6381C9.21059 15.513 9.14286 15.3435 9.14286 15.1667V13.7577L11.0481 12.0015C11.232 11.8324 11.471 11.7424 11.7166 11.7497C11.9622 11.7571 12.1959 11.8613 12.37 12.041L13.6748 13.3913L11.3199 15.8333H9.78571ZM16.8571 15.1667C16.8571 15.3435 16.7894 15.513 16.6689 15.6381C16.5483 15.7631 16.3848 15.8333 16.2143 15.8333H12.2292L14.6684 13.3038C14.8411 13.1514 15.0603 13.0675 15.287 13.0669C15.5137 13.0663 15.7333 13.149 15.9067 13.3004L16.8571 14.1217V15.1667Z"
                                         fill="#0EAE00" />
                                 </svg>View Full Album </a>
-                        </button>
+                        </button> -->
                     </div>
                 </form>
 
@@ -609,7 +615,14 @@
                     Cancel
                 </button>
                 <button (click)="editParent()" type="button ct_" class="ct_green_btn ct_h_50">
-                    Update
+                    <button type="button ct_" class="ct_green_btn ct_h_50" (click)="addNewMember()">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="spinner-border me-2" role="status" *ngIf="addParentLoader">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <span *ngIf="!addParentLoader">Update</span>
+                        </div>
+                    </button>
                 </button>
                 <button hidden type="button" class="btn btn-secondary" #closeModalEditParent
                     data-bs-dismiss="modal">Close</button>
@@ -946,8 +959,13 @@
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Relation Name <span
                                             class="ct_required_star">*</span></label>
-                                    <select class="form-control" formControlName="relationName">
+                                    <select class="form-control" (change)="onRelationCaseChangeEdit($event)"
+                                        formControlName="relationName">
                                         <option value="" disabled>Select</option>
+                                        <option *ngFor="let relation of filteredRelationsEdit" [value]="relation.id">
+                                            {{ relation.label }}
+                                        </option>
+                                        <!-- <option value="" disabled>Select</option>
                                         <option value="Father">Father</option>
                                         <option value="Step-Father">Step Father</option>
                                         <option value="caregiver">Caregiver</option>
@@ -968,7 +986,7 @@
                                         <option value="Sibiling">Sibiling</option>
                                         <option value="Partner">Partner</option>
                                         <option value="Grandparent">Grandparent 1</option>
-                                        <option value="Grandparent">Grandparent 2</option>
+                                        <option value="Grandparent">Grandparent 2</option> -->
                                     </select>
                                     <div *ngIf="editMemberForm.controls['relationName'].invalid && editMemberForm.controls['relationName'].touched"
                                         class="error-message">
@@ -988,8 +1006,8 @@
                                     <select [(ngModel)]="relationId" (change)="onRelationChange($event)"
                                         class="form-control" formControlName="relationWith">
                                         <option value="" disabled>Select</option>
-                                        <option *ngFor="let lan of data" [value]="lan?.id">
-                                            {{ lan?.user_name }}
+                                        <option *ngFor="let lan of allMemberList" [value]="lan?.id">
+                                            {{ lan?.full_name }}
                                         </option>
                                     </select>
                                     <div *ngIf="editMemberForm.controls['relationWith'].invalid && editMemberForm.controls['relationWith'].touched"
