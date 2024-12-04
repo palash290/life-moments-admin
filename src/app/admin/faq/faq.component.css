@@ -1,0 +1,49 @@
+.ct_faq_accordian .accordion-item {
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+.ct_faq_accordian button.accordion-button.collapsed {
+  border-radius: 10px;
+  background: #fff;
+  color: #000;
+}
+.ct_faq_accordian .accordion-button:focus,
+.ct_faq_accordian .accordion-button {
+  background: linear-gradient(179.09deg, #0eb200 20.47%, #0c9000 99.22%);
+  box-shadow: unset;
+  color: #fff;
+  border-radius: 10px 10px 0px 0px;
+}
+.ct_faq_accordian .accordion-button:not(.collapsed)::after {
+  background-image: unset;
+  content: "-";
+  transform: unset;
+  background: transparent;
+  background-position: center;
+  text-align: center;
+  border: 2px solid #fff;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.ct_faq_accordian .accordion-button::after {
+  content: "+";
+  background: transparent;
+  background-position: center;
+  text-align: center;
+  border: 2px solid #33c630;
+  width: 24px;
+  height: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 600;
+}
