@@ -430,6 +430,8 @@ export class FamilyMembersComponent {
 
   filteredRelations: Array<{ id: any, value: string; label: string }> = [];
 
+  filteredRelationsEdit: Array<{ id: any, value: string; label: string }> = [];
+
   maleRelations = [
     { id: '12', value: 'father', label: 'Father' },
     { id: '13', value: 'step_father', label: 'Step Father' },
@@ -448,6 +450,24 @@ export class FamilyMembersComponent {
 
   ];
 
+  maleRelationsEdit = [
+    { id: '12', value: 'Father', label: 'Father' },
+    { id: '13', value: 'Step-Father', label: 'Step Father' },
+    { id: '14', value: 'Caregiver', label: 'Caregiver' },
+    { id: '15', value: 'Son', label: 'Son' },
+    { id: '16', value: 'Step-Son', label: 'Step Son' },
+
+    { id: '17', value: 'Dependent', label: 'Dependent' },
+
+    { id: '18', value: 'Brother', label: 'Brother' },
+    { id: '19', value: 'Step-Brother', label: 'Step Brother' },
+    { id: '20', value: 'Child', label: 'Child' },
+    { id: '21', value: 'Parent', label: 'Parent' },
+
+    { id: '22', value: 'Grandpa', label: 'Grandpa' },
+
+  ];
+
   femaleRelations = [
     { id: '1', value: 'mother', label: 'Mother' },
     { id: '2', value: 'step_mother', label: 'Step Mother' },
@@ -463,6 +483,24 @@ export class FamilyMembersComponent {
     { id: '10', value: 'parent', label: 'Parent' },
 
     { id: '11', value: 'grandma', label: 'Grandma' },
+
+  ];
+
+  femaleRelationsEdit = [
+    { id: '1', value: 'Mother', label: 'Mother' },
+    { id: '2', value: 'Step-Mother', label: 'Step Mother' },
+    { id: '3', value: 'Caregiver', label: 'Caregiver' },
+    { id: '4', value: 'Daughter', label: 'Daughter' },
+    { id: '5', value: 'Step-Daughter', label: 'Step Daughter' },
+
+    { id: '6', value: 'Dependent', label: 'Dependent' },
+
+    { id: '7', value: 'Sister', label: 'Sister' },
+    { id: '8', value: 'Step-Sister', label: 'Step Sister' },
+    { id: '9', value: 'Child', label: 'Child' },
+    { id: '10', value: 'Parent', label: 'Parent' },
+
+    { id: '11', value: 'Grandma', label: 'Grandma' },
 
   ];
 
@@ -488,6 +526,30 @@ export class FamilyMembersComponent {
     { id: '39', value: 'parent', label: 'Parent' },
     { id: '40', value: 'grandparent1', label: 'Grandparent 1' },
     { id: '41', value: 'grandparent2', label: 'Grandparent 2' },
+  ];
+
+  allRelationsEdit = [
+    { id: '23', value: 'Father', label: 'Father' },
+    { id: '24', value: 'Step-Father', label: 'Step Father' },
+    { id: '25', value: 'Caregiver', label: 'Caregiver' },
+    { id: '26', value: 'Mother', label: 'Mother' },
+    { id: '27', value: 'Step-Mother', label: 'Step Mother' },
+    { id: '28', value: 'Step-Parent', label: 'Step Parent' },
+    { id: '29', value: 'Son', label: 'Son' },
+    { id: '30', value: 'Step-Son', label: 'Step Son' },
+    { id: '31', value: 'Step-Child', label: 'Step Child' },
+    { id: '31', value: 'Daughter', label: 'Daughter' },
+    { id: '33', value: 'Step-Daughter', label: 'Step Daughter' },
+    { id: '313', value: 'Child', label: 'Child' },
+    { id: '34', value: 'Brother', label: 'Brother' },
+    { id: '35', value: 'Step-Brother', label: 'Step Brother' },
+    { id: '36', value: 'Step-Sibling', label: 'Step Sibling' },
+    { id: '37', value: 'Sister', label: 'Sister' },
+    { id: '38', value: 'Step-Sister', label: 'Step Sister' },
+    { id: '363', value: 'Sibling', label: 'Sibling' },
+    { id: '39', value: 'Parent', label: 'Parent' },
+    { id: '40', value: 'Grandparent1', label: 'Grandparent 1' },
+    { id: '41', value: 'Grandparent2', label: 'Grandparent 2' },
   ];
 
   relationApiMap: { [key: string]: string } = {
@@ -516,6 +578,34 @@ export class FamilyMembersComponent {
     grandpa: 'sub-admin/addGrandFatherInTree',
     grandma: 'sub-admin/addGrandMotherInTree',
     dependent: 'sub-admin/addStepSonInTree',
+  };
+
+  relationEditApiMap: { [key: string]: string } = {
+    Father: 'sub-admin/editFatherInTree',
+    'Step-Father': 'sub-admin/editStepFatherInTree',
+    Caregiver: 'sub-admin/editFatherInTree',
+    Mother: 'sub-admin/editMotherInTree',
+    'Step-Mother': 'sub-admin/editStepMotherInTree',
+    'Step-Parent': 'sub-admin/editStepFatherInTree',
+    Son: 'sub-admin/editSonInTree',
+    'Step-Son': 'sub-admin/editStepSonInTree',
+    Daughter: 'sub-admin/editDaughterInTree',
+    'Step-Child': 'sub-admin/editStepSonInTree',
+    'Step-Daughter': 'sub-admin/editStepDaughterInTree',
+    Child: 'sub-admin/editStepSonInTree',
+    Brother: 'sub-admin/editBrotherInTree',
+    'Step-Brother': 'sub-admin/editStepBrotherInTree',
+    'Step-Sibiling': 'sub-admin/editStepBrotherInTree',
+    Sister: 'sub-admin/editSisterInTree',
+    'Step-Sister': 'sub-admin/editStepSisterInTree',
+    sibiling: 'sub-admin/editStepBrotherInTree',
+    Parent: 'sub-admin/editPartnerInTree',
+    Grandparent1: 'sub-admin/addGrandFatherInTree',
+    Grandparent2: 'sub-admin/editGrandMotherInTree',
+
+    grandpa: 'sub-admin/editGrandMotherInTree',
+    grandma: 'sub-admin/editGrandMotherInTree',
+    dependent: 'sub-admin/editStepSonInTree',
   };
 
   relationCaseId: any;
@@ -623,29 +713,7 @@ export class FamilyMembersComponent {
     return `${day}/${month}/${year}`;
   }
 
-  relationEditApiMap: { [key: string]: string } = {
-    Father: 'sub-admin/editFatherInTree',
-    'Step-Father': 'sub-admin/editStepFatherInTree',
-    //Caregiver: 'sub-admin/addStepFatherInTree',
-    Mother: 'sub-admin/editMotherInTree',
-    'Step-Mother': 'sub-admin/editStepMotherInTree',
-    //'Step-Parent': 'sub-admin/addStepFatherInTree',
-    Son: 'sub-admin/editSonInTree',
-    'Step-Son': 'sub-admin/editStepSonInTree',
-    Daughter: 'sub-admin/editDaughterInTree',
-    //Step-Child: 'sub-admin/addStepSonInTree',
-    'step_daughter': 'sub-admin/editStepDaughterInTree',
-    //Child: 'sub-admin/addSonInTree',
-    Brother: 'sub-admin/editBrotherInTree',
-    'step_brother': 'sub-admin/editStepBrotherInTree',
-    //Step-Sibiling: 'sub-admin/editStepBrotherInTree',
-    Sister: 'sub-admin/editSisterInTree',
-    'Step-Sister': 'sub-admin/editStepSisterInTree',
-    //sibiling: 'sub-admin/addSisterInTree',
-    Parent: 'sub-admin/editPartnerInTree',
-    Grandparent1: 'sub-admin/editGrandFatherInTree',
-    Grandparent2: 'sub-admin/editGrandMotherInTree',
-  };
+
 
   @ViewChild('closeModalEditMember') closeModalEditMember!: ElementRef;
 
