@@ -77,8 +77,9 @@ export class SharedService {
   
 
   logout() {
-    localStorage.removeItem('lifeMToken')
-    this.route.navigateByUrl('/login')
+    localStorage.removeItem('userIdForPet');
+    localStorage.removeItem('lifeMToken');
+    this.route.navigateByUrl('/login');
   }
 
   private photoAlbumData: any;

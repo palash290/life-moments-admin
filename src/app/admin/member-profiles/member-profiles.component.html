@@ -3,7 +3,8 @@
     <h4 class="mb-0 ct_fs_22">All Member Profile</h4>
     <div class="d-flex align-items-center gap-3">
       <div class="position-relative ct_search_input">
-        <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchQuery" />
+        <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchQuery"
+          (ngModelChange)="getSubAdmins()" />
         <i class="fa-solid fa-magnifying-glass"></i>
       </div>
     </div>
@@ -15,6 +16,7 @@
         <table class="table ct_project_table">
           <thead>
             <tr>
+              <th>S No.</th>
               <th>Full Name</th>
               <th>Display Name</th>
               <th>Email</th>
@@ -24,7 +26,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of data | filter:searchQuery;">
+            <tr *ngFor="let item of data;">
+              <td>{{ item.serialNumber }}</td>
               <td>
                 <a style="cursor: pointer;" (click)="getMemberAlbum(item)">
                   <div class="d-flex align-items-center gap-2">
@@ -69,9 +72,9 @@
                 </div>
               </td> -->
               <td class="text-end">
-                <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal"
-                    data-bs-target="#view-pet" (click)="getMemberAlbum(item)" style="cursor: pointer"></i>
-            </td>
+                <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal" data-bs-target="#view-pet"
+                  (click)="getMemberAlbum(item)" style="cursor: pointer"></i>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -79,6 +82,21 @@
       <div *ngIf="(data | filter: searchQuery)?.length === 0" class="text-center">
         <p class="ct_fs_15 mt-5">No members found</p>
       </div>
+
+      <!-- Pagination Controls -->
+      <div class="d-flex justify-content-between align-items-center mt-3">
+
+        <!-- Pagination Controls -->
+        <div class="pagination-controls">
+          <button (click)="previousPage()" class="ct_previous" [disabled]="currentPage === 1">Previous</button>
+          <button>
+            {{ currentPage }}
+          </button>
+          <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+        </div>
+
+      </div>
+
     </div>
   </div>
 </div>

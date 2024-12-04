@@ -10,6 +10,9 @@
                 <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchQuery" />
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
+
+            <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add-new-pet">Add Pet</button>
+
         </div>
     </div>
 
@@ -32,9 +35,9 @@
                             <td>
                                 <a>
                                     <div class="d-flex align-items-center gap-2" (click)="getPetDetails(item)"
-                                        style="cursor: pointer;">
+                                        >
                                         <img [src]='item.images_url' class="ct_img_40 ct_border_2" />
-                                        <p class="mb-0 ct_fs_16 ct_green_text">{{item.name}}</p>
+                                        <p class="mb-0 ct_fs_16">{{item.name}}</p>
                                     </div>
                                 </a>
                             </td>
@@ -47,13 +50,13 @@
                                 <div *ngIf="item.gender == 'female'">
                                     Female
                                 </div>
-                                <div *ngIf="item.gender == 'PreferNotToSay'">
+                                <div *ngIf="item.gender == 'prefer-not-to-say'">
                                     Prefer Not To Say
                                 </div>
-                                <div *ngIf="item.gender == 'NonBinary'">
+                                <div *ngIf="item.gender == 'non-binary'">
                                     Non Binary
                                 </div>
-                                <div *ngIf="item.gender == 'GenderUnknown'">
+                                <div *ngIf="item.gender == 'unknown'">
                                     Gender Unknown
                                 </div>
                             </td>
@@ -65,9 +68,15 @@
                   </div>
                 </td> -->
                             <td class="text-end">
-                                <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal"
-                                    data-bs-target="#view-pet" (click)="getPetDetails(item)"
-                                    style="cursor: pointer;"></i>
+                                <div class="d-flex align-items-center gap-3">
+                                    <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal"
+                                        data-bs-target="#view-pet" (click)="getPetDetails(item)"
+                                        style="cursor: pointer;"></i>
+
+                                    <i (click)="getPetDetails(item)" class="fa-regular fa-pen-to-square ct_green_text"
+                                        data-bs-toggle="modal" data-bs-target="#edit-pet" style="cursor: pointer;"></i>
+                                </div>
+
                             </td>
                         </tr>
 
@@ -138,9 +147,9 @@
                     <select class="form-control" disabled [value]="petDetails?.gender">
                         <option value="female">Female</option>
                         <option value="male">Male</option>
-                        <option value="PreferNotToSay">Prefer Not To Say</option>
-                        <option value="NonBinary">Non Binary</option>
-                        <option value="GenderUnknown">Gender Unknown</option>
+                        <option value="prefer-not-to-say">Prefer Not To Say</option>
+                        <option value="non-binary">Non Binary</option>
+                        <option value="unknown">Gender Unknown</option>
 
                     </select>
                 </div>
@@ -228,3 +237,429 @@
         </div>
     </div>
 </div>
+
+
+<!-- add new pet  Detail S -->
+<div class="modal fade Committed_Price" id="add-new-pet" tabindex="-1" aria-labelledby="add-new-petLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content ct_pb_50">
+            <div class="modal-body">
+                <h4>Add Pet</h4>
+                <form [formGroup]="newPetForm">
+                    <div class="pt-5">
+                        <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
+                            <!-- <img src="assets/img/men_user.png" alt="" class="ct_img_164 mx-auto d-block"> -->
+                            <!-- <img [src]="petImage1 ? petImage1 : 'assets/img/np_pro.png'" alt=""
+                                class="ct_img_164 mx-auto d-block"> -->
+
+                            @if(petImage1){
+                            <img [src]="petImage1" alt="" class="ct_img_164 mx-auto d-block ct_mb_32"
+                                style="border: solid var(--dark_green);">
+                            } @else{
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ct_img_164 mx-auto d-block ct_mb_32"
+                                style="border: solid var(--dark_green);" viewBox="0 0 16 16">
+                                <path id="Shape"
+                                    d="M9.755,15.531A5.155,5.155,0,0,0,8,15.062a5.77,5.77,0,0,0-1.851.464,5.8,5.8,0,0,1-1.928.464q-1.759,0-1.76-1.521A4.6,4.6,0,0,1,3,12.474a8.935,8.935,0,0,1,1.342-2.005,7.972,7.972,0,0,1,1.8-1.521A3.6,3.6,0,0,1,8,8.333a4.119,4.119,0,0,1,2.452,1.016,8.968,8.968,0,0,1,2.2,2.469,5.2,5.2,0,0,1,.885,2.65,1.737,1.737,0,0,1-.164.8,1.04,1.04,0,0,1-.466.469,2.279,2.279,0,0,1-.62.208,4.1,4.1,0,0,1-.731.058A5.186,5.186,0,0,1,9.755,15.531Zm2.437-5.468a2.58,2.58,0,0,1-.4-1.448,4.163,4.163,0,0,1,.337-1.589,3.864,3.864,0,0,1,.967-1.4,1.98,1.98,0,0,1,1.361-.579,1.289,1.289,0,0,1,1.144.62A2.6,2.6,0,0,1,16,7.125a4.127,4.127,0,0,1-.337,1.583A3.863,3.863,0,0,1,14.7,10.1a1.979,1.979,0,0,1-1.361.578A1.291,1.291,0,0,1,12.192,10.063ZM1.3,10.1A3.863,3.863,0,0,1,.337,8.708,4.127,4.127,0,0,1,0,7.125,2.6,2.6,0,0,1,.4,5.672a1.289,1.289,0,0,1,1.144-.62,1.983,1.983,0,0,1,1.361.579,3.875,3.875,0,0,1,.967,1.4,4.161,4.161,0,0,1,.336,1.589,2.58,2.58,0,0,1-.4,1.448,1.291,1.291,0,0,1-1.145.614A1.978,1.978,0,0,1,1.3,10.1ZM9.289,5.729a2.32,2.32,0,0,1-.607-.964A3.783,3.783,0,0,1,8.5,3.583a4.665,4.665,0,0,1,.289-1.578A3.779,3.779,0,0,1,9.669.6,1.828,1.828,0,0,1,11,0a1.406,1.406,0,0,1,1.01.406,2.318,2.318,0,0,1,.606.964A3.783,3.783,0,0,1,12.8,2.552a4.7,4.7,0,0,1-.288,1.572,3.769,3.769,0,0,1-.885,1.412,1.837,1.837,0,0,1-1.328.6A1.4,1.4,0,0,1,9.289,5.729ZM4.375,5.537A3.769,3.769,0,0,1,3.49,4.125,4.7,4.7,0,0,1,3.2,2.552,3.757,3.757,0,0,1,3.385,1.37,2.309,2.309,0,0,1,3.991.406,1.406,1.406,0,0,1,5,0,1.828,1.828,0,0,1,6.332.6a3.79,3.79,0,0,1,.88,1.406A4.685,4.685,0,0,1,7.5,3.583a3.757,3.757,0,0,1-.183,1.183,2.309,2.309,0,0,1-.606.964,1.406,1.406,0,0,1-1.01.406A1.837,1.837,0,0,1,4.375,5.537Z"
+                                    fill="#0EB200" />
+                            </svg>
+                            }
+
+                            <label for="ct_edit_img_pet">
+                                <!-- <input type="file" class="d-none" id="ct_edit_img"> -->
+                                <input type="file" accept="image/*" class="d-none" id="ct_edit_img_pet"
+                                    formControlName="image" (change)="onImageSelected($event, 'pet')">
+                                <div class="ct_edit_icon">
+                                    <svg width="26" height="24" viewBox="0 0 26 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M8.23622 0.496129C8.41543 0.188911 8.74433 0 9.1 0H16.9C17.2557 0 17.5846 0.188911 17.7638 0.496129L19.5744 3.6H22C24.2091 
+                                            3.6 26 5.39086 26 7.6V19.9C26 22.1091 24.2091 23.9 22 23.9H4C1.79086 23.9 0 22.1091 0 19.9V7.6C0 5.39086 1.79086 3.6 4 3.6H6.42563L8.23622 
+                                            0.496129ZM9.67437 2L7.86378 5.10387C7.68457 5.41109 7.35567 5.6 7 5.6H4C2.89543 5.6 2 6.49543 2 7.6V19.9C2 21.0046 2.89543 21.9 4
+                                             21.9H22C23.1046 21.9 24 21.0046 24 19.9V7.6C24 6.49543 23.1046 5.6 22 5.6H19C18.6443 5.6 18.3154 5.41109 18.1362 5.10387L16.3256 2H9.67437Z
+                                             M13 9.5C11.067 9.5 9.5 11.067 9.5 13C9.5 14.933 11.067 16.5 13 16.5C14.933 16.5 16.5 14.933 16.5 13C16.5 11.067 14.933 9.5 13 9.5ZM7.5 13C7.5 
+                                             9.96243 9.96243 7.5 13 7.5C16.0376 7.5 18.5 9.96243 18.5 13C18.5 16.0376 16.0376 18.5 13 18.5C9.96243 18.5 7.5 16.0376 7.5 13Z"
+                                            fill="white" />
+                                    </svg>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Name <span class="ct_required_star">*</span></label>
+                                    <input type="text" class="form-control" value="Zaire Siphron" formControlName="name"
+                                        placeholder="Name" />
+                                    <div *ngIf="newPetForm.controls['name'].invalid && newPetForm.controls['name'].touched"
+                                        class="error-message">
+                                        <div *ngIf="newPetForm.controls['name'].errors?.['required']" class="ct_fs_14">
+                                            Name
+                                            is
+                                            required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Display Name <span
+                                            class="ct_required_star">*</span></label>
+                                    <input type="text" class="form-control" value="Siphron" formControlName="dName"
+                                        placeholder="Display Name" />
+                                    <div *ngIf="newPetForm.controls['dName'].invalid && newPetForm.controls['dName'].touched"
+                                        class="error-message">
+                                        <div *ngIf="newPetForm.controls['dName'].errors?.['required']" class="ct_fs_14">
+                                            Display name
+                                            is
+                                            required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Gender <span class="ct_required_star">*</span></label>
+                                    <select class="form-control" formControlName="gender">
+                                        <option value="" selected>Select</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="non-binary">Non-binary</option>
+                                        <option value="prefer-not-to-say">Prefer not to say</option>
+                                        <option value="unknown">Gender unknown</option>
+                                    </select>
+                                    <div *ngIf="newPetForm.controls['gender'].invalid && newPetForm.controls['gender'].touched"
+                                        class="error-message">
+                                        <div *ngIf="newPetForm.controls['gender'].errors?.['required']"
+                                            class="ct_fs_14">
+                                            This field
+                                            is
+                                            required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Is pet alive? <span
+                                            class="ct_required_star">*</span></label>
+                                    <select class="form-control" formControlName="isAlive">
+                                        <option value="" selected>Select</option>
+                                        <option value=1>Yes</option>
+                                        <!-- <option value="not-yet-born">Not yet born</option>
+                                        <option value="angel-baby">Angel baby</option> -->
+                                        <option value=0>No</option>
+                                    </select>
+                                    <div *ngIf="newPetForm.controls['isAlive'].invalid && newPetForm.controls['isAlive'].touched"
+                                        class="error-message">
+                                        <div *ngIf="newPetForm.controls['isAlive'].errors?.['required']"
+                                            class="ct_fs_14">
+                                            This field
+                                            is
+                                            required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Link to a Family Member <span
+                                            class="ct_required_star">*</span></label>
+                                    <select class="form-control" formControlName="familyLink">
+                                        <option value="" selected>Select</option>
+                                        <option value="1">Regina Crist</option>
+                                        <option value="2">Regina Crist</option>
+                                        <option value="3">Regina Crist</option>
+                                    </select>
+                                    <div *ngIf="newPetForm.controls['familyLink'].invalid && newPetForm.controls['familyLink'].touched"
+                                        class="error-message">
+                                        <div *ngIf="newPetForm.controls['familyLink'].errors?.['required']"
+                                            class="ct_fs_14">
+                                            This field
+                                            is
+                                            required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <div class="col-md-12">
+                                <div
+                                    class="d-flex align-items-center justify-content-between gap-3 flex-wrap pb-4 pt-2">
+                                    <div class="ct_checkbox_main">
+                                        <div>
+                                            <input checked="" type="checkbox" id="ct_checkbox_cbx_pt"
+                                                class="ct_hidden-xs-up ct_checkbox_cbx_12"
+                                                formControlName="isDOBUnknown" (change)="onPetDOBChange()">
+                                            <label for="ct_checkbox_cbx_pt" class="ct_checkbox_cbx"></label>
+                                        </div>
+                                        <p class="mb-0">Date of birth unknown</p>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group mb-3">
+                                        <label for="" class="mb-2">Date of Birth <span
+                                                class="ct_required_star">*</span></label>
+                                        <input type="date" class="form-control" formControlName='dob' />
+                                        <div *ngIf="newPetForm.controls['dob'].invalid && newPetForm.controls['dob'].touched"
+                                            class="error-message">
+                                            <div *ngIf="newPetForm.controls['dob'].errors?.['required']"
+                                                class="ct_fs_14">
+                                                This field
+                                                is
+                                                required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-4">
+                <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
+                    data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button ct_" class="ct_green_btn ct_h_50" (click)="addNewPet()">
+                    Add to tree
+                </button>
+
+                <button hidden type="button" class="btn btn-secondary" #closeModalAdd
+                    data-bs-dismiss="modal">Close</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- add new membe E -->
+
+
+
+
+
+<!-- Edit pet Detail S -->
+<div class="modal fade Committed_Price" id="edit-pet" tabindex="-1" aria-labelledby="edit-family-parentLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="ct_fs_24 ct_fw_600 text-center">Edit Pet</h4>
+                <form [formGroup]="editPetForm">
+                    <div class="pt-5">
+                        <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
+                            <!-- <img id="blahPet"
+                                [src]="this.petDetails?.images_url ? this.petDetails?.images_url : 'assets/img/men_user.png'"
+                                alt="" class="ct_img_164 mx-auto d-block"> -->
+
+                            @if(this.petDetails?.images_url){
+                            <img id="blahPet" [src]="this.petDetails?.images_url" alt=""
+                                class="ct_img_164 mx-auto d-block ct_mb_32" style="border: solid var(--dark_green);">
+                            } @else{
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ct_img_164 mx-auto d-block ct_mb_32"
+                                style="border: solid var(--dark_green);" viewBox="0 0 16 16">
+                                <path id="Shape"
+                                    d="M9.755,15.531A5.155,5.155,0,0,0,8,15.062a5.77,5.77,0,0,0-1.851.464,5.8,5.8,0,0,1-1.928.464q-1.759,0-1.76-1.521A4.6,4.6,0,0,1,3,12.474a8.935,8.935,0,0,1,1.342-2.005,7.972,7.972,0,0,1,1.8-1.521A3.6,3.6,0,0,1,8,8.333a4.119,4.119,0,0,1,2.452,1.016,8.968,8.968,0,0,1,2.2,2.469,5.2,5.2,0,0,1,.885,2.65,1.737,1.737,0,0,1-.164.8,1.04,1.04,0,0,1-.466.469,2.279,2.279,0,0,1-.62.208,4.1,4.1,0,0,1-.731.058A5.186,5.186,0,0,1,9.755,15.531Zm2.437-5.468a2.58,2.58,0,0,1-.4-1.448,4.163,4.163,0,0,1,.337-1.589,3.864,3.864,0,0,1,.967-1.4,1.98,1.98,0,0,1,1.361-.579,1.289,1.289,0,0,1,1.144.62A2.6,2.6,0,0,1,16,7.125a4.127,4.127,0,0,1-.337,1.583A3.863,3.863,0,0,1,14.7,10.1a1.979,1.979,0,0,1-1.361.578A1.291,1.291,0,0,1,12.192,10.063ZM1.3,10.1A3.863,3.863,0,0,1,.337,8.708,4.127,4.127,0,0,1,0,7.125,2.6,2.6,0,0,1,.4,5.672a1.289,1.289,0,0,1,1.144-.62,1.983,1.983,0,0,1,1.361.579,3.875,3.875,0,0,1,.967,1.4,4.161,4.161,0,0,1,.336,1.589,2.58,2.58,0,0,1-.4,1.448,1.291,1.291,0,0,1-1.145.614A1.978,1.978,0,0,1,1.3,10.1ZM9.289,5.729a2.32,2.32,0,0,1-.607-.964A3.783,3.783,0,0,1,8.5,3.583a4.665,4.665,0,0,1,.289-1.578A3.779,3.779,0,0,1,9.669.6,1.828,1.828,0,0,1,11,0a1.406,1.406,0,0,1,1.01.406,2.318,2.318,0,0,1,.606.964A3.783,3.783,0,0,1,12.8,2.552a4.7,4.7,0,0,1-.288,1.572,3.769,3.769,0,0,1-.885,1.412,1.837,1.837,0,0,1-1.328.6A1.4,1.4,0,0,1,9.289,5.729ZM4.375,5.537A3.769,3.769,0,0,1,3.49,4.125,4.7,4.7,0,0,1,3.2,2.552,3.757,3.757,0,0,1,3.385,1.37,2.309,2.309,0,0,1,3.991.406,1.406,1.406,0,0,1,5,0,1.828,1.828,0,0,1,6.332.6a3.79,3.79,0,0,1,.88,1.406A4.685,4.685,0,0,1,7.5,3.583a3.757,3.757,0,0,1-.183,1.183,2.309,2.309,0,0,1-.606.964,1.406,1.406,0,0,1-1.01.406A1.837,1.837,0,0,1,4.375,5.537Z"
+                                    fill="#0EB200" />
+                            </svg>
+                            }
+
+                            <label for="ct_edit_img_1">
+                                <input accept="image/*" type="file" id="ct_edit_img_1" class="d-none"
+                                    (change)="handleFileInputEditPet($event)" formControlName="image">
+                                <div class="ct_edit_icon">
+                                    <svg width="26" height="24" viewBox="0 0 26 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M8.23622 0.496129C8.41543 0.188911 8.74433 0 9.1 0H16.9C17.2557 0 17.5846 0.188911 17.7638 0.496129L19.5744 3.6H22C24.2091 3.6 26 5.39086 26 7.6V19.9C26 22.1091 24.2091 23.9 22 23.9H4C1.79086 23.9 0 22.1091 0 19.9V7.6C0 5.39086 1.79086 3.6 4 3.6H6.42563L8.23622 0.496129ZM9.67437 2L7.86378 5.10387C7.68457 5.41109 7.35567 5.6 7 5.6H4C2.89543 5.6 2 6.49543 2 7.6V19.9C2 21.0046 2.89543 21.9 4 21.9H22C23.1046 21.9 24 21.0046 24 19.9V7.6C24 6.49543 23.1046 5.6 22 5.6H19C18.6443 5.6 18.3154 5.41109 18.1362 5.10387L16.3256 2H9.67437ZM13 9.5C11.067 9.5 9.5 11.067 9.5 13C9.5 14.933 11.067 16.5 13 16.5C14.933 16.5 16.5 14.933 16.5 13C16.5 11.067 14.933 9.5 13 9.5ZM7.5 13C7.5 9.96243 9.96243 7.5 13 7.5C16.0376 7.5 18.5 9.96243 18.5 13C18.5 16.0376 16.0376 18.5 13 18.5C9.96243 18.5 7.5 16.0376 7.5 13Z"
+                                            fill="white" />
+                                    </svg>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Name <span class="ct_required_star">*</span></label>
+                                    <input type="text" class="form-control" value="Zaire Siphron"
+                                        formControlName="name" />
+                                    <div *ngIf="editPetForm.controls['name'].invalid && editPetForm.controls['name'].touched"
+                                        class="error-message">
+                                        <div *ngIf="editPetForm.controls['name'].errors?.['required']" class="ct_fs_14">
+                                            Name
+                                            is
+                                            required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Display Name <span
+                                            class="ct_required_star">*</span></label>
+                                    <input type="text" class="form-control" value="Siphron" formControlName="dName" />
+                                    <div *ngIf="editPetForm.controls['dName'].invalid && editPetForm.controls['dName'].touched"
+                                        class="error-message">
+                                        <div *ngIf="editPetForm.controls['dName'].errors?.['required']"
+                                            class="ct_fs_14">
+                                            Dispay name
+                                            is
+                                            required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Gender <span class="ct_required_star">*</span></label>
+                                    <select class="form-control" formControlName="gender">
+                                        <option value="" disabled>Select</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="non-binary">Non-binary</option>
+                                        <option value="prefer-not-to-say">Prefer not to say</option>
+                                        <option value="unknown">Gender unknown</option>
+                                    </select>
+                                    <div *ngIf="editPetForm.controls['gender'].invalid && editPetForm.controls['gender'].touched"
+                                        class="error-message">
+                                        <div *ngIf="editPetForm.controls['gender'].errors?.['required']"
+                                            class="ct_fs_14">
+                                            Gender
+                                            is
+                                            required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Is pet alive? <span
+                                            class="ct_required_star">*</span></label>
+                                    <select class="form-control" formControlName="isAlive">
+                                        <option value="" disabled>Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="3">Not yet born</option>
+                                        <option value="4">Angel baby</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <div *ngIf="editPetForm.controls['isAlive'].invalid && editPetForm.controls['isAlive'].touched"
+                                        class="error-message">
+                                        <div *ngIf="editPetForm.controls['isAlive'].errors?.['required']"
+                                            class="ct_fs_14">
+                                            This field
+                                            is
+                                            required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Link to a Family Member <span
+                                            class="ct_required_star">*</span></label>
+                                    <select class="form-control" formControlName="familyLink">
+                                        <option value="">Harvey Lind</option>
+                                        <option value="">Harvey Lind</option>
+                                    </select>
+                                    <div *ngIf="editPetForm.controls['familyLink'].invalid && editPetForm.controls['familyLink'].touched"
+                                        class="error-message">
+                                        <div *ngIf="editPetForm.controls['familyLink'].errors?.['required']"
+                                            class="ct_fs_14">
+                                            This field
+                                            is
+                                            required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="col-md-12">
+                                <div class="form-group mb-3" >
+                                    <label for="" class="mb-2">Date of Birth <span
+                                            class="ct_required_star">*</span></label>
+                                    <input type="date" class="form-control" formControlName="dob"/>
+                                </div>
+                            </div> -->
+
+                            <div class="col-md-12">
+                                <div
+                                    class="d-flex align-items-center justify-content-between gap-3 flex-wrap pb-4 pt-2">
+                                    <!-- <div class="ct_checkbox_main">
+                                        <div>
+                                            <input checked="" type="checkbox" id="ct_checkbox_cbx_pt1"
+                                                class="ct_hidden-xs-up ct_checkbox_cbx_12"
+                                                formControlName="isDOBUnknown" (change)="onEditPetDOBChange()">
+                                            <label for="ct_checkbox_cbx_pt1" class="ct_checkbox_cbx"></label>
+                                        </div>
+                                        <p class="mb-0">Date of birth unknown</p>
+                                    </div> -->
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group mb-3">
+                                        <label for="" class="mb-2">Date of Birth <span
+                                                class="ct_required_star">*</span></label>
+                                        <input type="date" class="form-control" formControlName='dob' />
+                                        <div *ngIf="editPetForm.controls['dob'].invalid && editPetForm.controls['dob'].touched"
+                                            class="error-message">
+                                            <div *ngIf="editPetForm.controls['dob'].errors?.['required']"
+                                                class="ct_fs_14">
+                                                DOB
+                                                is
+                                                required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- <button  type="button ct_" class="ct_green_btn ct_h_50 w-100">
+                            <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22"
+                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M6.5 2.75H17.5569C17.3235 2.09246 16.8924 1.52322 16.3228 1.12038C15.7531 0.717547 15.0727 0.500842 14.375 0.5H3.875C2.97989 0.5 2.12145 0.855579 1.48851 1.48851C0.855579 2.12145 0.5 2.97989 0.5 3.875V14.375C0.500842 15.0727 0.717547 15.7531 1.12038 16.3228C1.52322 16.8924 2.09246 17.3235 2.75 17.5569V6.5C2.75 5.50544 3.14509 4.55161 3.84835 3.84835C4.55161 3.14509 5.50544 2.75 6.5 2.75Z"
+                                        fill="white" />
+                                    <path
+                                        d="M10.7727 11.8215C10.4213 11.8215 10.1364 12.1206 10.1364 12.4896V16.1639C10.1364 16.5328 10.4213 16.8319 10.7727 16.8319H15.2273C15.5787 16.8319 15.8636 16.5328 15.8636 16.1639V12.4896C15.8636 12.1206 15.5787 11.8215 15.2273 11.8215H10.7727Z"
+                                        fill="white" />
+                                    <path
+                                        d="M14.2728 9.50418V11.1534H11.7273V9.50418C11.7273 9.14982 11.8614 8.80997 12.1001 8.5594C12.3388 8.30883 12.6625 8.16806 13.0001 8.16806C13.3376 8.16806 13.6613 8.30883 13.9 8.5594C14.1387 8.80997 14.2728 9.14982 14.2728 9.50418Z"
+                                        fill="white" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M18.125 21.5H7.625C6.7299 21.5 5.87145 21.1444 5.23852 20.5115C4.60558 19.8786 4.25 19.0201 4.25 18.125V7.625C4.25 6.7299 4.60558 5.87145 5.23852 5.23852C5.87145 4.60558 6.7299 4.25 7.625 4.25H18.125C19.0201 4.25 19.8786 4.60558 20.5115 5.23852C21.1444 5.87145 21.5 6.7299 21.5 7.625V18.125C21.5 19.0201 21.1444 19.8786 20.5115 20.5115C19.8786 21.1444 19.0201 21.5 18.125 21.5ZM11.6501 8.08701C12.0081 7.71115 12.4937 7.5 13.0001 7.5C13.5064 7.5 13.992 7.71115 14.35 8.08701C14.708 8.46287 14.9091 8.97264 14.9091 9.50418V11.1534H15.2273C15.9302 11.1534 16.5 11.7516 16.5 12.4896V16.1639C16.5 16.9018 15.9302 17.5 15.2273 17.5H10.7727C10.0698 17.5 9.5 16.9018 9.5 16.1639V12.4896C9.5 11.7516 10.0698 11.1534 10.7727 11.1534H11.091V9.50418C11.091 8.97264 11.2921 8.46287 11.6501 8.08701Z"
+                                        fill="white" />
+                                    <rect x="7.5" y="6.5" width="11" height="12" fill="white" />
+                                    <path
+                                        d="M16.2143 8.5H9.78571C9.44484 8.50039 9.11803 8.64099 8.87699 8.89095C8.63595 9.14092 8.50037 9.47983 8.5 9.83333V15.1667C8.50037 15.5202 8.63595 15.8591 8.87699 16.109C9.11803 16.359 9.44484 16.4996 9.78571 16.5H16.2143C16.5552 16.4996 16.882 16.359 17.123 16.109C17.364 15.8591 17.4996 15.5202 17.5 15.1667V9.83333C17.4996 9.47983 17.364 9.14092 17.123 8.89095C16.882 8.64099 16.5552 8.50039 16.2143 8.5ZM14.6071 9.83333C14.7979 9.83333 14.9843 9.89198 15.1429 10.0019C15.3014 10.1117 15.425 10.2679 15.498 10.4506C15.571 10.6334 15.5901 10.8344 15.5529 11.0284C15.5157 11.2224 15.4239 11.4006 15.289 11.5404C15.1541 11.6803 14.9823 11.7755 14.7953 11.8141C14.6082 11.8527 14.4143 11.8329 14.2381 11.7572C14.0619 11.6815 13.9113 11.5534 13.8054 11.3889C13.6994 11.2245 13.6429 11.0311 13.6429 10.8333C13.6431 10.5682 13.7448 10.314 13.9256 10.1265C14.1064 9.93905 14.3515 9.83361 14.6071 9.83333ZM9.78571 15.8333C9.61522 15.8333 9.4517 15.7631 9.33115 15.6381C9.21059 15.513 9.14286 15.3435 9.14286 15.1667V13.7577L11.0481 12.0015C11.232 11.8324 11.471 11.7424 11.7166 11.7497C11.9622 11.7571 12.1959 11.8613 12.37 12.041L13.6748 13.3913L11.3199 15.8333H9.78571ZM16.8571 15.1667C16.8571 15.3435 16.7894 15.513 16.6689 15.6381C16.5483 15.7631 16.3848 15.8333 16.2143 15.8333H12.2292L14.6684 13.3038C14.8411 13.1514 15.0603 13.0675 15.287 13.0669C15.5137 13.0663 15.7333 13.149 15.9067 13.3004L16.8571 14.1217V15.1667Z"
+                                        fill="#0EAE00" />
+                                </svg>View Full Album </a>
+                        </button> -->
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767">
+                <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
+                    data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button (click)="editPet()" type="button ct_" class="ct_green_btn ct_h_50">
+                    Update
+                </button>
+                <button hidden type="button" class="btn btn-secondary" #closeModalEditPet
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit pet Detail E -->

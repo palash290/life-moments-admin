@@ -30,19 +30,49 @@ export class MemberProfilesComponent {
     ] // Add `checked: false` to each item
   }
 
-  
+    //Pagination//
+    currentPage: number = 1;
+    pageSize: number = 10;
+    hasMoreData: boolean = true;
+
   getSubAdmins() {
-    this.loading = true;
-    this.service.getApi(`sub-admin/get-all-users`).subscribe({
+    //this.loading = true;
+    this.service.getApi(`sub-admin/get-all-users?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}`).subscribe({
       next: resp => {
         this.data = resp.data;
         this.loading = false;
+
+        this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
+          item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
+          return item;
+        });
+        this.hasMoreData = resp.data.length === this.pageSize;
+
       },
       error: error => {
         this.loading = false;
         console.log(error.message);
       }
     });
+  }
+
+  goToPage(page: number) {
+    this.currentPage = page;
+    this.getSubAdmins();
+  }
+
+  nextPage() {
+    if (this.hasMoreData) {
+      this.currentPage++;
+      this.getSubAdmins();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.getSubAdmins();
+    }
   }
 
   getMemberAlbum(item: any) {

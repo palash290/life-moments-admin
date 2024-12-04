@@ -21,12 +21,6 @@ export class SubAdminsComponent {
   pattern1 = "^[0-9_-]{10,12}";
   isPasswordVisible: boolean = false;
 
-  //Pagination//
-  currentPage: number = 1;
-  pageSize: number = 10;
-  searchQuery: any = '';
-  hasMoreData: boolean = true;
-
 
   constructor(private service: SharedService, private toastr: ToastrService) { }
 
@@ -35,6 +29,12 @@ export class SubAdminsComponent {
     this.initUpdateForm();
     this.getSubAdmins();
   }
+
+  //Pagination//
+  currentPage: number = 1;
+  pageSize: number = 10;
+  searchQuery: any = '';
+  hasMoreData: boolean = true;
 
   getSubAdmins() {
     this.service.getApi(`sub-admin/list-subadmin?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}`).subscribe({
@@ -91,7 +91,7 @@ export class SubAdminsComponent {
 
   initUpdateForm() {
     this.editAdmin = new FormGroup({
-      email: new FormControl({value: this.updateDet?.email, disabled: true}, [Validators.required, Validators.email]),
+      email: new FormControl({ value: this.updateDet?.email, disabled: true }, [Validators.required, Validators.email]),
       name: new FormControl(this.updateDet?.name, Validators.required),
       password: new FormControl(this.updateDet?.password, Validators.required),
       phone: new FormControl(this.updateDet?.contact_no, [Validators.required, Validators.pattern(this.pattern1)]),

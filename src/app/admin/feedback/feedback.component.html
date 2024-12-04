@@ -9,6 +9,7 @@
                 <table class="table ct_project_table ct_light_grey_table_td">
                     <thead>
                         <tr>
+                            <th>S No.</th>
                             <th>Member</th>
                             <th>Time</th>
                             <th>Date</th>
@@ -17,6 +18,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of data; let i = index">
+                            <td>{{ item.serialNumber }}</td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <img [src]='item.profile_image ? item.profile_image : "assets/img/np_pro.png"'
@@ -37,6 +39,22 @@
                     </div>
                 </table>
             </div>
+
+            <!-- Pagination Controls -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+
+                <!-- Pagination Controls -->
+                <div class="pagination-controls">
+                    <button (click)="previousPage()" class="ct_previous"
+                        [disabled]="currentPage === 1">Previous</button>
+                    <button>
+                        {{ currentPage }}
+                    </button>
+                    <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+                </div>
+
+            </div>
+
         </div>
     </div>
 </div>
@@ -74,6 +92,17 @@
                     <p class="mb-0 text-center" style="word-break:break-all">
                         {{feedbackDetails?.feedback}}
                     </p>
+
+                    <div class="form-group mt-3">
+                        <span>Reply To : {{feedbackDetails?.email}}</span>
+                        <textarea class="form-control ct_input h-auto" rows="5" [(ngModel)]="message"
+                            placeholder="Type here...."></textarea>
+                    </div>
+
+                    <button (click)="addSendMsg(feedbackDetails?.email)" class="ct_green_btn mt-3 d-flex"
+                        style="width: fit-content;"> Send</button>
+                    <button hidden type="button" class="btn btn-secondary" #closeModal
+                        data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

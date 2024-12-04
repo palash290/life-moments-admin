@@ -11,10 +11,9 @@
                 <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchQuery" />
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <!-- <button (click)="getRelationNames()" class="ct_green_btn" data-bs-toggle="modal"
-                data-bs-target="#add-new-member">Add New Member</button> -->
-            <button class="ct_green_btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coming Soon">Add New
-                Member</button>
+            <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add-new-member">Add New Member</button>
+            <!-- <button class="ct_green_btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coming Soon">Add New
+                Member</button> -->
         </div>
     </div>
 
@@ -22,7 +21,8 @@
         <div class="col-lg-12 mb-4 mb-lg-0">
             <div class="d-flex align-items-center justify-content-between gap-2 ct_white_bg_1">
                 <div class="d-flex align-items-center gap-2">
-                    <img [src]="filteredOutMembers[0]?.image_link" class="ct_img_40 ct_border_2" />
+                    <img [src]="filteredOutMembers[0]?.image_link" class="ct_img_40 ct_border_2"
+                        style="border: solid var(--dark_green);" />
                     <div>
                         <p class="mb-0 ct_fs_18 ct_fw_600">{{filteredOutMembers[0]?.full_name}}</p>
                         <p class="mb-0 ct_fs_14"><span>{{email}}</span></p>
@@ -33,10 +33,10 @@
                 <div class="d-flex align-items-center gap-4">
                     <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal" style="cursor: pointer"
                         data-bs-target="#view-family-parent" (click)="getParentId(filteredOutMembers[0]?.id)"></i>
-                    <!-- <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
-                        data-bs-target="#edit-family-parent"></i> -->
-                    <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="tooltip"
-                        data-bs-placement="bottom" title="Coming Soon" style="cursor: pointer"></i>
+                    <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
+                        data-bs-target="#edit-family-parent" style="cursor: pointer"></i>
+                    <!-- <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="tooltip"
+                        data-bs-placement="bottom" title="Coming Soon" style="cursor: pointer"></i> -->
                     <i class="fa-solid fa-paw ct_green_text" style="cursor: pointer"
                         (click)="goToPetList(filteredOutMembers[0]?.id)"></i>
 
@@ -63,7 +63,7 @@
                                 <a>
                                     <div class="d-flex align-items-center gap-2">
                                         <img [src]='item?.image_link ? item?.image_link : "http://18.229.202.71:4000/images/1727186679509.png"'
-                                            class="ct_img_40 ct_border_2" />
+                                            class="ct_img_40 ct_border_2" style="border: solid var(--dark_green);" />
                                         <p class="mb-0 ct_fs_16 ct_green_text">{{item.full_name}}</p>
                                     </div>
                                 </a>
@@ -83,14 +83,23 @@
                                 <div *ngIf="item.gender == 'female'">
                                     Female
                                 </div>
-                                } @else {
-                                <div *ngIf="item.other_gender == 'PreferNotToSay'">
+                                <div *ngIf="item.gender == 'prefer-not-to-say'">
                                     Prefer Not To Say
                                 </div>
-                                <div *ngIf="item.other_gender == 'NonBinary'">
+                                <div *ngIf="item.gender == 'non-binary'">
                                     Non Binary
                                 </div>
-                                <div *ngIf="item.other_gender == 'GenderUnknown'">
+                                <div *ngIf="item.gender == 'unknown'">
+                                    Gender Unknown
+                                </div>
+                                } @else {
+                                <div *ngIf="item.other_gender == 'prefer-not-to-say'">
+                                    Prefer Not To Say
+                                </div>
+                                <div *ngIf="item.other_gender == 'non-binary'">
+                                    Non Binary
+                                </div>
+                                <div *ngIf="item.other_gender == 'unknown'">
                                     Gender Unknown
                                 </div>
                                 }
@@ -117,26 +126,26 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <i (click)="getSingleMemberData(item)" class="fa-regular fa-eye ct_green_text"
                                         data-bs-toggle="modal" data-bs-target="#view-pet"></i>
-                                    <!-- <i (click)="getSingleMemberData(item.id)"
+                                    <i (click)="getSingleMemberData(item.id)"
                                         class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
-                                        data-bs-target="#edit-pet"></i> -->
-                                    <i (click)="getSingleMemberData(item)"
-                                        class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="tooltip"
-                                        data-bs-placement="bottom" title="Coming Soon"></i>
+                                        data-bs-target="#edit-pet"></i>
+
                                 </div>
                                 } @else {
                                 <div class="d-flex align-items-center gap-3">
                                     <i (click)="getSingleMemberData(item)" class="fa-regular fa-eye ct_green_text"
                                         data-bs-toggle="modal" data-bs-target="#view-family"
                                         style="cursor: pointer"></i>
-                                    <!-- <i (click)="getSingleMemberData(item)"
-                                        class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
-                                        data-bs-target="#edit-family-detail"></i> -->
                                     <i (click)="getSingleMemberData(item)"
-                                        class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="tooltip"
-                                        data-bs-placement="bottom" title="Coming Soon" style="cursor: pointer"></i>
+                                        class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
+                                        data-bs-target="#edit-family-detail" style="cursor: pointer"></i>
+
                                     <i class="fa-solid fa-paw ct_green_text" style="cursor: pointer"
                                         (click)="goToPetList(item.id)"></i>
+
+                                    <!-- <i (click)="openDeleteModal(item)" class="fa-regular fa-trash ct_green_text"
+                                        data-bs-toggle="modal" data-bs-target="#delete_modal"
+                                        style="cursor: pointer"></i> -->
                                 </div>
                                 }
                                 <!-- data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coming Soon" -->
@@ -163,12 +172,12 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content ct_pb_50">
             <div class="modal-body">
-                <h4 class="ct_fs_24 ct_fw_600 text-center">Add Parent</h4>
+                <h4 class="ct_fs_24 ct_fw_600 text-center">Add Member</h4>
                 <form [formGroup]="newMemberForm">
                     <div class="pt-5">
                         <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
-                            <img [src]="parentImage1 ? parentImage1 : 'assets/img/np_pro.png'" alt=""
-                                class="ct_img_164 mx-auto d-block">
+                            <img [src]="parentImage1 ? parentImage1 : 'http://18.229.202.71:4000/images/1727186679509.png'"
+                                alt="" class="ct_img_164 mx-auto d-block" style="border: solid var(--dark_green);">
 
                             <label for="ct_edit_img1">
                                 <!-- <input accept="image/*" type="file" id="imgInp1" class="d-none" -->
@@ -255,10 +264,10 @@
                                             class="ct_required_star">*</span></label>
                                     <select class="form-control" formControlName="isAlive">
                                         <option value="" disabled>Select</option>
-                                        <option value="yes">Yes</option>
-                                        <option value="not-yet-born">Not yet born</option>
-                                        <option value="angel-baby">Angel baby</option>
-                                        <option value="no">No</option>
+                                        <option value="1">Yes</option>
+                                        <option value="3">Not yet born</option>
+                                        <option value="4">Angel baby</option>
+                                        <option value="2">No</option>
                                     </select>
                                     <div *ngIf="newMemberForm.controls['isAlive'].invalid && newMemberForm.controls['isAlive'].touched"
                                         class="error-message">
@@ -275,18 +284,40 @@
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Relation Name <span
                                             class="ct_required_star">*</span></label>
-                                    <!-- <select class="form-control" formControlName="relationName">
+                                    <select class="form-control" formControlName="relationName"
+                                        (change)="onRelationCaseChange($event)">
                                         <option value="" disabled>Select</option>
-                                        <option value="father">Father</option>
+                                        <option *ngFor="let relation of filteredRelations" [value]="relation.value">
+                                            {{ relation.label }}
+                                        </option>
+                                        <!-- <option value="father">Father</option>
+                                        <option value="step_father">Step Father</option>
+                                        <option value="caregiver">Caregiver</option>
                                         <option value="mother">Mother</option>
+                                        <option value="step_mother">Step Mother</option>
+                                        <option value="step_parent">Step Parent</option>
                                         <option value="son">Son</option>
-                                    </select> -->
-                                    <select [(ngModel)]="relationId" (change)="onRelationChange($event)"
+                                        <option value="step_son">Step Son</option>
+                                        <option value="step_child">Step Child</option>
+                                        <option value="daughter">Daughter</option>
+                                        <option value="step_daughter">Step Daughter</option>
+                                        <option value="child">Child</option>
+                                        <option value="brother">Brother</option>
+                                        <option value="step_brother">Step Brother</option>
+                                        <option value="step_sibiling">Step Sibiling</option>
+                                        <option value="sister">Sister</option>
+                                        <option value="step_sister">Step Sister</option>
+                                        <option value="sibiling">Sibiling</option>
+                                        <option value="partner">Partner</option>
+                                        <option value="grandparent1">Grandparent 1</option>
+                                        <option value="grandparent2">Grandparent 2</option> -->
+                                    </select>
+                                    <!-- <select [(ngModel)]="relationId" (change)="onRelationChange($event)"
                                         class="form-control" formControlName="relationName">
                                         <option *ngFor="let lan of relationNames" [value]="lan.code">
                                             {{ lan.name }}
                                         </option>
-                                    </select>
+                                    </select> -->
                                     <div *ngIf="newMemberForm.controls['relationName'].invalid && newMemberForm.controls['relationName'].touched"
                                         class="error-message">
                                         <div *ngIf="newMemberForm.controls['relationName'].errors?.['required']"
@@ -302,10 +333,12 @@
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Relation with <span
                                             class="ct_required_star">*</span></label>
-                                    <select class="form-control" formControlName="relationWith">
+                                    <select [(ngModel)]="relationId" (change)="onRelationChange($event)"
+                                        class="form-control" formControlName="relationWith">
                                         <option value="" disabled>Select</option>
-                                        <option value="1">Harvey Lind</option>
-                                        <option value="2">Harvey Lind</option>
+                                        <option *ngFor="let lan of allMemberList" [value]="lan?.id">
+                                            {{ lan?.user_name }}
+                                        </option>
                                     </select>
                                     <div *ngIf="newMemberForm.controls['relationWith'].invalid && newMemberForm.controls['relationWith'].touched"
                                         class="error-message">
@@ -379,8 +412,8 @@
                 <button hidden type="button" class="btn btn-secondary" #closeModalAdd
                     data-bs-dismiss="modal">Close</button>
             </div>
-            <h6 class="mb-0 text-center ct_green_text ct_fs_18" data-bs-toggle="modal" data-bs-target="#add-new-pet">
-                Want to add a pet?</h6>
+            <!-- <h6 class="mb-0 text-center ct_green_text ct_fs_18" data-bs-toggle="modal" data-bs-target="#add-new-pet">
+                Want to add a pet?</h6> -->
         </div>
     </div>
 </div>
@@ -399,7 +432,8 @@
                 <form [formGroup]="editParentForm">
                     <div class="pt-5">
                         <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
-                            <img id="blah2" src="assets/img/men_user.png" alt="" class="ct_img_164 mx-auto d-block">
+                            <img id="blah2" src="assets/img/men_user.png" alt="" class="ct_img_164 mx-auto d-block"
+                                style="border: solid var(--dark_green);">
                             <label for="ct_edit_img">
                                 <input accept="image/*" type="file" id="ct_edit_img" class="d-none"
                                     (change)="handleFileInputEditParent($event)" formControlName="image">
@@ -583,8 +617,8 @@
         </div>
     </div>
 </div>
-
 <!-- Edit parent Family Detail E -->
+
 
 
 
@@ -814,8 +848,9 @@
                 <form [formGroup]="editMemberForm">
                     <div class="pt-5">
                         <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
-                            <img id="blagEditMem" src="assets/img/men_user.png" alt=""
-                                class="ct_img_164 mx-auto d-block">
+                            <img id="blagEditMem"
+                                [src]="this.singleMemberDetail?.image_link ? this.singleMemberDetail?.image_link : 'http://18.229.202.71:4000/images/1727186679509.png'"
+                                alt="" class="ct_img_164 mx-auto d-block" style="border: solid var(--dark_green);">
                             <label for="ct_edit_img_44">
                                 <input accept="image/*" type="file" id="ct_edit_img_44" class="d-none"
                                     (change)="handleFileInputEditMember($event)" formControlName="image">
@@ -867,9 +902,12 @@
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Gender <span class="ct_required_star">*</span></label>
                                     <select class="form-control" formControlName="gender">
-                                        <option value="">Male</option>
-                                        <option value="">Female</option>
-                                        <option value="">Other</option>
+                                        <option value="" disabled>Select</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="non-binary">Non-binary</option>
+                                        <option value="prefer-not-to-say">Prefer not to say</option>
+                                        <option value="unknown">Gender unknown</option>
                                     </select>
                                     <div *ngIf="editMemberForm.controls['gender'].invalid && editMemberForm.controls['gender'].touched"
                                         class="error-message">
@@ -887,8 +925,11 @@
                                     <label for="" class="mb-2">Is person alive? <span
                                             class="ct_required_star">*</span></label>
                                     <select class="form-control" formControlName="isAlive">
-                                        <option value="">Yes</option>
-                                        <option value="">No</option>
+                                        <option value="" disabled>Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="3">Not yet born</option>
+                                        <option value="4">Angel baby</option>
+                                        <option value="2">No</option>
                                     </select>
                                     <div *ngIf="editMemberForm.controls['isAlive'].invalid && editMemberForm.controls['isAlive'].touched"
                                         class="error-message">
@@ -906,9 +947,28 @@
                                     <label for="" class="mb-2">Relation Name <span
                                             class="ct_required_star">*</span></label>
                                     <select class="form-control" formControlName="relationName">
-                                        <option value="">Father</option>
-                                        <option value="">Mother</option>
-                                        <option value="">Son</option>
+                                        <option value="" disabled>Select</option>
+                                        <option value="Father">Father</option>
+                                        <option value="Step-Father">Step Father</option>
+                                        <option value="caregiver">Caregiver</option>
+                                        <option value="Mother">Mother</option>
+                                        <option value="Step-Mother">Step Mother</option>
+                                        <option value="Step-Parent">Step Parent</option>
+                                        <option value="Son">Son</option>
+                                        <option value="Step-Son">Step Son</option>
+                                        <option value="Step-Child">Step Child</option>
+                                        <option value="daughter">Daughter</option>
+                                        <option value="Step-Daughter">Step Daughter</option>
+                                        <option value="Child">Child</option>
+                                        <option value="Brother">Brother</option>
+                                        <option value="Step-Brother">Step Brother</option>
+                                        <option value="Step-Sibiling">Step Sibiling</option>
+                                        <option value="Sister">Sister</option>
+                                        <option value="Step-Sister">Step Sister</option>
+                                        <option value="Sibiling">Sibiling</option>
+                                        <option value="Partner">Partner</option>
+                                        <option value="Grandparent">Grandparent 1</option>
+                                        <option value="Grandparent">Grandparent 2</option>
                                     </select>
                                     <div *ngIf="editMemberForm.controls['relationName'].invalid && editMemberForm.controls['relationName'].touched"
                                         class="error-message">
@@ -925,9 +985,12 @@
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Relation with <span
                                             class="ct_required_star">*</span></label>
-                                    <select class="form-control" formControlName="relationWith">
-                                        <option value="">Harvey Lind</option>
-                                        <option value="">Harvey Lind</option>
+                                    <select [(ngModel)]="relationId" (change)="onRelationChange($event)"
+                                        class="form-control" formControlName="relationWith">
+                                        <option value="" disabled>Select</option>
+                                        <option *ngFor="let lan of data" [value]="lan?.id">
+                                            {{ lan?.user_name }}
+                                        </option>
                                     </select>
                                     <div *ngIf="editMemberForm.controls['relationWith'].invalid && editMemberForm.controls['relationWith'].touched"
                                         class="error-message">
@@ -966,7 +1029,12 @@
                     Cancel
                 </button>
                 <button (click)="editmember()" type="button ct_" class="ct_green_btn ct_h_50">
-                    Update
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="spinner-border me-2" role="status" *ngIf="editMemLoader">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span *ngIf="!editMemLoader">Add to tree</span>
+                    </div>
                 </button>
                 <button hidden type="button" class="btn btn-secondary" #closeModalEditMember
                     data-bs-dismiss="modal">Close</button>
@@ -978,189 +1046,6 @@
 
 
 
-
-<!-- add new pet  Detail S -->
-<div class="modal fade Committed_Price" id="add-new-pet" tabindex="-1" aria-labelledby="add-new-petLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content ct_pb_50">
-            <div class="modal-body">
-                <h4>Add Pet</h4>
-                <form [formGroup]="newPetForm">
-                    <div class="pt-5">
-                        <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
-                            <!-- <img src="assets/img/men_user.png" alt="" class="ct_img_164 mx-auto d-block"> -->
-                            <img [src]="petImage1 ? petImage1 : 'assets/img/np_pro.png'" alt=""
-                                class="ct_img_164 mx-auto d-block">
-                            <label for="ct_edit_img_pet">
-                                <!-- <input type="file" class="d-none" id="ct_edit_img"> -->
-                                <input type="file" accept="image/*" class="d-none" id="ct_edit_img_pet"
-                                    formControlName="image" (change)="onImageSelected($event, 'pet')">
-                                <div class="ct_edit_icon">
-                                    <svg width="26" height="24" viewBox="0 0 26 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M8.23622 0.496129C8.41543 0.188911 8.74433 0 9.1 0H16.9C17.2557 0 17.5846 0.188911 17.7638 0.496129L19.5744 3.6H22C24.2091 
-                                            3.6 26 5.39086 26 7.6V19.9C26 22.1091 24.2091 23.9 22 23.9H4C1.79086 23.9 0 22.1091 0 19.9V7.6C0 5.39086 1.79086 3.6 4 3.6H6.42563L8.23622 
-                                            0.496129ZM9.67437 2L7.86378 5.10387C7.68457 5.41109 7.35567 5.6 7 5.6H4C2.89543 5.6 2 6.49543 2 7.6V19.9C2 21.0046 2.89543 21.9 4
-                                             21.9H22C23.1046 21.9 24 21.0046 24 19.9V7.6C24 6.49543 23.1046 5.6 22 5.6H19C18.6443 5.6 18.3154 5.41109 18.1362 5.10387L16.3256 2H9.67437Z
-                                             M13 9.5C11.067 9.5 9.5 11.067 9.5 13C9.5 14.933 11.067 16.5 13 16.5C14.933 16.5 16.5 14.933 16.5 13C16.5 11.067 14.933 9.5 13 9.5ZM7.5 13C7.5 
-                                             9.96243 9.96243 7.5 13 7.5C16.0376 7.5 18.5 9.96243 18.5 13C18.5 16.0376 16.0376 18.5 13 18.5C9.96243 18.5 7.5 16.0376 7.5 13Z"
-                                            fill="white" />
-                                    </svg>
-                                </div>
-                            </label>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="" class="mb-2">Name <span class="ct_required_star">*</span></label>
-                                    <input type="text" class="form-control" value="Zaire Siphron" formControlName="name"
-                                        placeholder="Name" />
-                                    <div *ngIf="newPetForm.controls['name'].invalid && newPetForm.controls['name'].touched"
-                                        class="error-message">
-                                        <div *ngIf="newPetForm.controls['name'].errors?.['required']" class="ct_fs_14">
-                                            Name
-                                            is
-                                            required.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="" class="mb-2">Display Name <span
-                                            class="ct_required_star">*</span></label>
-                                    <input type="text" class="form-control" value="Siphron" formControlName="dName"
-                                        placeholder="Display Name" />
-                                    <div *ngIf="newPetForm.controls['dName'].invalid && newPetForm.controls['dName'].touched"
-                                        class="error-message">
-                                        <div *ngIf="newPetForm.controls['dName'].errors?.['required']" class="ct_fs_14">
-                                            Display name
-                                            is
-                                            required.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="" class="mb-2">Gender <span class="ct_required_star">*</span></label>
-                                    <select class="form-control" formControlName="gender">
-                                        <option value="" selected>Select</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                        <option value="non-binary">Non-binary</option>
-                                        <option value="prefer-not-to-say">Prefer not to say</option>
-                                        <option value="unknown">Gender unknown</option>
-                                    </select>
-                                    <div *ngIf="newPetForm.controls['gender'].invalid && newPetForm.controls['gender'].touched"
-                                        class="error-message">
-                                        <div *ngIf="newPetForm.controls['gender'].errors?.['required']"
-                                            class="ct_fs_14">
-                                            This field
-                                            is
-                                            required.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="" class="mb-2">Is pet alive? <span
-                                            class="ct_required_star">*</span></label>
-                                    <select class="form-control" formControlName="isAlive">
-                                        <option value="" selected>Select</option>
-                                        <option value="yes">Yes</option>
-                                        <option value="not-yet-born">Not yet born</option>
-                                        <option value="angel-baby">Angel baby</option>
-                                        <option value="no">No</option>
-                                    </select>
-                                    <div *ngIf="newPetForm.controls['isAlive'].invalid && newPetForm.controls['isAlive'].touched"
-                                        class="error-message">
-                                        <div *ngIf="newPetForm.controls['isAlive'].errors?.['required']"
-                                            class="ct_fs_14">
-                                            This field
-                                            is
-                                            required.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group mb-3">
-                                    <label for="" class="mb-2">Link to a Family Member <span
-                                            class="ct_required_star">*</span></label>
-                                    <select class="form-control" formControlName="familyLink">
-                                        <option value="" selected>Select</option>
-                                        <option value="1">Regina Crist</option>
-                                        <option value="2">Regina Crist</option>
-                                        <option value="3">Regina Crist</option>
-                                    </select>
-                                    <div *ngIf="newPetForm.controls['familyLink'].invalid && newPetForm.controls['familyLink'].touched"
-                                        class="error-message">
-                                        <div *ngIf="newPetForm.controls['familyLink'].errors?.['required']"
-                                            class="ct_fs_14">
-                                            This field
-                                            is
-                                            required.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div
-                                    class="d-flex align-items-center justify-content-between gap-3 flex-wrap pb-4 pt-2">
-                                    <div class="ct_checkbox_main">
-                                        <div>
-                                            <input checked="" type="checkbox" id="ct_checkbox_cbx_pt"
-                                                class="ct_hidden-xs-up ct_checkbox_cbx_12"
-                                                formControlName="isDOBUnknown" (change)="onPetDOBChange()">
-                                            <label for="ct_checkbox_cbx_pt" class="ct_checkbox_cbx"></label>
-                                        </div>
-                                        <p class="mb-0">Date of birth unknown</p>
-                                    </div>
-
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group mb-3">
-                                        <label for="" class="mb-2">Date of Birth <span
-                                                class="ct_required_star">*</span></label>
-                                        <input type="date" class="form-control" formControlName='dob' />
-                                        <div *ngIf="newPetForm.controls['dob'].invalid && newPetForm.controls['dob'].touched"
-                                            class="error-message">
-                                            <div *ngIf="newPetForm.controls['dob'].errors?.['required']"
-                                                class="ct_fs_14">
-                                                This field
-                                                is
-                                                required.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-4">
-                <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
-                    data-bs-dismiss="modal">
-                    Cancel
-                </button>
-                <button type="button ct_" class="ct_green_btn ct_h_50" (click)="addNewPet()">
-                    Add to tree
-                </button>
-            </div>
-            <h6 class="mb-0 text-center ct_green_text ct_fs_18" data-bs-toggle="modal" data-bs-target="#add-new-member">
-                Want to add a person?</h6>
-        </div>
-    </div>
-</div>
-<!-- add new membe E -->
 
 
 
@@ -1175,7 +1060,8 @@
                 <!-- <i class="fas fa-edit"></i> -->
                 <div class="pt-5">
                     <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
-                        <img [src]="filteredOutMembers[0]?.image_link" alt="" class="ct_img_164 mx-auto d-block">
+                        <img [src]="filteredOutMembers[0]?.image_link" alt="" class="ct_img_164 mx-auto d-block"
+                            style="border: solid var(--dark_green);">
                     </div>
                     <form action="">
                         <div class="row">
@@ -1314,7 +1200,8 @@
                     data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coming Soon"></i> -->
                 <div class="pt-5">
                     <div>
-                        <img [src]="singleMemberDetail?.image_link" alt="" class="ct_img_164 mx-auto d-block ct_mb_32">
+                        <img [src]="singleMemberDetail?.image_link ? singleMemberDetail?.image_link : 'http://18.229.202.71:4000/images/1727186679509.png'"
+                            alt="" class="ct_img_164 mx-auto d-block ct_mb_32" style="border: solid var(--dark_green);">
                         <!-- <h4 class="mb-2 text-center ct_fs_24">{{singleMemberDetail?.full_name}}, <span
                                 class="ct_green_text">42</span></h4> -->
                         <h4 class="mb-2 text-center ct_fs_24">{{singleMemberDetail?.full_name}}</h4>
@@ -1510,6 +1397,39 @@
             <div></div>
             <div></div>
             <div></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade Committed_Price" id="delete_modal" tabindex="-1" aria-labelledby="delete_modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content pb-5 ct_px_50">
+            <div class="modal-body px-0">
+                <div class="pt-5">
+                    <img src="assets/img/remove.png" alt="" class="ct_img_60 mx-auto d-block mb-4">
+                    <h4 class="ct_fw_500 mb-3 text-center">Are you Sure?</h4>
+                    <p class="text-center">Do you really want to delete this? after deleting <br> you can't undone</p>
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-0">
+                <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
+                    data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button (click)="deleteMember()" type="button" class="ct_green_btn ct_h_50 ct_btn_red">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="spinner-border me-2" role="status" *ngIf="btnDelLoader">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span *ngIf="!btnDelLoader">Delete</span>
+                    </div>
+                </button>
+                <button hidden type="button" class="btn btn-secondary" #closeModalDel
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+
         </div>
     </div>
 </div>

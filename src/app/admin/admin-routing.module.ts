@@ -30,6 +30,8 @@ import { PetAlbumComponent } from './pet/pet-album/pet-album.component';
 import { PetSubAlbumComponent } from './pet/pet-sub-album/pet-sub-album.component';
 import { PetSubAlbumPhotosComponent } from './pet/pet-sub-album-photos/pet-sub-album-photos.component';
 import { PetPhotoAlbumDateComponent } from './pet/pet-photo-album-date/pet-photo-album-date.component';
+import { InterviewComponent } from './interview/interview.component';
+import { FaqComponent } from './faq/faq.component';
 
 const routes: Routes = [
   {
@@ -157,6 +159,15 @@ const routes: Routes = [
       {
         path: 'pet-sub-album-photos',
         component: PetSubAlbumPhotosComponent
+      },
+
+      {
+        path: 'interview',
+        component: InterviewComponent
+      },
+      {
+        path: 'faq',
+        component: FaqComponent
       },
     ]
   }
