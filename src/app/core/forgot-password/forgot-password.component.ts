@@ -37,7 +37,7 @@ export class ForgotPasswordComponent {
       const formURlData = new URLSearchParams()
       formURlData.set('email', this.resetForm.value.email)
       this.srevice
-        .postAPI('sub-admin/forgotPassword', formURlData.toString())
+        .postAPI('sub-admin/forget-password', formURlData.toString())
         .subscribe({
           next: (resp: any) => {
             if (resp.success == true) {

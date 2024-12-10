@@ -179,7 +179,7 @@
 
 
 
-<!-- add new member  Detail S -->
+<!-- add new member Detail S -->
 <div class="modal fade Committed_Price" id="add-new-member" tabindex="-1" aria-labelledby="add-new-memberLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -370,7 +370,7 @@
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Date of Birth <span
                                             class="ct_required_star">*</span></label>
-                                    <input type="date" class="form-control" formControlName="dob" />
+                                    <input type="date" class="form-control" formControlName="dob" [max]="maxDate"/>
                                     <div *ngIf="newMemberForm.controls['dob'].invalid && newMemberForm.controls['dob'].touched"
                                         class="error-message">
                                         <div *ngIf="newMemberForm.controls['dob'].errors?.['required']"
@@ -558,7 +558,7 @@
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Date of Birth <span
                                             class="ct_required_star">*</span></label>
-                                    <input type="date" class="form-control" formControlName="dob" />
+                                    <input type="date" class="form-control" formControlName="dob" [max]="maxDate"/>
                                     <div *ngIf="editParentForm.controls['dob'].invalid && editParentForm.controls['dob'].touched"
                                         class="error-message">
                                         <div *ngIf="editParentForm.controls['dob'].errors?.['required']"
@@ -776,7 +776,7 @@
                                     <div class="form-group mb-3">
                                         <label for="" class="mb-2">Date of Birth <span
                                                 class="ct_required_star">*</span></label>
-                                        <input type="date" class="form-control" formControlName='dob' />
+                                        <input type="date" class="form-control" formControlName='dob' [max]="maxDate"/>
                                         <div *ngIf="editPetForm.controls['dob'].invalid && editPetForm.controls['dob'].touched"
                                             class="error-message">
                                             <div *ngIf="editPetForm.controls['dob'].errors?.['required']"
@@ -1019,7 +1019,7 @@
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Date of Birth <span
                                             class="ct_required_star">*</span></label>
-                                    <input type="date" class="form-control" formControlName="dob" />
+                                    <input type="date" class="form-control" formControlName="dob" [max]="maxDate"/>
                                     <div *ngIf="editMemberForm.controls['dob'].invalid && editMemberForm.controls['dob'].touched"
                                         class="error-message">
                                         <div *ngIf="editMemberForm.controls['dob'].errors?.['required']"

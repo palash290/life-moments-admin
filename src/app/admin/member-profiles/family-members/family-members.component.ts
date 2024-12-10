@@ -41,6 +41,16 @@ export class FamilyMembersComponent {
     localStorage.removeItem('itemId');
     localStorage.removeItem('itemEmail');
   }
+
+  maxDate: any;
+  setMaxDate() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    this.maxDate = `${yyyy}-${mm}-${dd}`;
+  }
+
   ////////////////parent is only edtiting////////////////////
   ngOnInit() {
     this.aRoute.paramMap.subscribe((params) => {
@@ -57,6 +67,7 @@ export class FamilyMembersComponent {
     this.initEditParentForm();
     this.initEditPetForm();
     this.getMembers();
+    this.setMaxDate();
 
     this.newMemberForm.get('gender')?.valueChanges.subscribe((gender) => {
       debugger
@@ -781,6 +792,7 @@ export class FamilyMembersComponent {
             this.parentImage1 = null;
             this.relationId = '';
             this.relationCaseId = '';
+            this.newMemberForm.reset();
             this.getMembers();
           } else {
             this.toastr.warning(resp.message);

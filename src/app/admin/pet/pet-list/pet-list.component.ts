@@ -35,6 +35,15 @@ export class PetListComponent {
     localStorage.removeItem('itemEmail')
   }
 
+  maxDate: any;
+  setMaxDate() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    this.maxDate = `${yyyy}-${mm}-${dd}`;
+  }
+
   itemId: any;
   itemEmail: any;
 
@@ -47,6 +56,7 @@ export class PetListComponent {
     this.getPet();
     this.initNewPetForm();
     this.initEditPetForm();
+    this.setMaxDate();
 
     this.itemId = localStorage.getItem('itemId')
     this.itemEmail = localStorage.getItem('itemEmail')
@@ -71,11 +81,23 @@ export class PetListComponent {
       name: new FormControl(this.petDetails?.name, Validators.required),
       dName: new FormControl(this.petDetails?.displayname, Validators.required),
       gender: new FormControl(this.petDetails?.gender, Validators.required),
-      dob: new FormControl(this.petDetails?.dob, Validators.required),
+      dob: new FormControl(this.convertDateFormat(this.petDetails?.dob), Validators.required),
       isAlive: new FormControl(this.petDetails?.is_alive, Validators.required),
       //familyLink: new FormControl('', Validators.required),
       isDOBUnknown: new FormControl(''),
     })
+  }
+
+  convertDateFormat(dateString: string): string {
+    // debugger
+    const parts = dateString?.split('/');
+    if (parts?.length !== 3) {
+      return '';
+    }
+    const day = parts[0];
+    const month = parts[1];
+    const year = parts[2];
+    return `${year}-${month}-${day}`;
   }
 
   // convertDateFormat(dateString: string): string {
@@ -90,59 +112,59 @@ export class PetListComponent {
   //   return `${year}-${month}-${day}`;
   // }
   // created_at
-// : 
-// "03/12/2024"
-// displayname
-// : 
-// "jud"
-// dob
-// : 
-// "2023-10-11"
-// family_id
-// : 
-// 744
-// gender
-// : 
-// "female"
-// id
-// : 
-// 396
-// images
-// : 
-// ""
-// images_url
-// : 
-// ""
-// is_alive
-// : 
-// 1
-// name
-// : 
-// "Juddy"
-// owner_date_of_birth
-// : 
-// "11/10/2000"
-// owner_displayname
-// : 
-// "shaun"
-// owner_id
-// : 
-// 3103
-// owner_name
-// : 
-// "shaun"
-// popup_move
-// : 
-// 0
-// popup_status
-// : 
-// 0
-// unknown_dob
-// : 
-// 0
-// user_id
-// : 
-// 324
+  // : 
+  // "03/12/2024"
+  // displayname
+  // : 
+  // "jud"
+  // dob
+  // : 
+  // "2023-10-11"
+  // family_id
+  // : 
+  // 744
+  // gender
+  // : 
+  // "female"
+  // id
+  // : 
+  // 396
+  // images
+  // : 
+  // ""
+  // images_url
+  // : 
+  // ""
+  // is_alive
+  // : 
+  // 1
+  // name
+  // : 
+  // "Juddy"
+  // owner_date_of_birth
+  // : 
+  // "11/10/2000"
+  // owner_displayname
+  // : 
+  // "shaun"
+  // owner_id
+  // : 
+  // 3103
+  // owner_name
+  // : 
+  // "shaun"
+  // popup_move
+  // : 
+  // 0
+  // popup_status
+  // : 
+  // 0
+  // unknown_dob
+  // : 
+  // 0
+  // user_id
+  // : 
+  // 324
 
   getPet() {
     this.loading = true;
@@ -167,11 +189,25 @@ export class PetListComponent {
   getPetDetails(det: any) {
     this.petId = det.id
     this.petDetails = det;
-    console.log('ggjgjgjhgjhg', this.petDetails);
-    
+    //console.log('ggjgjgjhgjhg', this.petDetails);
+
     this.initEditPetForm();
+    debugger
+    // Set initial filteredRelationsEdit based on the current gender
+    const isDOBUnknown = this.editPetForm.get('isDOBUnknown');
+    const dobControl = this.petDetails?.dob ? this.petDetails?.dob : this.editPetForm.get('dob')?.value;
+
+
+    // Check for specific DOB values
+    const dobValue = dobControl;
+    if (!dobValue) {
+      isDOBUnknown?.setValue(true);
+      this.editPetForm.get('dob')?.disable();
+    } else {
+      isDOBUnknown?.setValue(false);
+    }
   }
-  
+
 
   @ViewChild('closeModalViewPet') closeModalViewPet!: ElementRef;
 
@@ -274,9 +310,12 @@ export class PetListComponent {
             this.addPetLoader = false;
             this.closeModalAdd.nativeElement.click();
             this.petImage1 = null;
+            this.newPetForm.reset();
+            this.getPet();
           } else {
             this.toastr.warning(resp.message);
             this.addPetLoader = false;
+            this.getPet();
           }
         },
         error: (error) => {
@@ -433,21 +472,3 @@ export class PetListComponent {
 
 
 }
-// "id": 373,
-// "name": "Pet New",
-// "displayname": "Pet",
-// "gender": "male",
-// "dob": "20/11/2024",
-// "unknown_dob": 0,
-// "owner_id": 2948,
-// "created_at": "19/11/2024",
-// "user_id": 299,
-// "images": "1732051793478.png",
-// "popup_status": 1,
-// "popup_move": 0,
-// "is_alive": 0,
-// "owner_name": "Karan",
-// "owner_date_of_birth": "Above 18",
-// "owner_displayname": "Karan",
-// "family_id": 719,
-// "images_url": "http://18.229.202.71:4000/pets_album/1732051793478.png"

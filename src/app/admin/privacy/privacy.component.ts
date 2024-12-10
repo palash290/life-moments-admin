@@ -92,14 +92,19 @@ export class PrivacyComponent {
     ['undo', 'redo'],
   ];
 
+  loading: boolean = false;
+
   getPrivacy(lang: any) {
+    this.loading = true;
     this.service.getApi(`sub-admin/get-privacyterms?language=${lang}`).subscribe({
       next: resp => {
         this.about_us = resp.data.about_us;
         this.termsResult = resp.data.termsResult[0].AppTermsofUse;
         this.privacyResult = resp.data.privacyResult[0].YourPrivacy;
+        this.loading = false;
       },
       error: error => {
+        this.loading = false;
         console.log(error.message);
       }
     });

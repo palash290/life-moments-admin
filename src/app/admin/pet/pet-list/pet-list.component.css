@@ -1,0 +1,14 @@
+.ct_edit_icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    background-color: #0EAE00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 37px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 100px;
+}

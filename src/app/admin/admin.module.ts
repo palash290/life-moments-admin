@@ -41,6 +41,7 @@ import { FaqComponent } from './faq/faq.component';
 import { QuestionsComponent } from './interview/questions/questions.component';
 import { MemberInterviewComponent } from './member-profiles/member-interview/member-interview.component';
 import { MemberQuestionComponent } from './member-profiles/member-question/member-question.component';
+import { ManageSubscriptionComponent } from './manage-subscription/manage-subscription.component';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { MemberQuestionComponent } from './member-profiles/member-question/membe
     FaqComponent,
     QuestionsComponent,
     MemberInterviewComponent,
-    MemberQuestionComponent
+    MemberQuestionComponent,
+    ManageSubscriptionComponent
 
   ],
   imports: [

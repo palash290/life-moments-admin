@@ -126,8 +126,8 @@ export class AlbumComponent {
       this.route.navigateByUrl(`/admin/main/sub-albums/${album.id}/${this.memberId}`);
     } else {
       this.service.setData(album.albumItems);
-      this.route.navigateByUrl(`/admin/main/sub-album-photos`);
-      //this.toastr.warning('No sub-album found!')
+      //this.route.navigateByUrl(`/admin/main/sub-album-photos`);
+      this.route.navigate(['/admin/main/sub-album-photos'], { queryParams: { albumItems: JSON.stringify(album.albumItems) } });
     }
   }
 
