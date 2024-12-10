@@ -33,6 +33,8 @@ import { PetPhotoAlbumDateComponent } from './pet/pet-photo-album-date/pet-photo
 import { InterviewComponent } from './interview/interview.component';
 import { FaqComponent } from './faq/faq.component';
 import { QuestionsComponent } from './interview/questions/questions.component';
+import { MemberInterviewComponent } from './member-profiles/member-interview/member-interview.component';
+import { MemberQuestionComponent } from './member-profiles/member-question/member-question.component';
 
 const routes: Routes = [
   {
@@ -167,12 +169,22 @@ const routes: Routes = [
         component: InterviewComponent
       },
       {
-        path: 'questions',
+        path: 'questions/:iYear',
         component: QuestionsComponent
       },
       {
         path: 'faq',
         component: FaqComponent
+      },
+
+      {
+        path: 'member-interview/:memberId',
+        component: MemberInterviewComponent
+      },
+
+      {
+        path: 'member-question',
+        component: MemberQuestionComponent
       },
     ]
   }

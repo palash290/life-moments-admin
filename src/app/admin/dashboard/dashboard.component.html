@@ -122,31 +122,53 @@
             <tr *ngFor="let item of data; let i = index">
               <td>
                 <div class="d-flex align-items-center gap-2">
-                  <img [src]='item.profile_image ? item.profile_image : "assets/img/np_pro.png"' class="ct_img_40 ct_border_2" />
+                  <img [src]='item.profile_image ? item.profile_image : "assets/img/np_pro.png"'
+                    class="ct_img_40 ct_border_2" />
                   <p class="mb-0 ct_fs_16">{{item.fullName}}</p>
                 </div>
               </td>
               <td>{{item.displayName}}</td>
               <td>
-                @if(item.other_gender == 'none'){
-                  <div *ngIf="item.gender == 'male'">
-                    Male
-                  </div>
-                  <div *ngIf="item.gender == 'female'">
-                    Female
-                  </div>
+                @if(item.other_gender == 'none' || item.other_gender == 'null'){
+                <div *ngIf="item.gender == 'male'">
+                  Male
+                </div>
+                <div *ngIf="item.gender == 'female'">
+                  Female
+                </div>
+                <div *ngIf="item.gender == 'prefer-not-to-say'">
+                  Prefer Not To Say
+                </div>
+                <div *ngIf="item.gender == 'PreferNotToSay'">
+                  Prefer Not To Say
+                </div>
+                <div *ngIf="item.gender == 'non-binary'">
+                  Non Binary
+                </div>
+                <div *ngIf="item.gender == 'NonBinary'">
+                  Non Binary
+                </div>
+                <div *ngIf="item.gender == 'unknown'">
+                  Gender Unknown
+                </div>
                 } @else {
-                  <div *ngIf="item.other_gender == 'PreferNotToSay'">
-                    Prefer Not To Say
-                  </div>
-                  <div *ngIf="item.other_gender == 'NonBinary'">
-                    Non Binary
-                  </div>
-                  <div *ngIf="item.other_gender == 'GenderUnknown'">
-                    Gender Unknown
-                  </div>
+                <div *ngIf="item.other_gender == 'prefer-not-to-say'">
+                  Prefer Not To Say
+                </div>
+                <div *ngIf="item.other_gender == 'PreferNotToSay'">
+                  Prefer Not To Say
+                </div>
+                <div *ngIf="item.other_gender == 'non-binary'">
+                  Non Binary
+                </div>
+                <div *ngIf="item.other_gender == 'NonBinary'">
+                  Non Binary
+                </div>
+                <div *ngIf="item.other_gender == 'unknown'">
+                  Gender Unknown
+                </div>
                 }
-            
+
               </td>
               <td class="text-end">{{item.birth}}</td>
               <!-- <td class="text-end">

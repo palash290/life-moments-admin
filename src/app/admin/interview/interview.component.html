@@ -5,64 +5,26 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <!-- <div class="col-md-8 mx-auto">
             <div class="ct_video_img">
-                <img src="assets/img/video_img.png">
+                <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+                    style="filter: brightness(0.8);object-position: bottom;" #videoPlayer1 width="100%" height="290"
+                    playsinline preload="metadata" crossorigin="anonymous" controls>
+                </video>
             </div>
-            <div>
-                <div class="ct_gren_box_card mt-3">
-                    <a routerLink="/admin/main/questions">
+        </div> -->
+        <div class="col-md-12">
+            <div style="cursor: pointer;">
+                <div class="ct_gren_box_card mt-3" *ngFor="let item of data; let i = index">
+                    <a (click)="getQuestionsId(item.interview_year)">
                         <i class="fa-solid fa-clock"></i>
                         <div class="mx-auto">
-                            <h4 class="ct_fs_24 ct_fw_600 mb-3 text-white">13th Birthday Questions</h4>
-                            <p class="mb-0 ct_fs_14 text-white">Due by 7:30 AM on January 24, 2025.</p>
+                            <h4 class="ct_fs_24 ct_fw_600 mb-3 text-white">{{item.ordinal_number}}</h4>
+                            <!-- <p class="mb-0 ct_fs_14 text-white">Due by 7:30 AM on January 24, 2025.</p> -->
                         </div>
                     </a>
-
-                </div>
-                <div class="ct_gren_box_card mt-3">
-                    <a href="#">
-                        <i class="fa-solid fa-clock"></i>
-                        <div class="mx-auto">
-                            <h4 class="ct_fs_24 ct_fw_600 mb-3 text-white">13th Birthday Questions</h4>
-                            <p class="mb-0 ct_fs_14 text-white">Due by 7:30 AM on January 24, 2025.</p>
-                        </div>
-                    </a>
-
-                </div>
-                <div class="ct_gren_box_card mt-3">
-                    <a href="#">
-                        <i class="fa-solid fa-clock"></i>
-                        <div class="mx-auto">
-                            <h4 class="ct_fs_24 ct_fw_600 mb-3 text-white">13th Birthday Questions</h4>
-                            <p class="mb-0 ct_fs_14 text-white">Due by 7:30 AM on January 24, 2025.</p>
-                        </div>
-                    </a>
-
-                </div>
-                <div class="ct_gren_box_card mt-3">
-                    <a href="#">
-                        <i class="fa-solid fa-clock"></i>
-                        <div class="mx-auto">
-                            <h4 class="ct_fs_24 ct_fw_600 mb-3 text-white">13th Birthday Questions</h4>
-                            <p class="mb-0 ct_fs_14 text-white">Due by 7:30 AM on January 24, 2025.</p>
-                        </div>
-                    </a>
-
-                </div>
-                <div class="ct_gren_box_card mt-3">
-                    <a href="#">
-                        <i class="fa-solid fa-clock"></i>
-                        <div class="mx-auto">
-                            <h4 class="ct_fs_24 ct_fw_600 mb-3 text-white">13th Birthday Questions</h4>
-                            <p class="mb-0 ct_fs_14 text-white">Due by 7:30 AM on January 24, 2025.</p>
-                        </div>
-                    </a>
-
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>

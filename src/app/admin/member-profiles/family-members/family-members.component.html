@@ -77,7 +77,7 @@
                                 <div *ngIf="item.gender == 'female'">
                                     Female
                                 </div> -->
-                                @if(item.other_gender == 'none'){
+                                @if(item.other_gender == 'none' || item.other_gender == 'null'){
                                 <div *ngIf="item.gender == 'male'">
                                     Male
                                 </div>
@@ -87,7 +87,13 @@
                                 <div *ngIf="item.gender == 'prefer-not-to-say'">
                                     Prefer Not To Say
                                 </div>
+                                <div *ngIf="item.gender == 'PreferNotToSay'">
+                                    Prefer Not To Say
+                                </div>
                                 <div *ngIf="item.gender == 'non-binary'">
+                                    Non Binary
+                                </div>
+                                <div *ngIf="item.gender == 'NonBinary'">
                                     Non Binary
                                 </div>
                                 <div *ngIf="item.gender == 'unknown'">
@@ -97,9 +103,15 @@
                                 <div *ngIf="item.other_gender == 'prefer-not-to-say'">
                                     Prefer Not To Say
                                 </div>
+                                <div *ngIf="item.other_gender == 'PreferNotToSay'">
+                                    Prefer Not To Say
+                                </div>
                                 <div *ngIf="item.other_gender == 'non-binary'">
                                     Non Binary
                                 </div>
+                                <div *ngIf="item.other_gender == 'NonBinary'">
+                                    Non Binary
+                                  </div>
                                 <div *ngIf="item.other_gender == 'unknown'">
                                     Gender Unknown
                                 </div>
@@ -185,7 +197,6 @@
                                 <input type="file" accept="image/*" class="d-none" id="ct_edit_img1"
                                     formControlName="image" (change)="onImageSelected($event, 'parent')">
                                 <div class="ct_edit_icon">
-
                                     <svg width="26" height="24" viewBox="0 0 26 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -218,7 +229,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
@@ -291,27 +301,7 @@
                                         <option *ngFor="let relation of filteredRelations" [value]="relation.value">
                                             {{ relation.label }}
                                         </option>
-                                        <!-- <option value="father">Father</option>
-                                        <option value="step_father">Step Father</option>
-                                        <option value="caregiver">Caregiver</option>
-                                        <option value="mother">Mother</option>
-                                        <option value="step_mother">Step Mother</option>
-                                        <option value="step_parent">Step Parent</option>
-                                        <option value="son">Son</option>
-                                        <option value="step_son">Step Son</option>
-                                        <option value="step_child">Step Child</option>
-                                        <option value="daughter">Daughter</option>
-                                        <option value="step_daughter">Step Daughter</option>
-                                        <option value="child">Child</option>
-                                        <option value="brother">Brother</option>
-                                        <option value="step_brother">Step Brother</option>
-                                        <option value="step_sibiling">Step Sibiling</option>
-                                        <option value="sister">Sister</option>
-                                        <option value="step_sister">Step Sister</option>
-                                        <option value="sibiling">Sibiling</option>
-                                        <option value="partner">Partner</option>
-                                        <option value="grandparent1">Grandparent 1</option>
-                                        <option value="grandparent2">Grandparent 2</option> -->
+                                     
                                     </select>
                                     <!-- <select [(ngModel)]="relationId"
                                         class="form-control" formControlName="relationName">
@@ -375,7 +365,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group mb-3">
@@ -965,28 +954,7 @@
                                         <option *ngFor="let relation of filteredRelationsEdit" [value]="relation.id">
                                             {{ relation.label }}
                                         </option>
-                                        <!-- <option value="" disabled>Select</option>
-                                        <option value="Father">Father</option>
-                                        <option value="Step-Father">Step Father</option>
-                                        <option value="caregiver">Caregiver</option>
-                                        <option value="Mother">Mother</option>
-                                        <option value="Step-Mother">Step Mother</option>
-                                        <option value="Step-Parent">Step Parent</option>
-                                        <option value="Son">Son</option>
-                                        <option value="Step-Son">Step Son</option>
-                                        <option value="Step-Child">Step Child</option>
-                                        <option value="daughter">Daughter</option>
-                                        <option value="Step-Daughter">Step Daughter</option>
-                                        <option value="Child">Child</option>
-                                        <option value="Brother">Brother</option>
-                                        <option value="Step-Brother">Step Brother</option>
-                                        <option value="Step-Sibiling">Step Sibiling</option>
-                                        <option value="Sister">Sister</option>
-                                        <option value="Step-Sister">Step Sister</option>
-                                        <option value="Sibiling">Sibiling</option>
-                                        <option value="Partner">Partner</option>
-                                        <option value="Grandparent">Grandparent 1</option>
-                                        <option value="Grandparent">Grandparent 2</option> -->
+                                       
                                     </select>
                                     <div *ngIf="editMemberForm.controls['relationName'].invalid && editMemberForm.controls['relationName'].touched"
                                         class="error-message">
@@ -1021,6 +989,32 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-12">
+                                <div
+                                    class="d-flex align-items-center justify-content-between gap-3 flex-wrap pb-4 pt-2">
+                                    <div class="ct_checkbox_main">
+                                        <div>
+                                            <input type="checkbox" id="ct_checkbox_cbx341"
+                                                class="ct_hidden-xs-up ct_checkbox_cbx_12"
+                                                formControlName="isDOBUnknown" (change)="onDOBUnknownEditChange()">
+                                            <label for="ct_checkbox_cbx341" class="ct_checkbox_cbx"></label>
+                                        </div>
+                                        <p class="mb-0">Date of birth unknown</p>
+                                    </div>
+                                    <div *ngIf="editMemberForm.get('isDOBUnknown')?.value"
+                                        class="d-flex align-items-center gap-2">
+                                        <label class="form-check-label" for="flexSwitchCheckChecked1">Above 18
+                                            years</label>
+                                        <div class="form-check form-switch ct_custom_switch ct_reverse_div">
+
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                id="flexSwitchCheckChecked1" formControlName="isAdult" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-12">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Date of Birth <span
@@ -1198,6 +1192,14 @@
                 </button>
                 <button hidden type="button" class="btn btn-secondary" #closeModalViewParent
                     data-bs-dismiss="modal">Close</button>
+
+
+            </div>
+            <div class="mb-0 text-center ct_green_text ct_fs_18 pb-4">
+                <button (click)="getMemberInterview()" type="button"
+                    class="ct_green_btn mx-auto ct_green_outline_btn text-dark">
+                    View Question
+                </button>
             </div>
         </div>
     </div>
@@ -1309,6 +1311,15 @@
                 </div>
 
             </div>
+            @if(singleMemberDetail?.is_alive != '2' && singleMemberDetail?.is_alive != '4') {
+            <div class="mb-0 text-center ct_green_text ct_fs_18 mt-5">
+                <button (click)="getMemberInterview()" type="button"
+                    class="ct_green_btn mx-auto ct_green_outline_btn text-dark">
+                    View Question
+                </button>
+            </div>
+            }
+
         </div>
     </div>
 </div>
