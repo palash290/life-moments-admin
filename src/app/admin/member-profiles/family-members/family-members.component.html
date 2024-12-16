@@ -1133,16 +1133,17 @@
                     </form>
                 </div>
             </div>
-            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767">
-
+            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-3">
                 <button (click)="getMemberTimeline()" type="button"
-                    class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark">
+                    class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark m-0">
                     View Timeline
                 </button>
                 <!-- data-bs-toggle="modal"
                 data-bs-target="#edit-family-detail" -->
-                <button (click)="getMemberAlbum()" type="button ct_" class="ct_green_btn ct_h_50">
-                    <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22" fill="none"
+                <button (click)="getMemberInterview()" type="button"
+                    class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark m-0">
+
+                    <!-- <svg width="22" class="me-2" height="22" viewBox="0 0 22 22" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M6.5 2.75H17.5569C17.3235 2.09246 16.8924 1.52322 16.3228 1.12038C15.7531 0.717547 15.0727 0.500842 14.375 0.5H3.875C2.97989 0.5 2.12145 0.855579 1.48851 1.48851C0.855579 2.12145 0.5 2.97989 0.5 3.875V14.375C0.500842 15.0727 0.717547 15.7531 1.12038 16.3228C1.52322 16.8924 2.09246 17.3235 2.75 17.5569V6.5C2.75 5.50544 3.14509 4.55161 3.84835 3.84835C4.55161 3.14509 5.50544 2.75 6.5 2.75Z"
@@ -1160,17 +1161,17 @@
                             <path
                                 d="M16.2143 8.5H9.78571C9.44484 8.50039 9.11803 8.64099 8.87699 8.89095C8.63595 9.14092 8.50037 9.47983 8.5 9.83333V15.1667C8.50037 15.5202 8.63595 15.8591 8.87699 16.109C9.11803 16.359 9.44484 16.4996 9.78571 16.5H16.2143C16.5552 16.4996 16.882 16.359 17.123 16.109C17.364 15.8591 17.4996 15.5202 17.5 15.1667V9.83333C17.4996 9.47983 17.364 9.14092 17.123 8.89095C16.882 8.64099 16.5552 8.50039 16.2143 8.5ZM14.6071 9.83333C14.7979 9.83333 14.9843 9.89198 15.1429 10.0019C15.3014 10.1117 15.425 10.2679 15.498 10.4506C15.571 10.6334 15.5901 10.8344 15.5529 11.0284C15.5157 11.2224 15.4239 11.4006 15.289 11.5404C15.1541 11.6803 14.9823 11.7755 14.7953 11.8141C14.6082 11.8527 14.4143 11.8329 14.2381 11.7572C14.0619 11.6815 13.9113 11.5534 13.8054 11.3889C13.6994 11.2245 13.6429 11.0311 13.6429 10.8333C13.6431 10.5682 13.7448 10.314 13.9256 10.1265C14.1064 9.93905 14.3515 9.83361 14.6071 9.83333ZM9.78571 15.8333C9.61522 15.8333 9.4517 15.7631 9.33115 15.6381C9.21059 15.513 9.14286 15.3435 9.14286 15.1667V13.7577L11.0481 12.0015C11.232 11.8324 11.471 11.7424 11.7166 11.7497C11.9622 11.7571 12.1959 11.8613 12.37 12.041L13.6748 13.3913L11.3199 15.8333H9.78571ZM16.8571 15.1667C16.8571 15.3435 16.7894 15.513 16.6689 15.6381C16.5483 15.7631 16.3848 15.8333 16.2143 15.8333H12.2292L14.6684 13.3038C14.8411 13.1514 15.0603 13.0675 15.287 13.0669C15.5137 13.0663 15.7333 13.149 15.9067 13.3004L16.8571 14.1217V15.1667Z"
                                 fill="#0EAE00" />
-                        </svg>View Full Album </a>
-                </button>
-                <button hidden type="button" class="btn btn-secondary" #closeModalViewParent
-                    data-bs-dismiss="modal">Close</button>
-
-
-            </div>
-            <div class="mb-0 text-center ct_green_text ct_fs_18 pb-4">
-                <button (click)="getMemberInterview()" type="button"
-                    class="ct_green_btn mx-auto ct_green_outline_btn text-dark">
+                        </svg> -->
                     View Interview
+
+                </button>
+            </div>
+            <button hidden type="button" class="btn btn-secondary" #closeModalViewParent
+                data-bs-dismiss="modal">Close</button>
+            <div class="pb-4 px-5">
+                <button (click)="getMemberAlbum()" type="button" class="ct_green_btn ct_h_50 m-0 w-100 mx-auto"
+                    style="max-width: 337px;">
+                    View Full Album
                 </button>
             </div>
         </div>
@@ -1307,8 +1308,10 @@
                         class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark">
                         View Timeline
                     </button>
-                    <button (click)="getMemberAlbum()" type="button ct_" class="ct_green_btn ct_h_50">
-                        <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22" fill="none"
+                    <button (click)="getMemberInterview()" type="button"
+                        class="ct_green_btn mx-auto ct_green_outline_btn text-dark  ct_h_50">
+
+                        <!-- <svg width="22" class="me-2" height="22" viewBox="0 0 22 22" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M6.5 2.75H17.5569C17.3235 2.09246 16.8924 1.52322 16.3228 1.12038C15.7531 0.717547 15.0727 0.500842 14.375 0.5H3.875C2.97989 0.5 2.12145 0.855579 1.48851 1.48851C0.855579 2.12145 0.5 2.97989 0.5 3.875V14.375C0.500842 15.0727 0.717547 15.7531 1.12038 16.3228C1.52322 16.8924 2.09246 17.3235 2.75 17.5569V6.5C2.75 5.50544 3.14509 4.55161 3.84835 3.84835C4.55161 3.14509 5.50544 2.75 6.5 2.75Z"
@@ -1326,21 +1329,24 @@
                                 <path
                                     d="M16.2143 8.5H9.78571C9.44484 8.50039 9.11803 8.64099 8.87699 8.89095C8.63595 9.14092 8.50037 9.47983 8.5 9.83333V15.1667C8.50037 15.5202 8.63595 15.8591 8.87699 16.109C9.11803 16.359 9.44484 16.4996 9.78571 16.5H16.2143C16.5552 16.4996 16.882 16.359 17.123 16.109C17.364 15.8591 17.4996 15.5202 17.5 15.1667V9.83333C17.4996 9.47983 17.364 9.14092 17.123 8.89095C16.882 8.64099 16.5552 8.50039 16.2143 8.5ZM14.6071 9.83333C14.7979 9.83333 14.9843 9.89198 15.1429 10.0019C15.3014 10.1117 15.425 10.2679 15.498 10.4506C15.571 10.6334 15.5901 10.8344 15.5529 11.0284C15.5157 11.2224 15.4239 11.4006 15.289 11.5404C15.1541 11.6803 14.9823 11.7755 14.7953 11.8141C14.6082 11.8527 14.4143 11.8329 14.2381 11.7572C14.0619 11.6815 13.9113 11.5534 13.8054 11.3889C13.6994 11.2245 13.6429 11.0311 13.6429 10.8333C13.6431 10.5682 13.7448 10.314 13.9256 10.1265C14.1064 9.93905 14.3515 9.83361 14.6071 9.83333ZM9.78571 15.8333C9.61522 15.8333 9.4517 15.7631 9.33115 15.6381C9.21059 15.513 9.14286 15.3435 9.14286 15.1667V13.7577L11.0481 12.0015C11.232 11.8324 11.471 11.7424 11.7166 11.7497C11.9622 11.7571 12.1959 11.8613 12.37 12.041L13.6748 13.3913L11.3199 15.8333H9.78571ZM16.8571 15.1667C16.8571 15.3435 16.7894 15.513 16.6689 15.6381C16.5483 15.7631 16.3848 15.8333 16.2143 15.8333H12.2292L14.6684 13.3038C14.8411 13.1514 15.0603 13.0675 15.287 13.0669C15.5137 13.0663 15.7333 13.149 15.9067 13.3004L16.8571 14.1217V15.1667Z"
                                     fill="#0EAE00" />
-                            </svg>View Full Albums </a>
+                            </svg> -->
+                        View Interview
+
                     </button>
                     <button hidden type="button" class="btn btn-secondary" #closeModalViewMember
                         data-bs-dismiss="modal">Close</button>
                 </div>
+                @if(singleMemberDetail?.is_alive != '2' && singleMemberDetail?.is_alive != '4') {
+                <div class="mb-0 text-center ct_green_text ct_fs_18 mt-3">
+                    <button (click)="getMemberAlbum()" type="button" class="ct_green_btn ct_h_50 w-100 mx-auto "
+                        style="max-width: 337px;">
+                        View Full Albums
+                    </button>
+                </div>
+                }
 
             </div>
-            @if(singleMemberDetail?.is_alive != '2' && singleMemberDetail?.is_alive != '4') {
-            <div class="mb-0 text-center ct_green_text ct_fs_18 mt-5">
-                <button (click)="getMemberInterview()" type="button"
-                    class="ct_green_btn mx-auto ct_green_outline_btn text-dark">
-                    View Interview
-                </button>
-            </div>
-            }
+
 
         </div>
     </div>

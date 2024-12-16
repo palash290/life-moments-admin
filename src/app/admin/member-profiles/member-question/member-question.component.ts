@@ -12,6 +12,7 @@ export class MemberQuestionComponent {
 
   memberId: any;
   questions: any;
+  filteredQuestions: any;
   year: any;
 
   constructor(private service: SharedService, private route: Router, private rout: ActivatedRoute, private location: Location) { }
@@ -27,7 +28,9 @@ export class MemberQuestionComponent {
       this.video = link;
       if (questions) {
         this.questions = JSON.parse(questions);
-        debugger
+        this.filteredQuestions = this.questions.filter((item: { questions: string; }) => item.questions != "\n");
+        console.log('this.filteredQuestions', this.filteredQuestions);
+        
         this.year = this.questions[0].interview_year
         console.log(this.questions);
       } else {

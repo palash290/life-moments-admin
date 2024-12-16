@@ -19,7 +19,7 @@
                 <div class="ct_gren_box_card mt-3" *ngFor="let item of data; let i = index">
                     <a (click)="goToQuestions(item.question, item.video)">
                         <i class="fa-solid fa-clock"></i>
-                        <div class="mx-auto">
+                        <div class="mx-auto text-center">
                             <h4 class="ct_fs_24 ct_fw_600 mb-3 text-white">{{item.title}}</h4>
                             <!-- <p class="mb-0 ct_fs_14 text-white">Due by {{item.time_of_interview}}, 
                                 {{formatDateToISO(item.date_of_interview) | date: 'MMMM d, y'}}.</p> -->
