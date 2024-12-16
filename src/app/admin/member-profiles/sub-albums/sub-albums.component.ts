@@ -23,10 +23,14 @@ export class SubAlbumsComponent {
 
   constructor(private router: Router, private route: ActivatedRoute, private service: SharedService, private location: Location, private toastr: ToastrService) { }
 
-  backClicked() {
-    //this.router.navigateByUrl(`/admin/main/sub-albums/${this.previousAlbumId}/${this.previousUserId}`);
-    this.location.back();
-  }
+  // backClicked() {
+  //   //this.router.navigateByUrl(`/admin/main/sub-albums/${this.previousAlbumId}/${this.previousUserId}`);
+  //   this.location.back();
+  // }
+
+
+  
+  
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -37,35 +41,6 @@ export class SubAlbumsComponent {
     this.previousUserId = this.userId
     this.getUsers();
   }
-
-  // loadData() {
-  //   this.data = [
-  //     {
-  //       id: 1,
-  //       image: '',
-  //       title: 'Image 1',
-  //       alt: 'Image 1 description'
-  //     },
-  //     {
-  //       id: 2,
-  //       image: 'assets/img/men_user.png',
-  //       title: 'Image 2',
-  //       alt: 'Image 2 description'
-  //     },
-  //     {
-  //       id: 3,
-  //       image: '',
-  //       title: 'Image 3',
-  //       alt: 'Image 3 description'
-  //     },
-  //     {
-  //       id: 4,
-  //       image: 'assets/img/old_men.png',
-  //       title: 'Image 4',
-  //       alt: 'Image 4 description'
-  //     },
-  //   ].map(item => ({ ...item, checked: false }));
-  // }
 
   getUsers() {
     this.loading = true;
@@ -104,8 +79,12 @@ export class SubAlbumsComponent {
     console.log('Selected IDs:', selectedIds);
   }
 
+
   getPhotos(album: any) {
     if (album.containsSubAlbums) {
+
+      this.service.addToHistory({ id: this.albumId, userId: this.userId });
+
       this.router.navigate([`/admin/main/sub-albums/${album.id}/${this.userId}`]);
 
       this.route.paramMap.subscribe((params) => {
@@ -121,7 +100,21 @@ export class SubAlbumsComponent {
       // console.log('Data set in service:', album.albumItems);
       // this.router.navigateByUrl(`/admin/main/sub-album-photos`);
       this.router.navigate(['/admin/main/sub-album-photos'], { queryParams: { albumItems: JSON.stringify(album.albumItems) } });
+      localStorage.setItem('albumId', this.albumId);
+      localStorage.setItem('userId', this.userId);
+    }
+  }
 
+  backClicked() {
+    const previousState = this.service.popFromHistory();
+
+    if (previousState) {
+      this.router.navigate([`/admin/main/sub-albums/${previousState.id}/${previousState.userId}`]);
+      this.albumId = previousState.id;
+      this.userId = previousState.userId;
+      this.getUsers();
+    } else {
+      this.router.navigateByUrl(`/admin/main/albums/${this.userId}`);
     }
   }
 

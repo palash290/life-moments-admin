@@ -37,20 +37,27 @@
                     </li>
                 </ul>
             </div>
-            <!-- <ul class="d-flex align-items-center gap-md-3 gap-2 mt-4 mb-3 ct_breadcrumb_list flex-wrap">
-                <li>Album 1 </li>
-                <li>>> </li>
+            <ul class="d-flex align-items-center gap-md-3 gap-2 mt-4 mb-3 ct_breadcrumb_list flex-wrap">
+                <!-- <li>{{subAlbymName}}</li> -->
+                <!-- <li>>> </li>
                 <li>Sub - Albumname x </li>
                 <li>>> </li>
-                <li>Sub - Albumname x</li>
-            </ul> -->
+                <li>Sub - Albumname x</li> -->
+            </ul>
 
             <div class="ct_grid_6 mt-3" [ngClass]="{'ct_grid_2_conditon': data?.length == 2}">
                 <a *ngFor="let pic of data; let i = index" class="text-dark">
                     <figure class="ct_file_main mb-0 ">
-                        <div class="ct_file_img ">
-                            <img [src]="pic.image ? pic.image : 'assets/img/folder.png'" alt=""
+                        <div class="ct_file_img" style="cursor: pointer;">
+                            @if(pic?.is_cover_image == 0){
+                                <img [src]="pic.image ? pic.image : 'assets/img/folder.png'" alt=""
                                 (click)="getPhotos(pic)">
+                            } @else {
+                                <img [src]="pic.cover_image ? pic.cover_image : 'assets/img/folder.png'" alt=""
+                                (click)="getPhotos(pic)">
+                            }
+                            <!-- <img [src]="pic.image ? pic.image : 'assets/img/folder.png'" alt=""
+                                (click)="getPhotos(pic)"> -->
                             <div class="ct_sub_album_icon">
                                 <img src="assets/img/sub-album_icon.png" alt="">
                             </div>
@@ -58,8 +65,8 @@
                                 style="cursor: pointer;">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </div> -->
-
-                            <div *ngIf="pic.totalalbumphoto > 0" class="ct_edit_file_cnt ct_total_count_btm">
+                            <!-- *ngIf="pic.totalalbumphoto > 0" -->
+                            <div class="ct_edit_file_cnt ct_total_count_btm">
                                 <h4 class="mb-0 ct_fs_14">{{ pic.totalalbumphoto }}</h4>
                               </div>
                               

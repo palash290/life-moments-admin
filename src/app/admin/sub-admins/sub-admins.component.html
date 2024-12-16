@@ -97,7 +97,7 @@
                     <form [formGroup]="adminForm">
 
                         <div class="form-group mb-3">
-                            <label for="" class="mb-2">Name <span class="ct_required_star">*</span></label>
+                            <label for="" class="mb-2">Full Name <span class="ct_required_star">*</span></label>
                             <input type="text" class="form-control" placeholder="Enter Name" formControlName="name">
                             <div *ngIf="adminForm.controls['name'].invalid && adminForm.controls['name'].touched"
                                 class="error-message">
@@ -189,7 +189,7 @@
                     <form [formGroup]="editAdmin">
 
                         <div class="form-group mb-3">
-                            <label for="" class="mb-2">Name <span class="ct_required_star">*</span></label>
+                            <label for="" class="mb-2">Full Name <span class="ct_required_star">*</span></label>
                             <input type="text" class="form-control" placeholder="Enter Name" formControlName="name">
                             <div *ngIf="editAdmin.controls['name'].invalid && editAdmin.controls['name'].touched"
                                 class="error-message">

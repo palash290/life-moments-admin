@@ -4,7 +4,7 @@
   </div>
 
   <div class="row ct_mt_20">
-    <div class="col-md-6 mb-4 mb-md-0">
+    <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
       <div class="ct_dash_card">
         <div class="ct_small_icon" style="background-color: #AE19DE">
           <i class="bi bi-people"></i>
@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+    <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
       <div class="ct_dash_card">
         <div class="ct_small_icon" style="background-color: #1A6FE7">
           <i class="bi bi-wallet2"></i>
@@ -34,7 +34,7 @@
         <div class="ct_dash_card_info">
           <span>Total revenue generated </span>
           <h4>${{totalRevenue ?  (totalRevenue | number: '1.2-2') : '0'}}</h4>
-          <small>
+          <!-- <small>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd"
                 d="M5.06012 3.49316C5.06012 3.25154 5.256 3.05566 5.49762 3.05566L10.5051 3.05566C10.6212 3.05566 10.7324 3.10176 10.8145 3.18381C10.8965 3.26585 10.9426 3.37713 10.9426 3.49316L10.9426 8.50066C10.9426 8.74228 10.7467 8.93816 10.5051 8.93816C10.2635 8.93816 10.0676 8.74228 10.0676 8.50066L10.0676 3.93066L5.49762 3.93066C5.256 3.93066 5.06012 3.73479 5.06012 3.49316Z"
@@ -44,7 +44,7 @@
                 fill="#1A932E" />
             </svg>
             8% increase from last month
-          </small>
+          </small> -->
         </div>
       </div>
     </div>
@@ -58,7 +58,7 @@
           <h4>
             17 /<span>120</span>
           </h4>
-          <small>
+          <!-- <small>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd"
                 d="M5.06012 3.49316C5.06012 3.25154 5.256 3.05566 5.49762 3.05566L10.5051 3.05566C10.6212 3.05566 10.7324 3.10176 10.8145 3.18381C10.8965 3.26585 10.9426 3.37713 10.9426 3.49316L10.9426 8.50066C10.9426 8.74228 10.7467 8.93816 10.5051 8.93816C10.2635 8.93816 10.0676 8.74228 10.0676 8.50066L10.0676 3.93066L5.49762 3.93066C5.256 3.93066 5.06012 3.73479 5.06012 3.49316Z"
@@ -68,11 +68,11 @@
                 fill="#1A932E" />
             </svg>
             2% increase from last month
-          </small>
+          </small> -->
         </div>
       </div>
-    </div> -->
-    <div class="col-md-6 mb-4 mb-md-0">
+    </div>
+    <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
       <div class="ct_dash_card">
         <div class="ct_small_icon" style="background-color: #EB5419">
           <i class="bi bi-people"></i>
@@ -181,6 +181,9 @@
           </tbody>
         </table>
       </div>
+      <div *ngIf="data?.length == 0 || !data" class="text-center">
+        <p class="ct_fs_15 mt-5">No members found</p>
+    </div>
     </div>
   </div>
 </div>

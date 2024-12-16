@@ -16,6 +16,7 @@ export class MemberInterviewComponent {
 
   itemId: any;
   itemEmail: any;
+  name: any;
 
   constructor(private service: SharedService, private route: Router, private rout: ActivatedRoute) { }
 
@@ -28,6 +29,7 @@ export class MemberInterviewComponent {
   ngOnInit() {
     this.rout.paramMap.subscribe((params) => {
       this.memberId = params.get('memberId');
+      this.name = params.get('name');
     });
 
     this.getQuestions();
@@ -52,8 +54,15 @@ export class MemberInterviewComponent {
   }
 
   goToQuestions(questions: any, video: any) {
-    this.route.navigate(['/admin/main/member-question'], { queryParams: { questions: JSON.stringify(questions), link: video  } });
+    this.route.navigate(['/admin/main/member-question'], { queryParams: { questions: JSON.stringify(questions), link: video } });
   }
+
+  // Helper function to convert 'dd/MM/yyyy' to ISO format
+formatDateToISO(dateString: string): string {
+  const [day, month, year] = dateString.split('/').map(Number);
+  const date = new Date(year, month - 1, day); // Month is zero-based
+  return date.toISOString(); // Convert to ISO format
+}
 
 
 }

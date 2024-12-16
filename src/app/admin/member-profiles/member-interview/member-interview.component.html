@@ -1,9 +1,8 @@
 <div class="ct_dashbaord_middle">
     <div class="d-flex align-items-center gap-3">
-        <a (click)="goBack()" style="cursor: pointer;"
-            class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+        <a (click)="goBack()" style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
                 class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
-        <h4 class="mb-0 ct_fs_22"> Interview</h4>
+        <h4 class="mb-0 ct_fs_22">{{name}}'s Interview</h4>
     </div>
 
     <div class="row">
@@ -22,7 +21,10 @@
                         <i class="fa-solid fa-clock"></i>
                         <div class="mx-auto">
                             <h4 class="ct_fs_24 ct_fw_600 mb-3 text-white">{{item.title}}</h4>
-                            <!-- <p class="mb-0 ct_fs_14 text-white">Due by 7:30 AM on January 24, 2025.</p> -->
+                            <!-- <p class="mb-0 ct_fs_14 text-white">Due by {{item.time_of_interview}}, 
+                                {{formatDateToISO(item.date_of_interview) | date: 'MMMM d, y'}}.</p> -->
+                            <p class="mb-0 ct_fs_14 text-white">Due by {{item.time_of_interview}},
+                                {{item.date_of_interview}}</p>
                         </div>
                     </a>
                 </div>

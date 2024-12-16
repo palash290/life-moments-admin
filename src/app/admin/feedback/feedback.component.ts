@@ -23,10 +23,13 @@ export class FeedbackComponent {
   pageSize: number = 10;
   searchQuery: any = '';
   hasMoreData: boolean = true;
+  loading: boolean = false;
 
   getUsers() {
+    this.loading = true;
     this.service.getApi(`sub-admin/get-allfeedback?page=${this.currentPage}&limit=${this.pageSize}`).subscribe({
       next: resp => {
+        this.loading = false;
         this.data = resp.data;
 
         this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
@@ -36,28 +39,67 @@ export class FeedbackComponent {
         this.hasMoreData = resp.data.length === this.pageSize;
       },
       error: error => {
+        this.loading = false;
         console.log(error.message);
       }
     });
   }
 
+  // goToPage(page: number) {
+  //   this.currentPage = page;
+  //   this.getUsers();
+  // }
+  
   goToPage(page: number) {
     this.currentPage = page;
+
+    localStorage.setItem('currentPage', this.currentPage.toString());
+
     this.getUsers();
   }
+
+  // nextPage() {
+  //   if (this.hasMoreData) {
+  //     this.currentPage++;
+  //     this.getUsers();
+  //   }
+  // }
 
   nextPage() {
     if (this.hasMoreData) {
       this.currentPage++;
+      localStorage.setItem('currentPage', this.currentPage.toString());
       this.getUsers();
     }
   }
 
+  // previousPage() {
+  //   if (this.currentPage > 1) {
+  //     this.currentPage--;
+  //     this.getUsers();
+  //   }
+  // }
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
+      localStorage.setItem('currentPage', this.currentPage.toString());
       this.getUsers();
     }
+  }
+
+  ngOnDestroy(){
+    localStorage.removeItem('currentPage');
+  }
+
+  totalPages: number = 0;
+
+  getPaginationRange(): number[] {
+    if (this.hasMoreData) {
+      const start = Math.max(1, this.currentPage - 2);
+      const end = start + 4; // Show 5 pages
+      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    }
+    return []
   }
 
   feedbackReview(data: any) {
@@ -80,7 +122,7 @@ export class FeedbackComponent {
   @ViewChild('closeModal') closeModal!: ElementRef;
   message: any;
 
-  addSendMsg(email: any) {
+  addSendMsg(det: any) {
     const currPassword = this.message.trim();
 
     if (!currPassword) {
@@ -93,8 +135,10 @@ export class FeedbackComponent {
     }
     this.btnLoader = true;
     const formURlData = new URLSearchParams();
-    formURlData.set('email', email);
+    formURlData.set('id', det.id);
+    formURlData.set('email', det.email);
     formURlData.set('message', this.message);
+    formURlData.set('feedback', det.feedback);
 
     this.service.postAPI('sub-admin/send-feedbackresponse', formURlData.toString()).subscribe({
       next: (resp) => {

@@ -19,11 +19,21 @@ export class FaqComponent {
   constructor(private service: SharedService, private toastr: ToastrService) { }
 
   ngOnInit() {
+
+    this.service.getApi('sub-admin/get-language').subscribe(response => {
+      if (response.success) {
+        this.languages = response.data;
+        if (this.languages.length > 0) {
+          this.languageId = this.languages[0].code;
+        }
+      }
+    });
+
     this.initForm();
     this.initUpdateForm();
-    this.getQuestions();
+    this.getQuestions('en');
   }
-  
+
   initForm() {
     this.faqForm = new FormGroup({
       question: new FormControl('', Validators.required),
@@ -33,8 +43,8 @@ export class FaqComponent {
 
   initUpdateForm() {
     this.editFaq = new FormGroup({
-      question: new FormControl(this.updateDet?.question, Validators.required),
-      answer: new FormControl(this.updateDet?.answer, Validators.required)
+      question: new FormControl(this.getQuestion(this.updateDet), Validators.required),
+      answer: new FormControl(this.getQuestion(this.updateDet), Validators.required)
     })
   }
 
@@ -47,10 +57,12 @@ export class FaqComponent {
     this.initUpdateForm();
   }
 
-  getQuestions() {
-    this.service.getApi(`sub-admin/getAllFAQ`).subscribe({
+  getQuestions(lang: any) {
+    const formURlData = new URLSearchParams();
+    formURlData.set('lang_code', lang);
+    this.service.postAPI(`sub-admin/getAllFAQ`, formURlData.toString()).subscribe({
       next: resp => {
-        this.data = resp.data.reverse();
+        this.data = resp.data;
       },
       error: error => {
         console.log(error.message);
@@ -62,12 +74,11 @@ export class FaqComponent {
 
   addSubAdmin() {
     this.faqForm.markAllAsTouched();
-    const currPassword = this.faqForm.value.question?.trim();
-    const newPassword = this.faqForm.value.answer?.trim();
+    const question = this.faqForm.value.question?.trim();
+    const answer = this.faqForm.value.answer?.trim();
 
-    if (!currPassword || !newPassword) {
-      //this.toastr.warning('Passwords cannot be empty or just spaces.');
-      return; // Prevent submission if passwords are empty or only spaces
+    if (!question || !answer) {
+      return;
     }
 
     if (this.faqForm.valid) {
@@ -75,6 +86,7 @@ export class FaqComponent {
       const formURlData = new URLSearchParams();
       formURlData.set('question', this.faqForm.value.question);
       formURlData.set('answer', this.faqForm.value.answer);
+      formURlData.set('lang_code', 'en,hi,es,de,fr,pt,it,ko,zh,ru,nl,ja');
 
       this.service.postAPI('sub-admin/addFAQ', formURlData.toString()).subscribe({
         next: (resp) => {
@@ -82,12 +94,12 @@ export class FaqComponent {
             this.toastr.success(resp.message);
             this.btnLoader = false;
             this.closeModal.nativeElement.click();
-            this.getQuestions();
+            this.getQuestions(this.languageId);
             this.faqForm.reset();
           } else {
             this.toastr.warning(resp.message);
             this.btnLoader = false;
-            this.getQuestions();
+            this.getQuestions(this.languageId);
           }
         },
         error: (error) => {
@@ -106,23 +118,33 @@ export class FaqComponent {
 
   editSubAdmin() {
     this.editFaq.markAllAsTouched();
+
+    const question = this.editFaq.value.question?.trim();
+    const answer = this.editFaq.value.answer?.trim();
+
+    if (!question || !answer) {
+      return;
+    }
+
     if (this.editFaq.valid) {
       this.btnEditLoader = true;
       const formURlData = new URLSearchParams();
       formURlData.set('question', this.editFaq.value.question);
       formURlData.set('answer', this.editFaq.value.answer);
       formURlData.set('id', this.updateId);
+      formURlData.set('lang_code', 'en,hi,es,de,fr,pt,it,ko,zh,ru,nl,ja');
+      
       this.service.postAPI('sub-admin/updateFAQById', formURlData.toString()).subscribe({
         next: (resp) => {
           if (resp.success == true) {
             this.toastr.success(resp.message);
             this.btnEditLoader = false;
             this.closeModal1.nativeElement.click();
-            this.getQuestions();
+            this.getQuestions(this.languageId);
           } else {
             this.toastr.warning(resp.message);
             this.btnEditLoader = false;
-            this.getQuestions();
+            this.getQuestions(this.languageId);
           }
         },
         error: (error) => {
@@ -147,16 +169,43 @@ export class FaqComponent {
       next: (resp) => {
         if (resp.success) {
           this.closeModal2.nativeElement.click();
-          this.getQuestions();
+          this.getQuestions(this.languageId);
           this.btnDelLoader = false;
         } else {
           this.btnDelLoader = false;
           this.toastr.warning('Something went wrong!');
-          this.getQuestions();
+          this.getQuestions(this.languageId);
         }
       },
     });
   }
+
+  languages: any;
+  languageId: any;
+
+  onLanguageChange(event: any): void {
+    const selectedId = event.target.value;
+    const selectedCategory = this.languages.find((language: { code: any; }) => language.code == selectedId);
+
+    //const selectedCategory = this.categories.find(category => category.id === event.value);
+
+    if (selectedCategory) {
+      this.languageId = selectedCategory.code;
+      console.log('Selected Category ID:', this.languageId);
+      this.getQuestions(this.languageId)
+    }
+  }
+
+    // Assuming `updateDet` contains the current question object
+    getQuestion(item: any): string {
+      const questionKey = `faq_question_${this.languageId}`;
+      return item ? (item[questionKey] || item.faq_question) : ''; // Fallback to default or empty string
+    }
+
+    getAnswer(item: any): string {
+      const questionKey = `faq_answer_${this.languageId}`;
+      return item ? (item[questionKey] || item.faq_answer) : ''; // Fallback to default or empty string
+    }
 
 
 }

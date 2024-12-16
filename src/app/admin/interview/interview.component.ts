@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SharedService } from '../../shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-interview',
@@ -12,7 +12,8 @@ export class InterviewComponent {
 
   data: any;
 
-  constructor(private service: SharedService, private toastr: ToastrService, private route: Router) { }
+
+  constructor(private service: SharedService, private toastr: ToastrService, private route: Router, private aRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.getQuestions();

@@ -18,23 +18,33 @@ export class SubAlbumPhotosComponent {
   loading: boolean = false;
   albumId: any;
   userId: any;
+  userId2: any;
 
   constructor(private sanitizer: DomSanitizer, private router: Router, private route: ActivatedRoute, private service: SharedService, private location: Location, private toastr: ToastrService) { }
 
   backClicked() {
-    this.location.back();
-    // this.router.navigate([`/admin/main/sub-albums/${this.albumId}/${this.userId}`]);
-    // localStorage.removeItem('albumId');
-    // localStorage.removeItem('userId');
+    //this.location.back();
+    if(this.isAlbum == 'true'){
+      this.router.navigate([`/admin/main/albums/${this.userId2}`]);
+      localStorage.removeItem('userId2');
+    } else{
+      this.router.navigate([`/admin/main/sub-albums/${this.albumId}/${this.userId}`]);
+      localStorage.removeItem('albumId');
+      localStorage.removeItem('userId');
+    }
+ 
   }
 
   sanitizeUrl(url: any): SafeUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
+  isAlbum: any;
+
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       const albumItems = params['albumItems'];
+      this.isAlbum = params['isAlbum'];
       if (albumItems) {
         this.photos = JSON.parse(albumItems);
         console.log(this.photos);
@@ -45,8 +55,9 @@ export class SubAlbumPhotosComponent {
 
     this.filteredPhotos = [...this.photos];
 
-    // this.albumId = localStorage.getItem('albumId');
-    // this.userId = localStorage.getItem('userId');
+    this.albumId = localStorage.getItem('albumId');
+    this.userId = localStorage.getItem('userId');
+    this.userId2 = localStorage.getItem('userId2');
 
     // const albumItems = this.service.getData();
 

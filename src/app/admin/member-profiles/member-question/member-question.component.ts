@@ -12,6 +12,7 @@ export class MemberQuestionComponent {
 
   memberId: any;
   questions: any;
+  year: any;
 
   constructor(private service: SharedService, private route: Router, private rout: ActivatedRoute, private location: Location) { }
 
@@ -20,13 +21,14 @@ export class MemberQuestionComponent {
   }
   video: any;
   ngOnInit() {
-    //    debugger
     this.rout.queryParams.subscribe(params => {
       const questions = params['questions'];
       const link = params['link'];
       this.video = link;
       if (questions) {
         this.questions = JSON.parse(questions);
+        debugger
+        this.year = this.questions[0].interview_year
         console.log(this.questions);
       } else {
         console.error('No data found');
@@ -36,6 +38,15 @@ export class MemberQuestionComponent {
     //this.getQuestions();
   }
 
+  getOrdinalSuffix(year: number): string {
+    if (year == 2) {
+      return 'nd';
+    } else if (year == 3) {
+      return 'rd';
+    } else {
+      return 'th';
+    }
+  }
 
   // getQuestions() {
   //   const formURlData = new URLSearchParams();

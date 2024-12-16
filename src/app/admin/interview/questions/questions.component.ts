@@ -64,7 +64,6 @@ export class QuestionsComponent {
       next: resp => {
         this.data = resp.data;
         //console.log(this.data.length);
-        
       },
       error: error => {
         console.log(error.message);
@@ -107,12 +106,10 @@ export class QuestionsComponent {
 
   addQuestion() {
     this.questionForm.markAllAsTouched();
-    const currPassword = this.questionForm.value.question?.trim();
 
-
-    if (!currPassword) {
-      //this.toastr.warning('Passwords cannot be empty or just spaces.');
-      return; // Prevent submission if passwords are empty or only spaces
+    const question = this.questionForm.value.question?.trim();
+    if (!question) {
+      return;
     }
 
     if (this.questionForm.valid) {
@@ -152,6 +149,14 @@ export class QuestionsComponent {
 
   editSubAdmin() {
     this.editForm.markAllAsTouched();
+
+    // Check for spaces in current_password and new_password
+    const question = this.editForm.value.question?.trim();
+
+    if (!question) {
+      return;
+    }
+
     if (this.editForm.valid) {
       this.btnEditLoader = true;
       const formURlData = new URLSearchParams();

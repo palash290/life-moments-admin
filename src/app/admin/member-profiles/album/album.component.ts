@@ -124,10 +124,13 @@ export class AlbumComponent {
  
     if (album.containsSubAlbums) {
       this.route.navigateByUrl(`/admin/main/sub-albums/${album.id}/${this.memberId}`);
+      localStorage.setItem('albumId1', album.id);
+      localStorage.setItem('userId1', this.memberId);
     } else {
       this.service.setData(album.albumItems);
       //this.route.navigateByUrl(`/admin/main/sub-album-photos`);
-      this.route.navigate(['/admin/main/sub-album-photos'], { queryParams: { albumItems: JSON.stringify(album.albumItems) } });
+      this.route.navigate(['/admin/main/sub-album-photos'], { queryParams: { albumItems: JSON.stringify(album.albumItems), isAlbum: true } });
+      localStorage.setItem('userId2', this.memberId);
     }
   }
 
@@ -283,16 +286,3 @@ export class AlbumComponent {
 
 
 }
-
-
-// "id": 26432,
-//         "subAlbums": [],
-//         "created_at": "19 / 11 / 2024",
-//         "parentAlbumId": null,
-//         "appUserId": 2947,
-//         "containsSubAlbums": false,
-//         "parentAlbum": null,
-//         "name": "Default Album",
-//         "albumItems": [],
-//         "totalalbumphoto": 0,
-//         "cover_image": ""

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SharedService } from '../../shared/services/shared.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-member-profiles',
@@ -17,23 +18,16 @@ export class MemberProfilesComponent {
   constructor(private route: Router, private service: SharedService) { }
 
   ngOnInit() {
+    // Retrieve current page from local storage if it exists
+    const storedPage = localStorage.getItem('currentPage');
+    this.currentPage = storedPage ? parseInt(storedPage, 10) : 1;
     this.getSubAdmins();
   }
 
-
-  loadData() {
-    // Mock API call to fetch data
-    this.data = [
-      { id: 1, image: 'assets/img/np_pro.png', name: 'Vivian Aufderhar', displayName: 'Vivian', gender: 'M', dob: '23-3-1999', isBlocked: true },
-      { id: 2, image: 'assets/img/user_img.png', name: 'Vivian Aufderhar', displayName: 'Vivian', gender: 'F', dob: '23-3-1999', isBlocked: false },
-      // More data objects here
-    ] // Add `checked: false` to each item
-  }
-
-    //Pagination//
-    currentPage: number = 1;
-    pageSize: number = 10;
-    hasMoreData: boolean = true;
+  //Pagination//
+  currentPage: number = 1;
+  pageSize: number = 10;
+  hasMoreData: boolean = true;
 
   getSubAdmins() {
     //this.loading = true;
@@ -46,7 +40,7 @@ export class MemberProfilesComponent {
           item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
           return item;
         });
-        this.hasMoreData = resp.data.length === this.pageSize;
+        this.hasMoreData = resp.data.length == this.pageSize;
 
       },
       error: error => {
@@ -58,12 +52,16 @@ export class MemberProfilesComponent {
 
   goToPage(page: number) {
     this.currentPage = page;
+
+    localStorage.setItem('currentPage', this.currentPage.toString());
+
     this.getSubAdmins();
   }
 
   nextPage() {
     if (this.hasMoreData) {
       this.currentPage++;
+      localStorage.setItem('currentPage', this.currentPage.toString());
       this.getSubAdmins();
     }
   }
@@ -71,46 +69,106 @@ export class MemberProfilesComponent {
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
+      localStorage.setItem('currentPage', this.currentPage.toString());
       this.getSubAdmins();
     }
   }
+
+  ngOnDestroy() {
+    localStorage.removeItem('currentPage');
+  }
+
+  totalPages: number = 0;
+
+  getPaginationRange(): number[] {
+    if (this.hasMoreData) {
+      const start = Math.max(1, this.currentPage - 2);
+      const end = start + 4; // Show 5 pages
+      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    }
+    return []
+  }
+
+  // getPaginationRange(): number[] {
+  //   if (this.hasMoreData) {
+  //     const range: number[] = [];
+
+  //     // Always include page 1
+  //     range.push(1);
+
+  //     // Add intermediate pages dynamically
+  //     const start = Math.max(2, this.currentPage - 1);
+  //     const end = Math.min(this.currentPage + 1, this.totalPages);
+
+  //     for (let i = start; i <= end; i++) {
+  //       range.push(i);
+  //     }
+
+  //     // Include the last page if it's not already in the range
+  //     if (this.totalPages > 1 && !range.includes(this.totalPages)) {
+  //       range.push(this.totalPages);
+  //     }
+
+  //     return range;
+  //   }
+  //   return []
+  // }
+
+
 
   getMemberAlbum(item: any) {
     this.route.navigateByUrl(`/admin/main/family-member/${item.id}/${item.email}`);
   }
 
+  handleCheckboxChange(row: any) {
+    if (row.status == 0) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to active this user!",
+        icon: "success",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes!",
+        cancelButtonText: "No"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.service.postAPI(`toggle-status/${row.id}`, null).subscribe({
+            next: resp => {
+              //console.log(resp)
+              //this.toastr.success(resp.message);
+              this.getSubAdmins();
+            }
+          })
+        } else {
+          this.getSubAdmins();
+        }
+      });
+    } else {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to deactive this user!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes!",
+        cancelButtonText: "No"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.service.postAPI(`toggle-status/${row.id}`, null).subscribe({
+            next: resp => {
+              console.log(resp)
+              //this.toastr.success(resp.message);
+              this.getSubAdmins();
+            }
+          })
+        } else {
+          this.getSubAdmins();
+        }
+      });
+    }
+  }
+
 
 }
-// "id": 249,
-// "fullName": "New User",
-// "displayName": "One M",
-// "email": "abb@abb.com",
-// "gender": "female",
-// "password": "$2b$10$lAwCL/IcZS4sf1DFm9ERHuT5TMS0SbdU3ZBcFYUk.8DnQQrm3ptl2",
-// "show_password": "12345678",
-// "profile_image": "http://18.229.202.71:4000/images/1729857595750.png",
-// "verify_user": 0,
-// "token": "$2b$10$wsF2bDnTNCeIR0iSM/jZiuGEdL.GPuHH94tp4yxNsiIj8g/Jba8v.",
-// "act_token": "sdnInWN8",
-// "created_at": "2024-10-25T06:29:15.000Z",
-// "update_at": "2024-10-25T06:29:15.000Z",
-// "onBoardingDone": 1,
-// "familyTrees": null,
-// "memberInvitations": null,
-// "birth": "25/10/2015",
-// "alive": null,
-// "birthUnknown": null,
-// "memberType": null,
-// "avatarFileName": null,
-// "familyTreeId": 669,
-// "invitationsReceived": null,
-// "mainFamilyTree": null,
-// "albums": null,
-// "popup_status": "0",
-// "import_media_popup": 0,
-// "lock_me": 0,
-// "review": null,
-// "rating": null,
-// "delete_status": 0,
-// "login_date": null,
-// "other_gender": "none"

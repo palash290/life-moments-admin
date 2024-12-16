@@ -37,7 +37,8 @@
                                     <div class="d-flex align-items-center gap-2" (click)="getPetDetails(item)">
                                         <!-- <img [src]='item.images_url' class="ct_img_40 ct_border_2" /> -->
                                         @if(item.images_url){
-                                        <img [src]="item.images_url" alt="" class="ct_img_164 mx-auto d-block ct_mb_32"
+                                        <img [src]="item.images_url" alt=""
+                                            class="ct_img_40 ct_border_2 d-flex align-items-center justify-content-center"
                                             style="border: solid var(--dark_green);">
                                         } @else{
                                         <div class="ct_img_40 ct_border_2 d-flex align-items-center justify-content-center"
@@ -189,8 +190,8 @@
                     </div>
                     <div>
                         <h6 class="ct_fs_16 ct_fw_500 mb-2 ct_green_text">Is pet alive?</h6>
-                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="petDetails?.is_alive == '0'">No</p>
-                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="petDetails?.is_alive == '1'">Yes</p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="petDetails?.is_alive == '1'">No</p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="petDetails?.is_alive == '0'">Yes</p>
                         <!-- <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="petDetails?.is_alive == '2'">No</p>
                         <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="petDetails?.is_alive == '3'">Not yet born</p>
                         <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="petDetails?.is_alive == '4'">Angel Baby</p> -->
@@ -274,7 +275,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content ct_pb_50">
             <div class="modal-body">
-                <h4>Add Pet</h4>
+                <h4 class="ct_fs_24 ct_fw_600 text-center">Add Pet</h4>
                 <form [formGroup]="newPetForm">
                     <div class="pt-5">
                         <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
@@ -314,7 +315,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="" class="mb-2">Name <span class="ct_required_star">*</span></label>
+                                    <label for="" class="mb-2">Full Name <span class="ct_required_star">*</span></label>
                                     <input type="text" class="form-control" value="Zaire Siphron" formControlName="name"
                                         placeholder="Name" />
                                     <div *ngIf="newPetForm.controls['name'].invalid && newPetForm.controls['name'].touched"
@@ -371,10 +372,10 @@
                                             class="ct_required_star">*</span></label>
                                     <select class="form-control" formControlName="isAlive">
                                         <option value="" selected>Select</option>
-                                        <option value=1>Yes</option>
+                                        <option value=1>No</option>
                                         <!-- <option value="not-yet-born">Not yet born</option>
                                         <option value="angel-baby">Angel baby</option> -->
-                                        <option value=0>No</option>
+                                        <option value=0>Yes</option>
                                     </select>
                                     <div *ngIf="newPetForm.controls['isAlive'].invalid && newPetForm.controls['isAlive'].touched"
                                         class="error-message">
@@ -512,7 +513,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="" class="mb-2">Name <span class="ct_required_star">*</span></label>
+                                    <label for="" class="mb-2">Full Name <span class="ct_required_star">*</span></label>
                                     <input type="text" class="form-control" value="Zaire Siphron"
                                         formControlName="name" />
                                     <div *ngIf="editPetForm.controls['name'].invalid && editPetForm.controls['name'].touched"
@@ -569,10 +570,11 @@
                                             class="ct_required_star">*</span></label>
                                     <select class="form-control" formControlName="isAlive">
                                         <option value="" disabled>Select</option>
-                                        <option value="1">Yes</option>
-                                        <option value="3">Not yet born</option>
-                                        <option value="4">Angel baby</option>
-                                        <option value="2">No</option>
+                                        <option value="0">Yes</option>
+                                        <option value="1">No</option>
+                                        <!-- <option value="3">Not yet born</option>
+                                        <option value="4">Angel baby</option> -->
+                                        <!-- <option value="2">No</option> -->
                                     </select>
                                     <div *ngIf="editPetForm.controls['isAlive'].invalid && editPetForm.controls['isAlive'].touched"
                                         class="error-message">

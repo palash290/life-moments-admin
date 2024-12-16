@@ -73,6 +73,14 @@ export class PetListComponent {
       //familyLink: new FormControl('', Validators.required),
       isDOBUnknown: new FormControl(''),
     })
+
+    this.newPetForm.get('name')?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const firstWord = value.split(' ')[0]; // Get the first word
+        this.newPetForm.get('dName')?.setValue(firstWord, { emitEvent: false }); // Update dName without triggering its valueChanges
+      }
+    });
+
   }
 
   initEditPetForm() {
@@ -86,6 +94,14 @@ export class PetListComponent {
       //familyLink: new FormControl('', Validators.required),
       isDOBUnknown: new FormControl(''),
     })
+
+    this.editPetForm.get('name')?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const firstWord = value.split(' ')[0]; // Get the first word
+        this.editPetForm.get('dName')?.setValue(firstWord, { emitEvent: false }); // Update dName without triggering its valueChanges
+      }
+    });
+
   }
 
   convertDateFormat(dateString: string): string {
@@ -266,14 +282,30 @@ export class PetListComponent {
   addPetLoader: boolean = false;
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  addNewPet(): void {
+ async addNewPet() {
     this.newPetForm.markAllAsTouched();
+
+    // Check for spaces in current_password and new_password
+    const name = this.newPetForm.value.name?.trim();
+    const dName = this.newPetForm.value.dName?.trim();
+
+    if (!name || !dName) {
+      return;
+    }
+
     if (this.newPetForm.valid) {
       console.log('Form Values:', this.newPetForm.value);
       this.addPetLoader = true;
       const formURlData = new FormData();
       if (this.petImage) {
         formURlData.append('file', this.petImage);
+      } else{
+       await this.getFileFromUrl('http://18.229.202.71:4000/pets_album/1734086102101.png', 'defaultImage.png').then(file => {
+          formURlData.append('file', file);
+          console.log('File loaded from URL:', file);
+        }).catch(error => {
+          console.error('Error loading file from URL:', error);
+        });
       }
       formURlData.set('name', this.newPetForm.value.name);
       formURlData.set('displayname', this.newPetForm.value.dName);
@@ -319,6 +351,7 @@ export class PetListComponent {
           }
         },
         error: (error) => {
+          this.getPet();
           this.addPetLoader = false;
           if (error.error.message) {
             this.toastr.error(error.error.message);
@@ -332,6 +365,19 @@ export class PetListComponent {
     }
   }
 
+  getFileFromUrl(url: string, filename: string): Promise<File> {
+    return fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        // Create a new File object
+        return new File([blob], filename, { type: blob.type });
+      });
+  }
 
   editPetProfile!: File;
 
@@ -377,6 +423,15 @@ export class PetListComponent {
 
   editPet(): void {
     this.editPetForm.markAllAsTouched();
+
+    // Check for spaces in current_password and new_password
+    const name = this.editPetForm.value.name?.trim();
+    const dName = this.editPetForm.value.dName?.trim();
+
+    if (!name || !dName) {
+      return;
+    }
+
     if (this.editPetForm.valid) {
       console.log('Form Values:', this.editPetForm.value);
       this.addPetLoader = true;

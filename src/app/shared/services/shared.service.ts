@@ -96,6 +96,27 @@ export class SharedService {
     this.photoAlbumData = null;
   }
 
+  private history: any[] = [];
+
+  // Add state to history
+  addToHistory(state: any) {
+    this.history.push(state);
+  }
+
+  // Remove and return the last state
+  popFromHistory(): any {
+    return this.history.pop();
+  }
+
+  // Get the current history
+  getHistory(): any[] {
+    return [...this.history]; // Return a copy of the history
+  }
+
+  // Clear history
+  clearHistory() {
+    this.history = [];
+  }
 
   
 }

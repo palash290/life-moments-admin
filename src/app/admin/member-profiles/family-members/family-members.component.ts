@@ -70,7 +70,7 @@ export class FamilyMembersComponent {
     this.setMaxDate();
 
     this.newMemberForm.get('gender')?.valueChanges.subscribe((gender) => {
-      debugger
+
       if (gender === 'male') {
         this.filteredRelations = [...this.maleRelations];
       } else if (gender === 'female') {
@@ -84,7 +84,7 @@ export class FamilyMembersComponent {
     });
 
     this.editMemberForm.get('gender')?.valueChanges.subscribe((gender) => {
-      debugger
+
       if (gender === 'male') {
         this.filteredRelationsEdit = [...this.maleRelationsEdit];
       } else if (gender === 'female') {
@@ -141,14 +141,19 @@ export class FamilyMembersComponent {
   initNewMemberForm() {
     this.newMemberForm = new FormGroup({
       image: new FormControl(null),
-      name: new FormControl('', Validators.required),
+      name: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/) // Pattern to ensure at least two words
+      ]),
       dName: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       dob: new FormControl('', Validators.required),
       isAlive: new FormControl('', Validators.required),
       relationName: new FormControl('', Validators.required),
       relationWith: new FormControl('', Validators.required),
-      isAdult: new FormControl({ value: false, disabled: true }),
+      // isAdultAbove: new FormControl({ value: false, disabled: false }),
+      // isAdultBelow: new FormControl({ value: false, disabled: false }),
+      isAdult: new FormControl(true),
       isDOBUnknown: new FormControl(''),
     })
     this.filteredRelations = [...this.allRelations];
@@ -213,7 +218,11 @@ export class FamilyMembersComponent {
   initEditMemberForm() {
     this.editMemberForm = new FormGroup({
       image: new FormControl(null),
-      name: new FormControl(this.singleMemberDetail?.full_name, Validators.required),
+      //name: new FormControl(this.singleMemberDetail?.full_name, Validators.required),
+      name: new FormControl(this.singleMemberDetail?.full_name, [
+        Validators.required,
+        Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/) // Pattern to ensure at least two words
+      ]),
       dName: new FormControl(this.singleMemberDetail?.user_name, Validators.required),
       gender: new FormControl({ value: this.singleMemberDetail?.gender, disabled: true }, Validators.required),
       dob: new FormControl(this.convertDateFormat(this.singleMemberDetail?.date_of_birth), Validators.required),
@@ -248,6 +257,13 @@ export class FamilyMembersComponent {
       this.editMemberForm.get('relationName')?.setValue('');
     });
 
+    // Subscribe to the valueChanges of the 'name' field
+    this.editMemberForm.get('name')?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const firstWord = value.split(' ')[0]; // Get the first word
+        this.editMemberForm.get('dName')?.setValue(firstWord, { emitEvent: false }); // Update dName without triggering its valueChanges
+      }
+    });
 
   }
 
@@ -375,14 +391,26 @@ export class FamilyMembersComponent {
   initEditParentForm() {
     this.editParentForm = new FormGroup({
       image: new FormControl(null),
-      name: new FormControl(this.filteredOutMembers[0]?.full_name, Validators.required),
+      //name: new FormControl(this.filteredOutMembers[0]?.full_name, Validators.required),
+      name: new FormControl(this.filteredOutMembers[0]?.full_name, [
+        Validators.required,
+        Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/) // Pattern to ensure at least two words
+      ]),
       dName: new FormControl(this.filteredOutMembers[0]?.user_name, Validators.required),
-      gender: new FormControl(this.filteredOutMembers[0]?.gender, Validators.required),
+      gender: new FormControl({ value: this.filteredOutMembers[0]?.gender, disabled: true }, Validators.required),
       dob: new FormControl(this.convertDateFormat(this.filteredOutMembers[0]?.date_of_birth), Validators.required),
       //isAlive: new FormControl(this.filteredOutMembers[0]?.is_alive, Validators.required),
       //relationName: new FormControl('', Validators.required),
       //relationWith: new FormControl('', Validators.required),
     })
+
+    this.editParentForm.get('name')?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const firstWord = value.split(' ')[0]; // Get the first word
+        this.editParentForm.get('dName')?.setValue(firstWord, { emitEvent: false }); // Update dName without triggering its valueChanges
+      }
+    });
+
   }
 
   editParentProfile!: File;
@@ -716,9 +744,9 @@ export class FamilyMembersComponent {
     const selectedRelation = this.filteredRelationsEdit.find(relation => relation.id === selectedValue);
 
     if (selectedRelation) {
-      console.log('Selected Relation for Edit:', selectedRelation); // Logs the entire object
-      console.log('ID:', selectedRelation.id); // Logs the relation ID
-      console.log('Label:', selectedRelation.value); // Logs the relation label
+      // console.log('Selected Relation for Edit:', selectedRelation); // Logs the entire object
+      // console.log('ID:', selectedRelation.id); // Logs the relation ID
+      // console.log('Label:', selectedRelation.value); // Logs the relation label
       this.relationCaseValue = selectedRelation.value;
       this.relationCaseId = selectedRelation.id;
       // // Optionally set the entire object in the edit form
@@ -729,8 +757,17 @@ export class FamilyMembersComponent {
   }
 
 
-  addNewMember(): void {
+  async addNewMember() {
     this.newMemberForm.markAllAsTouched();
+     
+    // Check for spaces in current_password and new_password
+    const name = this.newMemberForm.value.name?.trim();
+    const dName = this.newMemberForm.value.dName?.trim();
+
+    if (!name || !dName) {
+      return;
+    }
+
     if (this.newMemberForm.valid) {
       // debugger
       const selectedRelation = this.newMemberForm.value.relationName;
@@ -745,7 +782,15 @@ export class FamilyMembersComponent {
       const formURlData = new FormData();
       if (this.parentImage) {
         formURlData.append('file', this.parentImage);
+      } else {
+        await this.getFileFromUrl('http://18.229.202.71:4000/images/1727186679509.png', 'defaultImage.png').then(file => {
+          formURlData.append('file', file);
+          console.log('File loaded from URL:', file);
+        }).catch(error => {
+          console.error('Error loading file from URL:', error);
+        });
       }
+
       formURlData.set('id', this.relationId);
       formURlData.set('family_id', this.parentDetail[0]?.family_id);
       formURlData.set('user_id', this.parentId);
@@ -782,10 +827,10 @@ export class FamilyMembersComponent {
       formURlData.set('is_alive', this.newMemberForm.value.isAlive);
       formURlData.set('relation_id', this.relationCaseId);
 
-
       this.service.postAPIFormData(apiUrl, formURlData).subscribe({
         next: (resp) => {
           if (resp.success == true) {
+            this.getMembers();
             this.toastr.success(resp.message);
             this.addMemLoader = false;
             this.closeModalAdd.nativeElement.click();
@@ -793,7 +838,6 @@ export class FamilyMembersComponent {
             this.relationId = '';
             this.relationCaseId = '';
             this.newMemberForm.reset();
-            this.getMembers();
           } else {
             this.toastr.warning(resp.message);
             this.addMemLoader = false;
@@ -815,6 +859,20 @@ export class FamilyMembersComponent {
     }
   }
 
+  getFileFromUrl(url: string, filename: string): Promise<File> {
+    return fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        // Create a new File object
+        return new File([blob], filename, { type: blob.type });
+      });
+  }
+
   formatDateToDDMMYYYY(dateString: string): string {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, '0');
@@ -828,11 +886,22 @@ export class FamilyMembersComponent {
 
   editmember(): void {
     this.editMemberForm.markAllAsTouched();
-    if (this.editMemberForm.valid) {
-      console.log('Form Values:', this.editMemberForm.value);
 
-      const selectedRelation = this.relationCaseValue;
-      const apiUrl = this.relationEditApiMap[selectedRelation];
+    // Check for spaces in current_password and new_password
+    const name = this.editMemberForm.value.name?.trim();
+    const dName = this.editMemberForm.value.dName?.trim();
+
+    if (!name || !dName) {
+      return;
+    }
+
+    if (this.editMemberForm.valid) {
+      if (this.relationCaseValue == '') {
+        this.relationCaseValue = this.singleMemberDetail?.relationName;
+      }
+      //const selectedRelation = this.relationCaseValue;
+
+      const apiUrl = this.relationEditApiMap[this.relationCaseValue];
 
       if (!apiUrl) {
         this.toastr.error('Invalid relation selected.');
@@ -865,8 +934,8 @@ export class FamilyMembersComponent {
       formURlData.set('full_name', userName);
       formURlData.set('other_gender', 'none');
 
-      formURlData.set('gender', this.editMemberForm.value.gender);
-      // formURlData.set('dob', this.editMemberForm.value.dob);
+      formURlData.set('gender', this.singleMemberDetail?.gender);
+      //formURlData.set('gender', this.editMemberForm.value.gender);
       const dob = this.editMemberForm.value.dob;
 
       const isDOBUnknown = this.editMemberForm.get('isDOBUnknown')?.value;
@@ -922,6 +991,15 @@ export class FamilyMembersComponent {
 
   editParent(): void {
     this.editParentForm.markAllAsTouched();
+
+    // Check for spaces in current_password and new_password
+    const name = this.editParentForm.value.name?.trim();
+    const dName = this.editParentForm.value.dName?.trim();
+
+    if (!name || !dName) {
+      return;
+    }
+
     if (this.editParentForm.valid) {
       console.log('Form Values:', this.editParentForm.value);
       this.addParentLoader = true;
@@ -946,12 +1024,13 @@ export class FamilyMembersComponent {
       formURlData.set('user_id', this.parentId);
 
       formURlData.set('onboardingDone', null);
-      formURlData.set('gender', this.editParentForm.value.gender);
-      if (this.editParentForm.value.gender == 'prefer-not-to-say') {
-        formURlData.set('other_gender', 'prefer-not-to-say');
-      } else {
-        formURlData.set('other_gender', null);
-      }
+      formURlData.set('gender', this.filteredOutMembers[0]?.gender);
+      // formURlData.set('gender', this.editParentForm.value.gender);
+      // if (this.editParentForm.value.gender == 'prefer-not-to-say') {
+      //   formURlData.set('other_gender', 'prefer-not-to-say');
+      // } else {
+      //   formURlData.set('other_gender', null);
+      // }
 
 
       this.service.postAPIFormData('sub-admin/editProfile', formURlData).subscribe({
@@ -1085,6 +1164,7 @@ export class FamilyMembersComponent {
 
 
   singleMemberDetail: any;
+
   getSingleMemberData(detail: any) {
     this.memberId = detail.id;
     this.singleMemberDetail = detail;
@@ -1119,23 +1199,27 @@ export class FamilyMembersComponent {
 
   getMemberAlbum() {
     this.closeModalViewMember.nativeElement.click();
-    this.closeModalViewPet.nativeElement.click();
+    //this.closeModalViewPet.nativeElement.click();
     this.closeModalViewParent.nativeElement.click();
     this.route.navigateByUrl(`/admin/main/albums/${this.memberId}`);
   }
 
   getMemberTimeline() {
     this.closeModalViewMember.nativeElement.click();
-    this.closeModalViewPet.nativeElement.click();
+    //this.closeModalViewPet.nativeElement.click();
     this.closeModalViewParent.nativeElement.click();
     this.route.navigateByUrl(`/admin/main/timeline/${this.memberId}`);
   }
 
   getMemberInterview() {
     this.closeModalViewMember.nativeElement.click();
-    this.closeModalViewPet.nativeElement.click();
+    //this.closeModalViewPet.nativeElement.click();
     this.closeModalViewParent.nativeElement.click();
-    this.route.navigateByUrl(`/admin/main/member-interview/${this.memberId}`);
+    if (this.singleMemberDetail?.full_name) {
+      this.route.navigateByUrl(`/admin/main/member-interview/${this.memberId}/${this.singleMemberDetail?.full_name}`);
+    } else {
+      this.route.navigateByUrl(`/admin/main/member-interview/${this.memberId}/${this.filteredOutMembers[0]?.full_name}`);
+    }
   }
 
 

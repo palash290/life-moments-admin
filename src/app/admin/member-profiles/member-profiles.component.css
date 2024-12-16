@@ -1,0 +1,38 @@
+.active {
+    background-color: #0d9e00;
+    color: #f5f5f5;
+    border: none;
+}
+
+.pagination-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.pagination-controls button {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.form-check-input:checked{
+    background-color: var(--dark_green);
+    border-color: var(--dark_green);
+}
+
+.ct_switch .form-check-input {
+    height: 20px;
+    cursor: pointer;
+}
+
+.ct_switch .form-check-input:focus{
+    box-shadow: unset;
+}
+.ct_switch .form-check-input {
+    height: 20px;
+    cursor: pointer;
+}
+
+.ct_switch .form-check-input:focus{
+    box-shadow: unset;
+}

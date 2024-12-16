@@ -179,7 +179,7 @@ const routes: Routes = [
       },
 
       {
-        path: 'member-interview/:memberId',
+        path: 'member-interview/:memberId/:name',
         component: MemberInterviewComponent
       },
 

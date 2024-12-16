@@ -13,6 +13,7 @@
                             <th>Member</th>
                             <th>Time</th>
                             <th>Date</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -28,22 +29,31 @@
                             </td>
                             <td>{{item.create_time}}</td>
                             <td>{{item.created_date}}</td>
+                            <td>
+                                <div *ngIf="item.feedback_status == 0">
+                                    Pending
+                                </div>
+                                <div *ngIf="item.feedback_status == 1">
+                                    Replied
+                                </div>
+                            </td>
                             <td class="text-end">
                                 <a href="javascript:void(0)" (click)="feedbackReview(item)" class="ct_fw_500"
                                     data-bs-toggle="modal" data-bs-target="#ct_see_review">See feedback</a>
                             </td>
                         </tr>
                     </tbody>
-                    <div *ngIf="data?.length == 0 || !data" class="text-center">
-                        <p class="ct_fs_15 mt-5">No items found</p>
-                    </div>
+
                 </table>
+            </div>
+            <div *ngIf="data?.length == 0 || !data" class="text-center">
+                <p class="ct_fs_15 mt-5">No feedback found</p>
             </div>
 
             <!-- Pagination Controls -->
-            <div class="d-flex justify-content-between align-items-center mt-3">
+            <!-- <div class="d-flex justify-content-between align-items-center mt-3">
 
-                <!-- Pagination Controls -->
+                
                 <div class="pagination-controls">
                     <button (click)="previousPage()" class="ct_previous"
                         [disabled]="currentPage === 1">Previous</button>
@@ -53,6 +63,29 @@
                     <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
                 </div>
 
+            </div> -->
+
+            <!-- Pagination Controls -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <!-- Pagination Controls -->
+                <div class="pagination-controls">
+                    <button (click)="previousPage()" class="ct_previous" [disabled]="currentPage == 1">Previous</button>
+
+                    <!-- Ellipsis for Skipped Pages -->
+                    <button *ngIf="currentPage > 3" (click)="goToPage(1)" [class.active]="currentPage == 1">1</button>
+                    <!-- <button *ngIf="currentPage > 3" disabled>...</button> -->
+
+                    <!-- Dynamic Page Buttons -->
+                    <button *ngFor="let page of getPaginationRange()" [class.active]="page === currentPage"
+                        (click)="goToPage(page)">
+                        {{ page }}
+                    </button>
+
+                    <!-- Ellipsis for Next Skipped Pages -->
+                    <button *ngIf="hasMoreData && currentPage + 2 < totalPages" disabled>...</button>
+
+                    <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+                </div>
             </div>
 
         </div>
@@ -94,12 +127,12 @@
                     </p>
 
                     <div class="form-group mt-3">
-                        <span>Reply To : {{feedbackDetails?.email}}</span>
+                        <span><span class="ct_fw_600 ">Reply To : </span>{{feedbackDetails?.email}}</span>
                         <textarea class="form-control ct_input h-auto" rows="5" [(ngModel)]="message"
                             placeholder="Type here...."></textarea>
                     </div>
 
-                    <button (click)="addSendMsg(feedbackDetails?.email)" class="ct_green_btn mt-3 d-flex"
+                    <button (click)="addSendMsg(feedbackDetails)" class="ct_green_btn mt-3 d-flex"
                         style="width: fit-content;"> Send</button>
                     <button hidden type="button" class="btn btn-secondary" #closeModal
                         data-bs-dismiss="modal">Close</button>
@@ -108,3 +141,22 @@
         </div>
     </div>
 </div>
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+      <div class="ldio-4j5ay0xf86g">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>

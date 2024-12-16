@@ -3,6 +3,16 @@
         <h4 class="mb-0 ct_fs_22">All FAQ's</h4>
         <div class="d-flex align-items-center gap-3">
 
+            <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2 ">
+                <span class="ct_text_op_5  ct_fs_13" style="white-space: nowrap;">Select Language :</span>
+                <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px;" [(ngModel)]="languageId"
+                    (change)="onLanguageChange($event)">
+                    <option *ngFor="let lan of languages" [value]="lan.code">
+                        {{ lan.name }}
+                    </option>
+                </select>
+            </div>
+
             <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#ct_add_sub_admin">Add FAQ</button>
         </div>
     </div>
@@ -14,13 +24,13 @@
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         [attr.data-bs-target]="'#collapse' + i" aria-expanded="false"
                         [attr.aria-controls]="'collapse' + i">
-                        {{item.question}}
+                        {{getQuestion(item)}}
                     </button>
                 </h2>
                 <div [id]="'collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading' + i"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body" style="word-break: break-all;">
-                        {{item.answer}}
+                        {{getAnswer(item)}}
 
                         <div class="d-flex align-items-center gap-3 mt-3">
                             <i style="cursor: pointer;" class="fas fa-edit" data-bs-toggle="modal"
@@ -90,7 +100,7 @@
                         <div class="spinner-border me-2" role="status" *ngIf="btnLoader">
                             <span class="visually-hidden">Loading...</span>
                         </div>
-                        <span *ngIf="!btnLoader">Add Sub Admin</span>
+                        <span *ngIf="!btnLoader">Add FAQ</span>
                     </div>
                 </button>
                 <button hidden type="button" class="btn btn-secondary" #closeModal

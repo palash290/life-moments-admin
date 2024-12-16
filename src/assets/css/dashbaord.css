@@ -20,7 +20,7 @@
 }
 
 .ct_sidebar_menu ul li.active svg path {
-    fill: var(--dark_green);
+    stroke: var(--dark_green);
 }
 
 .ct_sidebar_menu ul {
@@ -47,7 +47,7 @@
 }
 
 .ct_sidebar_menu ul li:hover a svg path {
-    fill: var(--dark_green);
+    stroke: var(--dark_green);
 }
 
 .ct_sidebar_menu ul li:hover a {

@@ -1,1 +1,90 @@
-<p>manage-subscription works!</p>
+<div class="ct_dashbaord_middle">
+    <div class="d-flex align-items-center justify-content-between">
+        <h4 class="mb-0 ct_fs_22">Feedback List</h4>
+    </div>
+
+    <div class="row ct_mt_30">
+        <div class="col-lg-12 mb-4 mb-lg-0">
+            <div class="table-responsive">
+                <table class="table ct_project_table ct_light_grey_table_td">
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>Member</th>
+                            <th>Time</th>
+                            <th>Date</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of data; let i = index">
+                            <td>{{ i+1 }}</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img [src]='item.profile_image ? item.profile_image : "assets/img/np_pro.png"'
+                                        class="ct_img_40 ct_border_2" />
+                                    <p class="mb-0 ct_fs_16">{{item.fullName}}</p>
+                                </div>
+                            </td>
+                            <td>{{item.create_time}}</td>
+                            <td>{{item.created_date}}</td>
+                            <td class="text-center">
+                                <button class="ct_green_btn" style="min-width: 5rem;" data-bs-toggle="modal"
+                                    data-bs-target="#ct_add_user">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+            <div *ngIf="data?.length == 0 || !data" class="text-center">
+                <p class="ct_fs_15 mt-5">No feedback found</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- CREATE PROJECT modal S -->
+
+<div class="modal fade Committed_Price" id="ct_add_user" tabindex="-1" aria-labelledby="ct_see_reviewLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content pb-0">
+
+            <div class="modal-header border-0 pt-0 px-0 d-block text-center">
+                <h5 class="modal-title ct_fs_15 mx-auto ct_ff_roboto" id="exampleModalLabel">Update User Plan
+                </h5>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <div>
+                        <input type="text" class="form-control ct_login_input" placeholder="Enter Price"
+                            [(ngModel)]="userPrice" [ngModelOptions]="{ standalone: true }" min="0" required />
+                        <div *ngIf="userError" class="error-message">{{userErrorMessage}}</div>
+                    </div>
+
+
+                    <button hidden type="button" class="btn btn-secondary" #closeModal
+                        data-bs-dismiss="modal">Close</button>
+                    <button (click)="editUser()" class="ct_green_btn  ct_border_radius_10 w-100 mt-4"
+                        [disabled]="btnLoaderCreateUser">
+                        <div class="d-flex align-items-center">
+                            <div class="spinner-border me-2" role="status" *ngIf="btnLoaderCreateUser">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <span *ngIf="!btnLoaderCreateUser">Update</span>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
