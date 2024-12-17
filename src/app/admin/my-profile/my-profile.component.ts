@@ -18,7 +18,7 @@ export class MyProfileComponent {
   phone: any;
   loading: boolean = false;
 
-  pattern1 = "^[0-9_-]{10,12}";
+  pattern1 = "^[0-9_-]{8,15}";
 
   constructor(private route: Router, private service: SharedService, private toastr: ToastrService) { }
 

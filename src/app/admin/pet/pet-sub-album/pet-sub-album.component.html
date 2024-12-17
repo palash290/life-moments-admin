@@ -1,7 +1,8 @@
 <div class="ct_dashbaord_middle">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center gap-3">
-            <a (click)="backClicked()" style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+            <a (click)="backClicked()" style="cursor: pointer;"
+                class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
                     class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
             <!-- <h4 class="mb-0 ct_fs_22 ct_fw_500"><img src="assets/img/men_user.png" alt="" class="ct_img_40 me-3">Zaire
                 Siphron’s Album</h4> -->
@@ -48,8 +49,8 @@
             <div class="ct_grid_6 mt-3" [ngClass]="{'ct_grid_2_conditon': data.length == 2}">
                 <a *ngFor="let pic of data; let i = index" class="text-dark">
                     <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img [src]="pic.image ? pic.image : 'assets/img/folder.png'" alt=""
+                        <div class="ct_file_img" style="cursor: pointer;">
+                            <img [src]="pic.cover_image ? pic.cover_image : 'assets/img/folder.png'" alt=""
                                 (click)="getPhotos(pic)">
                             <div class="ct_sub_album_icon">
                                 <img src="assets/img/sub-album_icon.png" alt="">
@@ -59,7 +60,7 @@
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </div> -->
 
-                            <div *ngIf="pic.totalalbumphoto > 0" class="ct_edit_file_cnt ct_total_count_btm">
+                            <div class="ct_edit_file_cnt ct_total_count_btm">
                                 <h4 class="mb-0 ct_fs_14">{{pic.totalalbumphoto}}</h4>
                             </div>
 
@@ -72,6 +73,7 @@
                             </div>
                         </div>
                         <figcaption class="text-center ct_fw_600 mt-2">{{pic.name}}</figcaption>
+                        <figcaption class="text-center ct_fw_400 mt-2">{{pic.creationDate}}</figcaption>
                     </figure>
                 </a>
             </div>

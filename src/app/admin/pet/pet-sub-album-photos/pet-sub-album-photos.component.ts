@@ -14,17 +14,29 @@ export class PetSubAlbumPhotosComponent {
   photos: any;
   filteredPhotos: any[] = [];
   filterValue: string = '';
-
+  petId2: any;
+  albumId: any;
+  petId: any;
 
   constructor(private sanitizer: DomSanitizer, private router: Router, private route: ActivatedRoute, private service: SharedService, private location: Location, private toastr: ToastrService) { }
 
   backClicked() {
-    this.location.back();
+    // this.location.back();
+    if(this.isAlbum == 'true'){
+      this.router.navigate([`/admin/main/pet-albums/${this.petId2}`]);
+      localStorage.removeItem('userId2');
+    } else{
+      this.router.navigate([`/admin/main/pet-sub-albums/${this.albumId}/${this.petId}`]);
+      localStorage.removeItem('albumId');
+      localStorage.removeItem('userId');
+    }
   }
 
   sanitizeUrl(url: any): SafeUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
+
+  isAlbum: any;
 
   ngOnInit() {
     // const albumItems = this.service.getData();
@@ -38,6 +50,7 @@ export class PetSubAlbumPhotosComponent {
     // this.photos = albumItems;
     this.route.queryParams.subscribe(params => {
       const albumItems = params['albumItems'];
+      this.isAlbum = params['isAlbum'];
       if (albumItems) {
         this.photos = JSON.parse(albumItems);
         console.log(this.photos);
@@ -46,6 +59,10 @@ export class PetSubAlbumPhotosComponent {
       }
     });
     this.filteredPhotos = [...this.photos];
+
+    this.albumId = localStorage.getItem('albumId');
+    this.petId = localStorage.getItem('petId');
+    this.petId2 = localStorage.getItem('petId2');
     //this.getUsers();
   }
 

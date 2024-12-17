@@ -79,7 +79,7 @@
 
                         <div class="form-group mb-3">
                             <label for="" class="mb-2">Answer <span class="ct_required_star">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter Answer" formControlName="answer">
+                            <textarea type="text" class="form-control" placeholder="Enter Answer" formControlName="answer"></textarea>
                             <div *ngIf="faqForm.controls['answer'].invalid && faqForm.controls['answer'].touched"
                                 class="error-message">
                                 <div *ngIf="faqForm.controls['answer'].errors?.['required']" class="ct_fs_14">Answer is
@@ -138,7 +138,7 @@
 
                         <div class="form-group mb-3">
                             <label for="" class="mb-2">Answer <span class="ct_required_star">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter answer" formControlName="answer">
+                            <textarea type="text" class="form-control" placeholder="Enter answer" formControlName="answer"></textarea>
                             <div *ngIf="editFaq.controls['answer'].invalid && editFaq.controls['answer'].touched"
                                 class="error-message">
                                 <div *ngIf="editFaq.controls['answer'].errors?.['required']" class="ct_fs_14">Answer is
@@ -177,9 +177,9 @@
 <div class="modal fade" id="ct_delete_blog" tabindex="-1" aria-labelledby="ct_delete_postLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header py-0 border-0" data-bs-dismiss="modal" aria-label="Close" style="cursor: pointer;">
+            <!-- <div class="modal-header py-0 border-0" data-bs-dismiss="modal" aria-label="Close" style="cursor: pointer;">
                 <button type="button" class="btn-close ct_close"><i class="fa-solid fa-xmark"></i></button>
-            </div>
+            </div> -->
             <div class="modal-body">
                 <div class="ct_delete_post_modal">
                     <figure>
@@ -213,6 +213,28 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
     </div>
 </div>

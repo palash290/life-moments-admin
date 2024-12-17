@@ -20,6 +20,20 @@ export class PetSubAlbumComponent {
 
   constructor(private router: Router, private route: ActivatedRoute, private service: SharedService, private location: Location, private toastr: ToastrService) { }
 
+  backClicked() {
+    //this.location.back();
+    const previousState = this.service.popFromHistory();
+
+    if (previousState) {
+      this.router.navigate([`/admin/main/pet-sub-albums/${previousState.id}/${previousState.userId}`]);
+      this.albumId = previousState.id;
+      this.petId = previousState.userId;
+      this.getUsers();
+    } else {
+      this.router.navigateByUrl(`/admin/main/pet-albums/${this.petId}`);
+    }
+  }
+
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       this.albumId = params.get('albumId');
@@ -98,18 +112,19 @@ export class PetSubAlbumComponent {
 
   getPhotos(album: any) {
     if (album.containsSubAlbums) {
-      this.router.navigateByUrl(`/admin/main/pet-album/${album.id}`);
+      this.service.addToHistory({ id: this.albumId, userId: this.petId });
+      this.router.navigate([`/admin/main/pet-sub-albums/${album.id}/${this.petId}`]);
+      this.route.paramMap.subscribe((params) => {
+        this.albumId = params.get('albumId');
+        this.petId = params.get('petId');  
+        this.getUsers();
+      });
     } else {
-      // this.service.setData(album.albumItems);
-      // console.log('Data set in service:', album.albumItems);
-      // this.router.navigateByUrl(`/admin/main/pet-sub-album-photos`);
       this.router.navigate(['/admin/main/pet-sub-album-photos'], { queryParams: { albumItems: JSON.stringify(album.albumItems) } });
       //this.toastr.warning('No sub-album found!')
+      localStorage.setItem('albumId', this.albumId);
+      localStorage.setItem('petId', this.petId);
     }
-  }
-
-  backClicked() {
-    this.location.back();
   }
 
 

@@ -121,7 +121,8 @@ export class MemberProfilesComponent {
   }
 
   handleCheckboxChange(row: any) {
-    if (row.status == 0) {
+    debugger
+    if (row.block_status == 1) {
       Swal.fire({
         title: "Are you sure?",
         text: "You want to active this user!",
@@ -133,7 +134,11 @@ export class MemberProfilesComponent {
         cancelButtonText: "No"
       }).then((result) => {
         if (result.isConfirmed) {
-          this.service.postAPI(`toggle-status/${row.id}`, null).subscribe({
+          const formURlData = new URLSearchParams();
+          //console.log()
+          formURlData.set('id', row.id);
+          formURlData.set('block_status', '0');
+          this.service.postAPI(`sub-admin/updateBlockStatus`, formURlData).subscribe({
             next: resp => {
               //console.log(resp)
               //this.toastr.success(resp.message);
@@ -156,7 +161,10 @@ export class MemberProfilesComponent {
         cancelButtonText: "No"
       }).then((result) => {
         if (result.isConfirmed) {
-          this.service.postAPI(`toggle-status/${row.id}`, null).subscribe({
+          const formURlData = new URLSearchParams();
+          formURlData.set('id', row.id);
+          formURlData.set('block_status', '1');
+          this.service.postAPI(`sub-admin/updateBlockStatus`, formURlData).subscribe({
             next: resp => {
               console.log(resp)
               //this.toastr.success(resp.message);

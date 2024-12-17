@@ -28,7 +28,7 @@
                                 </div>
                             </td>
                             <td>{{item.create_time}}</td>
-                            <td>{{item.created_date}}</td>
+                            <td>{{convertDateFormat(item.created_date)}}</td>
                             <td>
                                 <div *ngIf="item.feedback_status == 0">
                                     Pending

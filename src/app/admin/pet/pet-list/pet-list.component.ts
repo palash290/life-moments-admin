@@ -36,6 +36,7 @@ export class PetListComponent {
   }
 
   maxDate: any;
+
   setMaxDate() {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -208,7 +209,6 @@ export class PetListComponent {
     //console.log('ggjgjgjhgjhg', this.petDetails);
 
     this.initEditPetForm();
-    debugger
     // Set initial filteredRelationsEdit based on the current gender
     const isDOBUnknown = this.editPetForm.get('isDOBUnknown');
     const dobControl = this.petDetails?.dob ? this.petDetails?.dob : this.editPetForm.get('dob')?.value;
@@ -239,6 +239,7 @@ export class PetListComponent {
     this.closeModalViewPet.nativeElement.click();
     // this.closeModalViewParent.nativeElement.click();
     this.route.navigateByUrl(`/admin/main/pet-albums/${this.petId}`);
+    localStorage.setItem('ownerId', this.ownerId)
   }
 
 

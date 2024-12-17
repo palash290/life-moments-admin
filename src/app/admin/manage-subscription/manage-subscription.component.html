@@ -1,6 +1,13 @@
-<!-- <div class="ct_dashbaord_middle">
+<div class="ct_dashbaord_middle">
     <div class="d-flex align-items-center justify-content-between">
-        <h4 class="mb-0 ct_fs_22">Feedback List</h4>
+        <h4 class="mb-0 ct_fs_22">All Subscription</h4>
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative ct_search_input">
+              <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchQuery"
+                (ngModelChange)="getUsers()" />
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+          </div>
     </div>
 
     <div class="row ct_mt_30">
@@ -11,9 +18,11 @@
                         <tr>
                             <th>S No.</th>
                             <th>Member</th>
-                            <th>Time</th>
-                            <th>Date</th>
-                            <th class="text-center">Action</th>
+                            <th>Plan Name</th>
+                            <th>Plan Price</th>
+                            <th>Purchase Date</th>
+                            <th>Expire Date</th>
+                            <th class="text-center">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,26 +35,36 @@
                                     <p class="mb-0 ct_fs_16">{{item.fullName}}</p>
                                 </div>
                             </td>
-                            <td>{{item.create_time}}</td>
-                            <td>{{item.created_date}}</td>
-                            <td class="text-center">
+                            <td>{{item.plan_name}}</td>
+                            <td>{{item.plan_price}}</td>
+                            <td>{{item.purchase_date}}</td>
+                            <td>{{item.expire_date}}</td>
+                            <td>
+                                <div *ngIf="item.sub_status == 1">
+                                    Active
+                                </div>
+                                <div *ngIf="item.sub_status == 0">
+                                    Expired
+                                </div>
+                            </td>
+                            <!-- <td class="text-center">
                                 <button class="ct_green_btn" style="min-width: 5rem;" data-bs-toggle="modal"
                                     data-bs-target="#ct_add_user">
                                     Edit
                                 </button>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
 
                 </table>
             </div>
             <div *ngIf="data?.length == 0 || !data" class="text-center">
-                <p class="ct_fs_15 mt-5">No feedback found</p>
+                <p class="ct_fs_15 mt-5">No subscription found</p>
             </div>
 
         </div>
     </div>
-</div> -->
+</div>
 
 
 
@@ -89,4 +108,4 @@
     </div>
 </div> -->
 
-<h4 class="ct_fs_24 ct_fw_600 text-center mt-5">Coming Soon</h4>
+<!-- <h4 class="ct_fs_24 ct_fw_600 text-center mt-5">Coming Soon</h4> -->

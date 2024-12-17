@@ -26,7 +26,7 @@ export class PetTimelineComponent {
     localStorage.removeItem('ownerId')
   }
 
-  activeTab: string = 'year';
+  activeTab: any = 'year';
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
@@ -48,6 +48,8 @@ export class PetTimelineComponent {
     localStorage.setItem('ownerId', this.ownerId)
 
     this.getYear();
+
+    //this.activeTab = localStorage.getItem('activeTab');
   }
 
   getYear() {

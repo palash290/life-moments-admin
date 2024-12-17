@@ -183,7 +183,7 @@
                                     Grandparent
                                 </div>
                             </td>
-                            <td>{{item.relationWith?.user_name}}</td>
+                            <td>{{item.relationWith?.full_name}}</td>
                             <td>
                                 <div *ngIf="item.is_alive == '1'">
                                     Yes
@@ -287,7 +287,7 @@
                                         class="error-message">
                                         <div *ngIf="newMemberForm.controls['name'].errors?.['required']"
                                             class="ct_fs_14">
-                                            Name is required.
+                                            Full name is required.
                                         </div>
                                         <div *ngIf="newMemberForm.controls['name'].errors?.['pattern']"
                                             class="ct_fs_14">
@@ -321,9 +321,9 @@
                                         <option value="" disabled>Select</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
-                                        <option value="non-binary">Non-binary</option>
-                                        <option value="prefer-not-to-say">Prefer not to say</option>
-                                        <option value="unknown">Gender unknown</option>
+                                        <option value="NonBinary">Non-binary</option>
+                                        <option value="PreferNotToSay">Prefer not to say</option>
+                                        <option value="GenderUnknown">Gender unknown</option>
                                     </select>
                                     <div *ngIf="newMemberForm.controls['gender'].invalid && newMemberForm.controls['gender'].touched"
                                         class="error-message">
@@ -433,7 +433,7 @@
 
                                     <div *ngIf="newMemberForm.get('isDOBUnknown')?.value"
                                         class="d-flex align-items-center gap-3">
-                                        <label class="form-check-label mb-0">Age</label>
+                                        <!-- <label class="form-check-label mb-0">Age</label> -->
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" id="above18"
@@ -544,7 +544,7 @@
                                         class="error-message">
                                         <div *ngIf="editParentForm.controls['name'].errors?.['required']"
                                             class="ct_fs_14">
-                                            Name is required.
+                                            Full name is required.
                                         </div>
                                         <div *ngIf="editParentForm.controls['name'].errors?.['pattern']"
                                             class="ct_fs_14">
@@ -577,9 +577,9 @@
                                     <select class="form-control" formControlName="gender">
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
-                                        <option value="non-binary">Non-binary</option>
-                                        <option value="prefer-not-to-say">Prefer not to say</option>
-                                        <option value="unknown">Gender unknown</option>
+                                        <option value="NonBinary">Non-binary</option>
+                                        <option value="PreferNotToSay">Prefer not to say</option>
+                                        <option value="GenderUnknown">Gender unknown</option>
                                     </select>
                                     <div *ngIf="editParentForm.controls['gender'].invalid && editParentForm.controls['gender'].touched"
                                         class="error-message">
@@ -777,7 +777,7 @@
                                         class="error-message">
                                         <div *ngIf="editMemberForm.controls['name'].errors?.['required']"
                                             class="ct_fs_14">
-                                            Name is required.
+                                            Full name is required.
                                         </div>
                                         <div *ngIf="editMemberForm.controls['name'].errors?.['pattern']"
                                             class="ct_fs_14">
@@ -810,9 +810,9 @@
                                         <option value="" disabled>Select</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
-                                        <option value="non-binary">Non-binary</option>
-                                        <option value="prefer-not-to-say">Prefer not to say</option>
-                                        <option value="unknown">Gender unknown</option>
+                                        <option value="NonBinary">Non-binary</option>
+                                        <option value="PreferNotToSay">Prefer not to say</option>
+                                        <option value="GenderUnknown">Gender unknown</option>
                                     </select>
                                     <div *ngIf="editMemberForm.controls['gender'].invalid && editMemberForm.controls['gender'].touched"
                                         class="error-message">
@@ -918,7 +918,7 @@
 
                                     <div *ngIf="editMemberForm.get('isDOBUnknown')?.value"
                                         class="d-flex align-items-center gap-3">
-                                        <label class="form-check-label mb-0">Age</label>
+                                        <!-- <label class="form-check-label mb-0">Age</label> -->
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" id="above18"
@@ -966,7 +966,7 @@
                         <div class="spinner-border me-2" role="status" *ngIf="editMemLoader">
                             <span class="visually-hidden">Loading...</span>
                         </div>
-                        <span *ngIf="!editMemLoader">Add to tree</span>
+                        <span *ngIf="!editMemLoader">Update</span>
                     </div>
                 </button>
                 <button hidden type="button" class="btn btn-secondary" #closeModalEditMember

@@ -66,8 +66,17 @@
                                 <div *ngIf="item.gender == 'prefer-not-to-say'">
                                     Prefer Not To Say
                                 </div>
+                                <div *ngIf="item.gender == 'PreferNotToSay'">
+                                    Prefer Not To Say
+                                </div>
+                                <div *ngIf="item.gender == 'NonBinary'">
+                                    Non Binary
+                                </div>
                                 <div *ngIf="item.gender == 'non-binary'">
                                     Non Binary
+                                </div>
+                                <div *ngIf="item.gender == 'GenderUnknown'">
+                                    Gender Unknown
                                 </div>
                                 <div *ngIf="item.gender == 'unknown'">
                                     Gender Unknown
@@ -177,9 +186,11 @@
                         <option value="female">Female</option>
                         <option value="male">Male</option>
                         <option value="prefer-not-to-say">Prefer Not To Say</option>
+                        <option value="PreferNotToSay">Prefer Not To Say</option>
                         <option value="non-binary">Non Binary</option>
+                        <option value="NonBinary">Non Binary</option>
                         <option value="unknown">Gender Unknown</option>
-
+                        <option value="GenderUnknown">Gender Unknown</option>
                     </select>
                 </div>
                 <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap pt-3">
@@ -321,9 +332,7 @@
                                     <div *ngIf="newPetForm.controls['name'].invalid && newPetForm.controls['name'].touched"
                                         class="error-message">
                                         <div *ngIf="newPetForm.controls['name'].errors?.['required']" class="ct_fs_14">
-                                            Name
-                                            is
-                                            required.
+                                            Full name is required.
                                         </div>
                                     </div>
                                 </div>
@@ -351,9 +360,9 @@
                                         <option value="" selected>Select</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
-                                        <option value="non-binary">Non-binary</option>
-                                        <option value="prefer-not-to-say">Prefer not to say</option>
-                                        <option value="unknown">Gender unknown</option>
+                                        <option value="NonBinary">Non-binary</option>
+                                        <option value="PreferNotToSay">Prefer not to say</option>
+                                        <option value="GenderUnknown">Gender unknown</option>
                                     </select>
                                     <div *ngIf="newPetForm.controls['gender'].invalid && newPetForm.controls['gender'].touched"
                                         class="error-message">
@@ -519,9 +528,7 @@
                                     <div *ngIf="editPetForm.controls['name'].invalid && editPetForm.controls['name'].touched"
                                         class="error-message">
                                         <div *ngIf="editPetForm.controls['name'].errors?.['required']" class="ct_fs_14">
-                                            Name
-                                            is
-                                            required.
+                                            Full name is required.
                                         </div>
                                     </div>
                                 </div>
@@ -549,9 +556,9 @@
                                         <option value="" disabled>Select</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
-                                        <option value="non-binary">Non-binary</option>
-                                        <option value="prefer-not-to-say">Prefer not to say</option>
-                                        <option value="unknown">Gender unknown</option>
+                                        <option value="NonBinary">Non-binary</option>
+                                        <option value="PreferNotToSay">Prefer not to say</option>
+                                        <option value="GenderUnknown">Gender unknown</option>
                                     </select>
                                     <div *ngIf="editPetForm.controls['gender'].invalid && editPetForm.controls['gender'].touched"
                                         class="error-message">

@@ -12,6 +12,13 @@ export class ManageSubscriptionComponent {
   data: any;
   feedbackDetails: any;
 
+  searchQuery = '';
+
+  //Pagination//
+  currentPage: number = 1;
+  pageSize: number = 10;
+  hasMoreData: boolean = true;
+
   constructor(private service: SharedService, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -19,7 +26,7 @@ export class ManageSubscriptionComponent {
   }
 
   getUsers() {
-    this.service.getApi(`sub-admin/get-allfeedback`).subscribe({
+    this.service.getApi(`sub-admin/getAllSubscription?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}`).subscribe({
       next: resp => {
         this.data = resp.data;
       },
@@ -45,7 +52,7 @@ export class ManageSubscriptionComponent {
       return;
     }
 
-    if (isNaN(+priceValue)) { 
+    if (isNaN(+priceValue)) {
       this.userError = true;
       this.userErrorMessage = 'Price must be a valid number.';
       return;
@@ -90,5 +97,13 @@ export class ManageSubscriptionComponent {
     });
   }
 
-  
+
 }
+// "plan_name": "Monthly",
+// "plan_price": "4.99",
+// "fullName": "S18 S",
+// "displayName": "Ss18 S",
+// "profile_image": "http://18.229.202.71:4000/images/1731928569810.png",
+// "purchase_date": "07 - December - 2024",
+// "expire_date": "07 - January - 2025",
+// "sub_status": 1

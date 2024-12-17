@@ -15,6 +15,7 @@ export class FaqComponent {
   editFaq!: FormGroup;
   @ViewChild('closeModal') closeModal!: ElementRef;
   @ViewChild('closeModal1') closeModal1!: ElementRef;
+  loading: boolean = false;
 
   constructor(private service: SharedService, private toastr: ToastrService) { }
 
@@ -44,7 +45,7 @@ export class FaqComponent {
   initUpdateForm() {
     this.editFaq = new FormGroup({
       question: new FormControl(this.getQuestion(this.updateDet), Validators.required),
-      answer: new FormControl(this.getQuestion(this.updateDet), Validators.required)
+      answer: new FormControl(this.getAnswer(this.updateDet), Validators.required)
     })
   }
 
@@ -58,13 +59,16 @@ export class FaqComponent {
   }
 
   getQuestions(lang: any) {
+    this.loading = true;
     const formURlData = new URLSearchParams();
     formURlData.set('lang_code', lang);
     this.service.postAPI(`sub-admin/getAllFAQ`, formURlData.toString()).subscribe({
       next: resp => {
+        this.loading = false;
         this.data = resp.data;
       },
       error: error => {
+        this.loading = false;
         console.log(error.message);
       }
     });

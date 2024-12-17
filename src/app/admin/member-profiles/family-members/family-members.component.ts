@@ -216,6 +216,7 @@ export class FamilyMembersComponent {
   }
 
   initEditMemberForm() {
+    debugger
     this.editMemberForm = new FormGroup({
       image: new FormControl(null),
       //name: new FormControl(this.singleMemberDetail?.full_name, Validators.required),
@@ -224,12 +225,13 @@ export class FamilyMembersComponent {
         Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/) // Pattern to ensure at least two words
       ]),
       dName: new FormControl(this.singleMemberDetail?.user_name, Validators.required),
-      gender: new FormControl({ value: this.singleMemberDetail?.gender, disabled: true }, Validators.required),
+      
+      gender: new FormControl({ value: this.singleMemberDetail?.other_gender == 'none' ? this.singleMemberDetail?.gender : this.singleMemberDetail?.other_gender, disabled: true }, Validators.required),
       dob: new FormControl(this.convertDateFormat(this.singleMemberDetail?.date_of_birth), Validators.required),
       isAlive: new FormControl(this.singleMemberDetail?.is_alive, Validators.required),
       relationName: new FormControl(this.singleMemberDetail?.relation_id, Validators.required),
       relationWith: new FormControl(this.singleMemberDetail?.relationWith.id, Validators.required),
-      isAdult: new FormControl({ value: '', disabled: false }),
+      isAdult: new FormControl(true),
       isDOBUnknown: new FormControl(''),
     })
     // Set initial filteredRelationsEdit based on the current gender
@@ -397,7 +399,8 @@ export class FamilyMembersComponent {
         Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/) // Pattern to ensure at least two words
       ]),
       dName: new FormControl(this.filteredOutMembers[0]?.user_name, Validators.required),
-      gender: new FormControl({ value: this.filteredOutMembers[0]?.gender, disabled: true }, Validators.required),
+      //value: this.singleMemberDetail?.other_gender == 'none' ? this.singleMemberDetail?.gender : this.singleMemberDetail?.other_gender
+      gender: new FormControl({ value: this.filteredOutMembers[0]?.other_gender == 'none' ? this.filteredOutMembers[0]?.gender : this.filteredOutMembers[0]?.other_gender, disabled: true }, Validators.required),
       dob: new FormControl(this.convertDateFormat(this.filteredOutMembers[0]?.date_of_birth), Validators.required),
       //isAlive: new FormControl(this.filteredOutMembers[0]?.is_alive, Validators.required),
       //relationName: new FormControl('', Validators.required),
@@ -703,7 +706,7 @@ export class FamilyMembersComponent {
     Sister: 'sub-admin/editSisterInTree',
     'Step-Sister': 'sub-admin/editStepSisterInTree',
     sibiling: 'sub-admin/editStepBrotherInTree',
-    Parent: 'sub-admin/editPartnerInTree',
+    Partner: 'sub-admin/editPartnerInTree',
     Grandparent1: 'sub-admin/addGrandFatherInTree',
     Grandparent2: 'sub-admin/editGrandMotherInTree',
 
@@ -896,6 +899,7 @@ export class FamilyMembersComponent {
     }
 
     if (this.editMemberForm.valid) {
+      debugger
       if (this.relationCaseValue == '') {
         this.relationCaseValue = this.singleMemberDetail?.relationName;
       }
@@ -1168,6 +1172,7 @@ export class FamilyMembersComponent {
   getSingleMemberData(detail: any) {
     this.memberId = detail.id;
     this.singleMemberDetail = detail;
+    //debugger
     this.initEditMemberForm();
     console.log('this.singleMemberDetail', this.singleMemberDetail);
 

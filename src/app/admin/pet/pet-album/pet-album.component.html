@@ -41,21 +41,21 @@
             <div class="ct_grid_6 mt-3" [ngClass]="{'ct_grid_2_conditon': data.length == 2}">
                 <a *ngFor="let pic of data; let i = index" class="text-dark">
                     <figure class="ct_file_main mb-0">
-                        <div class="ct_file_img">
-                            <img [src]="pic.image ? pic.image : 'assets/img/folder.png'" alt=""
+                        <div class="ct_file_img" style="cursor: pointer;">
+                            <img [src]="pic.cover_image ? pic.cover_image : 'assets/img/folder.png'" alt=""
                                 (click)="getSubalbum(pic)">
                             <!-- <div class="ct_edit_file_cnt" data-bs-toggle="modal" data-bs-target="#edit_file"
                                 style="cursor: pointer;" (click)="getAlbumDetails(pic)">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </div> -->
                             <div class="ct_edit_file_cnt ct_total_count_btm">
-                                <img src="assets/img/pet_paw.png" alt="">
+                                <!-- <img src="assets/img/pet_paw.png" alt=""> -->
                                 <!-- <h4 class="mb-0 ct_fs_14">12</h4> -->
                             </div>
 
-                            <!-- <div *ngIf="pic?.totalalbumphoto > 0" class="ct_edit_file_cnt ct_total_count_btm">
+                            <div class="ct_edit_file_cnt ct_total_count_btm">
                                 <h4 class="mb-0 ct_fs_14">{{pic?.totalalbumphoto}}</h4>
-                            </div> -->
+                            </div>
 
                             <div class="ct_checkbox_main ct_file_select">
                                 <!-- <div>
@@ -66,6 +66,7 @@
                             </div>
                         </div>
                         <figcaption class="text-center ct_fw_600 mt-2">{{pic.name}}</figcaption>
+                        <figcaption class="text-center ct_fw_400 mt-2">{{pic.created_at}}</figcaption>
                     </figure>
                 </a>
             </div>
