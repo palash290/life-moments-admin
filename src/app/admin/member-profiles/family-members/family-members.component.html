@@ -21,8 +21,17 @@
         <div class="col-lg-12 mb-4 mb-lg-0">
             <div class="d-flex align-items-center justify-content-between gap-2 ct_white_bg_1">
                 <div class="d-flex align-items-center gap-2">
-                    <img [src]="filteredOutMembers[0]?.image_link" class="ct_img_40 ct_border_2"
+                    <div class="position-relative">
+                        <img [src]="filteredOutMembers[0]?.image_link" class="ct_img_40 ct_border_2"
                         style="border: solid var(--dark_green);" />
+
+                        <div *ngIf="filteredOutMembers[0]?.pet_id" class="ct_pet_overlay_icon">
+                            <img src="http://18.229.202.71:4000/pets_album/1734086102101.png" alt=""
+                                class="ct_img_20 ct_border_22">
+                        </div>
+                    </div>
+               
+
                     <div>
                         <p class="mb-0 ct_fs_18 ct_fw_600">{{filteredOutMembers[0]?.first_name}}
                             {{filteredOutMembers[0]?.last_name}}</p>
@@ -64,13 +73,17 @@
                                 <a>
                                     <div class="d-flex align-items-center gap-2">
 
-                                        <div *ngIf="item.pet_id">
-                                            <img src="http://18.229.202.71:4000/pets_album/1734086102101.png" alt=""
-                                                class="ct_img_20 ct_border_22">
-                                        </div>
-
-                                        <img [src]='item?.image_link ? item?.image_link : "http://18.229.202.71:4000/images/1727186679509.png"'
+                                        <div class="position-relative">
+                                            <img [src]='item?.image_link ? item?.image_link : "http://18.229.202.71:4000/images/1727186679509.png"'
                                             class="ct_img_40 ct_border_2" style="border: solid var(--dark_green);" />
+                                            <div *ngIf="item.pet_id" class="ct_pet_overlay_icon">
+                                                <img src="http://18.229.202.71:4000/pets_album/1734086102101.png" alt=""
+                                                    class="ct_img_20 ct_border_22">
+                                            </div>
+                                        </div>
+                                    
+
+                                      
                                         <p class="mb-0 ct_fs_16 ct_green_text">{{item.full_name}}</p>
                                     </div>
                                 </a>
