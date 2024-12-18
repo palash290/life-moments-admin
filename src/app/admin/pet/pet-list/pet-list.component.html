@@ -3,7 +3,7 @@
         <div class="d-flex align-items-center gap-3">
             <a (click)="goBack()" style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
                     class="fa-solid fa-arrow-left-long me-1 "></i>Back</a>
-            <h4 class="mb-0 ct_fs_22">Pet List</h4>
+            <h4 class="mb-0 ct_fs_22">{{parentName}}'s Pet List</h4>
         </div>
         <div class="d-flex align-items-center gap-3">
             <div class="position-relative ct_search_input">
@@ -11,7 +11,7 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
 
-            <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add-new-pet">Add Pet</button>
+            <!-- <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add-new-pet">Add Pet</button> -->
 
         </div>
     </div>
@@ -102,8 +102,8 @@
                                         data-bs-target="#view-pet" (click)="getPetDetails(item)"
                                         style="cursor: pointer;"></i>
 
-                                    <i (click)="getPetDetails(item)" class="fa-regular fa-pen-to-square ct_green_text"
-                                        data-bs-toggle="modal" data-bs-target="#edit-pet" style="cursor: pointer;"></i>
+                                    <!-- <i (click)="getPetDetails(item)" class="fa-regular fa-pen-to-square ct_green_text"
+                                        data-bs-toggle="modal" data-bs-target="#edit-pet" style="cursor: pointer;"></i> -->
                                 </div>
 
                             </td>

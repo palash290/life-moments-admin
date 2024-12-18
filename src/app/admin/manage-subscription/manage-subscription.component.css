@@ -1,0 +1,12 @@
+.ct_status0 {
+    background-color: rgb(181, 63, 63, 1);
+    padding: 5px 10px 5px 12px;
+    border-radius: 70px;
+    color: white;
+}
+
+.ct_status1 {
+    background-color: #17af09;
+    padding: 5px 10px 5px 12px;
+    border-radius: 70px;
+}

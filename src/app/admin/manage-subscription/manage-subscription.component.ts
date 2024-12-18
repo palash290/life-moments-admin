@@ -13,7 +13,7 @@ export class ManageSubscriptionComponent {
   feedbackDetails: any;
 
   searchQuery = '';
-
+  loading: boolean = false;
   //Pagination//
   currentPage: number = 1;
   pageSize: number = 10;
@@ -22,19 +22,84 @@ export class ManageSubscriptionComponent {
   constructor(private service: SharedService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.getUsers();
+    this.getUsers('');
   }
 
-  getUsers() {
-    this.service.getApi(`sub-admin/getAllSubscription?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}`).subscribe({
+  getUsers(filter: any) {
+    //this.loading = true;
+    this.service.getApi(`sub-admin/getAllSubscription?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}&filter=${filter}`).subscribe({
       next: resp => {
         this.data = resp.data;
+        //this.loading = false;
+
+        this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
+          item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
+          return item;
+        });
+        this.hasMoreData = resp.data.length == this.pageSize;
+
       },
       error: error => {
+        //this.loading = false;
         console.log(error.message);
       }
     });
   }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.getUsers('');
+    }
+  }
+
+  nextPage() {
+    if (this.hasMoreData) {
+      this.currentPage++;
+      this.getUsers('');
+    }
+  }
+
+  // goToPage(page: number) {
+  //   this.currentPage = page;
+
+  //   localStorage.setItem('currentPage', this.currentPage.toString());
+
+  //   this.getUsers('');
+  // }
+
+  // nextPage() {
+  //   if (this.hasMoreData) {
+  //     this.currentPage++;
+  //     localStorage.setItem('currentPage', this.currentPage.toString());
+  //     this.getUsers('');
+  //   }
+  // }
+
+  // previousPage() {
+  //   if (this.currentPage > 1) {
+  //     this.currentPage--;
+  //     localStorage.setItem('currentPage', this.currentPage.toString());
+  //     this.getUsers('');
+  //   }
+  // }
+
+  ngOnDestroy() {
+    localStorage.removeItem('currentPage');
+  }
+
+
+  totalPages: number = 0;
+
+  getPaginationRange(): number[] {
+    if (this.hasMoreData) {
+      const start = Math.max(1, this.currentPage - 2);
+      const end = start + 1; // Show 5 pages
+      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    }
+    return []
+  }
+
 
   btnLoaderCreateUser: boolean = false;
   userError: boolean = false;
@@ -83,7 +148,7 @@ export class ManageSubscriptionComponent {
       next: (resp) => {
         if (resp.success === true) {
           this.closeModal.nativeElement.click();
-          this.getUsers();
+          this.getUsers('');
         } else {
           this.toastr.warning(resp.message);
         }
@@ -97,13 +162,14 @@ export class ManageSubscriptionComponent {
     });
   }
 
+  languages: any;
+  languageId: any;
+
+  onLanguageChange(event: any): void {
+    const selectedId = event.target.value;
+    this.getUsers(selectedId)
+    console.log(selectedId);
+  }
+
 
 }
-// "plan_name": "Monthly",
-// "plan_price": "4.99",
-// "fullName": "S18 S",
-// "displayName": "Ss18 S",
-// "profile_image": "http://18.229.202.71:4000/images/1731928569810.png",
-// "purchase_date": "07 - December - 2024",
-// "expire_date": "07 - January - 2025",
-// "sub_status": 1

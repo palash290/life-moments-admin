@@ -47,6 +47,7 @@ export class PetListComponent {
 
   itemId: any;
   itemEmail: any;
+  parentName: any;
 
   ngOnInit() {
     this.userId = localStorage.getItem('userIdForPet')
@@ -61,6 +62,7 @@ export class PetListComponent {
 
     this.itemId = localStorage.getItem('itemId')
     this.itemEmail = localStorage.getItem('itemEmail')
+    this.parentName = localStorage.getItem('parentName')
   }
 
   initNewPetForm() {
@@ -524,6 +526,10 @@ export class PetListComponent {
     if (inputElement.files && inputElement.files?.length > 0) {
       this.editParentProfile = inputElement.files[0];
     }
+  }
+
+  ngOnDestroy() {
+    localStorage.removeItem('parentName');
   }
 
 

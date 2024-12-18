@@ -57,7 +57,7 @@ export class SharedService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${authToken}`
     })
-    return this.http.post(this.apiUrl + url, data)
+    return this.http.post(this.apiUrl + url, data, { headers: headers })
   }
 
   deleteAcc(url: any): Observable<any> {

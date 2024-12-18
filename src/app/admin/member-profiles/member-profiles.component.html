@@ -30,12 +30,19 @@
             <tr *ngFor="let item of data;">
               <td>{{ item.serialNumber }}</td>
               <td>
-                <a style="cursor: pointer;" (click)="getMemberAlbum(item)">
+                <a style="cursor: pointer;">
                   <div class="d-flex align-items-center gap-2">
-                    <img
-                      [src]='item.profile_image ? item?.profile_image : "http://18.229.202.71:4000/images/1727186679509.png"'
-                      class="ct_img_40 ct_border_2" />
-                    <p class="mb-0 ct_fs_16 ct_green_text">{{item.fullName}}</p>
+                    <div class="position-relative" (click)="showImg(item.profile_image)" data-bs-toggle="modal"
+                      data-bs-target="#img">
+                      <img
+                        [src]='item.profile_image ? item?.profile_image : "http://18.229.202.71:4000/images/1727186679509.png"'
+                        class="ct_img_40 ct_border_22" />
+                      <div *ngIf="item.pet_id" class="ct_pet_overlay_icon">
+                        <img src="http://18.229.202.71:4000/pets_album/1734086102101.png" alt=""
+                          class="ct_img_20 ct_border_22">
+                      </div>
+                    </div>
+                    <p (click)="getMemberAlbum(item)" class="mb-0 ct_fs_16 ct_green_text">{{item.fullName}}</p>
                   </div>
                 </a>
               </td>
@@ -97,14 +104,22 @@
               </td> -->
               <td>
                 <div class="form-check form-switch ct_switch">
-                  <input class="form-check-input" type="checkbox" role="switch"
-                      id="flexSwitchCheckDefault" [(ngModel)]="item.block_status"
-                      [ngModel]="item.block_status == 1" (click)="handleCheckboxChange(item)">
-              </div>
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                    [(ngModel)]="item.block_status" [ngModel]="item.block_status == 1"
+                    (click)="handleCheckboxChange(item)">
+                </div>
               </td>
               <td class="text-end">
-                <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal" data-bs-target="#view-pet"
-                  (click)="getMemberAlbum(item)" style="cursor: pointer"></i>
+                <div class="d-flex align-items-center gap-3">
+
+                  <!-- <i class="fa-regular fa-pen-to-square ct_green_text" (click)="patchMember(item)" data-bs-toggle="modal"
+                    data-bs-target="#edit-family-parent" style="cursor: pointer"></i> -->
+
+                  <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal" data-bs-target="#view-pet"
+                    (click)="getMemberAlbum(item)" style="cursor: pointer"></i>
+
+                </div>
+
               </td>
             </tr>
           </tbody>
@@ -115,26 +130,37 @@
       </div>
 
       <!-- Pagination Controls -->
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <!-- Pagination Controls -->
+      <!-- <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="data">
+      
         <div class="pagination-controls">
           <button (click)="previousPage()" class="ct_previous" [disabled]="currentPage == 1">Previous</button>
 
-          <!-- Ellipsis for Skipped Pages -->
+          
           <button *ngIf="currentPage > 3" (click)="goToPage(1)" [class.active]="currentPage == 1">1</button>
-          <!-- <button *ngIf="currentPage > 3" disabled>...</button> -->
-
-          <!-- Dynamic Page Buttons -->
+          
           <button *ngFor="let page of getPaginationRange()" [class.active]="page === currentPage"
             (click)="goToPage(page)">
             {{ page }}
           </button>
 
-          <!-- Ellipsis for Next Skipped Pages -->
+       
           <button *ngIf="hasMoreData && currentPage + 2 < totalPages" disabled>...</button>
 
           <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
         </div>
+      </div> -->
+
+      <!-- Pagination Controls -->
+      <div class="d-flex justify-content-between align-items-center mt-3">
+
+        <div class="pagination-controls">
+          <button (click)="previousPage()" class="ct_previous" [disabled]="currentPage === 1">Previous</button>
+          <button>
+            {{ currentPage }}
+          </button>
+          <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+        </div>
+
       </div>
 
 
@@ -146,6 +172,140 @@
 
 
 
+
+<!-- Edit parent Family Detail S -->
+<div class="modal fade Committed_Price" id="edit-family-parent" tabindex="-1" aria-labelledby="edit-family-parentLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4 class="ct_fs_24 ct_fw_600 text-center">Edit Onboarding User</h4>
+        <form [formGroup]="editParentForm">
+          <div class="pt-5">
+            <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
+              <img id="blah2"
+                [src]="memberDet?.image_link ? memberDet?.image_link : 'http://18.229.202.71:4000/images/1727186679509.png'"
+                alt="" class="ct_img_164 mx-auto d-block" style="border: solid var(--dark_green);">
+              <label for="ct_edit_img">
+                <input accept="image/*" type="file" id="ct_edit_img" class="d-none"
+                  (change)="handleFileInputEditParent($event)" formControlName="image">
+                <div class="ct_edit_icon">
+                  <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M8.23622 0.496129C8.41543 0.188911 8.74433 0 9.1 0H16.9C17.2557 0 17.5846 0.188911 17.7638 0.496129L19.5744 3.6H22C24.2091 3.6 26 5.39086 26 7.6V19.9C26 22.1091 24.2091 23.9 22 23.9H4C1.79086 23.9 0 22.1091 0 19.9V7.6C0 5.39086 1.79086 3.6 4 3.6H6.42563L8.23622 0.496129ZM9.67437 2L7.86378 5.10387C7.68457 5.41109 7.35567 5.6 7 5.6H4C2.89543 5.6 2 6.49543 2 7.6V19.9C2 21.0046 2.89543 21.9 4 21.9H22C23.1046 21.9 24 21.0046 24 19.9V7.6C24 6.49543 23.1046 5.6 22 5.6H19C18.6443 5.6 18.3154 5.41109 18.1362 5.10387L16.3256 2H9.67437ZM13 9.5C11.067 9.5 9.5 11.067 9.5 13C9.5 14.933 11.067 16.5 13 16.5C14.933 16.5 16.5 14.933 16.5 13C16.5 11.067 14.933 9.5 13 9.5ZM7.5 13C7.5 9.96243 9.96243 7.5 13 7.5C16.0376 7.5 18.5 9.96243 18.5 13C18.5 16.0376 16.0376 18.5 13 18.5C9.96243 18.5 7.5 16.0376 7.5 13Z"
+                      fill="white" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="" class="mb-2">Full Name <span class="ct_required_star">*</span></label>
+                  <input type="text" class="form-control" value="Zaire Siphron" formControlName="name"
+                    placeholder="Name" />
+                  <!-- <div *ngIf="editParentForm.controls['name'].invalid && editParentForm.controls['name'].touched"
+                                        class="error-message">
+                                        <div *ngIf="editParentForm.controls['name'].errors?.['required']"
+                                            class="ct_fs_14">
+                                            Name
+                                            is
+                                            required.
+                                        </div>
+                                    </div> -->
+
+
+                  <div *ngIf="editParentForm.controls['name'].invalid && editParentForm.controls['name'].touched"
+                    class="error-message">
+                    <div *ngIf="editParentForm.controls['name'].errors?.['required']" class="ct_fs_14">
+                      Full name is required.
+                    </div>
+                    <div *ngIf="editParentForm.controls['name'].errors?.['pattern']" class="ct_fs_14">
+                      Name must contain at least two words.
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="" class="mb-2">Display Name <span class="ct_required_star">*</span></label>
+                  <input type="text" class="form-control" value="Siphron" formControlName="dName"
+                    placeholder="Display Name" />
+                  <div *ngIf="editParentForm.controls['dName'].invalid && editParentForm.controls['dName'].touched"
+                    class="error-message">
+                    <div *ngIf="editParentForm.controls['dName'].errors?.['required']" class="ct_fs_14">
+                      Display name
+                      is
+                      required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="" class="mb-2">Gender <span class="ct_required_star">*</span></label>
+                  <select class="form-control" formControlName="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="NonBinary">Non-binary</option>
+                    <option value="PreferNotToSay">Prefer not to say</option>
+                    <option value="GenderUnknown">Gender unknown</option>
+                  </select>
+                  <div *ngIf="editParentForm.controls['gender'].invalid && editParentForm.controls['gender'].touched"
+                    class="error-message">
+                    <div *ngIf="editParentForm.controls['gender'].errors?.['required']" class="ct_fs_14">
+                      Gender
+                      is
+                      required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="" class="mb-2">Date of Birth <span class="ct_required_star">*</span></label>
+                  <input type="date" class="form-control" formControlName="dob" />
+                  <div *ngIf="editParentForm.controls['dob'].invalid && editParentForm.controls['dob'].touched"
+                    class="error-message">
+                    <div *ngIf="editParentForm.controls['dob'].errors?.['required']" class="ct_fs_14">
+                      This field
+                      is
+                      required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767">
+        <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button (click)="editParent()" type="button ct_" class="ct_green_btn ct_h_50">
+          <button type="button ct_" class="ct_green_btn ct_h_50">
+            <div class="d-flex align-items-center justify-content-center">
+              <div class="spinner-border me-2" role="status" *ngIf="addParentLoader">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <span *ngIf="!addParentLoader">Update</span>
+            </div>
+          </button>
+        </button>
+        <button hidden type="button" class="btn btn-secondary" #closeModalEditParent
+          data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit parent Family Detail E -->
 
 
 <div class="ct_loader_main" *ngIf="loading">
@@ -163,6 +323,15 @@
       <div></div>
       <div></div>
       <div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Img -->
+<div class="modal fade" id="img" tabindex="-1" aria-labelledby="ct_add_eventLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-centered">
+    <div class="modal-content">
+      <img [src]="userImg1  ? userImg1 : 'assets/img/np_pro.png'" alt="img">
     </div>
   </div>
 </div>

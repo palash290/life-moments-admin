@@ -32,6 +32,7 @@ export class AlbumComponent {
 
   itemId: any;
   itemEmail: any;
+  parentName: any;
 
   ngOnInit() {
     this.rout.paramMap.subscribe((params) => {
@@ -44,6 +45,11 @@ export class AlbumComponent {
 
     this.itemId = localStorage.getItem('itemId')
     this.itemEmail = localStorage.getItem('itemEmail')
+    this.parentName = localStorage.getItem('parentName')
+  }
+
+  ngOnDestroy() {
+    localStorage.removeItem('parentName');
   }
 
   // loadData() {

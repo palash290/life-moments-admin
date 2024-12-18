@@ -58,34 +58,34 @@ export class FeedbackComponent {
     this.getUsers();
   }
 
-  // nextPage() {
-  //   if (this.hasMoreData) {
-  //     this.currentPage++;
-  //     this.getUsers();
-  //   }
-  // }
-
   nextPage() {
     if (this.hasMoreData) {
       this.currentPage++;
-      localStorage.setItem('currentPage', this.currentPage.toString());
       this.getUsers();
     }
   }
 
-  // previousPage() {
-  //   if (this.currentPage > 1) {
-  //     this.currentPage--;
+  // nextPage() {
+  //   if (this.hasMoreData) {
+  //     this.currentPage++;
+  //     localStorage.setItem('currentPage', this.currentPage.toString());
   //     this.getUsers();
   //   }
   // }
+
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      localStorage.setItem('currentPage', this.currentPage.toString());
       this.getUsers();
     }
   }
+  // previousPage() {
+  //   if (this.currentPage > 1) {
+  //     this.currentPage--;
+  //     localStorage.setItem('currentPage', this.currentPage.toString());
+  //     this.getUsers();
+  //   }
+  // }
 
   ngOnDestroy(){
     localStorage.removeItem('currentPage');

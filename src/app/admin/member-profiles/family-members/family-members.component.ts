@@ -216,7 +216,7 @@ export class FamilyMembersComponent {
   }
 
   initEditMemberForm() {
-    debugger
+
     this.editMemberForm = new FormGroup({
       image: new FormControl(null),
       //name: new FormControl(this.singleMemberDetail?.full_name, Validators.required),
@@ -225,7 +225,7 @@ export class FamilyMembersComponent {
         Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/) // Pattern to ensure at least two words
       ]),
       dName: new FormControl(this.singleMemberDetail?.user_name, Validators.required),
-      
+
       gender: new FormControl({ value: this.singleMemberDetail?.other_gender == 'none' ? this.singleMemberDetail?.gender : this.singleMemberDetail?.other_gender, disabled: true }, Validators.required),
       dob: new FormControl(this.convertDateFormat(this.singleMemberDetail?.date_of_birth), Validators.required),
       isAlive: new FormControl(this.singleMemberDetail?.is_alive, Validators.required),
@@ -762,7 +762,7 @@ export class FamilyMembersComponent {
 
   async addNewMember() {
     this.newMemberForm.markAllAsTouched();
-     
+
     // Check for spaces in current_password and new_password
     const name = this.newMemberForm.value.name?.trim();
     const dName = this.newMemberForm.value.dName?.trim();
@@ -1017,7 +1017,7 @@ export class FamilyMembersComponent {
 
       const dob = this.editParentForm.value.dob;
 
-      const isDOBUnknown = this.newMemberForm.get('isDOBUnknown')?.value;
+      const isDOBUnknown = this.editParentForm.get('isDOBUnknown')?.value;
       if (!isDOBUnknown) {
         if (dob) {
           const formattedDOB = this.formatDateToDDMMYYYY(dob);
@@ -1202,31 +1202,51 @@ export class FamilyMembersComponent {
   @ViewChild('closeModalViewPet') closeModalViewPet!: ElementRef;
   @ViewChild('closeModalViewParent') closeModalViewParent!: ElementRef;
 
-  getMemberAlbum() {
+  getMemberAlbum(name: any) {
     this.closeModalViewMember.nativeElement.click();
     //this.closeModalViewPet.nativeElement.click();
     this.closeModalViewParent.nativeElement.click();
     this.route.navigateByUrl(`/admin/main/albums/${this.memberId}`);
+    if (name) {
+      localStorage.setItem('parentName', name);
+    } else {
+      localStorage.setItem('parentName', this.filteredOutMembers[0]?.first_name);
+    }
   }
 
-  getMemberTimeline() {
+  getMemberTimeline(name: any) {
     this.closeModalViewMember.nativeElement.click();
     //this.closeModalViewPet.nativeElement.click();
     this.closeModalViewParent.nativeElement.click();
     this.route.navigateByUrl(`/admin/main/timeline/${this.memberId}`);
+    if (name) {
+      localStorage.setItem('parentName', name);
+    } else {
+      localStorage.setItem('parentName', this.filteredOutMembers[0]?.first_name);
+    }
   }
 
   getMemberInterview() {
     this.closeModalViewMember.nativeElement.click();
     //this.closeModalViewPet.nativeElement.click();
     this.closeModalViewParent.nativeElement.click();
+    //debugger
     if (this.singleMemberDetail?.full_name) {
       this.route.navigateByUrl(`/admin/main/member-interview/${this.memberId}/${this.singleMemberDetail?.full_name}`);
     } else {
-      this.route.navigateByUrl(`/admin/main/member-interview/${this.memberId}/${this.filteredOutMembers[0]?.full_name}`);
+      this.route.navigateByUrl(`/admin/main/member-interview/${this.memberId}/${this.filteredOutMembers[0]?.user_name}`);
     }
   }
 
+  goToPetList(id: any, name?: any) {
+    localStorage.setItem('userIdForPet', this.parentId);
+    if (name) {
+      localStorage.setItem('parentName', name);
+    } else {
+      localStorage.setItem('parentName', this.filteredOutMembers[0]?.first_name);
+    }
+    this.route.navigateByUrl(`/admin/main/pet/${id}`);
+  }
 
   calculateAge(birthDate: string): string {
     // Parse the birthDate string in dd-mm-yyyy format
@@ -1271,11 +1291,6 @@ export class FamilyMembersComponent {
 
 
 
-
-  goToPetList(id: any) {
-    localStorage.setItem('userIdForPet', this.parentId);
-    this.route.navigateByUrl(`/admin/main/pet/${id}`);
-  }
 
   deleteMemId: any
   familyId: any;

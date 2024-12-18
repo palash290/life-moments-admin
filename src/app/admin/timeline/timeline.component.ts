@@ -35,6 +35,7 @@ export class TimelineComponent {
   
   itemId: any;
   itemEmail: any;
+  parentName: any;
 
   ngOnInit() {
 
@@ -46,6 +47,11 @@ export class TimelineComponent {
 
     this.itemId = localStorage.getItem('itemId')
     this.itemEmail = localStorage.getItem('itemEmail')
+    this.parentName = localStorage.getItem('parentName')
+  }
+
+  ngOnDestroy() {
+    localStorage.removeItem('parentName');
   }
 
   getYear() {

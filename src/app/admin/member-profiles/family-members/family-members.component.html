@@ -4,16 +4,16 @@
             <a (click)="backClicked()" style="cursor: pointer;"
                 class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
                     class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
-            <h4 class="mb-0 ct_fs_22">{{filteredOutMembers[0]?.full_name}}'s Family Members</h4>
+            <h4 class="mb-0 ct_fs_22">{{filteredOutMembers[0]?.first_name}} {{filteredOutMembers[0]?.last_name}}'s
+                Family Members</h4>
         </div>
         <div class="d-flex align-items-center gap-3">
             <div class="position-relative ct_search_input">
                 <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchQuery" />
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add-new-member">Add New Member</button>
-            <!-- <button class="ct_green_btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coming Soon">Add New
-                Member</button> -->
+            <!-- <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add-new-member">Add New Member</button> -->
+
         </div>
     </div>
 
@@ -24,7 +24,8 @@
                     <img [src]="filteredOutMembers[0]?.image_link" class="ct_img_40 ct_border_2"
                         style="border: solid var(--dark_green);" />
                     <div>
-                        <p class="mb-0 ct_fs_18 ct_fw_600">{{filteredOutMembers[0]?.full_name}}</p>
+                        <p class="mb-0 ct_fs_18 ct_fw_600">{{filteredOutMembers[0]?.first_name}}
+                            {{filteredOutMembers[0]?.last_name}}</p>
                         <p class="mb-0 ct_fs_14"><span>{{email}}</span></p>
                         <p class="mb-0 ct_fs_14"><span
                                 class="ct_green_text">{{filteredOutMembers[0]?.date_of_birth}}</span> </p>
@@ -33,11 +34,10 @@
                 <div class="d-flex align-items-center gap-4">
                     <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal" style="cursor: pointer"
                         data-bs-target="#view-family-parent" (click)="getParentId(filteredOutMembers[0]?.id)"></i>
-                    <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
+                    <!-- <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
                         data-bs-target="#edit-family-parent" style="cursor: pointer"
-                        (click)="getParentId(filteredOutMembers[0]?.id)"></i>
-                    <!-- <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="tooltip"
-                        data-bs-placement="bottom" title="Coming Soon" style="cursor: pointer"></i> -->
+                        (click)="getParentId(filteredOutMembers[0]?.id)"></i> -->
+
                     <i class="fa-solid fa-paw ct_green_text" style="cursor: pointer"
                         (click)="goToPetList(filteredOutMembers[0]?.id)"></i>
 
@@ -63,6 +63,12 @@
                             <td>
                                 <a>
                                     <div class="d-flex align-items-center gap-2">
+
+                                        <div *ngIf="item.pet_id">
+                                            <img src="http://18.229.202.71:4000/pets_album/1734086102101.png" alt=""
+                                                class="ct_img_20 ct_border_22">
+                                        </div>
+
                                         <img [src]='item?.image_link ? item?.image_link : "http://18.229.202.71:4000/images/1727186679509.png"'
                                             class="ct_img_40 ct_border_2" style="border: solid var(--dark_green);" />
                                         <p class="mb-0 ct_fs_16 ct_green_text">{{item.full_name}}</p>
@@ -183,7 +189,7 @@
                                     Grandparent
                                 </div>
                             </td>
-                            <td>{{item.relationWith?.full_name}}</td>
+                            <td>{{item.relationWith?.first_name}} {{item.relationWith?.last_name}}</td>
                             <td>
                                 <div *ngIf="item.is_alive == '1'">
                                     Yes
@@ -213,12 +219,12 @@
                                     <i (click)="getSingleMemberData(item)" class="fa-regular fa-eye ct_green_text"
                                         data-bs-toggle="modal" data-bs-target="#view-family"
                                         style="cursor: pointer"></i>
-                                    <i (click)="getSingleMemberData(item)"
+                                    <!-- <i (click)="getSingleMemberData(item)"
                                         class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
-                                        data-bs-target="#edit-family-detail" style="cursor: pointer"></i>
+                                        data-bs-target="#edit-family-detail" style="cursor: pointer"></i> -->
 
                                     <i class="fa-solid fa-paw ct_green_text" style="cursor: pointer"
-                                        (click)="goToPetList(item.id)"></i>
+                                        (click)="goToPetList(item.id, item.full_name)"></i>
 
                                     <!-- <i (click)="openDeleteModal(item)" class="fa-regular fa-trash ct_green_text"
                                         data-bs-toggle="modal" data-bs-target="#delete_modal"
@@ -702,7 +708,7 @@
                     Cancel
                 </button>
                 <button (click)="editParent()" type="button ct_" class="ct_green_btn ct_h_50">
-                    <button type="button ct_" class="ct_green_btn ct_h_50" (click)="addNewMember()">
+                    <button type="button ct_" class="ct_green_btn ct_h_50">
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="spinner-border me-2" role="status" *ngIf="addParentLoader">
                                 <span class="visually-hidden">Loading...</span>
@@ -1002,7 +1008,7 @@
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Full Name <span class="ct_required_star">*</span></label>
                                     <input type="text" class="form-control" disabled
-                                        [value]="filteredOutMembers[0]?.full_name" />
+                                        [value]="filteredOutMembers[0]?.first_name+' '+filteredOutMembers[0]?.last_name" />
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -1134,7 +1140,7 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-3">
-                <button (click)="getMemberTimeline()" type="button"
+                <button (click)="getMemberTimeline(filteredOutMembers[0]?.first_name)" type="button"
                     class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark m-0">
                     View Timeline
                 </button>
@@ -1169,8 +1175,8 @@
             <button hidden type="button" class="btn btn-secondary" #closeModalViewParent
                 data-bs-dismiss="modal">Close</button>
             <div class="pb-4 px-5">
-                <button (click)="getMemberAlbum()" type="button" class="ct_green_btn ct_h_50 m-0 w-100 mx-auto"
-                    style="max-width: 337px;">
+                <button (click)="getMemberAlbum(filteredOutMembers[0]?.first_name)" type="button"
+                    class="ct_green_btn ct_h_50 m-0 w-100 mx-auto" style="max-width: 337px;">
                     View Full Album
                 </button>
             </div>
@@ -1206,7 +1212,7 @@
                                     class="ct_green_text ct_fw_600 ct_fs_18">{{singleMemberDetail?.relationName}}</span>
                                 of</label>
                             <input type="text" class="form-control" disabled
-                                [value]="singleMemberDetail?.relationWith?.full_name" />
+                                [value]="singleMemberDetail?.relationWith?.first_name" />
                             <!-- <select class="form-control">
                                 <option value="">Harvey Lind</option>
                                 <option value="">Harvey Lind</option>
@@ -1304,7 +1310,7 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center border-0 gap-4 px-0 pb-0 ct_flex_wrap_767">
-                    <button (click)="getMemberTimeline()" type="button"
+                    <button (click)="getMemberTimeline(singleMemberDetail?.full_name)" type="button"
                         class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark">
                         View Timeline
                     </button>
@@ -1338,8 +1344,8 @@
                 </div>
                 @if(singleMemberDetail?.is_alive != '2' && singleMemberDetail?.is_alive != '4') {
                 <div class="mb-0 text-center ct_green_text ct_fs_18 mt-3">
-                    <button (click)="getMemberAlbum()" type="button" class="ct_green_btn ct_h_50 w-100 mx-auto "
-                        style="max-width: 337px;">
+                    <button (click)="getMemberAlbum(singleMemberDetail?.full_name)" type="button"
+                        class="ct_green_btn ct_h_50 w-100 mx-auto " style="max-width: 337px;">
                         View Full Albums
                     </button>
                 </div>
