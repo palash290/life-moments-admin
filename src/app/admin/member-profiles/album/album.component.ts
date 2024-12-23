@@ -28,6 +28,7 @@ export class AlbumComponent {
     this.route.navigateByUrl(`/admin/main/family-member/${this.itemId}/${this.itemEmail}`);
     localStorage.removeItem('itemId')
     localStorage.removeItem('itemEmail')
+    localStorage.removeItem('parentName');
   }
 
   itemId: any;
@@ -48,9 +49,9 @@ export class AlbumComponent {
     this.parentName = localStorage.getItem('parentName')
   }
 
-  ngOnDestroy() {
-    localStorage.removeItem('parentName');
-  }
+  // ngOnDestroy() {
+  //   localStorage.removeItem('parentName');
+  // }
 
   // loadData() {
   //   this.data = [

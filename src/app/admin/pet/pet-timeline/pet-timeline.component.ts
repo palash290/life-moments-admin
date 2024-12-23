@@ -17,6 +17,7 @@ export class PetTimelineComponent {
   dayData: any;
   ownerId: any;
   loading: boolean = false;
+  petName: any;
 
   constructor(private sanitizer: DomSanitizer, private rout: ActivatedRoute, private service: SharedService, private route: Router, private location: Location) { }
 
@@ -24,6 +25,7 @@ export class PetTimelineComponent {
     //this.location.back();
     this.route.navigateByUrl(`/admin/main/pet/${this.ownerId}`);
     localStorage.removeItem('ownerId')
+    localStorage.removeItem('petName')
   }
 
   activeTab: any = 'year';
@@ -45,7 +47,8 @@ export class PetTimelineComponent {
       this.ownerId = params.get('ownerId');
     });
 
-    localStorage.setItem('ownerId', this.ownerId)
+    localStorage.setItem('ownerId', this.ownerId);
+    this.petName = localStorage.getItem('petName')
 
     this.getYear();
 

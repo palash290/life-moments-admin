@@ -25,8 +25,9 @@ export class TimelineComponent {
 
   goBack(){
     this.route.navigateByUrl(`/admin/main/family-member/${this.itemId}/${this.itemEmail}`);
-    localStorage.removeItem('itemId')
-    localStorage.removeItem('itemEmail')
+    localStorage.removeItem('itemId');
+    localStorage.removeItem('itemEmail');
+    localStorage.removeItem('parentName');
   }
 
   sanitizeUrl(url: any): SafeUrl {
@@ -50,9 +51,9 @@ export class TimelineComponent {
     this.parentName = localStorage.getItem('parentName')
   }
 
-  ngOnDestroy() {
-    localStorage.removeItem('parentName');
-  }
+  // ngOnDestroy() {
+    
+  // }
 
   getYear() {
     this.loading = true;

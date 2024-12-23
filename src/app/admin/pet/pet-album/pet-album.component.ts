@@ -16,6 +16,7 @@ export class PetAlbumComponent {
   selectedIds: number[] = [];
   checkAll = false;
   loading: boolean = false;
+  petName: any;
 
   constructor(private rout: ActivatedRoute, private route: Router, private service: SharedService, private location: Location, private toastr: ToastrService) { }
 
@@ -23,6 +24,7 @@ export class PetAlbumComponent {
     // this.location.back();
     this.route.navigateByUrl(`/admin/main/pet/${this.ownerId}`);
     localStorage.removeItem('ownerId')
+    localStorage.removeItem('petName')
   }
   
 
@@ -38,6 +40,7 @@ export class PetAlbumComponent {
     this.getPetAlbum();
 
     this.ownerId = localStorage.getItem('ownerId')
+    this.petName = localStorage.getItem('petName');
   }
 
   getPetAlbum() {

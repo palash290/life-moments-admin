@@ -1,6 +1,6 @@
 <div class="ct_dashbaord_middle">
     <div class="d-flex align-items-center justify-content-between">
-        <h4 class="mb-0 ct_fs_22">All Subscription</h4>
+        <h4 class="mb-0 ct_fs_22">All Subscriptions</h4>
         <div class="d-flex align-items-center gap-3">
 
             <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2 ">
@@ -36,7 +36,7 @@
                             <th>S No.</th>
                             <th>Member</th>
                             <th>Plan Name</th>
-                            <th>Plan Price</th>
+                            <th>Plan Price ($)</th>
                             <th>Purchase Date</th>
                             <th>Expire Date</th>
                             <th class="text-center">Status</th>
@@ -53,9 +53,9 @@
                                 </div>
                             </td>
                             <td>{{item.plan_name}}</td>
-                            <td>{{item.plan_price}}</td>
-                            <td>{{item.purchase_date}}</td>
-                            <td>{{item.expire_date}}</td>
+                            <td>$ {{item.plan_price}}</td>
+                            <td>{{formatPurchaseDate(item.purchase_date)}}</td>
+                            <td>{{formatPurchaseDate(item.expire_date)}}</td>
                             <td>
                                 <div class="ct_status1 text-white" *ngIf="item.sub_status == 1">
                                     Active

@@ -86,6 +86,7 @@ export class PhotoAlbumComponent {
   
 
   getPhotosAlbum() {
+    // debugger
     this.loading = true;
     const formURlData = new URLSearchParams();
     formURlData.set('year', this.date);

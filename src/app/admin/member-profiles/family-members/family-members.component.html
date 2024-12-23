@@ -23,14 +23,15 @@
                 <div class="d-flex align-items-center gap-2">
                     <div class="position-relative">
                         <img [src]="filteredOutMembers[0]?.image_link" class="ct_img_40 ct_border_2"
-                        style="border: solid var(--dark_green);" />
+                            style="border: solid var(--dark_green); cursor: pointer;" (click)="showImg(filteredOutMembers[0]?.image_link)"
+                            data-bs-toggle="modal" data-bs-target="#img1"/>
 
                         <div *ngIf="filteredOutMembers[0]?.pet_id" class="ct_pet_overlay_icon">
                             <img src="http://18.229.202.71:4000/pets_album/1734086102101.png" alt=""
                                 class="ct_img_20 ct_border_22">
                         </div>
                     </div>
-               
+
 
                     <div>
                         <p class="mb-0 ct_fs_18 ct_fw_600">{{filteredOutMembers[0]?.first_name}}
@@ -73,17 +74,19 @@
                                 <a>
                                     <div class="d-flex align-items-center gap-2">
 
-                                        <div class="position-relative">
+                                        <div class="position-relative" (click)="showImg(item.image_link)"
+                                            data-bs-toggle="modal" data-bs-target="#img1" >
                                             <img [src]='item?.image_link ? item?.image_link : "http://18.229.202.71:4000/images/1727186679509.png"'
-                                            class="ct_img_40 ct_border_2" style="border: solid var(--dark_green);" />
+                                                class="ct_img_40 ct_border_2"
+                                                style="border: solid var(--dark_green); cursor: pointer;" />
                                             <div *ngIf="item.pet_id" class="ct_pet_overlay_icon">
                                                 <img src="http://18.229.202.71:4000/pets_album/1734086102101.png" alt=""
                                                     class="ct_img_20 ct_border_22">
                                             </div>
                                         </div>
-                                    
 
-                                      
+
+
                                         <p class="mb-0 ct_fs_16 ct_green_text">{{item.full_name}}</p>
                                     </div>
                                 </a>
@@ -118,6 +121,9 @@
                                 <div *ngIf="item.gender == 'unknown'">
                                     Gender Unknown
                                 </div>
+                                <div *ngIf="item.gender == 'GenderUnknown'">
+                                    Gender Unknown
+                                </div>
                                 } @else {
                                 <div *ngIf="item.other_gender == 'prefer-not-to-say'">
                                     Prefer Not To Say
@@ -132,6 +138,9 @@
                                     Non Binary
                                 </div>
                                 <div *ngIf="item.other_gender == 'unknown'">
+                                    Gender Unknown
+                                </div>
+                                <div *ngIf="item.other_gender == 'GenderUnknown'">
                                     Gender Unknown
                                 </div>
                                 }
@@ -1429,6 +1438,15 @@
                     data-bs-dismiss="modal">Close</button>
             </div>
 
+        </div>
+    </div>
+</div>
+
+<!-- Img -->
+<div class="modal fade" id="img1" tabindex="-1" aria-labelledby="ct_add_eventLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <img [src]="userImg1  ? userImg1 : 'assets/img/np_pro.png'" alt="img">
         </div>
     </div>
 </div>

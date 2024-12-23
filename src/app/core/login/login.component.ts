@@ -12,7 +12,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent {
 
   isPasswordVisible: boolean = false;
-  loginForm!: FormGroup
+  loginForm!: FormGroup;
   loading: boolean = false;
 
 

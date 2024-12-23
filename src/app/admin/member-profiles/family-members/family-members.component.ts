@@ -1330,6 +1330,12 @@ export class FamilyMembersComponent {
     });
   }
 
+  userImg1: any;
+
+  showImg(url: any) {
+    this.userImg1 = url;
+  }
+
 
 }
 

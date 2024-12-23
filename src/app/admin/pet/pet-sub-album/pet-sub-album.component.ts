@@ -17,6 +17,7 @@ export class PetSubAlbumComponent {
   albumId!: any;
   petId: any;
   loading: boolean = false;
+  // petName: any;
 
   constructor(private router: Router, private route: ActivatedRoute, private service: SharedService, private location: Location, private toastr: ToastrService) { }
 
@@ -31,6 +32,7 @@ export class PetSubAlbumComponent {
       this.getUsers();
     } else {
       this.router.navigateByUrl(`/admin/main/pet-albums/${this.petId}`);
+      //localStorage.removeItem('petName')
     }
   }
 
@@ -41,6 +43,7 @@ export class PetSubAlbumComponent {
     });
 
     this.getUsers();
+    //this.petName = localStorage.getItem('petName');
   }
 
   // loadData() {

@@ -27,7 +27,7 @@
                             <th>Owner Name</th>
                             <th>Gender</th>
                             <th>DOB</th>
-                            <th>Action</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,7 +39,9 @@
                                         @if(item.images_url){
                                         <img [src]="item.images_url" alt=""
                                             class="ct_img_40 ct_border_2 d-flex align-items-center justify-content-center"
-                                            style="border: solid var(--dark_green);">
+                                            style="border: solid var(--dark_green); cursor: pointer;"
+                                            (click)="showImg(item.images_url)" data-bs-toggle="modal"
+                                            data-bs-target="#img2">
                                         } @else{
                                         <div class="ct_img_40 ct_border_2 d-flex align-items-center justify-content-center"
                                             style="border: solid var(--dark_green);">
@@ -96,8 +98,8 @@
                       [ngModel]="item.isBlocked == 0" id="flexSwitchCheckChecked" />
                   </div>
                 </td> -->
-                            <td class="">
-                                <div class="d-flex align-items-center gap-3">
+                            <td class="text-center">
+                                <div class="">
                                     <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal"
                                         data-bs-target="#view-pet" (click)="getPetDetails(item)"
                                         style="cursor: pointer;"></i>
@@ -223,11 +225,11 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center border-0 gap-4 px-0 pb-0 ct_flex_wrap_767">
-                    <button (click)="getPetTimeline()" type="button"
+                    <button (click)="getPetTimeline(petDetails?.name)" type="button"
                         class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark">
                         View Timeline
                     </button>
-                    <button (click)="getPetAlbum()" type="button ct_" class="ct_green_btn ct_h_50">
+                    <button (click)="getPetAlbum(petDetails?.name)" type="button ct_" class="ct_green_btn ct_h_50">
                         <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -699,3 +701,12 @@
     </div>
 </div>
 <!-- Edit pet Detail E -->
+
+<!-- Img -->
+<div class="modal fade" id="img2" tabindex="-1" aria-labelledby="ct_add_eventLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <img [src]="userImg1  ? userImg1 : 'assets/img/np_pro.png'" alt="img">
+        </div>
+    </div>
+</div>

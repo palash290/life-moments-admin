@@ -27,6 +27,7 @@ export class PetListComponent {
 
   backClicked() {
     this.location.back();
+    localStorage.removeItem('parentName');
   }
 
   goBack() {
@@ -229,19 +230,21 @@ export class PetListComponent {
 
   @ViewChild('closeModalViewPet') closeModalViewPet!: ElementRef;
 
-  getPetTimeline() {
+  getPetTimeline(name: any) {
     //this.closeModalViewMember.nativeElement.click();
     this.closeModalViewPet.nativeElement.click();
     //this.closeModalViewParent.nativeElement.click();
     this.route.navigateByUrl(`/admin/main/pet-timeline/${this.petId}/${this.ownerId}`);
+    localStorage.setItem('petName', name)
   }
 
-  getPetAlbum() {
+  getPetAlbum(name: any) {
     // this.closeModalViewMember.nativeElement.click();
     this.closeModalViewPet.nativeElement.click();
     // this.closeModalViewParent.nativeElement.click();
     this.route.navigateByUrl(`/admin/main/pet-albums/${this.petId}`);
     localStorage.setItem('ownerId', this.ownerId)
+    localStorage.setItem('petName', name)
   }
 
 
@@ -528,8 +531,14 @@ export class PetListComponent {
     }
   }
 
-  ngOnDestroy() {
-    localStorage.removeItem('parentName');
+  // ngOnDestroy() {
+  //   localStorage.removeItem('parentName');
+  // }
+
+  userImg1: any;
+
+  showImg(url: any) {
+    this.userImg1 = url;
   }
 
 
