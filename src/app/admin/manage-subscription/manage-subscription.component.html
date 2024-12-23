@@ -56,13 +56,16 @@
                             <td>$ {{item.plan_price}}</td>
                             <td>{{formatPurchaseDate(item.purchase_date)}}</td>
                             <td>{{formatPurchaseDate(item.expire_date)}}</td>
-                            <td>
+                            <!-- <td>
                                 <div class="ct_status1 text-white" *ngIf="item.sub_status == 1">
                                     Active
                                 </div>
                                 <div class="ct_status0" *ngIf="item.sub_status == 0">
                                     Expired
                                 </div>
+                            </td> -->
+                            <td>
+                                {{item.status}}
                             </td>
                             <!-- <td class="text-center">
                                 <button class="ct_green_btn" style="min-width: 5rem;" data-bs-toggle="modal"
@@ -102,18 +105,19 @@
                 </div>
             </div> -->
 
-                 <!-- Pagination Controls -->
+            <!-- Pagination Controls -->
             <div class="d-flex justify-content-between align-items-center mt-3">
-            
-            
+
+
                 <div class="pagination-controls">
-                    <button (click)="previousPage()" class="ct_previous" [disabled]="currentPage === 1">Previous</button>
+                    <button (click)="previousPage()" class="ct_previous"
+                        [disabled]="currentPage === 1">Previous</button>
                     <button>
                         {{ currentPage }}
                     </button>
                     <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
                 </div>
-            
+
             </div>
 
         </div>
