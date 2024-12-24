@@ -1,6 +1,31 @@
 <div class="ct_dashbaord_middle">
     <div class="d-flex align-items-center justify-content-between">
         <h4 class="mb-0 ct_fs_22">Feedback List</h4>
+        <div class="d-flex align-items-center gap-3">
+            <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2 ">
+                <!-- <span class="ct_text_op_5  ct_fs_13" style="white-space: nowrap;">Select Language :</span> -->
+                <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px;"
+                    (change)="onStatusChange($event)">
+                    <option value=''>
+                        All
+                    </option>
+                    <option value="1">
+                        Replied
+                    </option>
+                    <option value="0">
+                        Pending
+                    </option>
+                </select>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <div class="position-relative ct_search_input">
+                    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery"
+                        (ngModelChange)="getUsers()" />
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row ct_mt_30">
@@ -30,7 +55,7 @@
                             </td>
                             <td>{{item.email}}</td>
                             <td>{{item.create_time}}</td>
-                            <td>{{convertDateFormat(item.created_date)}}</td>
+                            <td>{{item.created_date}}</td>
                             <td>
                                 <div class="ct_status0" *ngIf="item.feedback_status == 0">
                                     Pending
@@ -55,7 +80,7 @@
             <!-- Pagination Controls -->
             <div class="d-flex justify-content-between align-items-center mt-3">
 
-                
+
                 <div class="pagination-controls">
                     <button (click)="previousPage()" class="ct_previous"
                         [disabled]="currentPage === 1">Previous</button>
@@ -132,8 +157,14 @@
                             placeholder="Type here...."></textarea>
                     </div>
 
-                    <button *ngIf="feedbackDetails?.feedback_status == 0" (click)="addSendMsg(feedbackDetails)" class="ct_green_btn mt-3 d-flex"
-                        style="width: fit-content;"> Send</button>
+                    <div class="form-group mt-3" *ngIf="feedbackDetails?.feedback_status == 1">
+                        <span><span class="ct_fw_600 ">Repled To : </span>{{feedbackDetails?.email}}</span>
+                        <textarea class="form-control ct_input h-auto" rows="5" [value]="feedbackDetails?.email"
+                            disabled></textarea>
+                    </div>
+
+                    <button *ngIf="feedbackDetails?.feedback_status == 0" (click)="addSendMsg(feedbackDetails)"
+                        class="ct_green_btn mt-3 d-flex" style="width: fit-content;"> Send</button>
                     <button hidden type="button" class="btn btn-secondary" #closeModal
                         data-bs-dismiss="modal">Close</button>
                 </div>
@@ -144,19 +175,19 @@
 
 <div class="ct_loader_main" *ngIf="loading">
     <div class="loadingio-spinner-spinner-977el9wwy2v">
-      <div class="ldio-4j5ay0xf86g">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
-  </div>
+</div>

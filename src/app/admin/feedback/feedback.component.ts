@@ -25,11 +25,12 @@ export class FeedbackComponent {
   hasMoreData: boolean = true;
   loading: boolean = false;
 
-  getUsers() {
-    this.loading = true;
-    this.service.getApi(`sub-admin/get-allfeedback?page=${this.currentPage}&limit=${this.pageSize}`).subscribe({
+  getUsers(filter?: any) {
+    const id = filter ? filter : '';
+    //this.loading = true;
+    this.service.getApi(`sub-admin/get-allfeedback?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}&filter=${id}`).subscribe({
       next: resp => {
-        this.loading = false;
+        //this.loading = false;
         this.data = resp.data;
 
         this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
@@ -39,10 +40,17 @@ export class FeedbackComponent {
         this.hasMoreData = resp.data.length === this.pageSize;
       },
       error: error => {
-        this.loading = false;
+        //this.loading = false;
         console.log(error.message);
       }
     });
+  }
+
+
+  onStatusChange(event: any): void {
+    //debugger
+    const selectedId = event.target.value;
+    this.getUsers(selectedId)
   }
 
   // goToPage(page: number) {
