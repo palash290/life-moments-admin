@@ -32,11 +32,11 @@ export class FeedbackComponent {
       next: resp => {
         //this.loading = false;
         this.data = resp.data;
-
-        this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
-          item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
-          return item;
-        });
+        //this.totalPages = resp.pagination.totalPages;
+        // this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
+        //   item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
+        //   return item;
+        // });
         this.hasMoreData = resp.data.length === this.pageSize;
       },
       error: error => {
@@ -46,18 +46,21 @@ export class FeedbackComponent {
     });
   }
 
+  currentFilter: any;
 
   onStatusChange(event: any): void {
     //debugger
     const selectedId = event.target.value;
-    this.getUsers(selectedId)
+    this.currentPage = 1;
+    this.currentFilter = selectedId;
+    this.getUsers(selectedId);
   }
 
   // goToPage(page: number) {
   //   this.currentPage = page;
   //   this.getUsers();
   // }
-  
+
   goToPage(page: number) {
     this.currentPage = page;
 
@@ -69,7 +72,7 @@ export class FeedbackComponent {
   nextPage() {
     if (this.hasMoreData) {
       this.currentPage++;
-      this.getUsers();
+      this.getUsers(this.currentFilter);
     }
   }
 
@@ -84,7 +87,7 @@ export class FeedbackComponent {
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.getUsers();
+      this.getUsers(this.currentFilter);
     }
   }
   // previousPage() {
@@ -95,7 +98,7 @@ export class FeedbackComponent {
   //   }
   // }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     localStorage.removeItem('currentPage');
   }
 
@@ -111,7 +114,16 @@ export class FeedbackComponent {
   }
 
   feedbackReview(data: any) {
+    this.changeLangResp = '';
+    this.feedback_response = '';
     this.feedbackDetails = data;
+    this.isLanguageChange = true;
+  }
+
+  reset(){
+    this.changeLangResp = '';
+    this.feedback_response = '';
+    this.isLanguageChange = true;
   }
 
   getFullStars(rating: number): number {
@@ -131,6 +143,9 @@ export class FeedbackComponent {
   message: any;
 
   addSendMsg(det: any) {
+    // console.log(det);
+    // return
+    
     const currPassword = this.message.trim();
 
     if (!currPassword) {
@@ -147,6 +162,7 @@ export class FeedbackComponent {
     formURlData.set('email', det.email);
     formURlData.set('message', this.message);
     formURlData.set('feedback', det.feedback);
+    formURlData.set('language_code', det.language_code);
 
     this.service.postAPI('sub-admin/send-feedbackresponse', formURlData.toString()).subscribe({
       next: (resp) => {
@@ -172,6 +188,33 @@ export class FeedbackComponent {
       }
     });
 
+  }
+
+  changeLangResp: any;
+  feedback_response: any;
+  isLanguageChange: boolean = true;
+
+  changeLang(feedbackDetails: any) {
+    // console.log(feedbackDetails);
+    // return
+    //debugger
+    this.loading = true;
+    const formURlData = new URLSearchParams();
+    formURlData.set('feedback', feedbackDetails.feedback);
+    formURlData.set('feedback_response', feedbackDetails.feedback_response);
+    //return
+    this.service.postAPI(`sub-admin/translate-feedbackbyid`, formURlData.toString()).subscribe({
+      next: resp => {
+        this.loading = false;
+        this.changeLangResp = resp.data.feedback;
+        this.feedback_response = resp.data.feedback_response;
+        this.isLanguageChange = false;
+      },
+      error: error => {
+        this.loading = false;
+        console.log(error.message);
+      }
+    });
   }
 
   convertDateFormat(dateString: string): string {

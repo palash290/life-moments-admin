@@ -45,7 +45,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of data; let i = index">
-                            <td>{{ item.serialNumber }}</td>
+                            <td>{{ i + 1 + (currentPage - 1) * pageSize }}</td>
+
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <img [src]='item.profile_image ? item.profile_image : "assets/img/np_pro.png"'
@@ -82,12 +83,17 @@
 
 
                 <div class="pagination-controls">
+                    <!-- @if(totalPages == currentPage){ -->
                     <button (click)="previousPage()" class="ct_previous"
                         [disabled]="currentPage === 1">Previous</button>
+                    <!-- } -->
+
                     <button>
                         {{ currentPage }}
                     </button>
+                    @if(totalPages != currentPage){
                     <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+                    }
                 </div>
 
             </div>
@@ -129,13 +135,58 @@
         <div class="modal-content pb-0">
             <div class="modal-body">
                 <div class="">
-                    <div class=" mb-3">
-                        <h4 class="mb-0 text-center">Feedback</h4>
+                    <!-- <div class=" mb-3">
+
+                        <h4 class="mb-0 text-center mx-auto">Feedback</h4>
+                        <div class="d-flex justify-content-end">
+                            @if(isLanguageChange) {
+                                <button (click)="changeLang(feedbackDetails)" class="ct_green_btn mt-3"
+                                    style="width: fit-content;">
+                                    Translate
+                                </button>
+                                } @else {
+                                <button (click)="reset()" class="ct_green_btn mt-3" style="width: fit-content;">
+                                    Reset
+                                </button>
+                                }
+                        </div>
+
+                  
+
+
+
+
                         <ul class="d-flex align-items-center gap-3 mt-3 justify-content-center">
                             <li><span class="ct_fw_600">Time :</span> {{feedbackDetails?.create_time}}</li>
-                            <li><span class="ct_fw_600">Date :</span>{{feedbackDetails?.created_date}}</li>
+                            <li><span class="ct_fw_600">Date : </span>{{feedbackDetails?.created_date}}</li>
                         </ul>
+                    </div> -->
+
+                    <div class="position-relative mb-3">
+                        <!-- Centered Heading -->
+                        <h4 class="mb-0 text-center">Feedback</h4>
+
+                        <!-- Button on the Right -->
+                        <div class="position-absolute" style="top: 0; right: 0;">
+                            @if(isLanguageChange) {
+                            <button (click)="changeLang(feedbackDetails)" class="ct_green_btn mt-3"
+                                style="width: fit-content;">
+                                Translate
+                            </button>
+                            } @else {
+                            <button (click)="reset()" class="ct_green_btn mt-3" style="width: fit-content;">
+                                Reset
+                            </button>
+                            }
+                        </div>
                     </div>
+
+                    <!-- Time and Date Section -->
+                    <ul class="d-flex align-items-center gap-3 mt-5 justify-content-center">
+                        <li><span class="ct_fw_600">Time:</span> {{feedbackDetails?.create_time}}</li>
+                        <li><span class="ct_fw_600">Date:</span> {{feedbackDetails?.created_date}}</li>
+                    </ul>
+
                     <!-- <ul class="ct_rating_star123 mb-2">
                         <li *ngFor="let full of [].constructor(getFullStars(feedbackDetails?.rating))">
                             <i class="fa-solid fa-star ct_rated_star"></i>
@@ -148,7 +199,7 @@
                         </li>
                     </ul> -->
                     <p class="mb-0 text-center" style="word-break:break-all">
-                        {{feedbackDetails?.feedback}}
+                        {{changeLangResp ? changeLangResp : feedbackDetails?.feedback}}
                     </p>
 
                     <div class="form-group mt-3" *ngIf="feedbackDetails?.feedback_status == 0">
@@ -159,12 +210,20 @@
 
                     <div class="form-group mt-3" *ngIf="feedbackDetails?.feedback_status == 1">
                         <span><span class="ct_fw_600 ">Repled To : </span>{{feedbackDetails?.email}}</span>
-                        <textarea class="form-control ct_input h-auto" rows="5" [value]="feedbackDetails?.email"
+                        <textarea class="form-control ct_input h-auto" rows="5"
+                            [value]="feedback_response ? feedback_response :feedbackDetails?.feedback_response"
                             disabled></textarea>
                     </div>
 
                     <button *ngIf="feedbackDetails?.feedback_status == 0" (click)="addSendMsg(feedbackDetails)"
-                        class="ct_green_btn mt-3 d-flex" style="width: fit-content;"> Send</button>
+                        class="ct_green_btn mt-3 d-flex" style="width: fit-content;">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="spinner-border me-2" role="status" *ngIf="btnLoader">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <span *ngIf="!btnLoader">Send</span>
+                        </div>
+                    </button>
                     <button hidden type="button" class="btn btn-secondary" #closeModal
                         data-bs-dismiss="modal">Close</button>
                 </div>

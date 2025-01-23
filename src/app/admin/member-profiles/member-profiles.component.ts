@@ -66,7 +66,7 @@ export class MemberProfilesComponent {
   patchMember(det: any) {
     this.memberDet = det;
     console.log('this.memberDet', this.memberDet);
-    
+
     this.memberId = det.id;
     this.initEditParentForm();
   }
@@ -93,90 +93,90 @@ export class MemberProfilesComponent {
   }
 
 
-    addParentLoader: boolean = false;
-    @ViewChild('closeModalEditParent') closeModalEditParent!: ElementRef;
-  
-    editParent(): void {
-      this.editParentForm.markAllAsTouched();
-  
-      // Check for spaces in current_password and new_password
-      const name = this.editParentForm.value.name?.trim();
-      const dName = this.editParentForm.value.dName?.trim();
-  
-      if (!name || !dName) {
-        return;
-      }
-  
-      if (this.editParentForm.valid) {
-        console.log('Form Values:', this.editParentForm.value);
-        this.addParentLoader = true;
-        const formURlData: any = new FormData();
-        if (this.editParentProfile) {
-          formURlData.append('avatar', this.editParentProfile);
-        }
-        formURlData.set('full_name', this.editParentForm.value.name);
-        formURlData.set('displayName', this.editParentForm.value.dName);
-        //formURlData.set('birth', this.editParentForm.value.dob);
-  
-        const dob = this.editParentForm.value.dob;
-  
-        const isDOBUnknown = this.editParentForm.get('isDOBUnknown')?.value;
-        if (!isDOBUnknown) {
-          if (dob) {
-            const formattedDOB = this.formatDateToDDMMYYYY(dob);
-            formURlData.set('birth', formattedDOB);
-          }
-        }
-  
-        formURlData.set('user_id', this.memberId);
-  
-        formURlData.set('onboardingDone', '1');
-        formURlData.set('gender', this.memberDet?.gender);
-        formURlData.set('other_gender', 'none');
-        // formURlData.set('gender', this.editParentForm.value.gender);
-        // if (this.editParentForm.value.gender == 'prefer-not-to-say') {
-        //   formURlData.set('other_gender', 'prefer-not-to-say');
-        // } else {
-        //   formURlData.set('other_gender', null);
-        // }
-  
-  
-        this.service.postAPIFormData('sub-admin/updateUserProfile', formURlData).subscribe({
-          next: (resp) => {
-            if (resp.success) {
-              this.toastr.success('Details updated successfully!');
-              this.addParentLoader = false;
-              this.closeModalEditParent.nativeElement.click();
-              //this.parentImage1 = null;
-              this.getSubAdmins();
-            } else {
-              this.toastr.warning(resp.message);
-              this.addParentLoader = false;
-              this.getSubAdmins();
-            }
-          },
-          error: (error) => {
-            this.getSubAdmins();
-            this.addParentLoader = false;
-            if (error.error.message) {
-              this.toastr.error(error.error.message);
-            } else {
-              this.toastr.error('Something went wrong!');
-            }
-          }
-        });
-      } else {
-        console.log('Form is invalid');
-      }
+  addParentLoader: boolean = false;
+  @ViewChild('closeModalEditParent') closeModalEditParent!: ElementRef;
+
+  editParent(): void {
+    this.editParentForm.markAllAsTouched();
+
+    // Check for spaces in current_password and new_password
+    const name = this.editParentForm.value.name?.trim();
+    const dName = this.editParentForm.value.dName?.trim();
+
+    if (!name || !dName) {
+      return;
     }
 
-    formatDateToDDMMYYYY(dateString: string): string {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-      const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
+    if (this.editParentForm.valid) {
+      console.log('Form Values:', this.editParentForm.value);
+      this.addParentLoader = true;
+      const formURlData: any = new FormData();
+      if (this.editParentProfile) {
+        formURlData.append('avatar', this.editParentProfile);
+      }
+      formURlData.set('full_name', this.editParentForm.value.name);
+      formURlData.set('displayName', this.editParentForm.value.dName);
+      //formURlData.set('birth', this.editParentForm.value.dob);
+
+      const dob = this.editParentForm.value.dob;
+
+      const isDOBUnknown = this.editParentForm.get('isDOBUnknown')?.value;
+      if (!isDOBUnknown) {
+        if (dob) {
+          const formattedDOB = this.formatDateToDDMMYYYY(dob);
+          formURlData.set('birth', formattedDOB);
+        }
+      }
+
+      formURlData.set('user_id', this.memberId);
+
+      formURlData.set('onboardingDone', '1');
+      formURlData.set('gender', this.memberDet?.gender);
+      formURlData.set('other_gender', 'none');
+      // formURlData.set('gender', this.editParentForm.value.gender);
+      // if (this.editParentForm.value.gender == 'prefer-not-to-say') {
+      //   formURlData.set('other_gender', 'prefer-not-to-say');
+      // } else {
+      //   formURlData.set('other_gender', null);
+      // }
+
+
+      this.service.postAPIFormData('sub-admin/updateUserProfile', formURlData).subscribe({
+        next: (resp) => {
+          if (resp.success) {
+            this.toastr.success('Details updated successfully!');
+            this.addParentLoader = false;
+            this.closeModalEditParent.nativeElement.click();
+            //this.parentImage1 = null;
+            this.getSubAdmins();
+          } else {
+            this.toastr.warning(resp.message);
+            this.addParentLoader = false;
+            this.getSubAdmins();
+          }
+        },
+        error: (error) => {
+          this.getSubAdmins();
+          this.addParentLoader = false;
+          if (error.error.message) {
+            this.toastr.error(error.error.message);
+          } else {
+            this.toastr.error('Something went wrong!');
+          }
+        }
+      });
+    } else {
+      console.log('Form is invalid');
     }
+  }
+
+  formatDateToDDMMYYYY(dateString: string): string {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
 
   //Pagination//
   currentPage: number = 1;
@@ -189,6 +189,8 @@ export class MemberProfilesComponent {
       next: resp => {
         this.data = resp.data;
         this.loading = false;
+
+        this.totalPages = resp.pagination.totalPages;
 
         this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
           item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;

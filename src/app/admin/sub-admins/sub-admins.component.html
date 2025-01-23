@@ -30,7 +30,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of data | filter:searchQuery; let i = index">
-                            <td class="w-15">{{ item.serialNumber }}</td>
+                            <td class="w-15">{{ i + 1 + (currentPage - 1) * pageSize }}</td>
                             <td>{{item.name}}</td>
                             <td>Sub-Admin</td>
                             <td>{{item.email}}</td>

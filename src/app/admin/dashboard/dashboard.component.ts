@@ -71,14 +71,6 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.getUsers();
-    //this.loadData();
-  }
-
-  loadData() {
-    this.data = [
-      { id: 1, image: 'assets/img/np_pro.png', name: 'Vivian Aufderhar', displayName: 'Vivian', gender: 'M', dob: '23-3-1999', isBlocked: true },
-      { id: 2, image: 'assets/img/user_img.png', name: 'Vivian Aufderhar', displayName: 'Vivian', gender: 'F', dob: '23-3-1999', isBlocked: false },
-    ]
   }
 
   getUsers() {

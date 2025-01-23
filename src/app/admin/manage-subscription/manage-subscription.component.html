@@ -44,7 +44,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of data; let i = index">
-                            <td>{{ item.serialNumber }}</td>
+                            <td>{{ i + 1 + (currentPage - 1) * pageSize }}</td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <img [src]='item.profile_image ? item.profile_image : "assets/img/np_pro.png"'
@@ -115,7 +115,10 @@
                     <button>
                         {{ currentPage }}
                     </button>
+                    @if(totalPages != currentPage){
                     <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+                    }
+
                 </div>
 
             </div>

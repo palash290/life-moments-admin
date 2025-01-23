@@ -27,10 +27,12 @@ export class ManageSubscriptionComponent {
 
   getUsers(filter: any) {
     //this.loading = true;
-    this.service.getApi(`sub-admin/getAllSubscription?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}&filter=${filter}`).subscribe({
+    const id = filter ? filter : '';
+    this.service.getApi(`sub-admin/getAllSubscription?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}&filter=${id}`).subscribe({
       next: resp => {
         this.data = resp.data;
         //this.loading = false;
+        this.totalPages = resp.pagination.totalPages;
 
         this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
           item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
@@ -49,14 +51,14 @@ export class ManageSubscriptionComponent {
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.getUsers('');
+      this.getUsers(this.currentFilter);
     }
   }
 
   nextPage() {
     if (this.hasMoreData) {
       this.currentPage++;
-      this.getUsers('');
+      this.getUsers(this.currentFilter);
     }
   }
 
@@ -162,12 +164,13 @@ export class ManageSubscriptionComponent {
     });
   }
 
-  languages: any;
-  languageId: any;
+  currentFilter: any;
 
   onLanguageChange(event: any): void {
     const selectedId = event.target.value;
-    this.getUsers(selectedId)
+    this.currentPage = 1;
+    this.getUsers(selectedId);
+    this.currentFilter = selectedId;
     console.log(selectedId);
   }
 

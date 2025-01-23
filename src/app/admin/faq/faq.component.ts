@@ -20,7 +20,6 @@ export class FaqComponent {
   constructor(private service: SharedService, private toastr: ToastrService) { }
 
   ngOnInit() {
-
     this.service.getApi('sub-admin/get-language').subscribe(response => {
       if (response.success) {
         this.languages = response.data;
