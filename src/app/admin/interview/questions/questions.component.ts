@@ -63,7 +63,6 @@ export class QuestionsComponent {
     this.service.postAPI(`sub-admin/getDefaultInterviewQuestionByYearAndLanguage`, formURlData.toString()).subscribe({
       next: resp => {
         this.data = resp.data;
-        //console.log(this.data.length);
       },
       error: error => {
         console.log(error.message);
@@ -87,8 +86,6 @@ export class QuestionsComponent {
     const selectedId = event.target.value;
     const selectedCategory = this.languages.find((language: { code: any; }) => language.code == selectedId);
 
-    //const selectedCategory = this.categories.find(category => category.id === event.value);
-
     if (selectedCategory) {
       this.languageId = selectedCategory.code;
       console.log('Selected Category ID:', this.languageId);
@@ -96,10 +93,9 @@ export class QuestionsComponent {
     }
   }
 
-  // Assuming `updateDet` contains the current question object
   getQuestion(item: any): string {
     const questionKey = `questions_${this.languageId}`;
-    return item ? (item[questionKey] || item.questions) : ''; // Fallback to default or empty string
+    return item ? (item[questionKey] || item.questions) : '';
   }
 
   btnLoader: boolean = false;
@@ -150,7 +146,6 @@ export class QuestionsComponent {
   editSubAdmin() {
     this.editForm.markAllAsTouched();
 
-    // Check for spaces in current_password and new_password
     const question = this.editForm.value.question?.trim();
 
     if (!question) {

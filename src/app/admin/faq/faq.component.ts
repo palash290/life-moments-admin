@@ -136,7 +136,7 @@ export class FaqComponent {
       formURlData.set('answer', this.editFaq.value.answer);
       formURlData.set('id', this.updateId);
       formURlData.set('lang_code', 'en,hi,es,de,fr,pt,it,ko,zh,ru,nl,ja');
-      
+
       this.service.postAPI('sub-admin/updateFAQById', formURlData.toString()).subscribe({
         next: (resp) => {
           if (resp.success == true) {
@@ -190,8 +190,6 @@ export class FaqComponent {
     const selectedId = event.target.value;
     const selectedCategory = this.languages.find((language: { code: any; }) => language.code == selectedId);
 
-    //const selectedCategory = this.categories.find(category => category.id === event.value);
-
     if (selectedCategory) {
       this.languageId = selectedCategory.code;
       console.log('Selected Category ID:', this.languageId);
@@ -199,16 +197,16 @@ export class FaqComponent {
     }
   }
 
-    // Assuming `updateDet` contains the current question object
-    getQuestion(item: any): string {
-      const questionKey = `faq_question_${this.languageId}`;
-      return item ? (item[questionKey] || item.faq_question) : ''; // Fallback to default or empty string
-    }
 
-    getAnswer(item: any): string {
-      const questionKey = `faq_answer_${this.languageId}`;
-      return item ? (item[questionKey] || item.faq_answer) : ''; // Fallback to default or empty string
-    }
+  getQuestion(item: any): string {
+    const questionKey = `faq_question_${this.languageId}`;
+    return item ? (item[questionKey] || item.faq_question) : '';
+  }
+
+  getAnswer(item: any): string {
+    const questionKey = `faq_answer_${this.languageId}`;
+    return item ? (item[questionKey] || item.faq_answer) : '';
+  }
 
 
 }

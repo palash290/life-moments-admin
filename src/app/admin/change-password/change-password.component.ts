@@ -18,7 +18,7 @@ export class ChangePasswordComponent {
   constructor(private route: Router, private service: SharedService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.initForm()
+    this.initForm();
   }
 
   initForm() {
@@ -37,19 +37,17 @@ export class ChangePasswordComponent {
   submitForm() {
     this.form.markAllAsTouched();
 
-    // Check for spaces in current_password and new_password
     const currPassword = this.form.value.current_password?.trim();
     const newPassword = this.form.value.new_password?.trim();
 
     if (!currPassword || !newPassword) {
       //this.toastr.warning('Passwords cannot be empty or just spaces.');
-      return; // Prevent submission if passwords are empty or only spaces
+      return;
     }
 
     if (this.form.valid && !this.passwordMismatch) {
       this.loading = true;
       const formURlData = new URLSearchParams();
-      //console.log()
       formURlData.set('current_password', this.form.value.current_password);
       formURlData.set('new_password', this.form.value.new_password);
       formURlData.set('confirm_password', this.form.value.confirm_password);
@@ -60,7 +58,6 @@ export class ChangePasswordComponent {
             console.log(resp.message)
             this.form.reset();
             this.loading = false;
-            //this.closeModal.nativeElement.click();
           } else {
             this.toastr.warning(resp.message);
             this.loading = false;

@@ -53,7 +53,6 @@ export class HeaderComponent {
         this.service.logout();
       }
     });
-
   }
 
 

@@ -20,7 +20,6 @@ export class MemberProfilesComponent {
   constructor(private route: Router, private service: SharedService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    // Retrieve current page from local storage if it exists
     const storedPage = localStorage.getItem('currentPage');
     this.currentPage = storedPage ? parseInt(storedPage, 10) : 1;
     this.getSubAdmins();
@@ -32,7 +31,7 @@ export class MemberProfilesComponent {
       image: new FormControl(null),
       name: new FormControl(this.memberDet?.fullName, [
         Validators.required,
-        Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/) // Pattern to ensure at least two words
+        Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/)
       ]),
       dName: new FormControl(this.memberDet?.displayName, Validators.required),
       gender: new FormControl({ value: this.memberDet?.other_gender == 'none' ? this.memberDet?.gender : this.memberDet?.other_gender, disabled: true }, Validators.required),
@@ -41,15 +40,14 @@ export class MemberProfilesComponent {
 
     this.editParentForm.get('name')?.valueChanges.subscribe((value: string) => {
       if (value) {
-        const firstWord = value.split(' ')[0]; // Get the first word
-        this.editParentForm.get('dName')?.setValue(firstWord, { emitEvent: false }); // Update dName without triggering its valueChanges
+        const firstWord = value.split(' ')[0];
+        this.editParentForm.get('dName')?.setValue(firstWord, { emitEvent: false });
       }
     });
 
   }
 
   convertDateFormat(dateString: string): string {
-    // debugger
     const parts = dateString?.split('/');
     if (parts?.length !== 3) {
       return '';
@@ -65,8 +63,6 @@ export class MemberProfilesComponent {
 
   patchMember(det: any) {
     this.memberDet = det;
-    console.log('this.memberDet', this.memberDet);
-
     this.memberId = det.id;
     this.initEditParentForm();
   }
@@ -92,14 +88,11 @@ export class MemberProfilesComponent {
     }
   }
 
-
   addParentLoader: boolean = false;
   @ViewChild('closeModalEditParent') closeModalEditParent!: ElementRef;
 
   editParent(): void {
     this.editParentForm.markAllAsTouched();
-
-    // Check for spaces in current_password and new_password
     const name = this.editParentForm.value.name?.trim();
     const dName = this.editParentForm.value.dName?.trim();
 
@@ -173,7 +166,7 @@ export class MemberProfilesComponent {
   formatDateToDDMMYYYY(dateString: string): string {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   }
@@ -184,20 +177,16 @@ export class MemberProfilesComponent {
   hasMoreData: boolean = true;
 
   getSubAdmins() {
-    //this.loading = true;
     this.service.getApi(`sub-admin/get-all-users?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}`).subscribe({
       next: resp => {
         this.data = resp.data;
         this.loading = false;
-
         this.totalPages = resp.pagination.totalPages;
-
         this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
           item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
           return item;
         });
         this.hasMoreData = resp.data.length == this.pageSize;
-
       },
       error: error => {
         this.loading = false;

@@ -3,8 +3,7 @@
         <h4 class="mb-0 ct_fs_22">All Subscriptions</h4>
         <div class="d-flex align-items-center gap-3">
 
-            <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2 ">
-                <!-- <span class="ct_text_op_5  ct_fs_13" style="white-space: nowrap;">Select Language :</span> -->
+            <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
                 <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px;"
                     (change)="onLanguageChange($event)">
                     <option value=''>
@@ -75,7 +74,6 @@
                             </td> -->
                         </tr>
                     </tbody>
-
                 </table>
             </div>
             <div *ngIf="data?.length == 0 || !data" class="text-center">
@@ -83,32 +81,7 @@
             </div>
 
             <!-- Pagination Controls -->
-            <!-- <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="data && hasMoreData && currentPage + 2 < totalPages">
-              
-                <div class="pagination-controls">
-                    <button (click)="previousPage()" class="ct_previous" [disabled]="currentPage == 1">Previous</button>
-
-                   
-                    <button *ngIf="currentPage >= 3" (click)="goToPage(1)" [class.active]="currentPage == 1">1</button>
-                    
-
-                    
-                    <button *ngFor="let page of getPaginationRange()" [class.active]="page === currentPage"
-                        (click)="goToPage(page)">
-                        {{ page }}
-                    </button>
-
-                    
-                    <button *ngIf="hasMoreData && currentPage + 2 < totalPages" disabled>...</button>
-
-                    <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
-                </div>
-            </div> -->
-
-            <!-- Pagination Controls -->
             <div class="d-flex justify-content-between align-items-center mt-3">
-
-
                 <div class="pagination-controls">
                     <button (click)="previousPage()" class="ct_previous"
                         [disabled]="currentPage === 1">Previous</button>
@@ -118,11 +91,8 @@
                     @if(totalPages != currentPage){
                     <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
                     }
-
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>

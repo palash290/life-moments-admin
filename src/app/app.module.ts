@@ -6,11 +6,10 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './core/login/login.component';
 import { ForgotPasswordComponent } from './core/forgot-password/forgot-password.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
-import { SubAdminsComponent } from './admin/sub-admins/sub-admins.component';
-import { FilterPipe } from './shared/filter.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+// import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [

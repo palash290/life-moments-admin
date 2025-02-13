@@ -1,0 +1,177 @@
+<div class="ct_dashbaord_middle">
+  <h4 class="ct_fs_22 mb-0">Notification</h4>
+  <div class="row mt-5">
+    <div class="col-md-12 mx-auto">
+      <div class="ct_white_bg_1 py-4">
+        <!-- <h4 class="ct_fs_24 mb-4 ct_fw_600">Notification</h4> -->
+        <div class="mb-4 ct_border_btm_1  ct_notification_radio_flex">
+          <div class="ct_radio_bg_btn12">
+            <div class="form-check form-check-inline me-0 mb-0">
+              <input class="form-check-input" type="radio" id="inlineRadio1" value="app"
+                [(ngModel)]="selectedNotification" [ngModelOptions]="{ standalone: true }">
+              <label class="form-check-label ct_fw_600" for="inlineRadio1">App</label>
+            </div>
+          </div>
+          <div class="ct_radio_bg_btn12">
+            <div class="form-check form-check-inline me-0 mb-0">
+              <input class="form-check-input" type="radio" id="inlineRadio2" value="email"
+                [(ngModel)]="selectedNotification" [ngModelOptions]="{ standalone: true }">
+              <label class="form-check-label ct_fw_600" for="inlineRadio2">Email</label>
+            </div>
+          </div>
+          <div class="ct_radio_bg_btn12">
+            <div class="form-check form-check-inline me-0 mb-0">
+              <input class="form-check-input" type="radio" id="inlineRadio3" value="both"
+                [(ngModel)]="selectedNotification" [ngModelOptions]="{ standalone: true }">
+              <label class="form-check-label ct_fw_600" for="inlineRadio3">Both</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio11"
+              value="Individual" [(ngModel)]="selectedOption" [ngModelOptions]="{ standalone: true }"
+              (change)="onOptionChange()" />
+            <label class="form-check-label" for="inlineRadio11">Individual</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio22" value="Group"
+              [(ngModel)]="selectedOption" [ngModelOptions]="{ standalone: true }" (change)="onOptionChange()" />
+            <label class="form-check-label" for="inlineRadio22">Group</label>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio33" value="Pets"
+              [(ngModel)]="selectedOption" [ngModelOptions]="{ standalone: true }" (change)="onOptionChange()">
+            <label class="form-check-label" for="inlineRadio33">Users with Pets</label>
+          </div>
+
+        </div>
+        <form>
+
+
+          <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
+            <img [src]="parentImage1 ? parentImage1 : 'assets/img/demo.png'" alt="" class="ct_img_164 mx-auto d-block"
+              style="border: solid var(--dark_green);">
+
+            <label for="ct_edit_img1">
+              <!-- <input accept="image/*" type="file" id="imgInp1" class="d-none" -->
+              <input type="file" accept="image/*" class="d-none" id="ct_edit_img1"
+                (change)="onImageSelected($event, 'parent')">
+              <div class="ct_edit_icon" style="cursor: pointer;">
+                <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M8.23622 0.496129C8.41543 0.188911 8.74433 0 9.1 0H16.9C17.2557 0 17.5846 0.188911
+                             17.7638 0.496129L19.5744 3.6H22C24.2091 3.6 26 5.39086 26 7.6V19.9C26 22.1091 24.2091
+                              23.9 22 23.9H4C1.79086 23.9 0 22.1091 0 19.9V7.6C0 5.39086 1.79086 3.6 4 3.6H6.42563L8.23622
+                               0.496129ZM9.67437 2L7.86378 5.10387C7.68457 5.41109 7.35567 5.6 7 5.6H4C2.89543 5.6 2 6.49543 
+                               2 7.6V19.9C2 21.0046 2.89543 21.9 4 21.9H22C23.1046 21.9 24 21.0046 24 19.9V7.6C24 6.49543 23.1046
+                                5.6 22 5.6H19C18.6443 5.6 18.3154 5.41109 18.1362 5.10387L16.3256 2H9.67437ZM13 9.5C11.067 9.5 
+                                9.5 11.067 9.5 13C9.5 14.933 11.067 16.5 13 16.5C14.933 16.5 16.5 14.933 16.5 13C16.5 11.067 14.933
+                                 9.5 13 9.5ZM7.5 13C7.5 9.96243 9.96243 7.5 13 7.5C16.0376 7.5 18.5 9.96243 18.5 13C18.5 16.0376 16.0376 18.5 13 18.5C9.96243 18.5 7.5 16.0376 7.5 13Z"
+                    fill="white" />
+                </svg>
+              </div>
+            </label>
+          </div>
+
+          <div class="mb-4" *ngIf="selectedOption == 'Individual'">
+            <label for="membersSelect" class="mb-2">All Members</label>
+            <select id="membersSelect" class="form-control ct_input" multiple="multiple">
+              <option *ngFor="let member of members" [value]="member.id">
+                {{ member.fullName }}
+              </option>
+            </select>
+          </div>
+
+
+          <div class="form-group mb-4">
+            <label for="" class="mb-2">Subject</label>
+            <input type="text" class="form-control ct_input" [(ngModel)]="title" [ngModelOptions]="{ standalone: true }"
+              placeholder="Enter Title" maxlength="100">
+          </div>
+
+
+          <!-- Static dropdown for "Group" -->
+          <div *ngIf="selectedOption === 'Group'" class="mt-3">
+            <label for="groupSelect">Select Group</label>
+            <select id="groupSelect" class="form-control" [(ngModel)]="selectedPlanId"
+              [ngModelOptions]="{standalone: true}">
+              <option value="" selected disabled>--Select--</option>
+              <option value="1">Free</option>
+              <option value="2">Monthly</option>
+              <option value="3">Yearly</option>
+            </select>
+          </div>
+
+
+          <!-- Static dropdown for "Group" -->
+          <div *ngIf="selectedOption === 'Pets'" class="mt-3">
+            <label for="groupSelect">Select Group</label>
+            <select id="groupSelect" class="form-control" [(ngModel)]="selectedPetId"
+              [ngModelOptions]="{standalone: true}">
+              <option value="" selected disabled>--Select--</option>
+              <option value="with_pet">Pet Exists</option>
+              <option value="without_pet">Without Pets</option>
+            </select>
+          </div>
+
+
+          <!-- <div class="form-group mb-4" *ngIf="selectedOption === 'Individual'">
+            <label for="" class="mb-2">Message</label>
+            <input type="email" class="form-control ct_input" formControlName="email" placeholder="Enter your email"
+              value="alexmeian@gmail.com">
+          </div> -->
+
+          <div class="form-group mb-3 mt-3">
+            <label class="mb-3" for="groupSelect">Message</label>
+            <ngx-editor-menu [editor]="editor1" [toolbar]="toolbar1"></ngx-editor-menu>
+            <ngx-editor [editor]="editor1" [(ngModel)]="about_us" [ngModelOptions]="{ standalone: true }"></ngx-editor>
+
+            <!-- <ckeditor [editor]="editor" [data]="data"></ckeditor> -->
+          </div>
+
+          <button *ngIf="selectedOption == 'Individual'" (click)="onIndividualUpdate()" style="cursor: pointer;"
+            class="ct_green_btn px-5">
+            Send
+          </button>
+
+        </form>
+
+        <button *ngIf="selectedOption === 'Group'" (click)="onGroupUpdate()" style="cursor: pointer;"
+          class="ct_green_btn px-5 mt-3">
+          Send
+        </button>
+
+        <button *ngIf="selectedOption === 'Pets'" (click)="onPetsUpdate()" style="cursor: pointer;"
+        class="ct_green_btn px-5 mt-3">
+        Send
+      </button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="ct_loader_main" *ngIf="loading">
+  <div class="loadingio-spinner-spinner-977el9wwy2v">
+    <div class="ldio-4j5ay0xf86g">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>

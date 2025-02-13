@@ -1,0 +1,70 @@
+.ct_border_btm_1 {
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.ct_notification_radio_flex {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  justify-content: center;
+  background-color: #f5f5f5;
+  padding-block: 15px;
+  border-radius: 10px;
+}
+
+.ct_radio_bg_btn12 {
+  background-color: #fff;
+  padding: 8px 14px;
+  border-radius: 5px;
+  border-top: 2px solid #0d9e00;
+}
+
+.custom-dropdown {
+  position: relative;
+}
+
+/* .form-control {
+  cursor: pointer;
+} */
+
+.dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  padding: 5px 10px;
+}
+
+.dropdown-item label {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.arrow {
+  transition: transform 0.2s;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+
+.ct_img_164 {
+  width: 300px;
+  height: 300px;
+  border-radius: 50px;
+}
+
+.mx-auto {
+  margin-right: auto !important;
+  /* margin-left: auto !important; */
+}

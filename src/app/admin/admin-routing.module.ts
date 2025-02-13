@@ -36,6 +36,7 @@ import { QuestionsComponent } from './interview/questions/questions.component';
 import { MemberInterviewComponent } from './member-profiles/member-interview/member-interview.component';
 import { MemberQuestionComponent } from './member-profiles/member-question/member-question.component';
 import { ManageSubscriptionComponent } from './manage-subscription/manage-subscription.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 const routes: Routes = [
   {
@@ -190,6 +191,10 @@ const routes: Routes = [
       {
         path: 'manage-subscription',
         component: ManageSubscriptionComponent
+      },
+      {
+        path: 'notifications',
+        component: NotificationsComponent
       },
     ]
   }

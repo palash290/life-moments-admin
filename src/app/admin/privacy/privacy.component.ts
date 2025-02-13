@@ -11,15 +11,12 @@ import { Editor, Toolbar } from 'ngx-editor';
 })
 export class PrivacyComponent {
 
-    // Dropdown selection
-    selectedEditor = 'about_us';
-    
+  selectedEditor = 'about_us';
   about_us: any = '';
   privacyResult: any = '';
   termsResult: any = '';
   languages: any;
   languageId: any;
-
   editor1!: Editor;
   editor2!: Editor;
   editor3!: Editor;
@@ -42,7 +39,7 @@ export class PrivacyComponent {
 
     this.getPrivacy('en');
   }
-  
+
   toolbar1: Toolbar = [
     // default value
     ['bold', 'italic'],
@@ -86,7 +83,7 @@ export class PrivacyComponent {
     // or, set options for link:
     //[{ link: { showOpenInNewTab: false } }, 'image'],
     ['text_color', 'background_color'],
-   // ['align_left', 'align_center', 'align_right', 'align_justify'],
+    // ['align_left', 'align_center', 'align_right', 'align_justify'],
     //['horizontal_rule', 'format_clear', 'indent', 'outdent'],
     //['superscript', 'subscript'],
     ['undo', 'redo'],
@@ -141,9 +138,9 @@ export class PrivacyComponent {
     const htmlContentAbout = `${this.about_us}`;
     const htmlContentPri = `${this.privacyResult}`;
     const htmlContentTerm = `${this.termsResult}`;
-    
+
     // Ensure content is HTML
-    formURlData.set('language', 
+    formURlData.set('language',
       this.languageId
     );
     formURlData.set('about_us', htmlContentAbout);

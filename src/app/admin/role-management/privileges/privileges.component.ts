@@ -27,7 +27,6 @@ export class PrivilegesComponent {
     this.route.paramMap.subscribe((params) => {
       const paramValue = params.get('name');
       if (paramValue) {
-        // Check if the value is numeric
         if (!isNaN(Number(paramValue))) {
           this.count = paramValue;
           this.name = null;
@@ -40,7 +39,6 @@ export class PrivilegesComponent {
     this.loadData();
     this.toggleAllCheckboxes('view');
   }
-
 
   loadData() {
     this.data = [
@@ -56,7 +54,7 @@ export class PrivilegesComponent {
     });
   }
 
-  updateColumnCheckAll(column: string , pic: any) {
+  updateColumnCheckAll(column: string, pic: any) {
     this[`checkAll${this.capitalize(column)}`] = this.data.every(item => item[`checked${this.capitalize(column)}`]);
   }
 
@@ -65,12 +63,11 @@ export class PrivilegesComponent {
   }
 
   logSelectedModules() {
-    // Filter the data to include only those rows where at least one checkbox is checked
     const selectedModules = this.data
       .filter(pic => pic.checkedModules || pic.checkedAdd || pic.checkedView || pic.checkedEdit || pic.checkedDelete)
       .map(pic => {
         return {
-          title: pic.title,  // Module Name
+          title: pic.title,
           selectedOptions: {
             add: pic.checkedAdd,
             view: pic.checkedView,
@@ -79,9 +76,6 @@ export class PrivilegesComponent {
           },
         };
       });
-  
-    // Log the result to the console
-    console.log('Selected Modules:', selectedModules);
   }
 
 

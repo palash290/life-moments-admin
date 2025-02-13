@@ -10,11 +10,11 @@ export class MainComponent {
   isMenuActive = false;
 
   openMenu(isMenuActive: boolean) {
-    this.isMenuActive = isMenuActive; // Update menu active state
+    this.isMenuActive = isMenuActive;
   }
 
   closeMenu(isMenuActive: boolean) {
-    this.isMenuActive = isMenuActive; // Update menu active state
+    this.isMenuActive = isMenuActive;
   }
 
 }

@@ -22,11 +22,7 @@
                         <label for="" class="mb-2">Contact No</label>
                         <input type="number" class="form-control ct_input" formControlName="phone"
                             placeholder="Enter Contact No" maxlength="13">
-                        <!-- <div *ngIf="profileForm.controls['phone'].invalid && profileForm.controls['phone'].touched"
-                            class="error-message">
-                            <div *ngIf="profileForm.controls['phone'].errors?.['required']">Please enter
-                                your contact number.</div>
-                        </div> -->
+
                         <div *ngIf="profileForm.controls['phone'].invalid && profileForm.controls['phone'].touched"
                             class="error-message">
                             <div *ngIf="profileForm.controls['phone'].errors?.['required']">Contact

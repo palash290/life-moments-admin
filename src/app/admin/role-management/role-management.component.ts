@@ -21,7 +21,6 @@ export class RoleManagementComponent {
 
   constructor(private service: SharedService, private route: Router) { }
 
-
   ngOnInit() {
     this.getSubAdmins();
   }
@@ -61,7 +60,6 @@ export class RoleManagementComponent {
       this.getSubAdmins();
     }
   }
-
 
   toggleAllCheckboxes() {
     this.data.forEach((item) => (item.checked = this.checkAll));

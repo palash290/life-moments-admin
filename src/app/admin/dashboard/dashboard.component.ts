@@ -89,50 +89,5 @@ export class DashboardComponent {
     });
   }
 
-  // name: any;
-  // email: any;
-  // date: any;
-  // avatar_url: any;
-
-  // getUserById(data: any) {
-  //   this.name = data.full_name;
-  //   this.email = data.email;
-  //   this.date = data.createdAt;
-  //   this.avatar_url = data.avatar_url;
-  // }
-
 
 }
-// "id": 301,
-//                 "fullName": "Rahul Tiwari",
-//                 "displayName": "Rahulll",
-//                 "email": "rahutiw@gmail.com",
-//                 "gender": "male",
-//                 "password": "$2b$10$ujBXE6zGd8q9Y6jNDaNAsOLKvOswrwduJZ2rqKgxv4P6u.pliHP4S",
-//                 "show_password": "12345678",
-//                 "profile_image": "http://18.229.202.71:4000/images/1732089432767.png",
-//                 "verify_user": 0,
-//                 "token": "$2b$10$as10QtzoJAuchvwbbJ.Ik.38mHRF7ZW4OIp.1j3EIRpXICUn9VnW.",
-//                 "act_token": "d1S6aX6c",
-//                 "created_at": "2024-11-20T02:26:56.000Z",
-//                 "update_at": "2024-11-20T02:26:56.000Z",
-//                 "onBoardingDone": 1,
-//                 "familyTrees": null,
-//                 "memberInvitations": null,
-//                 "birth": "20/11/2016",
-//                 "alive": null,
-//                 "birthUnknown": null,
-//                 "memberType": null,
-//                 "avatarFileName": null,
-//                 "familyTreeId": 721,
-//                 "invitationsReceived": null,
-//                 "mainFamilyTree": null,
-//                 "albums": null,
-//                 "popup_status": "0",
-//                 "import_media_popup": 0,
-//                 "lock_me": 0,
-//                 "review": null,
-//                 "rating": null,
-//                 "delete_status": 0,
-//                 "login_date": null,
-//                 "other_gender": "none"

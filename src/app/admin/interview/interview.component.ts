@@ -12,7 +12,6 @@ export class InterviewComponent {
 
   data: any;
 
-
   constructor(private service: SharedService, private toastr: ToastrService, private route: Router, private aRoute: ActivatedRoute) { }
 
   ngOnInit() {

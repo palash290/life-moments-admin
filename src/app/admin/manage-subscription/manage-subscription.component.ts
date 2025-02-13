@@ -26,12 +26,10 @@ export class ManageSubscriptionComponent {
   }
 
   getUsers(filter: any) {
-    //this.loading = true;
     const id = filter ? filter : '';
     this.service.getApi(`sub-admin/getAllSubscription?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}&filter=${id}`).subscribe({
       next: resp => {
         this.data = resp.data;
-        //this.loading = false;
         this.totalPages = resp.pagination.totalPages;
 
         this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
@@ -39,10 +37,8 @@ export class ManageSubscriptionComponent {
           return item;
         });
         this.hasMoreData = resp.data.length == this.pageSize;
-
       },
       error: error => {
-        //this.loading = false;
         console.log(error.message);
       }
     });
@@ -61,30 +57,6 @@ export class ManageSubscriptionComponent {
       this.getUsers(this.currentFilter);
     }
   }
-
-  // goToPage(page: number) {
-  //   this.currentPage = page;
-
-  //   localStorage.setItem('currentPage', this.currentPage.toString());
-
-  //   this.getUsers('');
-  // }
-
-  // nextPage() {
-  //   if (this.hasMoreData) {
-  //     this.currentPage++;
-  //     localStorage.setItem('currentPage', this.currentPage.toString());
-  //     this.getUsers('');
-  //   }
-  // }
-
-  // previousPage() {
-  //   if (this.currentPage > 1) {
-  //     this.currentPage--;
-  //     localStorage.setItem('currentPage', this.currentPage.toString());
-  //     this.getUsers('');
-  //   }
-  // }
 
   ngOnDestroy() {
     localStorage.removeItem('currentPage');

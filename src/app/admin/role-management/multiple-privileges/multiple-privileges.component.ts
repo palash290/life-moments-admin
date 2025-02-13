@@ -17,7 +17,7 @@ export class MultiplePrivilegesComponent {
     this.route.paramMap.subscribe((params) => {
       this.adminLength = params.get('length');
     });
-
   }
+  
 
 }

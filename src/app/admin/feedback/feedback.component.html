@@ -39,6 +39,7 @@
                             <th>Email</th>
                             <th>Time</th>
                             <th>Date</th>
+                            <th>Messages</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -58,10 +59,21 @@
                             <td>{{item.create_time}}</td>
                             <td>{{item.created_date}}</td>
                             <td>
-                                <div class="ct_status0" *ngIf="item.feedback_status == 0">
+                                <button style="overflow: unset;"
+                                    class="ct_green_btn ct_border_radius_0 position-relative ct_btn_fit ct_news_ltr_btn ct_add_item"
+                                    data-bs-toggle="modal" data-bs-target="#ct_messages_detail"
+                                    (click)="openDialog(item.user_id)">
+                                    Messages
+                                </button>
+                            </td>
+                            <td>
+                                <div class="ct_status0" *ngIf="item.is_read == 0">
                                     Pending
                                 </div>
-                                <div class="ct_status1 text-white" *ngIf="item.feedback_status == 1">
+                                <div class="ct_status0" *ngIf="item.is_read == null">
+                                    Pending
+                                </div>
+                                <div class="ct_status1 text-white" *ngIf="item.is_read == 1">
                                     Replied
                                 </div>
                             </td>
@@ -151,11 +163,6 @@
                                 }
                         </div>
 
-                  
-
-
-
-
                         <ul class="d-flex align-items-center gap-3 mt-3 justify-content-center">
                             <li><span class="ct_fw_600">Time :</span> {{feedbackDetails?.create_time}}</li>
                             <li><span class="ct_fw_600">Date : </span>{{feedbackDetails?.created_date}}</li>
@@ -169,8 +176,7 @@
                         <!-- Button on the Right -->
                         <div class="position-absolute" style="top: 0; right: 0;">
                             @if(isLanguageChange) {
-                            <button (click)="changeLang(feedbackDetails)" class="ct_green_btn mt-3"
-                                style="width: fit-content;">
+                            <button class="ct_green_btn mt-3" style="width: fit-content;">
                                 Translate
                             </button>
                             } @else {
@@ -209,9 +215,9 @@
                     </div>
 
                     <div class="form-group mt-3" *ngIf="feedbackDetails?.feedback_status == 1">
-                        <span><span class="ct_fw_600 ">Repled To : </span>{{feedbackDetails?.email}}</span>
+                        <span><span class="ct_fw_600 ">Replied To : </span>{{feedbackDetails?.email}}</span>
                         <textarea class="form-control ct_input h-auto" rows="5"
-                            [value]="feedback_response ? feedback_response :feedbackDetails?.feedback_response"
+                            [value]="feedback_response ? feedback_response : feedbackDetails?.feedback_response"
                             disabled></textarea>
                     </div>
 
@@ -226,6 +232,93 @@
                     </button>
                     <button hidden type="button" class="btn btn-secondary" #closeModal
                         data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade Committed_Price" id="ct_messages_detail" tabindex="-1" aria-labelledby="ct_supplier_detailLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <!-- chatbox -->
+            <div class="chatbox ">
+                <div class="modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="msg-head">
+                            <div class="row">
+
+                                <div class="col-4">
+                                    <ul class="" style="cursor: pointer;">
+                                        <li class="navbar nav-item dropdown" (click)="getMessages(ticketId)">
+                                            <a class="nav-link"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Button on the Right -->
+                        <div class="position-absolute" style="top: 0; right: 0;">
+                            @if(isLanguageChange) {
+                            <button (click)="changeLang()" class="ct_green_btn mt-3" style="width: fit-content;">
+                                Translateee
+                            </button>
+                            } @else {
+                            <button (click)="reset()" class="ct_green_btn mt-3" style="width: fit-content;">
+                                Reset
+                            </button>
+                            }
+                        </div>
+
+                        <div class="modal-body" #scrollMe [scrollTop]="scrollMe?.scrollHeight">
+                            <div class="msg-body"
+                                *ngFor="let msg of isLanguageChange == true ? allMessages : feedback_response">
+                                <ul>
+                                    <li *ngIf="msg.sender_id != 1" class="sender">
+                                        <p> {{msg?.message}} </p>
+                                        <span class="time">{{msg.date_time}}</span>
+                                    </li>
+
+                                    <li *ngIf="msg.sender_id == 1" class="repaly">
+                                        <p> {{msg?.message }} </p>
+                                        <span class="time">{{msg.date_time}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="send-box">
+                            <form action="">
+                                <input type="text" class="form-control" aria-label="message…"
+                                    placeholder="Write message…" [(ngModel)]="message"
+                                    [ngModelOptions]="{standalone: true}">
+                                <div class="d-flex align-items-center">
+
+                                    <button [disabled]="isDisabled" (click)="addSendMsg(allMessages)" type="button"><i class="fa fa-paper-plane"
+                                            aria-hidden="true"></i>Send</button>
+
+                                    <!-- <button 
+                                        (click)="addSendMsg(allMessages)" class="ct_green_btn mt-3 d-flex"
+                                        style="width: fit-content;">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <div class="spinner-border me-2" role="status" *ngIf="btnLoader">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            <span *ngIf="!btnLoader">Send</span>
+                                        </div>
+                                    </button> -->
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

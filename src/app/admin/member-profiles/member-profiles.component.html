@@ -49,12 +49,6 @@
               <td>{{item.displayName}}</td>
               <td>{{item.email}}</td>
               <td>
-                <!-- <div *ngIf="item.gender == 'male'">
-                  Male
-                </div>
-                <div *ngIf="item.gender == 'female'">
-                  Female
-                </div> -->
                 @if(item.other_gender == 'none' || item.other_gender == 'null'){
                 <div *ngIf="item.gender == 'male'">
                   Male
@@ -96,12 +90,6 @@
                 }
               </td>
               <td class="text-end">{{item.birth}}</td>
-              <!-- <td >
-                <div class="form-check form-switch ct_custom_switch d-flex justify-content-end">
-                  <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="item.isBlocked"
-                    [ngModel]="item.isBlocked == 0" id="flexSwitchCheckChecked" />
-                </div>
-              </td> -->
               <td>
                 <div class="form-check form-switch ct_switch">
                   <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
@@ -111,15 +99,9 @@
               </td>
               <td class="text-end">
                 <div class="d-flex align-items-center gap-3">
-
-                  <!-- <i class="fa-regular fa-pen-to-square ct_green_text" (click)="patchMember(item)" data-bs-toggle="modal"
-                    data-bs-target="#edit-family-parent" style="cursor: pointer"></i> -->
-
                   <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal" data-bs-target="#view-pet"
                     (click)="getMemberAlbum(item)" style="cursor: pointer"></i>
-
                 </div>
-
               </td>
             </tr>
           </tbody>
@@ -128,47 +110,18 @@
       <div *ngIf="data?.length == 0" class="text-center">
         <p class="ct_fs_15 mt-5">No members found</p>
       </div>
-
-      <!-- Pagination Controls -->
-      <!-- <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="data">
-      
-        <div class="pagination-controls">
-          <button (click)="previousPage()" class="ct_previous" [disabled]="currentPage == 1">Previous</button>
-
-          
-          <button *ngIf="currentPage > 3" (click)="goToPage(1)" [class.active]="currentPage == 1">1</button>
-          
-          <button *ngFor="let page of getPaginationRange()" [class.active]="page === currentPage"
-            (click)="goToPage(page)">
-            {{ page }}
-          </button>
-
-       
-          <button *ngIf="hasMoreData && currentPage + 2 < totalPages" disabled>...</button>
-
-          <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
-        </div>
-      </div> -->
-
       <!-- Pagination Controls -->
       <div class="d-flex justify-content-between align-items-center mt-3">
-
         <div class="pagination-controls">
           <button (click)="previousPage()" class="ct_previous" [disabled]="currentPage === 1">Previous</button>
           <button>
             {{ currentPage }}
           </button>
           @if(totalPages != currentPage){
-            <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+          <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
           }
-          
         </div>
-
       </div>
-
-
-
-
     </div>
   </div>
 </div>
@@ -208,17 +161,6 @@
                   <label for="" class="mb-2">Full Name <span class="ct_required_star">*</span></label>
                   <input type="text" class="form-control" value="Zaire Siphron" formControlName="name"
                     placeholder="Name" />
-                  <!-- <div *ngIf="editParentForm.controls['name'].invalid && editParentForm.controls['name'].touched"
-                                        class="error-message">
-                                        <div *ngIf="editParentForm.controls['name'].errors?.['required']"
-                                            class="ct_fs_14">
-                                            Name
-                                            is
-                                            required.
-                                        </div>
-                                    </div> -->
-
-
                   <div *ngIf="editParentForm.controls['name'].invalid && editParentForm.controls['name'].touched"
                     class="error-message">
                     <div *ngIf="editParentForm.controls['name'].errors?.['required']" class="ct_fs_14">
@@ -228,7 +170,6 @@
                       Name must contain at least two words.
                     </div>
                   </div>
-
                 </div>
               </div>
               <div class="col-md-6">
@@ -266,7 +207,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="col-md-6">
                 <div class="form-group mb-3">
                   <label for="" class="mb-2">Date of Birth <span class="ct_required_star">*</span></label>
@@ -282,8 +222,6 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </form>
 

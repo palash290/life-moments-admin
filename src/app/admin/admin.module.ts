@@ -42,7 +42,8 @@ import { QuestionsComponent } from './interview/questions/questions.component';
 import { MemberInterviewComponent } from './member-profiles/member-interview/member-interview.component';
 import { MemberQuestionComponent } from './member-profiles/member-question/member-question.component';
 import { ManageSubscriptionComponent } from './manage-subscription/manage-subscription.component';
-
+import { NotificationsComponent } from './notifications/notifications.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { ManageSubscriptionComponent } from './manage-subscription/manage-subscr
     QuestionsComponent,
     MemberInterviewComponent,
     MemberQuestionComponent,
-    ManageSubscriptionComponent
+    ManageSubscriptionComponent,
+    NotificationsComponent
 
   ],
   imports: [
@@ -92,7 +94,7 @@ import { ManageSubscriptionComponent } from './manage-subscription/manage-subscr
     FormsModule,
     ReactiveFormsModule,
     NgxEditorModule,
-    
+    CKEditorModule
   ]
 })
 export class AdminModule { }

@@ -31,7 +31,7 @@ export class MyProfileComponent {
     this.profileForm = new FormGroup({
       name: new FormControl('', Validators.required),
       phone: new FormControl('',  [Validators.required, Validators.pattern(this.pattern1)]),
-      email: new FormControl({value: this.userEmail, disabled: true}),
+      email: new FormControl({value: this.userEmail, disabled: true})
     });
   }
 
@@ -45,7 +45,7 @@ export class MyProfileComponent {
         this.profileForm.patchValue({
           name: this.name,
           phone: this.phone,
-          email: this.userEmail,
+          email: this.userEmail
         });
 
       },
@@ -56,10 +56,6 @@ export class MyProfileComponent {
   }
 
   onSubmit() {
-    // if (this.profileForm.valid) {
-    //   this.toastr.warning('Please check all the fields!');
-    //   return;
-    // }
     this.profileForm.markAllAsTouched();
     
     if (this.profileForm.valid) {

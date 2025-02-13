@@ -27,20 +27,12 @@ export class FeedbackComponent {
 
   getUsers(filter?: any) {
     const id = filter ? filter : '';
-    //this.loading = true;
     this.service.getApi(`sub-admin/get-allfeedback?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}&filter=${id}`).subscribe({
       next: resp => {
-        //this.loading = false;
         this.data = resp.data;
-        //this.totalPages = resp.pagination.totalPages;
-        // this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
-        //   item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
-        //   return item;
-        // });
         this.hasMoreData = resp.data.length === this.pageSize;
       },
       error: error => {
-        //this.loading = false;
         console.log(error.message);
       }
     });
@@ -49,7 +41,6 @@ export class FeedbackComponent {
   currentFilter: any;
 
   onStatusChange(event: any): void {
-    //debugger
     const selectedId = event.target.value;
     this.currentPage = 1;
     this.currentFilter = selectedId;
@@ -120,66 +111,70 @@ export class FeedbackComponent {
     this.isLanguageChange = true;
   }
 
-  reset(){
+  reset() {
     this.changeLangResp = '';
     this.feedback_response = '';
     this.isLanguageChange = true;
   }
 
   getFullStars(rating: number): number {
-    return Math.floor(rating); // Get the integer part for full stars
+    return Math.floor(rating);
   }
 
   hasHalfStar(rating: number): boolean {
-    return rating % 1 !== 0; // Check if there's a half star
+    return rating % 1 !== 0;
   }
 
   getEmptyStars(rating: number): number {
-    return 5 - Math.ceil(rating); // Calculate remaining empty stars
+    return 5 - Math.ceil(rating);
   }
 
   btnLoader: boolean = false;
   @ViewChild('closeModal') closeModal!: ElementRef;
   message: any;
+  isDisabled:boolean = false
 
   addSendMsg(det: any) {
-    // console.log(det);
-    // return
-    
     const currPassword = this.message.trim();
 
     if (!currPassword) {
       //this.toastr.warning('Passwords cannot be empty or just spaces.');
-      return; // Prevent submission if passwords are empty or only spaces
+      return;
     }
     if (!this.message) {
       this.toastr.success('resp.message');
       return
     }
     this.btnLoader = true;
+    this.isDisabled = true
     const formURlData = new URLSearchParams();
-    formURlData.set('id', det.id);
-    formURlData.set('email', det.email);
+    formURlData.set('user_id', this.ticketId);
+    //formURlData.set('email', det.email);
     formURlData.set('message', this.message);
-    formURlData.set('feedback', det.feedback);
-    formURlData.set('language_code', det.language_code);
+    formURlData.set('admin_id', '1');
+    formURlData.set('sender_id', '1');
+    //formURlData.set('feedback', det.feedback);
+    //formURlData.set('language_code', det.language_code);
 
     this.service.postAPI('sub-admin/send-feedbackresponse', formURlData.toString()).subscribe({
       next: (resp) => {
         if (resp.success == true) {
           this.toastr.success(resp.message);
           this.btnLoader = false;
+          this.isDisabled = false
           this.closeModal.nativeElement.click();
-          this.getUsers();
+          this.getMessages(this.ticketId)
           this.message = '';
         } else {
           this.toastr.warning(resp.message);
           this.btnLoader = false;
-          this.getUsers();
+          this.isDisabled = false
+          this.getMessages(this.ticketId)
         }
       },
       error: (error) => {
         this.btnLoader = false;
+        this.isDisabled = false
         if (error.error.message) {
           this.toastr.error(error.error.message);
         } else {
@@ -190,24 +185,73 @@ export class FeedbackComponent {
 
   }
 
+//   addSendMsg(det: any) {
+// //debugger
+
+//     const currPassword = this.message.trim();
+
+//     if (!currPassword) {
+//       //this.toastr.warning('Passwords cannot be empty or just spaces.');
+//       return;
+//     }
+//     if (!this.message) {
+//       this.toastr.success('resp.message');
+//       return
+//     }
+//     this.btnLoader = true;
+//     // Find the last message where sender_id !== 1
+//     const lastUserMessage = det
+//       .slice()
+//       .find((msg: any) => msg.sender_id !== 1);
+
+//     const lastUserMessageId = lastUserMessage ? lastUserMessage.id : null;
+
+//     const formURlData = new URLSearchParams();
+//     formURlData.set('user_id', lastUserMessageId);
+
+//     this.service.postAPI('sub-admin/send-feedbackresponse', formURlData.toString()).subscribe({
+//       next: (resp) => {
+//         if (resp.success == true) {
+//           this.toastr.success(resp.message);
+//           this.btnLoader = false;
+//           this.closeModal.nativeElement.click();
+//           this.getUsers();
+//           this.message = '';
+//         } else {
+//           this.toastr.warning(resp.message);
+//           this.btnLoader = false;
+//           this.getUsers();
+//         }
+//       },
+//       error: (error) => {
+//         this.btnLoader = false;
+//         if (error.error.message) {
+//           this.toastr.error(error.error.message);
+//         } else {
+//           this.toastr.error('Something went wrong!');
+//         }
+//       }
+//     });
+
+//   }
+
   changeLangResp: any;
   feedback_response: any;
   isLanguageChange: boolean = true;
 
-  changeLang(feedbackDetails: any) {
-    // console.log(feedbackDetails);
-    // return
-    //debugger
+  changeLang() {
+
     this.loading = true;
     const formURlData = new URLSearchParams();
-    formURlData.set('feedback', feedbackDetails.feedback);
-    formURlData.set('feedback_response', feedbackDetails.feedback_response);
-    //return
+    // formURlData.set('feedback', feedbackDetails.feedback);
+    formURlData.set('user_id', this.ticketId);
+    // formURlData.set('feedback_response', feedbackDetails.feedback_response);
     this.service.postAPI(`sub-admin/translate-feedbackbyid`, formURlData.toString()).subscribe({
       next: resp => {
         this.loading = false;
-        this.changeLangResp = resp.data.feedback;
-        this.feedback_response = resp.data.feedback_response;
+        //debugger
+        //this.changeLangResp = resp.data.message;
+        this.feedback_response = resp.data;
         this.isLanguageChange = false;
       },
       error: error => {
@@ -218,7 +262,6 @@ export class FeedbackComponent {
   }
 
   convertDateFormat(dateString: string): string {
-    // debugger
     const parts = dateString?.split('-');
     if (parts?.length !== 3) {
       return '';
@@ -227,6 +270,35 @@ export class FeedbackComponent {
     const month = parts[1];
     const year = parts[2];
     return `${day}/${month}/${year}`;
+  }
+
+
+  allMessages: any;
+  ticketId: any;
+
+  openDialog(id: any) {
+    //this.getMessages(id)
+    setTimeout(() => this.getMessages(id), 500);
+  }
+
+  getMessages(id: any) {
+    this.loading = true;
+    this.ticketId = id;
+
+    const formURlData = new URLSearchParams();
+    formURlData.set('user_id', id);
+
+    this.service.postAPI(`sub-admin/get-feedbackbyuserid`, formURlData.toString()).subscribe({
+      next: (response) => {
+        this.allMessages = response.data;
+        this.loading = false;
+        this.getUsers();
+      },
+      error: (error) => {
+        this.loading = false;
+        console.log(error);
+      }
+    })
   }
 
 
