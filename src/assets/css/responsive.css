@@ -240,6 +240,12 @@
     .ct_fs_24 {
         font-size: 20px;
     }
+    .ct_flex_colum_767_res{
+        flex-direction: column;
+    }
+    .ct_res_w_100_1{
+        width: 100%;
+    }
 }
 
 @media screen and (max-width:575px) {

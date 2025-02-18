@@ -31,9 +31,9 @@ export class PetListComponent {
   }
 
   goBack() {
-    this.route.navigateByUrl(`/admin/main/family-member/${this.itemId}/${this.itemEmail}`);
+    this.route.navigateByUrl(`/admin/main/family-member/${this.itemId}/${this.familyId}`);
     localStorage.removeItem('itemId')
-    localStorage.removeItem('itemEmail')
+    localStorage.removeItem('parentFamilyId')
   }
 
   maxDate: any;
@@ -47,7 +47,7 @@ export class PetListComponent {
   }
 
   itemId: any;
-  itemEmail: any;
+  familyId: any;
   parentName: any;
 
   ngOnInit() {
@@ -62,7 +62,7 @@ export class PetListComponent {
     this.setMaxDate();
 
     this.itemId = localStorage.getItem('itemId')
-    this.itemEmail = localStorage.getItem('itemEmail')
+    this.familyId = localStorage.getItem('parentFamilyId')
     this.parentName = localStorage.getItem('parentName')
   }
 

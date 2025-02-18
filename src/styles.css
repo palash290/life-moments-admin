@@ -203,3 +203,85 @@ button.btn-close.ct_close {
     border: 0px;
     border-radius: 5px;
 }
+
+.NgxEditor__Content {
+    display: flex !important;
+    flex-wrap: wrap;
+}
+
+/* .ct_table_padd_0.table>:not(caption)>*>*{
+    padding: 0px;
+} */
+.ct_checkbox_custom_1 .form-check-input:checked {
+    background-color: var(--dark_green);
+    border-color: var(--dark_green);
+}
+.ct_checkbox_custom_1 .form-check-input:focus{
+    box-shadow: unset;
+}
+
+.ct_checkbox_custom_1 .form-check-input{
+margin-left: 0px;
+}
+
+.ct_checkbox_custom_1{
+    padding-left: 0px;
+}
+
+.ct_all_table_list_parent tr td{
+    vertical-align: middle;
+    
+}
+
+.ct_all_table_list_parent {
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.09);
+  
+    margin-bottom: 24px;
+}
+
+.ct_all_table_list_scrolll{
+    height: auto;
+    overflow-y: auto;
+    max-height: 531px;
+}
+
+/* width */
+.ct_all_table_list_scrolll::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  /* Track */
+  .ct_all_table_list_scrolll::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  .ct_all_table_list_scrolll::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  .ct_all_table_list_scrolll::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
+  .modal-body.ct_modal_scroll_h_300 {
+    height: 300px;
+    overflow-y: AUTO;
+}
+
+p.ct_emoji_icon_position{
+    position: absolute;
+    right: 10px;
+    bottom:15px;
+    z-index: 9;
+    margin-bottom: 0px;
+} 
+.NgxEditor__Content p{
+    word-break: break-word;
+    width: 95%;
+}

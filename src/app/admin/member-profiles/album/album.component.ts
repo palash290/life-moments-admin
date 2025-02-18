@@ -25,14 +25,14 @@ export class AlbumComponent {
   // }
 
   goBack() {
-    this.route.navigateByUrl(`/admin/main/family-member/${this.itemId}/${this.itemEmail}`);
+    this.route.navigateByUrl(`/admin/main/family-member/${this.itemId}/${this.familyId}`);
     localStorage.removeItem('itemId')
-    localStorage.removeItem('itemEmail')
+    localStorage.removeItem('parentFamilyId')
     localStorage.removeItem('parentName');
   }
 
   itemId: any;
-  itemEmail: any;
+  familyId: any;
   parentName: any;
 
   ngOnInit() {
@@ -45,7 +45,7 @@ export class AlbumComponent {
     this.getUsers();
 
     this.itemId = localStorage.getItem('itemId')
-    this.itemEmail = localStorage.getItem('itemEmail')
+    this.familyId = localStorage.getItem('parentFamilyId')
     this.parentName = localStorage.getItem('parentName')
   }
 

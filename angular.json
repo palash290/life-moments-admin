@@ -36,11 +36,12 @@
             ],
             "styles": [
               "node_modules/select2/dist/css/select2.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/@ctrl/ngx-emoji-mart/picker.css"
             ],
             "scripts": [
-                "node_modules/jquery/dist/jquery.min.js",
-  "node_modules/select2/dist/js/select2.min.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/select2/dist/js/select2.min.js"
             ]
           },
           "configurations": {
@@ -53,8 +54,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kb",
+                  "maximumError": "8kb"
                 }
               ],
               "outputHashing": "all"

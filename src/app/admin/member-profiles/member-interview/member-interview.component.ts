@@ -15,15 +15,15 @@ export class MemberInterviewComponent {
   loading: boolean = false;
 
   itemId: any;
-  itemEmail: any;
+  familyId: any;
   name: any;
 
   constructor(private service: SharedService, private route: Router, private rout: ActivatedRoute) { }
 
   goBack(){
-    this.route.navigateByUrl(`/admin/main/family-member/${this.itemId}/${this.itemEmail}`);
+    this.route.navigateByUrl(`/admin/main/family-member/${this.itemId}/${this.familyId}`);
     localStorage.removeItem('itemId')
-    localStorage.removeItem('itemEmail')
+    localStorage.removeItem('parentFamilyId')
   }
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class MemberInterviewComponent {
 
     this.getQuestions();
     this.itemId = localStorage.getItem('itemId')
-    this.itemEmail = localStorage.getItem('itemEmail')
+    this.familyId = localStorage.getItem('parentFamilyId')
   }
 
   getQuestions() {

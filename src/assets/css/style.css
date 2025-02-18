@@ -1135,6 +1135,13 @@ footer {
     padding-bottom: 12px;
 }
 
+.ct_img_150{
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
 @media screen and (max-width:575px) {
     .ct_grid_h5 {
         grid-template-columns: repeat(2, 1fr);

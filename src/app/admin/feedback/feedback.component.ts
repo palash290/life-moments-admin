@@ -132,7 +132,7 @@ export class FeedbackComponent {
   btnLoader: boolean = false;
   @ViewChild('closeModal') closeModal!: ElementRef;
   message: any;
-  isDisabled:boolean = false
+  isDisabled: boolean = false
 
   addSendMsg(det: any) {
     const currPassword = this.message.trim();
@@ -141,11 +141,13 @@ export class FeedbackComponent {
       //this.toastr.warning('Passwords cannot be empty or just spaces.');
       return;
     }
+
     if (!this.message) {
       this.toastr.success('resp.message');
       return
     }
-    this.btnLoader = true;
+
+    this.loading = true;
     this.isDisabled = true
     const formURlData = new URLSearchParams();
     formURlData.set('user_id', this.ticketId);
@@ -160,21 +162,21 @@ export class FeedbackComponent {
       next: (resp) => {
         if (resp.success == true) {
           this.toastr.success(resp.message);
-          this.btnLoader = false;
-          this.isDisabled = false
+          this.loading = false;
+          this.isDisabled = false;
           this.closeModal.nativeElement.click();
-          this.getMessages(this.ticketId)
+          this.getMessages(this.ticketId);
           this.message = '';
         } else {
           this.toastr.warning(resp.message);
-          this.btnLoader = false;
-          this.isDisabled = false
-          this.getMessages(this.ticketId)
+          this.loading = false;
+          this.isDisabled = false;
+          this.getMessages(this.ticketId);
         }
       },
       error: (error) => {
-        this.btnLoader = false;
-        this.isDisabled = false
+        this.loading = false;
+        this.isDisabled = false;
         if (error.error.message) {
           this.toastr.error(error.error.message);
         } else {
@@ -182,65 +184,63 @@ export class FeedbackComponent {
         }
       }
     });
-
   }
 
-//   addSendMsg(det: any) {
-// //debugger
+  //   addSendMsg(det: any) {
+  // //debugger
 
-//     const currPassword = this.message.trim();
+  //     const currPassword = this.message.trim();
 
-//     if (!currPassword) {
-//       //this.toastr.warning('Passwords cannot be empty or just spaces.');
-//       return;
-//     }
-//     if (!this.message) {
-//       this.toastr.success('resp.message');
-//       return
-//     }
-//     this.btnLoader = true;
-//     // Find the last message where sender_id !== 1
-//     const lastUserMessage = det
-//       .slice()
-//       .find((msg: any) => msg.sender_id !== 1);
+  //     if (!currPassword) {
+  //       //this.toastr.warning('Passwords cannot be empty or just spaces.');
+  //       return;
+  //     }
+  //     if (!this.message) {
+  //       this.toastr.success('resp.message');
+  //       return
+  //     }
+  //     this.btnLoader = true;
+  //     // Find the last message where sender_id !== 1
+  //     const lastUserMessage = det
+  //       .slice()
+  //       .find((msg: any) => msg.sender_id !== 1);
 
-//     const lastUserMessageId = lastUserMessage ? lastUserMessage.id : null;
+  //     const lastUserMessageId = lastUserMessage ? lastUserMessage.id : null;
 
-//     const formURlData = new URLSearchParams();
-//     formURlData.set('user_id', lastUserMessageId);
+  //     const formURlData = new URLSearchParams();
+  //     formURlData.set('user_id', lastUserMessageId);
 
-//     this.service.postAPI('sub-admin/send-feedbackresponse', formURlData.toString()).subscribe({
-//       next: (resp) => {
-//         if (resp.success == true) {
-//           this.toastr.success(resp.message);
-//           this.btnLoader = false;
-//           this.closeModal.nativeElement.click();
-//           this.getUsers();
-//           this.message = '';
-//         } else {
-//           this.toastr.warning(resp.message);
-//           this.btnLoader = false;
-//           this.getUsers();
-//         }
-//       },
-//       error: (error) => {
-//         this.btnLoader = false;
-//         if (error.error.message) {
-//           this.toastr.error(error.error.message);
-//         } else {
-//           this.toastr.error('Something went wrong!');
-//         }
-//       }
-//     });
+  //     this.service.postAPI('sub-admin/send-feedbackresponse', formURlData.toString()).subscribe({
+  //       next: (resp) => {
+  //         if (resp.success == true) {
+  //           this.toastr.success(resp.message);
+  //           this.btnLoader = false;
+  //           this.closeModal.nativeElement.click();
+  //           this.getUsers();
+  //           this.message = '';
+  //         } else {
+  //           this.toastr.warning(resp.message);
+  //           this.btnLoader = false;
+  //           this.getUsers();
+  //         }
+  //       },
+  //       error: (error) => {
+  //         this.btnLoader = false;
+  //         if (error.error.message) {
+  //           this.toastr.error(error.error.message);
+  //         } else {
+  //           this.toastr.error('Something went wrong!');
+  //         }
+  //       }
+  //     });
 
-//   }
+  //   }
 
   changeLangResp: any;
   feedback_response: any;
   isLanguageChange: boolean = true;
 
   changeLang() {
-
     this.loading = true;
     const formURlData = new URLSearchParams();
     // formURlData.set('feedback', feedbackDetails.feedback);
@@ -282,7 +282,7 @@ export class FeedbackComponent {
   }
 
   getMessages(id: any) {
-    this.loading = true;
+    //this.loading = true;
     this.ticketId = id;
 
     const formURlData = new URLSearchParams();
@@ -291,11 +291,11 @@ export class FeedbackComponent {
     this.service.postAPI(`sub-admin/get-feedbackbyuserid`, formURlData.toString()).subscribe({
       next: (response) => {
         this.allMessages = response.data;
-        this.loading = false;
+        //this.loading = false;
         this.getUsers();
       },
       error: (error) => {
-        this.loading = false;
+        //this.loading = false;
         console.log(error);
       }
     })

@@ -44,6 +44,8 @@ import { MemberQuestionComponent } from './member-profiles/member-question/membe
 import { ManageSubscriptionComponent } from './manage-subscription/manage-subscription.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { TreeFamilyComponent } from './member-profiles/tree-family/tree-family.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @NgModule({
   declarations: [
@@ -85,7 +87,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     MemberInterviewComponent,
     MemberQuestionComponent,
     ManageSubscriptionComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    TreeFamilyComponent
 
   ],
   imports: [
@@ -94,7 +97,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     FormsModule,
     ReactiveFormsModule,
     NgxEditorModule,
-    CKEditorModule
+    CKEditorModule,
+    PickerModule
   ]
 })
 export class AdminModule { }

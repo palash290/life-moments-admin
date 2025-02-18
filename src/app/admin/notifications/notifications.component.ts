@@ -12,34 +12,156 @@ declare const $: any; // To use jQuery
 })
 export class NotificationsComponent {
 
-  selectedMembers: number[] = [];
+  // selectedMembers: number[] = [];
   selectedMembersId: any;
   selectedOption: string = 'Individual';
   selectedNotification: string = 'app';
   about_us: any = '';
   editor1!: Editor;
   loading: boolean = false;
+  loading12: boolean = false;
   selectedPlanId: any = '';
   selectedPetId: any = '';
+
+  filter = {
+    date_of_birth: '',
+    search: '',
+    is_alive: '',
+    ageGroup: ''
+  };
 
   constructor(private service: SharedService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.editor1 = new Editor();
     this.onOptionChange()
-    this.service.getApi('sub-admin/get-users').subscribe(response => {
-      if (response.success) {
-        this.members = response.data;
-        if (this.members.length > 0) {
-          this.memberId = this.members[0].id;
+    this.getMembers();
+    // const formURlData = new URLSearchParams();
+    // formURlData.set('date_of_birth', '');
+    // formURlData.set('search', '');
+    // formURlData.set('is_alive', '');
+
+    // this.service.postAPI('sub-admin/get-users-for-notification', formURlData).subscribe(response => {
+    //   if (response.success) {
+    //     this.members = response.data;
+    //     if (this.members.length > 0) {
+    //       this.memberId = this.members[0].id;
+    //     }
+    //   }
+    // });
+  }
+
+  onAgeGroupChange() {
+    if (this.filter.ageGroup !== '') {
+      this.filter.date_of_birth = ''; // Clear date if age filter is selected
+    }
+    this.onFilterChange(); // Trigger API call
+  }
+
+  getMembers() {
+    const formURlData = new URLSearchParams();
+
+    if (this.filter.ageGroup && this.filter.ageGroup !== '') {
+      formURlData.set('date_of_birth', this.filter.ageGroup);
+    } else if (this.filter.date_of_birth) {
+      formURlData.set('date_of_birth', this.filter.date_of_birth);
+    }
+
+    formURlData.set('search', this.filter.search);
+
+    if (this.filter.is_alive) {
+      formURlData.set('is_alive', this.filter.is_alive);
+    }
+    if (!this.isSearchLoad) {
+      this.loading12 = true;
+    }
+
+    this.service.postAPI('sub-admin/get-users-for-notification', formURlData).subscribe({
+      next: (resp) => {
+        this.loading12 = false;
+        if (resp.success) {
+          this.members = resp.data;
+        } else {
+          this.members = [];
+          //this.toastr.warning(resp.message);
         }
+      },
+      error: (error) => {
+        this.loading12 = false;
+        this.members = [];
+        // if (error.error.message) {
+        //   this.toastr.error(error.error.message);
+        // } else {
+        //   this.toastr.error('Something went wrong!');
+        // }
       }
     });
   }
 
-  // name = 'Angular';
-  // editor = ClassicEditor;
-  // data: any = `<p>Hello, world!</p>`;
+
+  limit: number = 10;
+  offset: number = 1;
+  hasMoreData: boolean = true;
+
+  // getMembers() {
+  //   if (!this.hasMoreData) return;
+
+  //   const formURlData = new URLSearchParams();
+
+  //   if (this.filter.ageGroup && this.filter.ageGroup !== '') {
+  //     formURlData.set('date_of_birth', this.filter.ageGroup);
+  //   } else if (this.filter.date_of_birth) {
+  //     formURlData.set('date_of_birth', this.filter.date_of_birth);
+  //   }
+
+  //   formURlData.set('search', this.filter.search || '');
+
+  //   if (this.filter.is_alive) {
+  //     formURlData.set('is_alive', this.filter.is_alive);
+  //   }
+
+  //   formURlData.set('limit', this.limit.toString());
+  //   formURlData.set('offset', this.offset.toString());
+
+  //   if (!this.isSearchLoad) {
+  //     //this.loading12 = true;
+  //   }
+
+  //   this.service.postAPI('sub-admin/get-users-for-notification', formURlData).subscribe({
+  //     next: (resp) => {
+  //       this.loading12 = false;
+  //       if (resp.success && resp.data.length > 0) {
+  //         this.members = [...this.members, ...resp.data];
+  //         this.offset += this.limit;
+  //       } else {
+  //         this.hasMoreData = false;
+  //       }
+  //     },
+  //     error: (error) => {
+  //       this.loading12 = false;
+  //       this.hasMoreData = false;
+  //     }
+  //   });
+  // }
+
+  // onScroll() {
+  //   if (this.hasMoreData) {
+  //     this.getMembers();
+  //   }
+  // }
+
+
+
+
+
+  isSearchLoad: boolean = false;
+
+  onFilterChange() {
+    this.selectedMembers = [];
+    this.selectAll = false;
+    this.isSearchLoad = true;
+    this.getMembers();
+  }
 
   toolbar1: Toolbar = [
     // default value
@@ -58,35 +180,8 @@ export class NotificationsComponent {
     ['undo', 'redo'],
   ];
 
-
-  members: any;
+  members: any[] = [];
   memberId: any;
-
-
-  // ngAfterViewChecked(): void {
-  //   // Reinitialize Select2 when "Individual" dropdown is shown
-  //   if (this.selectedOption === 'Individual' && !this.isSelect2Initialized) {
-  //     setTimeout(() => {
-  //       $('#membersSelect')
-  //         .select2({
-  //           placeholder: 'Select members',
-  //           allowClear: true,
-  //         })
-  //         .on('change', (event: any) => {
-  //           this.selectedMembers = $(event.target).val();
-  //           const selectedIdsAsNumbers = this.selectedMembers.map((id: any) => parseInt(id, 10));
-  //           console.log(selectedIdsAsNumbers);
-  //         });
-  //       this.isSelect2Initialized = true; // Mark Select2 as initialized
-  //     });
-  //   } else if (this.selectedOption !== 'Individual') {
-  //     // Destroy Select2 when hiding "Individual" dropdown
-  //     if (this.isSelect2Initialized) {
-  //       $('#membersSelect').select2('destroy');
-  //       this.isSelect2Initialized = false;
-  //     }
-  //   }
-  // }
 
   onOptionChange(): void {
     // Reset Select2 if switching to Individual
@@ -141,7 +236,13 @@ export class NotificationsComponent {
     }
 
     // Additional validations based on the selected option
-    if (this.selectedOption === 'Individual' && (!this.selectedMembersId || this.selectedMembersId.length === 0)) {
+    // if (this.selectedOption === 'Individual' && (!this.selectedMembersId || this.selectedMembersId.length === 0)) {
+    //   this.toastr.error('Please select at least one member for Individual notifications.');
+    //   return;
+    // }
+
+    // Additional validations based on the selected option
+    if (this.selectedOption === 'Individual' && (this.selectedMembers.length === 0)) {
       this.toastr.error('Please select at least one member for Individual notifications.');
       return;
     }
@@ -152,6 +253,7 @@ export class NotificationsComponent {
     // }
 
     this.loading = true;
+
 
     const formURlData = new FormData();
     if (this.parentImage1) {
@@ -173,10 +275,24 @@ export class NotificationsComponent {
       formURlData.set('plan_id', this.selectedPlanId);
     }
 
+    // if (this.selectedOption === 'Individual') {
+    //   const selectedMembersArray = this.selectedMembersId.map((id: string) => parseInt(id, 10));
+    //   formURlData.set('user_id', selectedMembersArray);
+    // }
+    // if (this.selectedOption === 'Individual') {
+    //   // If 'Select All' is checked, send all member IDs
+    //   const selectedMembersArray = this.selectAll ? this.members.map((member: any) => member.id) : this.selectedMembers;
+    //   formURlData.set('user_id', selectedMembersArray);
+    // }
     if (this.selectedOption === 'Individual') {
-      const selectedMembersArray = this.selectedMembersId.map((id: string) => parseInt(id, 10));
-      formURlData.set('user_id', selectedMembersArray);
+      // If 'Select All' is checked, send all member IDs
+      const selectedMembersArray = this.selectAll
+        ? [...new Set(this.members.map((member: any) => member.user_id))]  // Remove duplicates
+        : [...new Set(this.selectedMembers)];  // Remove duplicates from individual selection
+
+      formURlData.set('user_id', selectedMembersArray.join(','));
     }
+
 
     this.service.postAPIFormData('sub-admin/send-notification', formURlData).subscribe({
       next: (resp) => {
@@ -368,6 +484,72 @@ export class NotificationsComponent {
       };
       reader.readAsDataURL(file);
     }
+  }
+
+
+  showEmojiPicker = false;
+  sets = [
+    'native',
+    'google',
+    'twitter',
+    'facebook',
+    'emojione',
+    'apple',
+    'messenger'
+  ]
+  set: any = 'twitter';
+
+  toggleEmojiPicker() {
+    console.log(this.showEmojiPicker);
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    if (!this.editor1 || !this.editor1.view) return;
+
+    const { view } = this.editor1;
+    const { state, dispatch } = view;
+    const { selection } = state;
+    const emoji = event.emoji.native;
+
+    // Insert emoji at the cursor position
+    dispatch(state.tr.insertText(emoji, selection.from, selection.to));
+
+    // Keep the focus on the editor
+    setTimeout(() => {
+      view.focus();
+    }, 0);
+  }
+
+
+  selectedMembers: number[] = [];
+  selectAll: boolean = false;
+
+  toggleSelection(memberId: number, event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+
+    if (isChecked) {
+      this.selectedMembers.push(memberId);
+    } else {
+      this.selectedMembers = this.selectedMembers.filter(user_id => user_id !== memberId);
+    }
+
+    this.updateSelectAllStatus();
+  }
+
+  toggleSelectAll(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+
+    this.selectAll = isChecked;
+    this.selectedMembers = isChecked ? this.members.map((member: { user_id: any; }) => member.user_id) : [];
+  }
+
+  updateSelectAllStatus() {
+    this.selectAll = this.selectedMembers.length === this.members.length;
+  }
+
+  logSelectedMembers() {
+    console.log("Selected Member IDs:", this.selectedMembers);
   }
 
 

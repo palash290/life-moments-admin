@@ -1,0 +1,14 @@
+.ct_img_20 {
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+}
+.ct_border_22 {
+    border: 1px solid var(--dark_green);
+}
+
+.ct_pet_overlay_icon{
+    position: absolute;
+    top: 0px;
+    left: -5px;
+}

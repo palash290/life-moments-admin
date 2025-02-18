@@ -23,19 +23,19 @@ export class TimelineComponent {
     this.location.back();
   }
 
-  goBack(){
-    this.route.navigateByUrl(`/admin/main/family-member/${this.itemId}/${this.itemEmail}`);
+  goBack() {
+    this.route.navigateByUrl(`/admin/main/family-member/${this.itemId}/${this.familyId}`);
     localStorage.removeItem('itemId');
-    localStorage.removeItem('itemEmail');
+    localStorage.removeItem('parentFamilyId');
     localStorage.removeItem('parentName');
   }
 
   sanitizeUrl(url: any): SafeUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
-  
+
   itemId: any;
-  itemEmail: any;
+  familyId: any;
   parentName: any;
 
   ngOnInit() {
@@ -47,12 +47,12 @@ export class TimelineComponent {
     this.getYear();
 
     this.itemId = localStorage.getItem('itemId')
-    this.itemEmail = localStorage.getItem('itemEmail')
+    this.familyId = localStorage.getItem('parentFamilyId')
     this.parentName = localStorage.getItem('parentName')
   }
 
   // ngOnDestroy() {
-    
+
   // }
 
   getYear() {
@@ -314,7 +314,7 @@ export class TimelineComponent {
     ];
     return months[month - 1]; // Subtract 1 since array is 0-based
   }
-  
+
 
 
 }

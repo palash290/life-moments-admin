@@ -1,5 +1,5 @@
 <div class="ct_dashbaord_middle">
-  <h4 class="ct_fs_22 mb-0">Notification</h4>
+  <h4 class="ct_fs_22 mb-0">Notifications</h4>
   <div class="row mt-5">
     <div class="col-md-12 mx-auto">
       <div class="ct_white_bg_1 py-4">
@@ -33,27 +33,27 @@
             <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio11"
               value="Individual" [(ngModel)]="selectedOption" [ngModelOptions]="{ standalone: true }"
               (change)="onOptionChange()" />
-            <label class="form-check-label" for="inlineRadio11">Individual</label>
+            <label class="form-check-label ct_fw_600" for="inlineRadio11">Individual</label>
           </div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio22" value="Group"
               [(ngModel)]="selectedOption" [ngModelOptions]="{ standalone: true }" (change)="onOptionChange()" />
-            <label class="form-check-label" for="inlineRadio22">Group</label>
+            <label class="form-check-label ct_fw_600" for="inlineRadio22">Group</label>
           </div>
 
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio33" value="Pets"
               [(ngModel)]="selectedOption" [ngModelOptions]="{ standalone: true }" (change)="onOptionChange()">
-            <label class="form-check-label" for="inlineRadio33">Users with Pets</label>
+            <label class="form-check-label ct_fw_600" for="inlineRadio33">Users with Pets</label>
           </div>
 
         </div>
         <form>
 
 
-          <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
-            <img [src]="parentImage1 ? parentImage1 : 'assets/img/demo.png'" alt="" class="ct_img_164 mx-auto d-block"
-              style="border: solid var(--dark_green);">
+          <div class="position-relative ct_w_fit_content mx-auto mb-3" *ngIf="selectedNotification != 'app'">
+            <img [src]="parentImage1 ? parentImage1 : 'assets/img/demo.png'" alt="" class="ct_img_150 mx-auto d-block"
+              style="border: solid var(--dark_green); object-fit: cover;">
 
             <label for="ct_edit_img1">
               <!-- <input accept="image/*" type="file" id="imgInp1" class="d-none" -->
@@ -75,31 +75,158 @@
               </div>
             </label>
           </div>
-
-          <div class="mb-4" *ngIf="selectedOption == 'Individual'">
+          <div class="mb-5">
+            <p class="text-center ct_fw_600" *ngIf="selectedNotification == 'both'">Images will be delivered exclusively
+              via
+              email.</p>
+          </div>
+          <!-- <div class="mb-4" *ngIf="selectedOption == 'Individual'">
             <label for="membersSelect" class="mb-2">All Members</label>
             <select id="membersSelect" class="form-control ct_input" multiple="multiple">
               <option *ngFor="let member of members" [value]="member.id">
                 {{ member.fullName }}
               </option>
             </select>
+          </div> -->
+
+          <div class="ct_all_table_list_parent position-relative" *ngIf="selectedOption == 'Individual'">
+
+            <div>
+              <div class="d-flex align-items-center gap-3 justify-content-end ct_flex_colum_767_res">
+
+                <div class="ct_category_filter123 ct_res_w_100_1 ct_575_100 d-flex align-items-center gap-2 ">
+                  <span class="ct_text_op_5  ct_fs_13" style="white-space: nowrap;">Is Alive :</span>
+                  <select class="form-control ct_res_w_100_1 py-2 h-auto ct_input" style="border-radius: 5px;"
+                    [(ngModel)]="filter.is_alive" (change)="onFilterChange()" [ngModelOptions]="{standalone: true}">
+                    <option selected value="">All</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                    <option value="3">Not yet born</option>
+                    <option value="4">Angel Baby</option>
+                  </select>
+                </div>
+
+                <div class="ct_category_filter123 ct_575_100 ct_res_w_100_1 d-flex align-items-center gap-2 ">
+                  <span class="ct_text_op_5  ct_fs_13" style="white-space: nowrap;">Select Age :</span>
+                  <select class="form-control py-2 h-auto ct_input ct_res_w_100_1" style="border-radius: 5px;"
+                    [(ngModel)]="filter.ageGroup" (change)="onAgeGroupChange()" [ngModelOptions]="{standalone: true}">
+                    <option value="">All</option>
+                    <option value="Below 18">Below 18</option>
+                    <option value="Above 18">Above 18</option>
+                  </select>
+                </div>
+
+                <div class="form-group ct_res_w_100_1">
+                  <input type="date" class="form-control py-2 h-auto ct_input" [(ngModel)]="filter.date_of_birth"
+                    (change)="onFilterChange()" [ngModelOptions]="{standalone: true}"
+                    [disabled]="filter.ageGroup !== ''">
+                </div>
+
+                <div class="d-flex align-items-center gap-3 ct_res_w_100_1">
+                  <div class="position-relative ct_search_input ct_res_w_100_1">
+                    <input type="text" class="form-control ct_res_w_100_1" style="padding-right: 35px;"
+                      placeholder="Search" [(ngModel)]="filter.search" (input)="onFilterChange()"
+                      [ngModelOptions]="{standalone: true}" />
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="table-responsive ct_all_table_list_scrolll">
+              <table class="table ct_project_table ct_table_padd_0">
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="form-check ct_checkbox_custom_1">
+                        <input class="form-check-input" style="margin-right: 5px;" type="checkbox"
+                          [(ngModel)]="selectAll" (change)="toggleSelectAll($event)"
+                          [ngModelOptions]="{standalone: true}" />
+                        All
+                      </div>
+                    </th>
+                    <th>User Name</th>
+                    <th>Member Name</th>
+                    <th>Email</th>
+                    <th>Is Alive</th>
+                    <th>DOB</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of members; let i = index">
+                    <td>
+                      <div class="form-check ct_checkbox_custom_1">
+                        <input class="form-check-input" type="checkbox"
+                          [checked]="selectedMembers.includes(item.user_id)"
+                          (change)="toggleSelection(item.user_id, $event)" />
+                      </div>
+                    </td>
+                    <td>
+                      <a style="cursor: pointer;">
+                        <div class="d-flex align-items-center gap-2">
+                          <!-- <div>
+                            <img class="ct_img_40 ct_border_22"
+                              src="http://192.168.29.44:4000/images/1733321565865.jfif">
+                          </div> -->
+                          <p class="mb-0 ct_fs_16 ct_green_text">{{item.fullName}}</p>
+                        </div>
+                      </a>
+                    </td>
+                    <td>{{item.member_name}}</td>
+                    <td>{{item.email}}</td>
+                    <td>
+                      <div *ngIf="item.is_alive == '1'">
+                        Yes
+                      </div>
+                      <div *ngIf="item.is_alive == '2'">
+                        No
+                      </div>
+                      <div *ngIf="item.is_alive == '3'">
+                        Not yet born
+                      </div>
+                      <div *ngIf="item.is_alive == '4'">
+                        Angel Baby
+                      </div>
+                    </td>
+                    <td>{{item.date_of_birth}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div *ngIf="members?.length == 0" class="text-center">
+              <p class="ct_fs_15 mt-5">No members found</p>
+            </div>
+
+            <div class="ct_loader_main12 " *ngIf="loading12">
+              <div class="loadingio-spinner-spinner-977el9wwy2v">
+                <div class="ldio-4j5ay0xf86g">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
-
-          <div class="form-group mb-4">
-            <label for="" class="mb-2">Subject</label>
-            <input type="text" class="form-control ct_input" [(ngModel)]="title" [ngModelOptions]="{ standalone: true }"
-              placeholder="Enter Title" maxlength="100">
-          </div>
 
 
           <!-- Static dropdown for "Group" -->
-          <div *ngIf="selectedOption === 'Group'" class="mt-3">
-            <label for="groupSelect">Select Group</label>
+          <div *ngIf="selectedOption === 'Group'" class="mt-3 mb-3">
+            <label for="groupSelect" class="mb-2 ct_fw_600">Select Group</label>
             <select id="groupSelect" class="form-control" [(ngModel)]="selectedPlanId"
               [ngModelOptions]="{standalone: true}">
               <option value="" selected disabled>--Select--</option>
-              <option value="1">Free</option>
+              <option value="1">Trial</option>
               <option value="2">Monthly</option>
               <option value="3">Yearly</option>
             </select>
@@ -107,15 +234,25 @@
 
 
           <!-- Static dropdown for "Group" -->
-          <div *ngIf="selectedOption === 'Pets'" class="mt-3">
-            <label for="groupSelect">Select Group</label>
+          <div *ngIf="selectedOption === 'Pets'" class="mt-3 mb-3">
+            <label for="groupSelect" class="mb-2 ct_fw_600">Select Group</label>
             <select id="groupSelect" class="form-control" [(ngModel)]="selectedPetId"
               [ngModelOptions]="{standalone: true}">
               <option value="" selected disabled>--Select--</option>
-              <option value="with_pet">Pet Exists</option>
-              <option value="without_pet">Without Pets</option>
+              <option value="with_pet">User with pets</option>
+              <option value="without_pet">User without pets</option>
             </select>
           </div>
+
+
+          <div class="form-group mb-4">
+            <label for="" class="mb-2 ct_fw_600">Subject</label>
+            <input type="text" class="form-control ct_input" [(ngModel)]="title" [ngModelOptions]="{ standalone: true }"
+              placeholder="Enter Subject" maxlength="100">
+          </div>
+
+
+
 
 
           <!-- <div class="form-group mb-4" *ngIf="selectedOption === 'Individual'">
@@ -125,11 +262,20 @@
           </div> -->
 
           <div class="form-group mb-3 mt-3">
-            <label class="mb-3" for="groupSelect">Message</label>
-            <ngx-editor-menu [editor]="editor1" [toolbar]="toolbar1"></ngx-editor-menu>
-            <ngx-editor [editor]="editor1" [(ngModel)]="about_us" [ngModelOptions]="{ standalone: true }"></ngx-editor>
+            <label class="mb-3 ct_fw_600" for="groupSelect">Message</label>
+            <div class="position-relative">
+              <p class="ct_emoji_icon_position" (click)="toggleEmojiPicker()"><i class="fa-regular fa-face-smile"></i>
+              </p>
+              <ngx-editor-menu [editor]="editor1" [toolbar]="toolbar1"></ngx-editor-menu>
+              <ngx-editor [editor]="editor1" [(ngModel)]="about_us"
+                [ngModelOptions]="{ standalone: true }"></ngx-editor>
+            </div>
 
             <!-- <ckeditor [editor]="editor" [data]="data"></ckeditor> -->
+
+
+            <emoji-mart class="emoji-mart" [set]="set" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
+              title="Pick your emoji…"></emoji-mart>
           </div>
 
           <button *ngIf="selectedOption == 'Individual'" (click)="onIndividualUpdate()" style="cursor: pointer;"
@@ -145,9 +291,9 @@
         </button>
 
         <button *ngIf="selectedOption === 'Pets'" (click)="onPetsUpdate()" style="cursor: pointer;"
-        class="ct_green_btn px-5 mt-3">
-        Send
-      </button>
+          class="ct_green_btn px-5 mt-3">
+          Send
+        </button>
 
       </div>
     </div>

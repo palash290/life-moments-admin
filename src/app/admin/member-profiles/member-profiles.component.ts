@@ -44,7 +44,6 @@ export class MemberProfilesComponent {
         this.editParentForm.get('dName')?.setValue(firstWord, { emitEvent: false });
       }
     });
-
   }
 
   convertDateFormat(dateString: string): string {
@@ -132,7 +131,6 @@ export class MemberProfilesComponent {
       // } else {
       //   formURlData.set('other_gender', null);
       // }
-
 
       this.service.postAPIFormData('sub-admin/updateUserProfile', formURlData).subscribe({
         next: (resp) => {
@@ -274,9 +272,8 @@ export class MemberProfilesComponent {
   // }
 
 
-
   getMemberAlbum(item: any) {
-    this.route.navigateByUrl(`/admin/main/family-member/${item.id}/${item.email}`);
+    this.route.navigateByUrl(`/admin/main/tree-member/${item.id}`);
   }
 
   handleCheckboxChange(row: any) {

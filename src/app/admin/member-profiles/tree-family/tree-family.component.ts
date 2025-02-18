@@ -1,16 +1,15 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../shared/services/shared.service';
-import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-family-members',
-  templateUrl: './family-members.component.html',
-  styleUrl: './family-members.component.css'
+  selector: 'app-tree-family',
+  templateUrl: './tree-family.component.html',
+  styleUrl: './tree-family.component.css'
 })
-export class FamilyMembersComponent {
+export class TreeFamilyComponent {
 
   newMemberForm!: FormGroup;
   newPetForm!: FormGroup;
@@ -25,7 +24,6 @@ export class FamilyMembersComponent {
   petImage1: any;
   memberId: any;
   parentId: any;
-  parentFamilyId: any;
   email: any;
   addMemLoader: boolean = false;
   editMemLoader: boolean = false;
@@ -33,15 +31,20 @@ export class FamilyMembersComponent {
   searchQuery = '';
   loading: boolean = false;
 
+  //Pagination//
+  currentPage: number = 1;
+  pageSize: number = 10;
+  hasMoreData: boolean = true;
+  totalPages: number = 0;
+
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  constructor(private aRoute: ActivatedRoute, private service: SharedService, private toastr: ToastrService, private route: Router, private location: Location) { }
+  constructor(private aRoute: ActivatedRoute, private service: SharedService, private toastr: ToastrService, private route: Router) { }
 
   backClicked() {
-    //this.location.back();
-    this.route.navigateByUrl(`/admin/main/tree-member/${this.parentId}`);
+    this.route.navigateByUrl(`/admin/main/member-profile`);
     localStorage.removeItem('itemId');
-    localStorage.removeItem('familyId');
+    localStorage.removeItem('itemEmail');
   }
 
   maxDate: any;
@@ -57,18 +60,18 @@ export class FamilyMembersComponent {
   ngOnInit() {
     this.aRoute.paramMap.subscribe((params) => {
       this.parentId = params.get('parentId');
-      this.parentFamilyId = params.get('familyId');
+      this.email = params.get('email');
     });
     localStorage.setItem('itemId', this.parentId)
-    localStorage.setItem('parentFamilyId', this.parentFamilyId)
+    localStorage.setItem('itemEmail', this.email)
 
-
+    this.getMembers();
     this.initNewMemberForm();
     this.initNewPetForm();
     this.initEditMemberForm();
     this.initEditParentForm();
     this.initEditPetForm();
-    this.getMembers();
+
     this.setMaxDate();
 
     this.newMemberForm.get('gender')?.valueChanges.subscribe((gender) => {
@@ -101,40 +104,20 @@ export class FamilyMembersComponent {
 
   }
 
-
-  // getMembers() {
-  //   this.service.getApi(`sub-admin/get-all-members/${this.parentId}`).subscribe({
-  //     next: (resp) => {
-  //       this.data = resp.data; // Add `checked: false` to each user
-  //     },
-  //     error: (error) => {
-  //       console.log(error.message);
-  //     }
-  //   });
-  // }
   allMemberList: any;
   filteredOutMembers: any[] = [];
   parentDetail: any;
 
   getMembers() {
-    this.loading = true;
-    // this.service.getApi(`sub-admin/get-all-members/${this.parentId}`).subscribe({
-    this.service.getApi(`sub-admin/get-all-members?userId=${this.parentId}&familyId=${this.parentFamilyId}`).subscribe({
+ 
+    // this.service.getApi(`sub-admin/get-all-familys/?userId=${this.parentId}`).subscribe({
+    this.service.getApi(`sub-admin/get-all-familys/?userId=${this.parentId}&page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}`).subscribe({
       next: (resp) => {
-        this.loading = false;
         this.allMemberList = resp.data;
-        // Filter data based on `relation_member_id`
-        this.data = resp.data.filter((item: { relation_member_id: number; }) => item.relation_member_id !== 0);
-
-        // Save filtered-out items in a separate variable
-        this.filteredOutMembers = resp.data.filter((item: { relation_member_id: number; }) => item.relation_member_id === 0);
-        console.log('this.filteredOutMembers', this.filteredOutMembers);
-        this.parentDetail = this.filteredOutMembers;
-        // Optional: Add `checked: false` property to each user in `this.data`
-        this.data.forEach(user => user.checked = false);
+        this.parentDetail = resp.userDetail;
+        this.hasMoreData = resp.data.length == this.pageSize;
       },
       error: (error) => {
-        this.loading = false;
         console.log(error.message);
       }
     });
@@ -146,7 +129,7 @@ export class FamilyMembersComponent {
       image: new FormControl(null),
       name: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/) // Pattern to ensure at least two words
+        Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/)
       ]),
       dName: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
@@ -154,18 +137,15 @@ export class FamilyMembersComponent {
       isAlive: new FormControl('', Validators.required),
       relationName: new FormControl('', Validators.required),
       relationWith: new FormControl('', Validators.required),
-      // isAdultAbove: new FormControl({ value: false, disabled: false }),
-      // isAdultBelow: new FormControl({ value: false, disabled: false }),
       isAdult: new FormControl(true),
       isDOBUnknown: new FormControl(''),
     })
     this.filteredRelations = [...this.allRelations];
 
-    // Subscribe to the valueChanges of the 'name' field
     this.newMemberForm.get('name')?.valueChanges.subscribe((value: string) => {
       if (value) {
-        const firstWord = value.split(' ')[0]; // Get the first word
-        this.newMemberForm.get('dName')?.setValue(firstWord, { emitEvent: false }); // Update dName without triggering its valueChanges
+        const firstWord = value.split(' ')[0];
+        this.newMemberForm.get('dName')?.setValue(firstWord, { emitEvent: false });
       }
     });
 
@@ -222,10 +202,10 @@ export class FamilyMembersComponent {
 
     this.editMemberForm = new FormGroup({
       image: new FormControl(null),
-      //name: new FormControl(this.singleMemberDetail?.full_name, Validators.required),
+
       name: new FormControl(this.singleMemberDetail?.full_name, [
         Validators.required,
-        Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/) // Pattern to ensure at least two words
+        Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/)
       ]),
       dName: new FormControl(this.singleMemberDetail?.user_name, Validators.required),
 
@@ -237,7 +217,7 @@ export class FamilyMembersComponent {
       isAdult: new FormControl(true),
       isDOBUnknown: new FormControl(''),
     })
-    // Set initial filteredRelationsEdit based on the current gender
+
     const initialGender = this.singleMemberDetail?.gender;
     if (initialGender === 'male') {
       this.filteredRelationsEdit = [...this.maleRelationsEdit];
@@ -247,7 +227,6 @@ export class FamilyMembersComponent {
       this.filteredRelationsEdit = [...this.allRelationsEdit];
     }
 
-    // Subscribe to gender changes to dynamically filter relations
     this.editMemberForm.get('gender')?.valueChanges.subscribe((gender) => {
       console.log('Edit Member Form - Gender Changed:', gender); // Debug log
       if (gender === 'male') {
@@ -258,22 +237,19 @@ export class FamilyMembersComponent {
         this.filteredRelationsEdit = [...this.allRelationsEdit];
       }
 
-      // Reset relationName field when gender changes
       this.editMemberForm.get('relationName')?.setValue('');
     });
 
-    // Subscribe to the valueChanges of the 'name' field
     this.editMemberForm.get('name')?.valueChanges.subscribe((value: string) => {
       if (value) {
-        const firstWord = value.split(' ')[0]; // Get the first word
-        this.editMemberForm.get('dName')?.setValue(firstWord, { emitEvent: false }); // Update dName without triggering its valueChanges
+        const firstWord = value.split(' ')[0];
+        this.editMemberForm.get('dName')?.setValue(firstWord, { emitEvent: false });
       }
     });
 
   }
 
   convertDateFormat(dateString: string): string {
-    // debugger
     const parts = dateString?.split('/');
     if (parts?.length !== 3) {
       return '';
@@ -283,6 +259,7 @@ export class FamilyMembersComponent {
     const year = parts[2];
     return `${year}-${month}-${day}`;
   }
+
 
   editMemberProfile!: File;
 
@@ -308,24 +285,19 @@ export class FamilyMembersComponent {
   initEditParentForm() {
     this.editParentForm = new FormGroup({
       image: new FormControl(null),
-      //name: new FormControl(this.filteredOutMembers[0]?.full_name, Validators.required),
-      name: new FormControl(this.filteredOutMembers[0]?.full_name, [
+      name: new FormControl(this.parentDetail?.fullName, [
         Validators.required,
-        Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/) // Pattern to ensure at least two words
+        Validators.pattern(/^\s*\S+(?:\s+\S+)+\s*$/)
       ]),
       dName: new FormControl(this.filteredOutMembers[0]?.user_name, Validators.required),
-      //value: this.singleMemberDetail?.other_gender == 'none' ? this.singleMemberDetail?.gender : this.singleMemberDetail?.other_gender
       gender: new FormControl({ value: this.filteredOutMembers[0]?.other_gender == 'none' ? this.filteredOutMembers[0]?.gender : this.filteredOutMembers[0]?.other_gender, disabled: true }, Validators.required),
       dob: new FormControl(this.convertDateFormat(this.filteredOutMembers[0]?.date_of_birth), Validators.required),
-      //isAlive: new FormControl(this.filteredOutMembers[0]?.is_alive, Validators.required),
-      //relationName: new FormControl('', Validators.required),
-      //relationWith: new FormControl('', Validators.required),
     })
 
     this.editParentForm.get('name')?.valueChanges.subscribe((value: string) => {
       if (value) {
         const firstWord = value.split(' ')[0]; // Get the first word
-        this.editParentForm.get('dName')?.setValue(firstWord, { emitEvent: false }); // Update dName without triggering its valueChanges
+        this.editParentForm.get('dName')?.setValue(firstWord, { emitEvent: false });
       }
     });
 
@@ -420,16 +392,13 @@ export class FamilyMembersComponent {
     const isDOBUnknown = this.newPetForm.get('isDOBUnknown')?.value;
 
     if (isDOBUnknown) {
-      // Disable the dob field and clear validators when DOB is unknown
       this.newPetForm.get('dob')?.disable();
       this.newPetForm.get('dob')?.clearValidators();
     } else {
-      // Enable the dob field and add back the required validator
       this.newPetForm.get('dob')?.enable();
       this.newPetForm.get('dob')?.setValidators(Validators.required);
     }
 
-    // Update validity to apply the changes
     this.newPetForm.get('dob')?.updateValueAndValidity();
   }
 
@@ -437,16 +406,13 @@ export class FamilyMembersComponent {
     const isDOBUnknown = this.editPetForm.get('isDOBUnknown')?.value;
 
     if (isDOBUnknown) {
-      // Disable the dob field and clear validators when DOB is unknown
       this.editPetForm.get('dob')?.disable();
       this.editPetForm.get('dob')?.clearValidators();
     } else {
-      // Enable the dob field and add back the required validator
       this.editPetForm.get('dob')?.enable();
       this.editPetForm.get('dob')?.setValidators(Validators.required);
     }
 
-    // Update validity to apply the changes
     this.editPetForm.get('dob')?.updateValueAndValidity();
   }
 
@@ -640,140 +606,23 @@ export class FamilyMembersComponent {
 
   onRelationCaseChange(event: any): void {
     const selectedValue = event.target.value;
-
-    // Find the selected relation object
     const selectedRelation = this.filteredRelations.find(relation => relation.value === selectedValue);
 
     if (selectedRelation) {
-      console.log('Selected Relation:', selectedRelation); // Logs the entire object
-      console.log('ID:', selectedRelation.id); // Logs the relation ID
-      console.log('Label:', selectedRelation.value); // Logs the relation label
       this.relationCaseId = selectedRelation.id;
     }
   }
 
   relationCaseValue: any = '';
 
-  // Handling relationName change in edit form
   onRelationCaseChangeEdit(event: any): void {
     const selectedValue = event.target.value;
 
-    // Find the selected relation object
     const selectedRelation = this.filteredRelationsEdit.find(relation => relation.id === selectedValue);
 
     if (selectedRelation) {
-      // console.log('Selected Relation for Edit:', selectedRelation); // Logs the entire object
-      // console.log('ID:', selectedRelation.id); // Logs the relation ID
-      // console.log('Label:', selectedRelation.value); // Logs the relation label
       this.relationCaseValue = selectedRelation.value;
       this.relationCaseId = selectedRelation.id;
-      // // Optionally set the entire object in the edit form
-      // this.editMemberForm.patchValue({
-      //   relationName: selectedRelation, // Store the entire object
-      // });
-    }
-  }
-
-
-  async addNewMember() {
-    this.newMemberForm.markAllAsTouched();
-
-    // Check for spaces in current_password and new_password
-    const name = this.newMemberForm.value.name?.trim();
-    const dName = this.newMemberForm.value.dName?.trim();
-
-    if (!name || !dName) {
-      return;
-    }
-
-    if (this.newMemberForm.valid) {
-      // debugger
-      const selectedRelation = this.newMemberForm.value.relationName;
-      const apiUrl = `${this.relationApiMap[selectedRelation]}`;
-
-      if (!apiUrl) {
-        this.toastr.error('Invalid relation selected.');
-        return;
-      }
-
-      this.addMemLoader = true;
-      const formURlData = new FormData();
-      if (this.parentImage) {
-        formURlData.append('file', this.parentImage);
-      } else {
-        await this.getFileFromUrl('http://18.229.202.71:4000/images/1727186679509.png', 'defaultImage.png').then(file => {
-          formURlData.append('file', file);
-          console.log('File loaded from URL:', file);
-        }).catch(error => {
-          console.error('Error loading file from URL:', error);
-        });
-      }
-
-      formURlData.set('id', this.relationId);
-      formURlData.set('family_id', this.parentDetail[0]?.family_id);
-      formURlData.set('user_id', this.parentId);
-
-      const userName = this.newMemberForm.value.name || '';
-      const [firstName, ...lastNameParts] = userName.split(' '); // Split by space
-      const lastName = lastNameParts.join(' '); // Join the rest as last name
-
-      formURlData.set('first_name', firstName);
-      formURlData.set('last_name', lastName);
-      formURlData.set('full_name', userName);
-
-      formURlData.set('user_name', this.newMemberForm.value.dName);
-      formURlData.set('other_gender', 'none');
-      formURlData.set('gender', this.newMemberForm.value.gender);
-
-      const dob = this.newMemberForm.value.dob;
-
-      const isDOBUnknown = this.newMemberForm.get('isDOBUnknown')?.value;
-
-      if (!isDOBUnknown) {
-        if (dob) {
-          const formattedDOB = this.formatDateToDDMMYYYY(dob);
-          formURlData.set('dob', formattedDOB);
-        }
-      } else {
-        if (this.newMemberForm.value.isAdult) {
-          formURlData.set('dob', 'Above 18');
-        } else {
-          formURlData.set('dob', 'Below 18');
-        }
-      }
-
-      formURlData.set('is_alive', this.newMemberForm.value.isAlive);
-      formURlData.set('relation_id', this.relationCaseId);
-
-      this.service.postAPIFormData(apiUrl, formURlData).subscribe({
-        next: (resp) => {
-          if (resp.success == true) {
-            this.getMembers();
-            this.toastr.success(resp.message);
-            this.addMemLoader = false;
-            this.closeModalAdd.nativeElement.click();
-            this.parentImage1 = null;
-            this.relationId = '';
-            this.relationCaseId = '';
-            this.newMemberForm.reset();
-          } else {
-            this.toastr.warning(resp.message);
-            this.addMemLoader = false;
-            this.getMembers();
-          }
-        },
-        error: (error) => {
-          this.getMembers();
-          this.addMemLoader = false;
-          if (error.error.message) {
-            this.toastr.error(error.error.message);
-          } else {
-            this.toastr.error('Something went wrong!');
-          }
-        }
-      });
-    } else {
-      console.log('Form is invalid');
     }
   }
 
@@ -786,7 +635,6 @@ export class FamilyMembersComponent {
         return response.blob();
       })
       .then(blob => {
-        // Create a new File object
         return new File([blob], filename, { type: blob.type });
       });
   }
@@ -800,281 +648,14 @@ export class FamilyMembersComponent {
   }
 
 
-  @ViewChild('closeModalEditMember') closeModalEditMember!: ElementRef;
-
-  editmember(): void {
-    this.editMemberForm.markAllAsTouched();
-
-    // Check for spaces in current_password and new_password
-    const name = this.editMemberForm.value.name?.trim();
-    const dName = this.editMemberForm.value.dName?.trim();
-
-    if (!name || !dName) {
-      return;
-    }
-
-    if (this.editMemberForm.valid) {
-      debugger
-      if (this.relationCaseValue == '') {
-        this.relationCaseValue = this.singleMemberDetail?.relationName;
-      }
-      //const selectedRelation = this.relationCaseValue;
-
-      const apiUrl = this.relationEditApiMap[this.relationCaseValue];
-
-      if (!apiUrl) {
-        this.toastr.error('Invalid relation selected.');
-        return;
-      }
-
-      this.editMemLoader = true;
-      const formURlData = new FormData();
-      if (this.editMemberProfile) {
-        formURlData.append('file', this.editMemberProfile);
-      }
-
-      if (this.relationId) {
-        formURlData.set('id', this.relationId);
-      } else {
-        formURlData.set('id', this.singleMemberDetail?.relationWith.id)
-      }
-
-      formURlData.set('family_id', this.parentDetail[0]?.family_id);
-      formURlData.set('user_id', this.parentId);
-
-      const userName = this.editMemberForm.value.name || '';
-      const [firstName, ...lastNameParts] = userName.split(' '); // Split by space
-      const lastName = lastNameParts.join(' '); // Join the rest as last name
-
-      formURlData.set('user_name', this.editMemberForm.value.dName);
-
-      formURlData.set('first_name', firstName);
-      formURlData.set('last_name', lastName);
-      formURlData.set('full_name', userName);
-      formURlData.set('other_gender', 'none');
-
-      formURlData.set('gender', this.singleMemberDetail?.gender);
-      //formURlData.set('gender', this.editMemberForm.value.gender);
-      const dob = this.editMemberForm.value.dob;
-
-      const isDOBUnknown = this.editMemberForm.get('isDOBUnknown')?.value;
-      if (!isDOBUnknown) {
-        if (dob) {
-          const formattedDOB = this.formatDateToDDMMYYYY(dob);
-          formURlData.set('dob', formattedDOB);
-        }
-      } else {
-        if (this.editMemberForm.value.isAdult) {
-          formURlData.set('dob', 'Above 18');
-        } else {
-          formURlData.set('dob', 'Below 18');
-        }
-      }
-      formURlData.set('is_alive', this.editMemberForm.value.isAlive);
-      formURlData.set('relation_id', this.relationCaseId);
-      formURlData.set('oldid', this.memberId);
-
-      this.service.postAPIFormData(apiUrl, formURlData).subscribe({
-        next: (resp) => {
-          if (resp.success == true) {
-            this.toastr.success(resp.message);
-            this.editMemLoader = false;
-            this.closeModalEditMember.nativeElement.click();
-            this.parentImage1 = null;
-            this.relationId = '';
-            this.relationCaseId = '';
-            this.getMembers();
-          } else {
-            this.toastr.warning(resp.message);
-            this.editMemLoader = false;
-            this.getMembers();
-          }
-        },
-        error: (error) => {
-          this.getMembers();
-          this.editMemLoader = false;
-          if (error.error.message) {
-            this.toastr.error(error.error.message);
-          } else {
-            this.toastr.error('Something went wrong!');
-          }
-        }
-      });
-    } else {
-      console.log('Form is invalid');
-    }
-  }
-
-  addParentLoader: boolean = false;
-  @ViewChild('closeModalEditParent') closeModalEditParent!: ElementRef;
-
-  editParent(): void {
-    this.editParentForm.markAllAsTouched();
-
-    // Check for spaces in current_password and new_password
-    const name = this.editParentForm.value.name?.trim();
-    const dName = this.editParentForm.value.dName?.trim();
-
-    if (!name || !dName) {
-      return;
-    }
-
-    if (this.editParentForm.valid) {
-      console.log('Form Values:', this.editParentForm.value);
-      this.addParentLoader = true;
-      const formURlData: any = new FormData();
-      if (this.editParentProfile) {
-        formURlData.append('avatar', this.editParentProfile);
-      }
-      formURlData.set('full_name', this.editParentForm.value.name);
-      formURlData.set('displayName', this.editParentForm.value.dName);
-      //formURlData.set('birth', this.editParentForm.value.dob);
-
-      const dob = this.editParentForm.value.dob;
-
-      const isDOBUnknown = this.editParentForm.get('isDOBUnknown')?.value;
-      if (!isDOBUnknown) {
-        if (dob) {
-          const formattedDOB = this.formatDateToDDMMYYYY(dob);
-          formURlData.set('birth', formattedDOB);
-        }
-      }
-
-      formURlData.set('user_id', this.parentId);
-
-      formURlData.set('onboardingDone', null);
-      formURlData.set('gender', this.filteredOutMembers[0]?.gender);
-      // formURlData.set('gender', this.editParentForm.value.gender);
-      // if (this.editParentForm.value.gender == 'prefer-not-to-say') {
-      //   formURlData.set('other_gender', 'prefer-not-to-say');
-      // } else {
-      //   formURlData.set('other_gender', null);
-      // }
 
 
-      this.service.postAPIFormData('sub-admin/editProfile', formURlData).subscribe({
-        next: (resp) => {
-          if (resp.id) {
-            this.toastr.success('Details updated successfully!');
-            this.addParentLoader = false;
-            this.closeModalEditParent.nativeElement.click();
-            this.parentImage1 = null;
-            this.getMembers();
-          } else {
-            this.toastr.warning(resp.message);
-            this.addParentLoader = false;
-            this.getMembers();
-          }
-        },
-        error: (error) => {
-          this.getMembers();
-          this.addParentLoader = false;
-          if (error.error.message) {
-            this.toastr.error(error.error.message);
-          } else {
-            this.toastr.error('Something went wrong!');
-          }
-        }
-      });
-    } else {
-      console.log('Form is invalid');
-    }
-  }
 
 
-  addNewPet(): void {
-    this.newPetForm.markAllAsTouched();
-    if (this.newPetForm.valid) {
-      console.log('Form Values:', this.newPetForm.value);
-      this.addPetLoader = true;
-      const formURlData = new FormData();
-      if (this.petImage) {
-        formURlData.append('image', this.petImage);
-      }
-      formURlData.set('name', this.newPetForm.value.name);
-      formURlData.set('dName', this.newPetForm.value.dName);
-      formURlData.set('gender', this.newPetForm.value.gender);
-      if (this.newPetForm.value.dob) {
-        formURlData.set('dob', this.newPetForm.value.dob);
-      }
-      formURlData.set('isalive', this.newPetForm.value.isAlive);
-      formURlData.set('familyLink', this.newPetForm.value.familyLink);
 
-      this.service.postAPIFormData('dfs/fsfs', formURlData).subscribe({
-        next: (resp) => {
-          if (resp.success == true) {
-            this.toastr.success(resp.message);
-            this.addPetLoader = false;
-            this.closeModalAdd.nativeElement.click();
-            this.petImage1 = null;
-          } else {
-            this.toastr.warning(resp.message);
-            this.addPetLoader = false;
-          }
-        },
-        error: (error) => {
-          this.addPetLoader = false;
-          if (error.error.message) {
-            this.toastr.error(error.error.message);
-          } else {
-            this.toastr.error('Something went wrong!');
-          }
-        }
-      });
-    } else {
-      console.log('Form is invalid');
-    }
-  }
 
-  @ViewChild('closeModalEditPet') closeModalEditPet!: ElementRef;
 
-  editPet(): void {
-    this.editPetForm.markAllAsTouched();
-    if (this.editPetForm.valid) {
-      console.log('Form Values:', this.editPetForm.value);
-      this.addMemLoader = true;
-      const formURlData = new FormData();
-      if (this.editParentProfile) {
-        formURlData.append('image', this.editParentProfile);
-      }
-      formURlData.set('name', this.editPetForm.value.name);
-      formURlData.set('dName', this.editPetForm.value.dName);
-      formURlData.set('gender', this.editPetForm.value.gender);
-      if (this.editPetForm.value.dob) {
-        formURlData.set('dob', this.editPetForm.value.dob);
-      }
-      formURlData.set('isalive', this.editPetForm.value.isAlive);
-      formURlData.set('rName', this.editPetForm.value.relationName);
-      formURlData.set('rWith', this.editPetForm.value.relationWith);
-      // if (this.editPetForm.value.isAdult) {
-      //   formURlData.set('18+', this.editPetForm.value.isAdult);
-      // }
 
-      this.service.postAPIFormData('dfs/fsfs', formURlData).subscribe({
-        next: (resp) => {
-          if (resp.success == true) {
-            this.toastr.success(resp.message);
-            this.addMemLoader = false;
-            this.closeModalEditPet.nativeElement.click();
-            this.parentImage1 = null;
-          } else {
-            this.toastr.warning(resp.message);
-            this.addMemLoader = false;
-          }
-        },
-        error: (error) => {
-          this.addMemLoader = false;
-          if (error.error.message) {
-            this.toastr.error(error.error.message);
-          } else {
-            this.toastr.error('Something went wrong!');
-          }
-        }
-      });
-    } else {
-      console.log('Form is invalid');
-    }
-  }
 
   getParentId(id: any) {
     this.memberId = id;
@@ -1087,17 +668,13 @@ export class FamilyMembersComponent {
   getSingleMemberData(detail: any) {
     this.memberId = detail.id;
     this.singleMemberDetail = detail;
-    //debugger
     this.initEditMemberForm();
     console.log('this.singleMemberDetail', this.singleMemberDetail);
 
-    // Set initial filteredRelationsEdit based on the current gender
     const isDOBUnknown = this.editMemberForm.get('isDOBUnknown');
     const dobControl = this.singleMemberDetail?.date_of_birth ? this.singleMemberDetail?.date_of_birth : this.editMemberForm.get('dob');
     const isAdultControl = this.editMemberForm.get('isAdult');
 
-
-    // Check for specific DOB values
     const dobValue = dobControl;
     if (dobValue == 'Above 18' || dobValue == 'Below 18') {
       isDOBUnknown?.setValue(true);
@@ -1110,7 +687,6 @@ export class FamilyMembersComponent {
     } else {
       isDOBUnknown?.setValue(false);
     }
-
   }
 
   @ViewChild('closeModalViewMember') closeModalViewMember!: ElementRef;
@@ -1119,7 +695,6 @@ export class FamilyMembersComponent {
 
   getMemberAlbum(name: any) {
     this.closeModalViewMember.nativeElement.click();
-    //this.closeModalViewPet.nativeElement.click();
     this.closeModalViewParent.nativeElement.click();
     this.route.navigateByUrl(`/admin/main/albums/${this.memberId}`);
     if (name) {
@@ -1131,7 +706,6 @@ export class FamilyMembersComponent {
 
   getMemberTimeline(name: any) {
     this.closeModalViewMember.nativeElement.click();
-    //this.closeModalViewPet.nativeElement.click();
     this.closeModalViewParent.nativeElement.click();
     this.route.navigateByUrl(`/admin/main/timeline/${this.memberId}`);
     if (name) {
@@ -1143,9 +717,7 @@ export class FamilyMembersComponent {
 
   getMemberInterview() {
     this.closeModalViewMember.nativeElement.click();
-    //this.closeModalViewPet.nativeElement.click();
     this.closeModalViewParent.nativeElement.click();
-    //debugger
     if (this.singleMemberDetail?.full_name) {
       this.route.navigateByUrl(`/admin/main/member-interview/${this.memberId}/${this.singleMemberDetail?.full_name}`);
     } else {
@@ -1164,39 +736,32 @@ export class FamilyMembersComponent {
   }
 
   calculateAge(birthDate: string): string {
-    // Parse the birthDate string in dd-mm-yyyy format
     const [day, month, year] = birthDate?.split('/')?.map(Number);
-    const birth = new Date(year, month - 1, day); // Adjust for 0-based month index
+    const birth = new Date(year, month - 1, day);
     const today = new Date();
 
-    // Check if the birth date is in the future
     if (birth > today) {
       return "Invalid birth date (in the future)";
     }
 
-    // Calculate the difference in years, months, and days
     let years = today.getFullYear() - birth.getFullYear();
     let months = today.getMonth() - birth.getMonth();
     let days = today.getDate() - birth.getDate();
 
-    // Adjust for negative days
     if (days < 0) {
       months--;
       const daysInLastMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
       days += daysInLastMonth;
     }
 
-    // Adjust for negative months
     if (months < 0) {
       years--;
       months += 12;
     }
 
-    // Return the result
     if (years > 0) {
       return `${years} year${years > 1 ? 's' : ''}`;
     } else if (months > 0) {
-      // return `${months} month${months > 1 ? 's' : ''} old${days > 0 ? ` and ${days} day${days > 1 ? 's' : ''}` : ''}`;
       return `${months} month${months > 1 ? 's' : ''} `;
     } else {
       return `${days} day${days > 1 ? 's' : ''}`;
@@ -1214,6 +779,7 @@ export class FamilyMembersComponent {
     this.deleteMemId = item.id;
     this.familyId = item.family_id
   }
+
   @ViewChild('closeModalDel') closeModalDel!: ElementRef;
 
   btnDelLoader: boolean = false;
@@ -1252,6 +818,27 @@ export class FamilyMembersComponent {
     this.userImg1 = url;
   }
 
+  getMemberList(item: any) {
+    this.route.navigateByUrl(`/admin/main/family-member/${item.user_id}/${item.id}`);
+  }
+
+  nextPage() {
+    if (this.hasMoreData) {
+      this.currentPage++;
+      this.getMembers();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.getMembers();
+    }
+  }
+
+  ngOnDestroy() {
+    localStorage.removeItem('currentPage');
+  }
+
 
 }
-

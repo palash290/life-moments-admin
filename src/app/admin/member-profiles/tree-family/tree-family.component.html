@@ -1,0 +1,501 @@
+<div class="ct_dashbaord_middle">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+            <a (click)="backClicked()" style="cursor: pointer;"
+                class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+                    class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
+            <h4 class="mb-0 ct_fs_22">{{parentDetail?.fullName}} {{filteredOutMembers[0]?.last_name}}'s
+                Family Members</h4>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative ct_search_input">
+                <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchQuery"
+                    (ngModelChange)="getMembers()" />
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <!-- <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add-new-member">Add New Member</button> -->
+
+        </div>
+    </div>
+
+    <div class="row ct_mt_30">
+        <div class="col-lg-12 mb-4 mb-lg-0">
+            <div class="d-flex align-items-center justify-content-between gap-2 ct_white_bg_1">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="position-relative">
+                        <!-- <img [src]="parentDetail.profile_image" class="ct_img_40 ct_border_2"
+                            style="border: solid var(--dark_green); cursor: pointer;"
+                            (click)="showImg(parentDetail.profile_image)" data-bs-toggle="modal"
+                            data-bs-target="#img1" /> -->
+
+                        <div *ngIf="parentDetail?.pet_id" class="ct_pet_overlay_icon">
+                            <img src="http://18.229.202.71:4000/pets_album/1734086102101.png" alt=""
+                                class="ct_img_20 ct_border_22">
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <p class="mb-0 ct_fs_18 ct_fw_600">{{parentDetail?.fullName}}
+                        </p>
+                        <p class="mb-0 ct_fs_14"><span>{{parentDetail?.email}}</span></p>
+                        <p class="mb-0 ct_fs_14"><span class="ct_green_text">{{parentDetail?.birth}}</span> </p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-4">
+                    <!-- <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal" style="cursor: pointer"
+                        data-bs-target="#view-family-parent" (click)="getParentId(parentDetail)"></i> -->
+                    <!-- <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
+                        data-bs-target="#edit-family-parent" style="cursor: pointer"
+                        (click)="getParentId(filteredOutMembers[0]?.id)"></i> -->
+
+                    <!-- <i class="fa-solid fa-paw ct_green_text" style="cursor: pointer"
+                        (click)="goToPetList(parentDetail?.id)"></i> -->
+
+                </div>
+
+            </div>
+            <div class="table-responsive">
+                <table class="table ct_project_table ct_table_td_white">
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>Tree Name</th>
+                            <th>Total Family Members</th>
+                            <th class="text-end">View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of allMemberList; let i = index">
+                            <td>{{ i + 1 + (currentPage - 1) * pageSize }}</td>
+                            <td>
+                                <a>
+                                    <div class="d-flex align-items-center gap-2">
+
+                                        <div class="position-relative" (click)="showImg(item.image_link)"
+                                            data-bs-toggle="modal" data-bs-target="#img1">
+
+                                            <div *ngIf="item.pet_id" class="ct_pet_overlay_icon">
+                                                <img src="http://18.229.202.71:4000/pets_album/1734086102101.png" alt=""
+                                                    class="ct_img_20 ct_border_22">
+                                            </div>
+                                        </div>
+
+                                        <p (click)="getMemberList(item)" style="cursor: pointer;"
+                                            class="mb-0 ct_fs_16 ct_green_text">
+                                            {{item.family_name}}</p>
+
+                                    </div>
+                                </a>
+                            </td>
+                            <td>{{item.total_family_members}}</td>
+                            <td>
+                                <div class="text-end">
+                                    <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal"
+                                        data-bs-target="#view-pet" (click)="getMemberList(item)"
+                                        style="cursor: pointer"></i>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="pagination-controls">
+                    <button (click)="previousPage()" class="ct_previous"
+                        [disabled]="currentPage === 1">Previous</button>
+                    <button>
+                        {{ currentPage }}
+                    </button>
+                    @if(totalPages != currentPage){
+                    <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+                    }
+                </div>
+            </div>
+
+            <div *ngIf="(allMemberList | filter: searchQuery)?.length === 0" class="text-center">
+                <p class="ct_fs_15 mt-5">No members found</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- View Parent Family Detail S -->
+<div class="modal fade Committed_Price" id="view-family-parent" tabindex="-1" aria-labelledby="view-family-parentLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="ct_fs_24 ct_fw_600 text-center">View Onboarding User</h4>
+                <!-- <i class="fas fa-edit"></i> -->
+                <div class="pt-5">
+                    <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
+                        <img [src]="parentDetail?.image_link" alt="" class="ct_img_164 mx-auto d-block"
+                            style="border: solid var(--dark_green);">
+                    </div>
+                    <form action="">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Full Name <span class="ct_required_star">*</span></label>
+                                    <input type="text" class="form-control" disabled [value]="parentDetail?.fullName" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Display Name <span
+                                            class="ct_required_star">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Display Name" disabled
+                                        [value]="parentDetail?.displayName" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Gender <span class="ct_required_star">*</span></label>
+                                    @if(parentDetail?.other_gender == "null"){
+                                    <!-- <input type="text" class="form-control" placeholder="Display Name" disabled
+                                        [value]="filteredOutMembers[0]?.gender" /> -->
+
+                                    @if(parentDetail?.gender == 'male'){
+                                    <input type="text" class="form-control" disabled value="Male" />
+                                    }
+                                    @if(parentDetail?.gender == 'female'){
+                                    <input type="text" class="form-control" disabled value="Female" />
+                                    }
+
+                                    @if(parentDetail?.gender == 'prefer-not-to-say'){
+                                    <input type="text" class="form-control" disabled value="Prefer Not To Say" />
+                                    }
+                                    @if(parentDetail?.gender == 'PreferNotToSay'){
+                                    <input type="text" class="form-control" disabled value="Prefer Not To Say" />
+                                    }
+                                    @if(parentDetail?.gender == 'non-binary'){
+                                    <input type="text" class="form-control" disabled value="Non Binary" />
+                                    }
+
+                                    @if(parentDetail?.gender == 'NonBinary'){
+                                    <input type="text" class="form-control" disabled value="Non Binary" />
+                                    }
+                                    @if(parentDetail?.gender == 'unknown'){
+                                    <input type="text" class="form-control" disabled value="Gender Unknown" />
+                                    }
+
+
+                                    } @else {
+                                    <!-- <input type="text" class="form-control" placeholder="Display Name" disabled
+                                        [value]="parentDetail?.other_gender" /> -->
+
+                                    @if(parentDetail?.other_gender == 'male'){
+                                    <input type="text" class="form-control" disabled value="Male" />
+                                    }
+                                    @if(parentDetail?.other_gender == 'female'){
+                                    <input type="text" class="form-control" disabled value="Female" />
+                                    }
+
+                                    @if(parentDetail?.other_gender == 'prefer-not-to-say'){
+                                    <input type="text" class="form-control" disabled value="Prefer Not To Say" />
+                                    }
+                                    @if(parentDetail?.other_gender == 'PreferNotToSay'){
+                                    <input type="text" class="form-control" disabled value="Prefer Not To Say" />
+                                    }
+                                    @if(parentDetail?.other_gender == 'non-binary'){
+                                    <input type="text" class="form-control" disabled value="Non Binary" />
+                                    }
+
+                                    @if(parentDetail?.other_gender == 'NonBinary'){
+                                    <input type="text" class="form-control" disabled value="Non Binary" />
+                                    }
+                                    @if(parentDetail?.other_gender == 'unknown'){
+                                    <input type="text" class="form-control" disabled value="Gender Unknown" />
+                                    }
+
+                                    }
+
+
+                                    <!-- <select class="form-control" disabled [value]="filteredOutMembers[0]?.gender">
+                                        <option value="female">Female</option>
+                                        <option value="male">Male</option>
+                                        <option value="other">Other</option>
+                                    </select> -->
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="" class="mb-2">Date of Birth <span
+                                            class="ct_required_star">*</span></label>
+                                    <input type="text" class="form-control" disabled [value]="parentDetail?.birth" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-3">
+                <button (click)="getMemberTimeline(parentDetail?.first_name)" type="button"
+                    class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark m-0">
+                    View Timeline
+                </button>
+                <!-- data-bs-toggle="modal"
+                data-bs-target="#edit-family-detail" -->
+                <button (click)="getMemberInterview()" type="button"
+                    class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark m-0">
+                    View Interview
+                </button>
+            </div>
+            <button hidden type="button" class="btn btn-secondary" #closeModalViewParent
+                data-bs-dismiss="modal">Close</button>
+            <div class="pb-4 px-5">
+                <button (click)="getMemberAlbum(parentDetail?.first_name)" type="button"
+                    class="ct_green_btn ct_h_50 m-0 w-100 mx-auto" style="max-width: 337px;">
+                    View Full Album
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- View Parent Detail E -->
+
+
+
+
+<!-- view family list  S -->
+<div class="modal fade Committed_Price" id="view-family" tabindex="-1" aria-labelledby="view-familyLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content pb-5 ct_px_50">
+            <div class="modal-body px-0">
+                <h4 class="ct_fs_24 ct_fw_600 text-center">View Member</h4>
+                <!-- <i class="fas fa-edit" data-bs-toggle="modal" data-bs-target="#edit-family-detail"
+                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coming Soon"></i> -->
+                <div class="pt-5">
+                    <div>
+                        <img [src]="singleMemberDetail?.image_link ? singleMemberDetail?.image_link : 'http://18.229.202.71:4000/images/1727186679509.png'"
+                            alt="" class="ct_img_164 mx-auto d-block ct_mb_32" style="border: solid var(--dark_green);">
+                        <!-- <h4 class="mb-2 text-center ct_fs_24">{{singleMemberDetail?.full_name}}, <span
+                                class="ct_green_text">42</span></h4> -->
+                        <h4 class="mb-2 text-center ct_fs_24">{{singleMemberDetail?.full_name}}</h4>
+                        <p class="mb-0 ct_text_op_8 text-center ct_fw_500">{{singleMemberDetail?.user_name}}</p>
+                    </div>
+                    <form action="">
+                        <div class="form-group mb-3">
+                            <label for="" class="mb-2"><span
+                                    class="ct_green_text ct_fw_600 ct_fs_18">{{singleMemberDetail?.relationName}}</span>
+                                of</label>
+                            <input type="text" class="form-control" disabled
+                                [value]="singleMemberDetail?.relationWith?.first_name" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="ct_light_grey_bg ct_p_16 ct_border_radius_5">
+                <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap ct_dash_brdr_btm">
+                    <h6 class="ct_fs_16 ct_fw_500 mb-0 ct_green_text">Gender</h6>
+                    <!-- <h6 class="ct_fs_16 ct_fw_500 mb-0">Male</h6> -->
+                    @if(singleMemberDetail?.other_gender == 'none'){
+                    <!-- <input type="text" class="form-control" placeholder="Display Name" disabled
+                        [value]="singleMemberDetail?.gender" /> -->
+
+                    @if(singleMemberDetail?.gender == 'male'){
+                    <input type="text" class="form-control" disabled value="Male" />
+                    }
+                    @if(singleMemberDetail?.gender == 'female'){
+                    <input type="text" class="form-control" disabled value="Female" />
+                    }
+
+                    @if(singleMemberDetail?.gender == 'prefer-not-to-say'){
+                    <input type="text" class="form-control" disabled value="Prefer Not To Say" />
+                    }
+                    @if(singleMemberDetail?.gender == 'PreferNotToSay'){
+                    <input type="text" class="form-control" disabled value="Prefer Not To Say" />
+                    }
+                    @if(singleMemberDetail?.gender == 'non-binary'){
+                    <input type="text" class="form-control" disabled value="Non Binary" />
+                    }
+
+                    @if(singleMemberDetail?.gender == 'NonBinary'){
+                    <input type="text" class="form-control" disabled value="Non Binary" />
+                    }
+                    @if(singleMemberDetail?.gender == 'unknown'){
+                    <input type="text" class="form-control" disabled value="Gender Unknown" />
+                    }
+
+                    } @else {
+                    <!-- <input type="text" class="form-control" placeholder="Display Name" disabled
+                        [value]="singleMemberDetail?.other_gender" /> -->
+
+                    @if(singleMemberDetail?.other_gender == 'male'){
+                    <input type="text" class="form-control" disabled value="Male" />
+                    }
+                    @if(singleMemberDetail?.other_gender == 'female'){
+                    <input type="text" class="form-control" disabled value="Female" />
+                    }
+
+                    @if(singleMemberDetail?.other_gender == 'prefer-not-to-say'){
+                    <input type="text" class="form-control" disabled value="Prefer Not To Say" />
+                    }
+                    @if(singleMemberDetail?.other_gender == 'PreferNotToSay'){
+                    <input type="text" class="form-control" disabled value="Prefer Not To Say" />
+                    }
+                    @if(singleMemberDetail?.other_gender == 'non-binary'){
+                    <input type="text" class="form-control" disabled value="Non Binary" />
+                    }
+
+                    @if(singleMemberDetail?.other_gender == 'NonBinary'){
+                    <input type="text" class="form-control" disabled value="Non Binary" />
+                    }
+                    @if(singleMemberDetail?.other_gender == 'unknown'){
+                    <input type="text" class="form-control" disabled value="Gender Unknown" />
+                    }
+
+                    }
+                </div>
+                <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap pt-3">
+                    <div>
+                        <h6 class="ct_fs_16 ct_fw_500 mb-2 ct_green_text">Date of Birth</h6>
+                        @if(singleMemberDetail?.date_of_birth != '01/01/1900'){
+                        <p class="ct_fs_14 ct_fw_500">{{singleMemberDetail?.date_of_birth}}</p>
+                        }
+                    </div>
+                    <div>
+                        <h6 class="ct_fs_16 ct_fw_500 mb-2 ct_green_text">Is person alive?</h6>
+                        <!-- <p class="ct_fs_14 ct_fw_500 text-end">Yes</p> -->
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="singleMemberDetail?.is_alive == '0'">Yes</p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="singleMemberDetail?.is_alive == '1'">Yes</p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="singleMemberDetail?.is_alive == '2'">No</p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="singleMemberDetail?.is_alive == '3'">Not yet born
+                        </p>
+                        <p class="ct_fs_14 ct_fw_500 text-end" *ngIf="singleMemberDetail?.is_alive == '4'">Angel Baby
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center border-0 gap-4 px-0 pb-0 ct_flex_wrap_767">
+                    <button (click)="getMemberTimeline(singleMemberDetail?.full_name)" type="button"
+                        class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark">
+                        View Timeline
+                    </button>
+                    <button (click)="getMemberInterview()" type="button"
+                        class="ct_green_btn mx-auto ct_green_outline_btn text-dark  ct_h_50">
+                        View Interview
+                    </button>
+                    <button hidden type="button" class="btn btn-secondary" #closeModalViewMember
+                        data-bs-dismiss="modal">Close</button>
+                </div>
+                @if(singleMemberDetail?.is_alive != '2' && singleMemberDetail?.is_alive != '4') {
+                <div class="mb-0 text-center ct_green_text ct_fs_18 mt-3">
+                    <button (click)="getMemberAlbum(singleMemberDetail?.full_name)" type="button"
+                        class="ct_green_btn ct_h_50 w-100 mx-auto " style="max-width: 337px;">
+                        View Full Albums
+                    </button>
+                </div>
+                }
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!--  view family list E -->
+
+
+
+
+
+
+
+
+
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade Committed_Price" id="delete_modal" tabindex="-1" aria-labelledby="delete_modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content pb-5 ct_px_50">
+            <div class="modal-body px-0">
+                <div class="pt-5">
+                    <img src="assets/img/remove.png" alt="" class="ct_img_60 mx-auto d-block mb-4">
+                    <h4 class="ct_fw_500 mb-3 text-center">Are you Sure?</h4>
+                    <p class="text-center">Do you really want to delete this? after deleting <br> you can't undone</p>
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-0">
+                <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
+                    data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button (click)="deleteMember()" type="button" class="ct_green_btn ct_h_50 ct_btn_red">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="spinner-border me-2" role="status" *ngIf="btnDelLoader">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span *ngIf="!btnDelLoader">Delete</span>
+                    </div>
+                </button>
+                <button hidden type="button" class="btn btn-secondary" #closeModalDel
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Img -->
+<!-- <div class="modal fade" id="img1" tabindex="-1" aria-labelledby="ct_add_eventLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <img [src]="userImg1  ? userImg1 : 'assets/img/np_pro.png'" alt="img">
+        </div>
+    </div>
+</div> -->

@@ -41,7 +41,7 @@
                             <th>Date</th>
                             <th>Messages</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <!-- <th>Action</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -77,10 +77,10 @@
                                     Replied
                                 </div>
                             </td>
-                            <td class="text-end">
+                            <!-- <td class="text-end">
                                 <a href="javascript:void(0)" (click)="feedbackReview(item)" class="ct_fw_500"
                                     data-bs-toggle="modal" data-bs-target="#ct_see_review">See feedback</a>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
 
@@ -247,46 +247,40 @@
         <div class="modal-content">
             <!-- chatbox -->
             <div class="chatbox ">
-                <div class="modal-dialog-scrollable">
+                <div>
                     <div class="modal-content">
-                        <div class="msg-head">
-                            <div class="row">
-
-                                <div class="col-4">
-                                    <ul class="" style="cursor: pointer;">
-                                        <li class="navbar nav-item dropdown" (click)="getMessages(ticketId)">
-                                            <a class="nav-link"><i class="fa fa-refresh" aria-hidden="true"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-
+                        <div class="msg-head d-flex align-items-center justify-content-between gap-3 flex-wrap px-4">
+                           
+                            <div (click)="getMessages(ticketId)" style="cursor: pointer;">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                            </div>
+                            <div >
+                                @if(isLanguageChange) {
+                                <button (click)="changeLang()" class="ct_green_btn mt-3" style="width: fit-content;">
+                                    Translate
+                                </button>
+                                } @else {
+                                <button (click)="reset()" class="ct_green_btn mt-3" style="width: fit-content;">
+                                    Reset
+                                </button>
+                                }
                             </div>
                         </div>
 
                         <!-- Button on the Right -->
-                        <div class="position-absolute" style="top: 0; right: 0;">
-                            @if(isLanguageChange) {
-                            <button (click)="changeLang()" class="ct_green_btn mt-3" style="width: fit-content;">
-                                Translateee
-                            </button>
-                            } @else {
-                            <button (click)="reset()" class="ct_green_btn mt-3" style="width: fit-content;">
-                                Reset
-                            </button>
-                            }
-                        </div>
+                      
 
-                        <div class="modal-body" #scrollMe [scrollTop]="scrollMe?.scrollHeight">
+                        <div class="modal-body ct_modal_scroll_h_300" #scrollMe [scrollTop]="scrollMe?.scrollHeight">
                             <div class="msg-body"
                                 *ngFor="let msg of isLanguageChange == true ? allMessages : feedback_response">
                                 <ul>
                                     <li *ngIf="msg.sender_id != 1" class="sender">
-                                        <p> {{msg?.message}} </p>
+                                        <p style="word-break:break-word"> {{msg?.message}} </p>
                                         <span class="time">{{msg.date_time}}</span>
                                     </li>
 
                                     <li *ngIf="msg.sender_id == 1" class="repaly">
-                                        <p> {{msg?.message }} </p>
+                                        <p  style="word-break:break-word"> {{msg?.message }} </p>
                                         <span class="time">{{msg.date_time}}</span>
                                     </li>
                                 </ul>
@@ -298,11 +292,11 @@
                             <form action="">
                                 <input type="text" class="form-control" aria-label="message…"
                                     placeholder="Write message…" [(ngModel)]="message"
-                                    [ngModelOptions]="{standalone: true}">
+                                    [ngModelOptions]="{standalone: true}" (keydown.enter)="addSendMsg(allMessages)">
                                 <div class="d-flex align-items-center">
 
-                                    <button [disabled]="isDisabled" (click)="addSendMsg(allMessages)" type="button"><i class="fa fa-paper-plane"
-                                            aria-hidden="true"></i>Send</button>
+                                    <button [disabled]="isDisabled" (click)="addSendMsg(allMessages)" type="button"><i
+                                            class="fa fa-paper-plane" aria-hidden="true"></i>Send</button>
 
                                     <!-- <button 
                                         (click)="addSendMsg(allMessages)" class="ct_green_btn mt-3 d-flex"

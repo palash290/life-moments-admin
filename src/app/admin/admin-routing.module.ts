@@ -37,6 +37,7 @@ import { MemberInterviewComponent } from './member-profiles/member-interview/mem
 import { MemberQuestionComponent } from './member-profiles/member-question/member-question.component';
 import { ManageSubscriptionComponent } from './manage-subscription/manage-subscription.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { TreeFamilyComponent } from './member-profiles/tree-family/tree-family.component';
 
 const routes: Routes = [
   {
@@ -68,9 +69,15 @@ const routes: Routes = [
         component: MemberProfilesComponent
       },
       {
-        path: 'family-member/:parentId/:email',
+        path: 'family-member/:parentId/:familyId',
         component: FamilyMembersComponent
       },
+
+      {
+        path: 'tree-member/:parentId',
+        component: TreeFamilyComponent
+      },
+
       {
         path: 'albums/:memberId',
         component: AlbumComponent
