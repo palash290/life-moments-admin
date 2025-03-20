@@ -33,9 +33,11 @@ export class LoginComponent {
     this.loginForm.markAllAsTouched();
     if (this.loginForm.valid) {
       this.loading = true;
+      let fcmToken:any =  localStorage.getItem('lifeFbToken')
       const formURlData = new URLSearchParams ();
       formURlData.set('email', this.loginForm.value.email);
       formURlData.set('password', this.loginForm.value.password);
+      formURlData.set('fcm_token', fcmToken);
       this.srevice.loginUser(formURlData.toString()).subscribe({
         next: (resp) => {
           if (resp.success == true) {

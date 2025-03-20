@@ -2,7 +2,7 @@
     <div class="d-flex align-items-center justify-content-between">
         <h4 class="mb-0 ct_fs_22">Feedback List</h4>
         <div class="d-flex align-items-center gap-3">
-            <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2 ">
+            <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
                 <!-- <span class="ct_text_op_5  ct_fs_13" style="white-space: nowrap;">Select Language :</span> -->
                 <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px;"
                     (change)="onStatusChange($event)">
@@ -250,11 +250,11 @@
                 <div>
                     <div class="modal-content">
                         <div class="msg-head d-flex align-items-center justify-content-between gap-3 flex-wrap px-4">
-                           
+
                             <div (click)="getMessages(ticketId)" style="cursor: pointer;">
                                 <i class="fa fa-refresh" aria-hidden="true"></i>
                             </div>
-                            <div >
+                            <div>
                                 @if(isLanguageChange) {
                                 <button (click)="changeLang()" class="ct_green_btn mt-3" style="width: fit-content;">
                                     Translate
@@ -268,7 +268,7 @@
                         </div>
 
                         <!-- Button on the Right -->
-                      
+
 
                         <div class="modal-body ct_modal_scroll_h_300" #scrollMe [scrollTop]="scrollMe?.scrollHeight">
                             <div class="msg-body"
@@ -280,7 +280,7 @@
                                     </li>
 
                                     <li *ngIf="msg.sender_id == 1" class="repaly">
-                                        <p  style="word-break:break-word"> {{msg?.message }} </p>
+                                        <p style="word-break:break-word"> {{msg?.message }} </p>
                                         <span class="time">{{msg.date_time}}</span>
                                     </li>
                                 </ul>

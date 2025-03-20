@@ -9,7 +9,12 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
-// import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from '../environments/environment';
+import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
+import { initializeApp } from 'firebase/app';
+// initializeApp(environment.firebaseConfig)
+//firebase.initializeApp(environment.firebaseConfig);
 
 @NgModule({
   declarations: [
@@ -17,9 +22,10 @@ import { ToastrModule } from 'ngx-toastr';
     LoginComponent,
     ForgotPasswordComponent,
     DashboardComponent,
-   
   ],
   imports: [
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireMessagingModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -31,9 +37,8 @@ import { ToastrModule } from 'ngx-toastr';
       preventDuplicates: true,
       progressBar: true
     }),
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

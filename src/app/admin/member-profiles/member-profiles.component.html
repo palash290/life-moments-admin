@@ -3,8 +3,8 @@
     <h4 class="mb-0 ct_fs_22">All Members Profile</h4>
     <div class="d-flex align-items-center gap-3">
       <div class="position-relative ct_search_input">
-        <input type="text" class="form-control" placeholder="Search " [(ngModel)]="searchQuery"
-          (ngModelChange)="getSubAdmins()" />
+        <input type="text" class="form-control " style="padding-right: 35px;" placeholder="Search "
+          style="padding-right: 35px;" [(ngModel)]="searchQuery" (ngModelChange)="resetAndSearch()" />
         <i class="fa-solid fa-magnifying-glass"></i>
       </div>
     </div>

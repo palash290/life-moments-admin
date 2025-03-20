@@ -38,6 +38,8 @@ import { MemberQuestionComponent } from './member-profiles/member-question/membe
 import { ManageSubscriptionComponent } from './manage-subscription/manage-subscription.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { TreeFamilyComponent } from './member-profiles/tree-family/tree-family.component';
+import { NotificationContantComponent } from './notification-contant/notification-contant.component';
+import { GuestProfilesComponent } from './guest-profiles/guest-profiles.component';
 
 const routes: Routes = [
   {
@@ -202,6 +204,14 @@ const routes: Routes = [
       {
         path: 'notifications',
         component: NotificationsComponent
+      },
+      {
+        path: 'notification-contant',
+        component: NotificationContantComponent
+      },
+      {
+        path: 'guest-profile',
+        component: GuestProfilesComponent
       },
     ]
   }

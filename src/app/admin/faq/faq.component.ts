@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SharedService } from '../../shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-faq',
@@ -72,6 +73,44 @@ export class FaqComponent {
       }
     });
   }
+
+  drop(event: CdkDragDrop<any[]>) {
+    moveItemInArray(this.data, event.previousIndex, event.currentIndex);
+  }
+
+  saveOrder() {
+this.loading = true;
+    const formURlData = new URLSearchParams();
+    formURlData.set('faq_order', JSON.stringify(this.data));
+
+    this.service.postAPI('sub-admin/update-faq-ordering', formURlData).subscribe({
+      next: (resp) => {
+
+        if (resp.success == true) {
+          this.toastr.success(resp.message);
+          this.loading = false;
+
+        } else {
+          this.toastr.warning(resp.message);
+          this.loading = false;
+
+        }
+      },
+      error: (error) => {
+        this.loading = false;
+        if (error.error.message) {
+          this.toastr.error(error.error.message);
+        } else {
+          this.toastr.error('Something went wrong!');
+        }
+        //this.toastr.error('Error updating FAQs:', error);
+      }
+    });
+  }
+  // drop(event: CdkDragDrop<any[]>) {
+  //   if (!event.previousContainer || !event.container) return;
+  //   moveItemInArray(this.data, event.previousIndex, event.currentIndex);
+  // }
 
   btnLoader: boolean = false;
 

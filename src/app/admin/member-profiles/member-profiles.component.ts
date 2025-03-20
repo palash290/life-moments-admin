@@ -193,6 +193,11 @@ export class MemberProfilesComponent {
     });
   }
 
+  resetAndSearch() {
+    this.currentPage = 1; // Reset to first page on search
+    this.getSubAdmins();
+  }
+
   goToPage(page: number) {
     this.currentPage = page;
 

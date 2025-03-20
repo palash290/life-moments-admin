@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { SharedService } from '../../shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { Editor, Toolbar } from 'ngx-editor';
@@ -15,7 +15,7 @@ export class NotificationsComponent {
   // selectedMembers: number[] = [];
   selectedMembersId: any;
   selectedOption: string = 'Individual';
-  selectedNotification: string = 'app';
+  selectedNotification: string = 'both';
   about_us: any = '';
   editor1!: Editor;
   loading: boolean = false;
@@ -36,6 +36,8 @@ export class NotificationsComponent {
     this.editor1 = new Editor();
     this.onOptionChange()
     this.getMembers();
+    this.setMaxDate();
+    this.getUserWithName();
     // const formURlData = new URLSearchParams();
     // formURlData.set('date_of_birth', '');
     // formURlData.set('search', '');
@@ -51,11 +53,19 @@ export class NotificationsComponent {
     // });
   }
 
+  getUserWithName() {
+    this.service.getApi('sub-admin/get-all-users-with-count').subscribe(response => {
+      if (response.success) {
+        this.languages = response.data;
+      }
+    });
+  }
+
   onAgeGroupChange() {
     if (this.filter.ageGroup !== '') {
       this.filter.date_of_birth = ''; // Clear date if age filter is selected
     }
-    this.onFilterChange(); // Trigger API call
+    //this.applyFilters(); // Trigger API call
   }
 
   getMembers() {
@@ -64,7 +74,11 @@ export class NotificationsComponent {
     if (this.filter.ageGroup && this.filter.ageGroup !== '') {
       formURlData.set('date_of_birth', this.filter.ageGroup);
     } else if (this.filter.date_of_birth) {
-      formURlData.set('date_of_birth', this.filter.date_of_birth);
+      //formURlData.set('date_of_birth', this.filter.date_of_birth);
+      const dateParts = this.filter.date_of_birth.split('-'); // Split by hyphen (YYYY-MM-DD)
+      const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`; // Convert to DD/MM/YYYY
+      formURlData.set('date_of_birth', formattedDate);
+
     }
 
     formURlData.set('search', this.filter.search);
@@ -72,9 +86,9 @@ export class NotificationsComponent {
     if (this.filter.is_alive) {
       formURlData.set('is_alive', this.filter.is_alive);
     }
-    if (!this.isSearchLoad) {
-      this.loading12 = true;
-    }
+
+    this.loading12 = true;
+
 
     this.service.postAPI('sub-admin/get-users-for-notification', formURlData).subscribe({
       next: (resp) => {
@@ -154,12 +168,28 @@ export class NotificationsComponent {
 
 
 
-  isSearchLoad: boolean = false;
+  //isSearchLoad: boolean = false;
 
-  onFilterChange() {
+
+  applyFilters() {
+    if (this.filter.date_of_birth == '' && this.filter.search == '' && this.filter.is_alive == '' && this.filter.ageGroup == '') {
+      return
+    }
     this.selectedMembers = [];
     this.selectAll = false;
-    this.isSearchLoad = true;
+    this.getMembers();
+  }
+
+  resetFilters() {
+    if (this.filter.date_of_birth == '' && this.filter.search == '' && this.filter.is_alive == '' && this.filter.ageGroup == '') {
+      return
+    }
+    this.filter = {
+      date_of_birth: '',
+      search: '',
+      is_alive: '',
+      ageGroup: ''
+    };
     this.getMembers();
   }
 
@@ -462,6 +492,88 @@ export class NotificationsComponent {
     });
   }
 
+  from: any;
+  to: any;
+
+  onNameUpdate() {
+
+    const title = this.title?.trim();
+    const about_us = this.about_us?.trim();
+
+    if (!title || !about_us) {
+      //this.toastr.warning('Passwords cannot be empty or just spaces.');
+      return;
+    }
+
+    // Validate required fields
+    if (!this.about_us || !this.title) {
+      this.toastr.error('Message and title fields cannot be empty.');
+      return;
+    }
+
+    if (this.selectedOption === 'Name' && !this.from && !this.to) {
+      this.toastr.error('Please select both dates for notifications.');
+      return;
+    }
+
+    this.loading = true;
+
+    const formURlData = new FormData();
+    if (this.parentImage1) {
+      formURlData.append('avatar', this.parentImage);
+    }
+
+    const htmlContentAbout = `<div style="font-family: "Open Sans", serif !important; font-size: 12px;">${this.about_us}</div>`;
+
+    formURlData.set('notification_type', this.selectedNotification);
+
+    formURlData.set('message', htmlContentAbout);
+
+    formURlData.set('user_type', 'date of birth range');
+
+    formURlData.set('title', this.title);
+
+    //formURlData.set('user_id', this.languageId);
+    formURlData.set('start_date', this.from);
+    formURlData.set('end_date', this.to);
+
+    const fromDate = this.from.split('-'); // Split by hyphen (YYYY-MM-DD)
+    const formattedDateFrom = `${fromDate[2]}/${fromDate[1]}/${fromDate[0]}`; // Convert to DD/MM/YYYY
+    formURlData.set('start_date', formattedDateFrom);
+
+    const toDate = this.to.split('-'); // Split by hyphen (YYYY-MM-DD)
+    const formattedDateTo = `${toDate[2]}/${toDate[1]}/${toDate[0]}`; // Convert to DD/MM/YYYY
+    formURlData.set('end_date', formattedDateTo);
+
+
+    this.service.postAPIFormData('sub-admin/send-notification', formURlData).subscribe({
+      next: (resp) => {
+        if (resp.success) {
+          this.toastr.success(resp.message);
+          this.loading = false;
+          this.parentImage1 = null;
+          this.title = '';
+          this.about_us = '';
+          this.parentImage1 = null;
+          this.from = '';
+          this.to = '';
+          //this.getUserWithName();
+        } else {
+          this.toastr.warning(resp.message);
+          this.loading = false;
+        }
+      },
+      error: error => {
+        this.loading = false;
+        if (error.error.message) {
+          this.toastr.error(error.error.message);
+        } else {
+          this.toastr.error('Something went wrong!');
+        }
+      }
+    });
+  }
+
 
   parentImage1: any;
   parentImage!: File;
@@ -502,6 +614,17 @@ export class NotificationsComponent {
   toggleEmojiPicker() {
     console.log(this.showEmojiPicker);
     this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  // Listen for clicks on the document
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    const target = event.target as HTMLElement;
+
+    // Close emoji picker if clicked outside
+    if (this.showEmojiPicker && !target.closest('.emoji-mart') && !target.closest('.ct_emoji_icon_position')) {
+      this.showEmojiPicker = false;
+    }
   }
 
   addEmoji(event: any) {
@@ -550,6 +673,30 @@ export class NotificationsComponent {
 
   logSelectedMembers() {
     console.log("Selected Member IDs:", this.selectedMembers);
+  }
+
+  languages: any;
+  languageId: any;
+
+  onLanguageChange(event: any): void {
+    const selectedId = event.target.value;
+    const selectedCategory = this.languages.find((language: { user_id: any; }) => language.user_id == selectedId);
+
+    //const selectedCategory = this.categories.find(category => category.id === event.value);
+
+    if (selectedCategory) {
+      this.languageId = selectedCategory.user_id;
+
+      console.log('Selected Category ID:', this.languageId);
+      //this.getPrivacy(this.languageId)
+
+    }
+  }
+
+  maxDate: any;
+  setMaxDate() {
+    const today = new Date();
+    this.maxDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
   }
 
 

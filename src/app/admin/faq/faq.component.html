@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <div class="row ct_mt_30">
+    <!-- <div class="row ct_mt_30">
         <div class="accordion ct_faq_accordian" id="accordionExample">
             <div class="accordion-item" *ngFor="let item of data; let i = index">
                 <h2 class="accordion-header" [id]="'heading' + i">
@@ -40,7 +40,40 @@
                 </div>
             </div>
         </div>
+    </div> -->
+
+
+    <div class="row ct_mt_30" >
+        <div class="accordion ct_faq_accordian" id="accordionExample" cdkDropList (cdkDropListDropped)="drop($event)">
+            <div class="accordion-item" *ngFor="let item of data; let i = index" cdkDrag>
+                <h2 class="accordion-header" [id]="'heading' + i">
+                    <button class="accordion-button collapsed" style="background-color: #fff;padding: 16px 20px;border-radius: 10px;" type="button" data-bs-toggle="collapse"
+                        [attr.data-bs-target]="'#collapse' + i" aria-expanded="false"
+                        [attr.aria-controls]="'collapse' + i">
+                        {{ getQuestion(item) }}
+                    </button>
+                </h2>
+                <div [id]="'collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading' + i"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body" style="word-break: break-all;">
+                        {{ getAnswer(item) }}
+
+                        <div class="d-flex align-items-center gap-3 mt-3">
+                            <i style="cursor: pointer;" class="fas fa-edit" data-bs-toggle="modal"
+                                data-bs-target="#ct_edit_sub_admin" (click)="patchUpdate(item)"></i>
+                            <i style="cursor: pointer;" class="fa-solid fa-trash-can text-danger" data-bs-toggle="modal"
+                                data-bs-target="#ct_delete_blog" (click)="patchUpdate(item)"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+<!-- Save Button -->
+<div class="text-center mt-4">
+    <button class="ct_green_btn1" (click)="saveOrder()">Save</button>
+</div>
 </div>
 
 
@@ -72,7 +105,8 @@
 
                         <div class="form-group mb-3">
                             <label for="" class="mb-2">Answer <span class="ct_required_star">*</span></label>
-                            <textarea type="text" class="form-control" placeholder="Enter Answer" formControlName="answer"></textarea>
+                            <textarea type="text" class="form-control" placeholder="Enter Answer"
+                                formControlName="answer"></textarea>
                             <div *ngIf="faqForm.controls['answer'].invalid && faqForm.controls['answer'].touched"
                                 class="error-message">
                                 <div *ngIf="faqForm.controls['answer'].errors?.['required']" class="ct_fs_14">Answer is
@@ -131,7 +165,8 @@
 
                         <div class="form-group mb-3">
                             <label for="" class="mb-2">Answer <span class="ct_required_star">*</span></label>
-                            <textarea type="text" class="form-control" placeholder="Enter answer" formControlName="answer"></textarea>
+                            <textarea type="text" class="form-control" placeholder="Enter answer"
+                                formControlName="answer"></textarea>
                             <div *ngIf="editFaq.controls['answer'].invalid && editFaq.controls['answer'].touched"
                                 class="error-message">
                                 <div *ngIf="editFaq.controls['answer'].errors?.['required']" class="ct_fs_14">Answer is

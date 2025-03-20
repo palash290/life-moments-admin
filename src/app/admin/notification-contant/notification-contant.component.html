@@ -1,0 +1,334 @@
+<div class="ct_dashbaord_middle">
+    <h4 class="ct_fs_22 mb-0">Notification Content</h4>
+    <p class="ct_note_box_1">
+        <span class="ct_fw_600">NOTE:</span> Use Mail Merge Correctly:
+        For root user, enter <span class="ct_fw_600">
+            <%= adminName %>
+        </span> and for member, enter <span class="ct_fw_600">
+            <%= memberName %>.
+        </span> Ensure correct formatting for proper name display in notifications.
+    </p>
+    <div class="row mt-5">
+        <div class="col-md-12 mx-auto">
+            <div class="ct_white_bg_1 py-4">
+                <!-- <h4 class="ct_fs_24 mb-4 ct_fw_600">Notification</h4> -->
+                <div class="mb-4 ct_border_btm_1  ct_notification_radio_flex">
+                    <div class="ct_radio_bg_btn12">
+                        <div class="form-check form-check-inline me-0 mb-0">
+                            <input class="form-check-input" type="radio" id="inlineRadio3" value="Interviews"
+                                [(ngModel)]="selectedNotification" [ngModelOptions]="{ standalone: true }"
+                                (click)="reset()">
+                            <label class="form-check-label ct_fw_600" for="inlineRadio3">Interviews</label>
+                        </div>
+                    </div>
+                    <div class="ct_radio_bg_btn12">
+                        <div class="form-check form-check-inline me-0 mb-0">
+                            <input class="form-check-input" type="radio" id="inlineRadio1" value="Family"
+                                [(ngModel)]="selectedNotification" [ngModelOptions]="{ standalone: true }"
+                                (click)="reset()">
+                            <label class="form-check-label ct_fw_600" for="inlineRadio1">Family Tree</label>
+                        </div>
+                    </div>
+                    <div class="ct_radio_bg_btn12">
+                        <div class="form-check form-check-inline me-0 mb-0">
+                            <input class="form-check-input" type="radio" id="inlineRadio2" value="Paywall"
+                                [(ngModel)]="selectedNotification" [ngModelOptions]="{ standalone: true }"
+                                (click)="reset()">
+                            <label class="form-check-label ct_fw_600" for="inlineRadio2">Pre Paywall</label>
+                        </div>
+                    </div>
+                    <!-- <div class="ct_radio_bg_btn12">
+                        <div class="form-check form-check-inline me-0 mb-0">
+                            <input class="form-check-input" type="radio" id="inlineRadio2" value="Dandilion"
+                                [(ngModel)]="selectedNotification" [ngModelOptions]="{ standalone: true }">
+                            <label class="form-check-label ct_fw_600" for="inlineRadio2">Dandilion Club & Print
+                                Shop</label>
+                        </div>
+                    </div>
+                    <div class="ct_radio_bg_btn12">
+                        <div class="form-check form-check-inline me-0 mb-0">
+                            <input class="form-check-input" type="radio" id="inlineRadio2" value="Test" [(ngModel)]="selectedNotification"
+                                [ngModelOptions]="{ standalone: true }">
+                            <label class="form-check-label ct_fw_600" for="inlineRadio2">Test</label>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="ct_radio_bg_btn12">
+                        <div class="form-check form-check-inline me-0 mb-0">
+                            <input class="form-check-input" type="radio" id="inlineRadio2" value="Dandilion"
+                                [(ngModel)]="selectedNotification" [ngModelOptions]="{ standalone: true }">
+                            <label class="form-check-label ct_fw_600" for="inlineRadio2">Dandilion Club & Print
+                                Shop</label>
+                        </div>
+                    </div>
+                    <div class="ct_radio_bg_btn12">
+                        <div class="form-check form-check-inline me-0 mb-0">
+                            <input class="form-check-input" type="radio" id="inlineRadio2" value="Test"
+                                [(ngModel)]="selectedNotification" [ngModelOptions]="{ standalone: true }">
+                            <label class="form-check-label ct_fw_600" for="inlineRadio2">Review Life's Moments</label>
+                        </div>
+                    </div> -->
+
+                </div>
+
+                <div class="table-responsive mb-4" *ngIf="selectedNotification === 'Interviews'">
+                    <table class="table ct_notification_table ct_table_padd_0" *ngIf="!showForm">
+                        <tbody>
+                            <tr style="cursor: pointer;" (click)="selectedOptionInterview = '24'"
+                                (click)="getEventById(1)">
+                                <td class="ct_fw_600">24 Hours before Scheduled Interview Time</td>
+                            </tr>
+                            <tr style="cursor: pointer;" (click)="selectedOptionInterview = '30'"
+                                (click)="getEventById(2)">
+                                <td class="ct_fw_600">30 Days before Scheduled Interview Time</td>
+                            </tr>
+                            <tr style="cursor: pointer;" (click)="selectedOptionInterview = '72'"
+                                (click)="getEventById(3)">
+                                <td class="ct_fw_600">72 Hours before Scheduled Interview Time</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-responsive mb-4" *ngIf="selectedNotification === 'Family'">
+                    <table class="table ct_notification_table ct_table_padd_0" *ngIf="!showForm">
+                        <tbody>
+                            <tr style="cursor: pointer;" (click)="selectedOptionFamily = '10'"
+                                (click)="getEventById(7)">
+                                <td class="ct_fw_600">After they've added a photo/s or
+                                    video/s and their TOTAL photo count = 10 or more</td>
+                            </tr>
+                            <tr style="cursor: pointer;" (click)="selectedOptionFamily = '3'" (click)="getEventById(8)">
+                                <td class="ct_fw_600">3 days after creating a profile
+                                    WITH NO PHOTO </td>
+                            </tr>
+                            <tr style="cursor: pointer;" (click)="selectedOptionFamily = '7'" (click)="getEventById(9)">
+                                <td class="ct_fw_600">7 days after adding a Person OR a
+                                    Pet WITH NO PHOTO</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-responsive mb-4" *ngIf="selectedNotification === 'Paywall'">
+
+                    <table class="table ct_notification_table ct_table_padd_0" *ngIf="!showForm">
+                        <tbody>
+                            <tr style="cursor: pointer;" (click)="selectedOptionPaywall = '100'"
+                                (click)="getEventById(4)">
+                                <td class="ct_fw_600">72 Hours after Account created</td>
+                            </tr>
+                            <tr style="cursor: pointer;" (click)="selectedOptionPaywall = '101'"
+                                (click)="getEventById(5)">
+                                <td class="ct_fw_600">24 Hours after the clicked into the 101.0 page and Didn't Choose
+                                    one of the options</td>
+                            </tr>
+                            <tr style="cursor: pointer;" (click)="selectedOptionPaywall = '102'"
+                                (click)="getEventById(6)">
+                                <td class="ct_fw_600">24 Hours after the clicked into the 101.5 page and Didn't Choose
+                                    one of the options</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="table-responsive mb-4" *ngIf="selectedNotification === 'Dandilion'">
+                </div>
+
+                <!-- Family -->
+                <div>
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <a *ngIf="showForm && selectedNotification == 'Family'" (click)="familyBack()"
+                            style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+                                class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
+                    </div>
+
+                    <!-- <button *ngIf="showForm && selectedNotification == 'Family'" (click)="familyBack()">Back</button> -->
+                    <h2 *ngIf="selectedOptionFamily === '10'" class="ct_fs_22 my-4">After they've added a photo/s or
+                        video/s and their TOTAL photo count = 10 or more</h2>
+                    <h2 *ngIf="selectedOptionFamily === '3'" class="ct_fs_22 my-4">3 days after creating a profile
+                        WITH NO PHOTO </h2>
+                    <h2 *ngIf="selectedOptionFamily === '7'" class="ct_fs_22 my-4">7 days after adding a Person OR a
+                        Pet WITH NO PHOTO</h2>
+                    <div class="d-flex gap-3">
+
+                        <div class="form-group mb-4 w-50" *ngIf="selectedOptionFamily === '10'">
+                            <label class="mb-2 ct_fw_600">Prerequisite 1</label>
+                            <input type="text" class="form-control ct_input"
+                                value="After they've added a photo/s or video/s " disabled>
+                        </div>
+
+
+                        <div class="form-group mb-4 w-50" *ngIf="selectedOptionFamily === '10'">
+                            <label class="mb-2 ct_fw_600">Prerequisite 2</label>
+                            <input type="text" class="form-control ct_input"
+                                value="TOTAL photo/video count = 10 or more" disabled>
+                        </div>
+
+                        <div class="form-group mb-4 w-50" *ngIf="selectedOptionFamily === '3'">
+                            <label class="mb-2 ct_fw_600">Prerequisite 1</label>
+                            <input type="text" class="form-control ct_input"
+                                value="Human or Pet added with NO Picture - Check NO added picture for the Admin"
+                                disabled>
+                        </div>
+                        <div class="form-group mb-4 w-50" *ngIf="selectedOptionFamily === '3'">
+                            <label class="mb-2 ct_fw_600">Prerequisite 1</label>
+                            <input type="text" class="form-control ct_input" value="Check Alive Status  = Yes" disabled>
+                        </div>
+
+
+                        <div class="form-group mb-4 w-50" *ngIf="selectedOptionFamily === '7'">
+                            <label class="mb-2 ct_fw_600">Prerequisite 2</label>
+                            <input type="text" class="form-control ct_input"
+                                value="Human or Pet added with NO Picture - check no added pic before sending" disabled>
+                        </div>
+
+                        <div class="form-group mb-4 w-50" *ngIf="selectedOptionFamily === '7'">
+                            <label class="mb-2 ct_fw_600">Prerequisite 1</label>
+                            <input type="text" class="form-control ct_input" value="Check Alive Status  = Yes" disabled>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Interview -->
+                <div>
+                    <!-- <button *ngIf="showForm && selectedNotification == 'Interviews'"
+                        (click)="interviewBack()">Back</button> -->
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <a *ngIf="showForm && selectedNotification == 'Interviews'" (click)="interviewBack()"
+                            style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+                                class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
+                    </div>
+                    <h2 *ngIf="selectedOptionInterview === '24'" class="ct_fs_22 my-4">24 Hours before Scheduled
+                        Interview Time</h2>
+                    <h2 *ngIf="selectedOptionInterview === '30'" class="ct_fs_22 my-4">30 Days before Scheduled
+                        Interview Time</h2>
+                    <h2 *ngIf="selectedOptionInterview === '72'" class="ct_fs_22 my-4">72 Hours before Scheduled
+                        Interview Time</h2>
+                    <div class="d-flex gap-3">
+                        <!-- Prerequisite 1 (Visible for '24' or '72') -->
+                        <div class="form-group mb-4 w-50"
+                            *ngIf="selectedOptionInterview === '24' || selectedOptionInterview === '72'">
+                            <label class="mb-2 ct_fw_600">Prerequisite 1</label>
+                            <input type="text" class="form-control ct_input"
+                                value="After they've added a photo/s or video/s " disabled>
+                        </div>
+
+                        <!-- Prerequisite 2 (Visible for '24', '72', or '30') -->
+                        <div class="form-group mb-4 w-50"
+                            *ngIf="selectedOptionInterview === '24' || selectedOptionInterview === '72' || selectedOptionInterview === '30'">
+                            <label class="mb-2 ct_fw_600">Prerequisite 2</label>
+                            <input type="text" class="form-control ct_input"
+                                value="TOTAL photo/video count = 10 or more" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paywall -->
+                <div>
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <a *ngIf="showForm && selectedNotification == 'Paywall'" (click)="paywallBack()"
+                            style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+                                class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
+                    </div>
+                    <!-- <button *ngIf="showForm && selectedNotification == 'Paywall'" (click)="paywallBack()">Back</button> -->
+                    <h2 *ngIf="selectedOptionPaywall === '100'" class="ct_fs_22 my-4">72 Hours after Account created
+                    </h2>
+                    <h2 *ngIf="selectedOptionPaywall === '101'" class="ct_fs_22 my-4">24 Hours after the clicked into
+                        the 101.0 page and
+                        Didn't Choose one of the options</h2>
+                    <h2 *ngIf="selectedOptionPaywall === '102'" class="ct_fs_22 my-4">24 Hours after the clicked into
+                        the 101.5 page and
+                        Didn't Choose one of the options</h2>
+                    <div class="d-flex gap-3">
+
+                        <div class="form-group mb-4 w-50" *ngIf="selectedOptionPaywall === '100'">
+                            <label class="mb-2 ct_fw_600">Prerequisite 1</label>
+                            <input type="text" class="form-control ct_input"
+                                value="at 72 hour mark Check still hasn't  clicked Get Started Button before sending message"
+                                disabled>
+                        </div>
+
+                        <div class="form-group mb-4 w-50" *ngIf="selectedOptionPaywall === '101'">
+                            <label class="mb-2 ct_fw_600">Prerequisite 1</label>
+                            <input type="text" class="form-control ct_input"
+                                value="at 24 hours mark check no selection of monthly, annual subscription or no trial selected before sending message"
+                                disabled>
+                        </div>
+
+                        <div class="form-group mb-4 w-50" *ngIf="selectedOptionPaywall === '102'">
+                            <label class="mb-2 ct_fw_600">Prerequisite 1</label>
+                            <input type="text" class="form-control ct_input"
+                                value="at 24 hours mark check no selection of monthly, annual subscription or no trial selected before sending message"
+                                disabled>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <form *ngIf="showForm">
+                    <div class="form-group mb-4">
+                        <label for="" class="mb-2 ct_fw_600">Subject</label>
+                        <input type="text" class="form-control ct_input" [(ngModel)]="title"
+                            [ngModelOptions]="{ standalone: true }" placeholder="Enter Subject" maxlength="100">
+                    </div>
+
+                    <div class="form-group mb-3 mt-3">
+                        <label class="mb-3 ct_fw_600" for="groupSelect">Message</label>
+                        <div class="position-relative">
+                            <p class="ct_emoji_icon_position" (click)="toggleEmojiPicker()"><i
+                                    class="fa-regular fa-face-smile"></i>
+                            </p>
+                            <ngx-editor-menu [editor]="editor1" [toolbar]="toolbar1"></ngx-editor-menu>
+                            <ngx-editor [editor]="editor1" [(ngModel)]="about_us"
+                                [ngModelOptions]="{ standalone: true }"></ngx-editor>
+                        </div>
+
+                        <!-- <ckeditor [editor]="editor" [data]="data"></ckeditor> -->
+
+                        <emoji-mart class="emoji-mart" [set]="set" *ngIf="showEmojiPicker"
+                            (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+                    </div>
+
+                    <button *ngIf="selectedNotification == 'Interviews'" (click)="saveInterview()"
+                        style="cursor: pointer;" class="ct_green_btn px-5">
+                        Save
+                    </button>
+                    <button *ngIf="selectedNotification == 'Family'" (click)="saveInterview()" style="cursor: pointer;"
+                        class="ct_green_btn px-5">
+                        Save
+                    </button>
+                    <button *ngIf="selectedNotification == 'Paywall'" (click)="saveInterview()" style="cursor: pointer;"
+                        class="ct_green_btn px-5">
+                        Save
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>

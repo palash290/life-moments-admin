@@ -46,6 +46,9 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { TreeFamilyComponent } from './member-profiles/tree-family/tree-family.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NotificationContantComponent } from './notification-contant/notification-contant.component';
+import { GuestProfilesComponent } from './guest-profiles/guest-profiles.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +91,9 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     MemberQuestionComponent,
     ManageSubscriptionComponent,
     NotificationsComponent,
-    TreeFamilyComponent
+    TreeFamilyComponent,
+    NotificationContantComponent,
+    GuestProfilesComponent
 
   ],
   imports: [
@@ -98,7 +103,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     ReactiveFormsModule,
     NgxEditorModule,
     CKEditorModule,
-    PickerModule
+    PickerModule,
+    DragDropModule
   ]
 })
 export class AdminModule { }

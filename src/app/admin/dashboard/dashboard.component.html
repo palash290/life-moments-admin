@@ -21,7 +21,7 @@
           <i class="bi bi-currency-dollar"></i>
         </div>
         <div class="ct_dash_card_info">
-          <span>Total revenue generated </span>
+          <span>Total Revenue Generated </span>
           <h4>${{totalRevenueGenerate ? (totalRevenueGenerate | number: '1.2-2') : '0'}}</h4>
         </div>
       </div>
@@ -69,6 +69,7 @@
               <th>Full Name</th>
               <th>Display Name</th>
               <th>Gender</th>
+              <th>User Type</th>
               <th>DOB</th>
             </tr>
           </thead>
@@ -124,6 +125,15 @@
                 </div>
                 }
 
+              </td>
+              <td>
+                @if(item.onBoardingDone == 1){
+                Guest To User
+                } @else if (item.is_guest) {
+                Guest User
+                } @else {
+                Root User
+                }
               </td>
               <td class="text-end">{{item.birth}}</td>
             </tr>

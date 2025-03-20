@@ -1,0 +1,115 @@
+.ct_border_btm_1 {
+    border-bottom: 1px solid #e6e6e6;
+  }
+  
+  .ct_notification_radio_flex {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    background-color: #f5f5f5;
+    padding-block: 15px;
+    border-radius: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .ct_radio_bg_btn12 {
+    background-color: #fff;
+    padding: 8px 14px;
+    border-radius: 5px;
+    border-top: 2px solid #0d9e00;
+  }
+  
+  .custom-dropdown {
+    position: relative;
+  }
+  
+  /* .form-control {
+    cursor: pointer;
+  } */
+  
+  .dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .dropdown-item {
+    padding: 5px 10px;
+  }
+  
+  .dropdown-item label {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .arrow {
+    transition: transform 0.2s;
+  }
+  
+  .arrow.open {
+    transform: rotate(180deg);
+  }
+  
+  
+  .ct_img_164 {
+    width: 300px;
+    height: 300px;
+    border-radius: 50px;
+  }
+  
+  .mx-auto {
+    margin-right: auto !important;
+    /* margin-left: auto !important; */
+  }
+  
+  
+  .ct_loader_main12 {
+    width: 100%;
+    background: #f5f5f5;
+    position: absolute;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    z-index: 999999;
+    display: flex
+  ;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+  }
+  
+  .scroll-container {
+    height: 400px;
+    overflow-y: auto;
+  }
+
+  .ct_notification_table td {
+    border: 1px solid #0dac0070;
+    border-radius: 10px !important;
+    background: linear-gradient(
+      90deg,
+      #85cd5b 0%,
+      #25ad1e 75.09%);
+    color: #fff;
+    font-weight: 500;
+    padding: 10px 20px;
+}
+.ct_notification_table{
+  border-spacing: 15px;
+  border-collapse: separate;
+}
+p.ct_note_box_1 {
+  background-color: #0eac001c;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 10px;
+  border: 2px dashed #0eac00;
+}
