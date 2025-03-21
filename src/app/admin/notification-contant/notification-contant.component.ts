@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { Editor, Toolbar } from 'ngx-editor';
 import { SharedService } from '../../shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-notification-contant',
@@ -25,7 +26,7 @@ export class NotificationContantComponent {
   prerequisiteId: any;
 
 
-  constructor(private service: SharedService, private toastr: ToastrService) { }
+  constructor(private service: SharedService, private toastr: ToastrService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.editor1 = new Editor();
@@ -179,15 +180,18 @@ export class NotificationContantComponent {
 
     const formURlData = new URLSearchParams();
 
-    const htmlContentAbout = `${this.about_us}`;
+    //const htmlContentAbout = `${this.about_us}`;
 
-    // formURlData.set('notification_type', this.selectedNotification);
+  // Decode the HTML entities back to normal
+  const textArea = document.createElement('textarea');
+  textArea.innerHTML = about_us;
+  const about_us1 = textArea.value;
 
-    // formURlData.set('selectedOptionInterview', this.selectedOptionInterview)
+
 
     formURlData.set('id', this.prerequisiteId)
 
-    formURlData.set('content', htmlContentAbout);
+    formURlData.set('content', about_us1);
 
     formURlData.set('title', this.title);
 

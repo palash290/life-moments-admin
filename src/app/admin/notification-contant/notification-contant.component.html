@@ -278,12 +278,12 @@
 
                     <div class="form-group mb-3 mt-3">
                         <label class="mb-3 ct_fw_600" for="groupSelect">Message</label>
-                        <div class="position-relative">
+                        <div class="position-relative" >
                             <p class="ct_emoji_icon_position" (click)="toggleEmojiPicker()"><i
                                     class="fa-regular fa-face-smile"></i>
                             </p>
                             <ngx-editor-menu [editor]="editor1" [toolbar]="toolbar1"></ngx-editor-menu>
-                            <ngx-editor [editor]="editor1" [(ngModel)]="about_us"
+                            <ngx-editor [editor]="editor1" [(ngModel)]="about_us" 
                                 [ngModelOptions]="{ standalone: true }"></ngx-editor>
                         </div>
 
