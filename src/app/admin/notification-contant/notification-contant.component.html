@@ -173,19 +173,19 @@
                                 disabled>
                         </div>
                         <div class="form-group mb-4 w-50" *ngIf="selectedOptionFamily === '3'">
-                            <label class="mb-2 ct_fw_600">Prerequisite 1</label>
+                            <label class="mb-2 ct_fw_600">Prerequisite 2</label>
                             <input type="text" class="form-control ct_input" value="Check Alive Status  = Yes" disabled>
                         </div>
 
 
                         <div class="form-group mb-4 w-50" *ngIf="selectedOptionFamily === '7'">
-                            <label class="mb-2 ct_fw_600">Prerequisite 2</label>
+                            <label class="mb-2 ct_fw_600">Prerequisite 1</label>
                             <input type="text" class="form-control ct_input"
                                 value="Human or Pet added with NO Picture - check no added pic before sending" disabled>
                         </div>
 
                         <div class="form-group mb-4 w-50" *ngIf="selectedOptionFamily === '7'">
-                            <label class="mb-2 ct_fw_600">Prerequisite 1</label>
+                            <label class="mb-2 ct_fw_600">Prerequisite 2</label>
                             <input type="text" class="form-control ct_input" value="Check Alive Status  = Yes" disabled>
                         </div>
 
@@ -213,15 +213,15 @@
                             *ngIf="selectedOptionInterview === '24' || selectedOptionInterview === '72'">
                             <label class="mb-2 ct_fw_600">Prerequisite 1</label>
                             <input type="text" class="form-control ct_input"
-                                value="After they've added a photo/s or video/s " disabled>
+                                value="Only send if Interview NOT YET DONE" disabled>
                         </div>
 
                         <!-- Prerequisite 2 (Visible for '24', '72', or '30') -->
                         <div class="form-group mb-4 w-50"
                             *ngIf="selectedOptionInterview === '24' || selectedOptionInterview === '72' || selectedOptionInterview === '30'">
-                            <label class="mb-2 ct_fw_600">Prerequisite 2</label>
+                            <label class="mb-2 ct_fw_600">{{selectedOptionInterview === '30' ? 'Prerequisite 1' : 'Prerequisite 2'}}</label>
                             <input type="text" class="form-control ct_input"
-                                value="TOTAL photo/video count = 10 or more" disabled>
+                                value="Check Alive Status  = Yes" disabled>
                         </div>
                     </div>
                 </div>
@@ -244,21 +244,21 @@
                         Didn't Choose one of the options</h2>
                     <div class="d-flex gap-3">
 
-                        <div class="form-group mb-4 w-50" *ngIf="selectedOptionPaywall === '100'">
+                        <div class="form-group mb-4 w-100" *ngIf="selectedOptionPaywall === '100'">
                             <label class="mb-2 ct_fw_600">Prerequisite 1</label>
                             <input type="text" class="form-control ct_input"
                                 value="at 72 hour mark Check still hasn't  clicked Get Started Button before sending message"
                                 disabled>
                         </div>
 
-                        <div class="form-group mb-4 w-50" *ngIf="selectedOptionPaywall === '101'">
+                        <div class="form-group mb-4 w-100" *ngIf="selectedOptionPaywall === '101'">
                             <label class="mb-2 ct_fw_600">Prerequisite 1</label>
                             <input type="text" class="form-control ct_input"
                                 value="at 24 hours mark check no selection of monthly, annual subscription or no trial selected before sending message"
                                 disabled>
                         </div>
 
-                        <div class="form-group mb-4 w-50" *ngIf="selectedOptionPaywall === '102'">
+                        <div class="form-group mb-4 w-100" *ngIf="selectedOptionPaywall === '102'">
                             <label class="mb-2 ct_fw_600">Prerequisite 1</label>
                             <input type="text" class="form-control ct_input"
                                 value="at 24 hours mark check no selection of monthly, annual subscription or no trial selected before sending message"
