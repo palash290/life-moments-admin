@@ -79,7 +79,7 @@ export class FaqComponent {
   }
 
   saveOrder() {
-this.loading = true;
+    this.loading = true;
     const formURlData = new URLSearchParams();
     formURlData.set('faq_order', JSON.stringify(this.data));
 

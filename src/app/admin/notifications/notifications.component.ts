@@ -2,8 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { SharedService } from '../../shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { Editor, Toolbar } from 'ngx-editor';
-declare const $: any; // To use jQuery
-//import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+declare const $: any;
 
 @Component({
   selector: 'app-notifications',
@@ -22,6 +21,7 @@ export class NotificationsComponent {
   loading12: boolean = false;
   selectedPlanId: any = '';
   selectedPetId: any = '';
+  maxDate: any;
 
   filter = {
     date_of_birth: '',
@@ -63,9 +63,9 @@ export class NotificationsComponent {
 
   onAgeGroupChange() {
     if (this.filter.ageGroup !== '') {
-      this.filter.date_of_birth = ''; // Clear date if age filter is selected
+      this.filter.date_of_birth = '';
     }
-    //this.applyFilters(); // Trigger API call
+    //this.applyFilters();
   }
 
   getMembers() {
@@ -88,7 +88,6 @@ export class NotificationsComponent {
     }
 
     this.loading12 = true;
-
 
     this.service.postAPI('sub-admin/get-users-for-notification', formURlData).subscribe({
       next: (resp) => {
@@ -671,9 +670,9 @@ export class NotificationsComponent {
     this.selectAll = this.selectedMembers.length === this.members.length;
   }
 
-  logSelectedMembers() {
-    console.log("Selected Member IDs:", this.selectedMembers);
-  }
+  // logSelectedMembers() {
+  //   console.log("Selected Member IDs:", this.selectedMembers);
+  // }
 
   languages: any;
   languageId: any;
@@ -687,13 +686,11 @@ export class NotificationsComponent {
     if (selectedCategory) {
       this.languageId = selectedCategory.user_id;
 
-      console.log('Selected Category ID:', this.languageId);
       //this.getPrivacy(this.languageId)
 
     }
   }
 
-  maxDate: any;
   setMaxDate() {
     const today = new Date();
     this.maxDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD

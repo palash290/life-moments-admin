@@ -472,5 +472,12 @@ export class PhotoAlbumMonthComponent {
       this.selectedPdfFiles = [];
     }
 
+    getMonthName(month: number): string {
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      return months[month - 1]; // Subtract 1 since array is 0-based
+    }
 
 }

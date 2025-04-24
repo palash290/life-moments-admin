@@ -16,7 +16,9 @@ export class DashboardComponent {
   searchQuery: string = '';
   totalRevenueGenerate: any = 13500.43;
   totalPaidUsers: any;
-
+  totalGuestUser: any;
+  totalGuestConvertedUser: any;
+  percentageOfGusetConvertedUser: any;
 
   constructor(private service: SharedService, private toastr: ToastrService) { }
 
@@ -82,6 +84,10 @@ export class DashboardComponent {
         this.totalPaidUsers = resp.data.totalPaidUsers;
         //debugger
         this.totalRevenueGenerate = resp.data.totalRevenueGenerate;
+
+        this.totalGuestUser = resp.data.totalGuestUser;
+        this.totalGuestConvertedUser = resp.data.totalGuestConvertedUser;
+        this.percentageOfGusetConvertedUser = resp.data.percentageOfGusetConvertedUser;
       },
       error: error => {
         console.log(error.message);

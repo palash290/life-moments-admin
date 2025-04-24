@@ -47,11 +47,6 @@ export class FeedbackComponent {
     this.getUsers(selectedId);
   }
 
-  // goToPage(page: number) {
-  //   this.currentPage = page;
-  //   this.getUsers();
-  // }
-
   goToPage(page: number) {
     this.currentPage = page;
 
@@ -67,27 +62,12 @@ export class FeedbackComponent {
     }
   }
 
-  // nextPage() {
-  //   if (this.hasMoreData) {
-  //     this.currentPage++;
-  //     localStorage.setItem('currentPage', this.currentPage.toString());
-  //     this.getUsers();
-  //   }
-  // }
-
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
       this.getUsers(this.currentFilter);
     }
   }
-  // previousPage() {
-  //   if (this.currentPage > 1) {
-  //     this.currentPage--;
-  //     localStorage.setItem('currentPage', this.currentPage.toString());
-  //     this.getUsers();
-  //   }
-  // }
 
   ngOnDestroy() {
     localStorage.removeItem('currentPage');
@@ -249,7 +229,6 @@ export class FeedbackComponent {
     this.service.postAPI(`sub-admin/translate-feedbackbyid`, formURlData.toString()).subscribe({
       next: resp => {
         this.loading = false;
-        //debugger
         //this.changeLangResp = resp.data.message;
         this.feedback_response = resp.data;
         this.isLanguageChange = false;
