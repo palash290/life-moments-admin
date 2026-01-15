@@ -40,6 +40,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { TreeFamilyComponent } from './member-profiles/tree-family/tree-family.component';
 import { NotificationContantComponent } from './notification-contant/notification-contant.component';
 import { GuestProfilesComponent } from './guest-profiles/guest-profiles.component';
+import { FeedbackNotificationsComponent } from './feedback-notifications/feedback-notifications.component';
 
 const routes: Routes = [
   {
@@ -212,6 +213,10 @@ const routes: Routes = [
       {
         path: 'guest-profile',
         component: GuestProfilesComponent
+      },
+      {
+        path: 'feedback-notification',
+        component: FeedbackNotificationsComponent
       },
     ]
   }

@@ -135,17 +135,26 @@ export class PrivacyComponent {
     }
 
     const formURlData = new URLSearchParams();
+
     const htmlContentAbout = `${this.about_us}`;
     const htmlContentPri = `${this.privacyResult}`;
     const htmlContentTerm = `${this.termsResult}`;
 
     // Ensure content is HTML
-    formURlData.set('language',
-      this.languageId
-    );
-    formURlData.set('about_us', htmlContentAbout);
-    formURlData.set('privacy', htmlContentPri);
-    formURlData.set('terms', htmlContentTerm);
+    // formURlData.set('language', this.languageId);
+    formURlData.set('language', 'en,hi,es,de,fr,pt,it,ko,zh,ru,nl,ja');
+    if (this.selectedEditor == 'about_us') {
+      formURlData.set('about_us', htmlContentAbout);
+    }
+
+    if (this.selectedEditor == 'privacy_policy') {
+      formURlData.set('privacy', htmlContentPri);
+    }
+
+    if (this.selectedEditor == 'terms_conditions') {
+      formURlData.set('terms', htmlContentTerm);
+    }
+
     this.btnLoader = true;
     this.service.postAPI('sub-admin/update-privacyterms', formURlData.toString()).subscribe({
       next: (resp) => {

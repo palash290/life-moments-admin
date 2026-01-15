@@ -4,7 +4,7 @@
         <div class="d-flex align-items-center gap-3" *ngIf="selectedOption == 'all'">
             <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
                 <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px;"
-                    (change)="onLanguageChange($event)">
+                    (change)="onStatusChange($event)">
                     <option value=''>
                         All
                     </option>
@@ -64,7 +64,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of data; let i = index">
-                            <td>{{ i + 1 + (currentPage - 1) * pageSize }}</td>
+                            <td>{{ i + 1 + (currentPage1 - 1) * pageSize1 }}</td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <img [src]='item.profile_image ? item.profile_image : "assets/img/np_pro.png"'
@@ -104,13 +104,13 @@
             <!-- Pagination Controls -->
             <div class="d-flex justify-content-between align-items-center mt-3">
                 <div class="pagination-controls">
-                    <button (click)="previousPage()" class="ct_previous"
-                        [disabled]="currentPage === 1">Previous</button>
+                    <button (click)="previousPage1()" class="ct_previous"
+                        [disabled]="currentPage1 === 1">Previous</button>
                     <button>
-                        {{ currentPage }}
+                        {{ currentPage1 }}
                     </button>
-                    @if(totalPages != currentPage){
-                    <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+                    @if(totalPages != currentPage1){
+                    <button class="ct_nxt" (click)="nextPage1()" [disabled]="!hasMoreData1">Next</button>
                     }
                 </div>
             </div>
@@ -133,7 +133,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of trialUsers; let i = index">
-                            <td>{{ i + 1 + (currentPage - 1) * pageSize }}</td>
+                            <td>{{ i + 1 + (currentPage2 - 1) * pageSize2 }}</td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <img [src]='item.profile_image ? item.profile_image : "assets/img1/1739431209168.png"'
@@ -171,13 +171,13 @@
             <!-- Pagination Controls -->
             <div class="d-flex justify-content-between align-items-center mt-3">
                 <div class="pagination-controls">
-                    <button (click)="previousPage()" class="ct_previous"
-                        [disabled]="currentPage === 1">Previous</button>
+                    <button (click)="previousPage2()" class="ct_previous"
+                        [disabled]="currentPage2 === 1">Previous</button>
                     <button>
-                        {{ currentPage }}
+                        {{ currentPage2 }}
                     </button>
-                    @if(totalPages != currentPage){
-                    <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+                    @if(totalPages != currentPage2){
+                    <button class="ct_nxt" (click)="nextPage2()" [disabled]="!hasMoreData2">Next</button>
                     }
                 </div>
             </div>

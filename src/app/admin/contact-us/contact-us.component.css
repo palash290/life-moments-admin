@@ -1,0 +1,25 @@
+.ct_contact_white_bg {
+    background-color: #fff;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.09);
+    border-radius: 15px;
+    padding: 50px;
+    border: 1px solid #e6e6e6;
+}
+
+.ct_contact_logo img {
+    max-width: 250px;
+    margin-inline: auto;
+    display: block;
+}
+
+.ct_contact_logo {
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.09);
+}
+
+@media screen and (max-width:767px) {
+    .ct_contact_white_bg {
+        padding: 30px;
+    }
+}

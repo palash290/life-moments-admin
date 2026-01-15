@@ -701,7 +701,7 @@ export class FamilyMembersComponent {
       if (this.parentImage) {
         formURlData.append('file', this.parentImage);
       } else {
-        await this.getFileFromUrl('http://18.229.202.71:4000/images/1727186679509.png', 'defaultImage.png').then(file => {
+        await this.getFileFromUrl('https://lifesmomentsapp.com:4000/images/1727186679509.png', 'defaultImage.png').then(file => {
           formURlData.append('file', file);
           console.log('File loaded from URL:', file);
         }).catch(error => {

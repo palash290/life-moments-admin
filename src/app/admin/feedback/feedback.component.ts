@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SharedService } from '../../shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-feedback',
@@ -11,11 +12,15 @@ export class FeedbackComponent {
 
   data: any;
   feedbackDetails: any;
+  user_id: any;
 
-  constructor(private service: SharedService, private toastr: ToastrService) { }
+  constructor(private service: SharedService, private toastr: ToastrService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-    this.getUsers();
+    this.route.queryParams.subscribe(params => {
+      this.user_id = params['user_id'];
+      this.getUsers();
+    });
   }
 
   //Pagination//
@@ -25,18 +30,48 @@ export class FeedbackComponent {
   hasMoreData: boolean = true;
   loading: boolean = false;
 
+  // getUsers(filter?: any) {
+  //   const filterVal = filter ? filter : '';
+  //   this.service.getApi(`sub-admin/get-allfeedback?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}&filter=${filterVal}`).subscribe({
+  //     next: resp => {
+  //       this.data = resp.data;
+  //       this.hasMoreData = resp.data.length === this.pageSize;
+  //     },
+  //     error: error => {
+  //       console.log(error.message);
+  //     }
+  //   });
+  // }
+
+  reloadAllFeedback() {
+    this.router.navigate([], {
+      queryParams: {
+        user_id: null
+      },
+      queryParamsHandling: 'merge'
+    }).then(() => {
+      this.user_id = null;
+      this.getUsers(); // fetch all feedback
+    });
+  }
+
   getUsers(filter?: any) {
-    const id = filter ? filter : '';
-    this.service.getApi(`sub-admin/get-allfeedback?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}&filter=${id}`).subscribe({
+    const filterVal = filter ? filter : '';
+    this.service.getApi(`sub-admin/get-allfeedback?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}&filter=${filterVal}`).subscribe({
       next: resp => {
-        this.data = resp.data;
-        this.hasMoreData = resp.data.length === this.pageSize;
+        let feedbackList = resp.data;
+        if (this.user_id) {
+          feedbackList = feedbackList.filter((item: any) => item.user_id == this.user_id);
+        }
+        this.data = feedbackList;
+        this.hasMoreData = this.data.length === this.pageSize;
       },
       error: error => {
         console.log(error.message);
       }
     });
   }
+
 
   currentFilter: any;
 

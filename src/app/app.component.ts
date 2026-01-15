@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 import { take } from 'rxjs';
+import { MessagingService } from './shared/services/messaging.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import { take } from 'rxjs';
 })
 export class AppComponent {
 
-  constructor(private afMessaging: AngularFireMessaging) {
+  constructor(private afMessaging: AngularFireMessaging, private msgService: MessagingService) {
   }
 
   ngOnInit(): void {
@@ -19,10 +20,10 @@ export class AppComponent {
   requestPermission() {
     Notification.requestPermission().then((permission) => {
       if (permission === 'granted') {
-        this.afMessaging.requestToken.pipe(take(1)).subscribe(
+        this.afMessaging.requestToken.subscribe(
           (token) => {
+            this.msgService.listenForMessages();
             console.log('lifeFbToken ==>', token!);
-            
             localStorage.setItem('lifeFbToken', token!);
           },
           (error) => {

@@ -13,6 +13,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '../environments/environment';
 import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 import { initializeApp } from 'firebase/app';
+import { MessagingService } from './shared/services/messaging.service';
 // initializeApp(environment.firebaseConfig)
 //firebase.initializeApp(environment.firebaseConfig);
 
@@ -39,6 +40,7 @@ import { initializeApp } from 'firebase/app';
     }),
     BrowserAnimationsModule
   ],
+  providers:[MessagingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

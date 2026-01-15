@@ -306,7 +306,7 @@ export class PetListComponent {
       if (this.petImage) {
         formURlData.append('file', this.petImage);
       } else{
-       await this.getFileFromUrl('http://18.229.202.71:4000/pets_album/1734086102101.png', 'defaultImage.png').then(file => {
+       await this.getFileFromUrl('https://lifesmomentsapp.com:4000/pets_album/1734086102101.png', 'defaultImage.png').then(file => {
           formURlData.append('file', file);
           console.log('File loaded from URL:', file);
         }).catch(error => {

@@ -36,10 +36,10 @@
                     <div class="position-relative" (click)="showImg(item.profile_image)" data-bs-toggle="modal"
                       data-bs-target="#img">
                       <img
-                        [src]='item.profile_image ? item?.profile_image : "http://18.229.202.71:4000/images/1727186679509.png"'
+                        [src]='item.profile_image ? item?.profile_image : "https://lifesmomentsapp.com:4000/images/1727186679509.png"'
                         class="ct_img_40 ct_border_22" />
                       <div *ngIf="item.pet_id" class="ct_pet_overlay_icon">
-                        <img src="http://18.229.202.71:4000/pets_album/1734086102101.png" alt=""
+                        <img src="https://lifesmomentsapp.com:4000/pets_album/1734086102101.png" alt=""
                           class="ct_img_20 ct_border_22">
                       </div>
                     </div>
@@ -142,7 +142,7 @@
           <div class="pt-5">
             <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
               <img id="blah2"
-                [src]="memberDet?.image_link ? memberDet?.image_link : 'http://18.229.202.71:4000/images/1727186679509.png'"
+                [src]="memberDet?.image_link ? memberDet?.image_link : 'https://lifesmomentsapp.com:4000/images/1727186679509.png'"
                 alt="" class="ct_img_164 mx-auto d-block" style="border: solid var(--dark_green);">
               <label for="ct_edit_img">
                 <input accept="image/*" type="file" id="ct_edit_img" class="d-none"
@@ -272,7 +272,7 @@
 
 <!-- Img -->
 <div class="modal fade" id="img" tabindex="-1" aria-labelledby="ct_add_eventLabel" aria-hidden="true">
-  <div class="modal-dialog  modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <img [src]="userImg1  ? userImg1 : 'assets/img/np_pro.png'" alt="img">
     </div>

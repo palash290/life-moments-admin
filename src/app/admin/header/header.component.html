@@ -4,7 +4,46 @@
   <span></span>
 </div>
 <div class="ct_dashboard_head">
-  <div class="ms-auto">
+  <!-- <i class="fa-solid fa-bell"></i> -->
+  <div class="ms-auto d-flex gap-3">
+
+    <div class="ct_notification_main">
+      <div class="position-relative ct_notification_click" (click)="toggleDropdown($event)">
+        <button class="ct_logout_btn ct_white_btn dropdown ct_custom_dropdown py-2">
+          <i class="fa-solid fa-bell"></i>
+        </button>
+        <div *ngIf="notifications?.length > 0" class="ct_notification_alert">
+          <span>{{notifications.length}}</span>
+        </div>
+      </div>
+
+      <div class="ct_notification_custom_dropdown" [class.ct_notification_active]="dropdownOpen">
+        <div class="d-flex align-items-center justify-content-between gap-2">
+          <p class="mb-0 ct_fw_600">All Notifications</p>
+          @if(notifications?.length > 0){
+          <div class="ct_dlt_all_12" (click)="clearNotification(); $event.stopPropagation()">
+            <button><i class="fa-solid fa-trash-can"></i>Delete All</button>
+          </div>
+          }
+        </div>
+        <ul class="scroll">
+          <li *ngIf="notifications?.length === 0">
+            <p class="mb-0 noWrap">Notifications Not Found.</p>
+          </li>
+          <li *ngFor="let item of notifications; let i = index">
+            <div class="d-flex justify-content-between align-items-center" style="cursor: pointer;">
+              <div [routerLink]="['/admin/main/feedback']" [queryParams]="{ user_id: item.user_id }">
+                <p class="mb-0 ct_fs_14">{{item.body}}</p>
+                <small class="ct_fw_500">{{item.notification_date}} at {{item.notification_time}}</small>
+              </div>
+              <span class="ct_fw_700 ct_cursor_pointer"
+                (click)="deleteNotification(item.id); $event.stopPropagation()">x</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <button class="ct_logout_btn ct_white_btn dropdown ct_custom_dropdown py-2 px-3">
       <div class=" ">
         <div class="ct_user_name_info d-flex align-items-center gap-2 justify-content-between " id="dropdownMenuButton1"

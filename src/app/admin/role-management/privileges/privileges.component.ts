@@ -62,9 +62,26 @@ export class PrivilegesComponent {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
+  // logSelectedModules() {
+  //   const selectedModules = this.data
+  //     .filter(pic => pic.checkedModules || pic.checkedAdd || pic.checkedView || pic.checkedEdit || pic.checkedDelete)
+  //     .map(pic => {
+  //       return {
+  //         title: pic.title,
+  //         selectedOptions: {
+  //           add: pic.checkedAdd,
+  //           view: pic.checkedView,
+  //           edit: pic.checkedEdit,
+  //           delete: pic.checkedDelete,
+  //         },
+  //       };
+  //     });
+  //     console.log('==========>', selectedModules);
+  // }
+
   logSelectedModules() {
     const selectedModules = this.data
-      .filter(pic => pic.checkedModules || pic.checkedAdd || pic.checkedView || pic.checkedEdit || pic.checkedDelete)
+      .filter(pic => pic.checkedModules) // Only modules explicitly selected
       .map(pic => {
         return {
           title: pic.title,
@@ -76,7 +93,9 @@ export class PrivilegesComponent {
           },
         };
       });
+    console.log('==========>', selectedModules);
   }
+
 
 
 }

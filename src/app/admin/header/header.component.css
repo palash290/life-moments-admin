@@ -1,3 +1,108 @@
 .ct_logout_btn h6 {
-    font-size: 16px !important;
+  font-size: 16px !important;
+}
+
+.ct_logout_btn i {
+  color: #050304;
+}
+
+
+
+
+.ct_notification_alert{
+  position: absolute;
+  top: -4px;
+  z-index: 9;
+  justify-content: center;
+  color: white;
+  align-items: center;
+  display: flex;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  border-radius: 100px;
+  font-weight: 500;
+  background-color: #0d9d00;
+  cursor: pointer;
+}
+
+.ct_notification_alert span {
+  color: #fff;
+  font-size: 10px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ct_notify_user_img_icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 100px;
+  object-fit: cover;
+}
+
+.ct_notify_user_icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 100px;
+  background-color: var(--purple_light);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ct_notification_custom_dropdown li {
+  display: grid;
+  /* grid-template-columns: 30px auto; */
+  gap: 15px;
+  align-items: center;
+  padding-block: 5px;
+}
+
+.ct_notification_custom_dropdown {
+  background-color: #fff;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.09);
+  padding: 15px;
+  border-radius: 10px;
+  position: absolute;
+  right: 0px;
+  width: 265px;
+  top: 30px;
+  transition: 0.4s ease all;
+  z-index: 99;
+  transform: scaleY(0);
+  transform-origin: top;
+  right: 0px;
+}
+
+.ct_notification_custom_dropdown li+li {
+  border-top: 1px solid #f5f5f5;
+}
+
+.ct_notification_main {
+  position: relative;
+}
+
+.ct_notification_custom_dropdown.ct_notification_active {
+  transform: scaleY(1);
+}
+
+.ct_dlt_all_12 button {
+  background-color: transparent;
+  outline: none;
+  border: 0px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #cd0d0d;
+}
+
+.scroll{
+  max-height: 50vh;
+  overflow: auto;
 }

@@ -17,9 +17,13 @@ export class ManageSubscriptionComponent {
   searchQuery = '';
   loading: boolean = false;
   //Pagination//
-  currentPage: number = 1;
-  pageSize: number = 10;
-  hasMoreData: boolean = true;
+  currentPage1: number = 1;
+  pageSize1: number = 10;
+  hasMoreData1: boolean = true;
+
+  currentPage2: number = 1;
+  pageSize2: number = 10;
+  hasMoreData2: boolean = true;
   selectedOption: any = 'all';
 
   constructor(private service: SharedService, private toastr: ToastrService) { }
@@ -31,16 +35,16 @@ export class ManageSubscriptionComponent {
 
   getAllUsers(filter: any) {
     const id = filter ? filter : '';
-    this.service.getApi(`sub-admin/getAllSubscription?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}&filter=${id}`).subscribe({
+    this.service.getApi(`sub-admin/getAllSubscription?page=${this.currentPage1}&limit=${this.pageSize1}&search=${this.searchQuery}&filter=${id}`).subscribe({
       next: resp => {
         this.data = resp.data;
-        this.totalPages = resp.pagination.totalPages;
+        //this.totalPages = resp.pagination.totalPages;
 
         this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
-          item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
+          item.serialNumber = (this.currentPage1 - 1) * this.pageSize1 + index + 1;
           return item;
         });
-        this.hasMoreData = resp.data.length == this.pageSize;
+        this.hasMoreData1 = resp.data.length == this.pageSize1;
       },
       error: error => {
         console.log(error.message);
@@ -49,23 +53,23 @@ export class ManageSubscriptionComponent {
   }
 
   resetAndSearch1(fil: any) {
-    this.currentPage = 1; // Reset to first page on search
+    this.currentPage1 = 1; // Reset to first page on search
     this.getAllUsers(fil);
   }
 
 
   getTrialUsers(filter: any) {
     const id = filter ? filter : '';
-    this.service.getApi(`sub-admin/getAllSubscriptionTrial?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}&filter=${id}`).subscribe({
+    this.service.getApi(`sub-admin/getAllSubscriptionTrial?page=${this.currentPage2}&limit=${this.pageSize2}&search=${this.searchQuery}&filter=${id}`).subscribe({
       next: resp => {
         this.trialUsers = resp.data;
         this.totalPages = resp.pagination.totalPages;
 
         this.trialUsers = resp.data.map((item: { serialNumber: any; }, index: any) => {
-          item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
+          item.serialNumber = (this.currentPage2 - 1) * this.pageSize2 + index + 1;
           return item;
         });
-        this.hasMoreData = resp.data.length == this.pageSize;
+        this.hasMoreData2 = resp.data.length == this.pageSize2;
       },
       error: error => {
         console.log(error.message);
@@ -74,21 +78,35 @@ export class ManageSubscriptionComponent {
   }
 
   resetAndSearch2(fil: any) {
-    this.currentPage = 1; // Reset to first page on search
+    this.currentPage2 = 1; // Reset to first page on search
     this.getTrialUsers(fil);
   }
 
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
+  previousPage1() {
+    if (this.currentPage1 > 1) {
+      this.currentPage1--;
       this.getAllUsers(this.currentFilter);
     }
   }
 
-  nextPage() {
-    if (this.hasMoreData) {
-      this.currentPage++;
+  nextPage1() {
+    if (this.hasMoreData1) {
+      this.currentPage1++;
       this.getAllUsers(this.currentFilter);
+    }
+  }
+
+  previousPage2() {
+    if (this.currentPage2 > 1) {
+      this.currentPage2--;
+      this.getTrialUsers(this.currentFilter);
+    }
+  }
+
+  nextPage2() {
+    if (this.hasMoreData2) {
+      this.currentPage2++;
+      this.getTrialUsers(this.currentFilter);
     }
   }
 
@@ -99,14 +117,14 @@ export class ManageSubscriptionComponent {
 
   totalPages: number = 0;
 
-  getPaginationRange(): number[] {
-    if (this.hasMoreData) {
-      const start = Math.max(1, this.currentPage - 2);
-      const end = start + 1; // Show 5 pages
-      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-    }
-    return []
-  }
+  // getPaginationRange(): number[] {
+  //   if (this.hasMoreData) {
+  //     const start = Math.max(1, this.currentPage - 2);
+  //     const end = start + 1; // Show 5 pages
+  //     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  //   }
+  //   return []
+  // }
 
 
   btnLoaderCreateUser: boolean = false;
@@ -172,9 +190,10 @@ export class ManageSubscriptionComponent {
 
   currentFilter: any;
 
-  onLanguageChange(event: any): void {
+  onStatusChange(event: any): void {
     const selectedId = event.target.value;
-    this.currentPage = 1;
+    this.currentPage1 = 1;
+    this.currentPage2 = 1;
     this.getAllUsers(selectedId);
     this.currentFilter = selectedId;
     console.log(selectedId);

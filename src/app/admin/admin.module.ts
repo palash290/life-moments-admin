@@ -49,6 +49,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NotificationContantComponent } from './notification-contant/notification-contant.component';
 import { GuestProfilesComponent } from './guest-profiles/guest-profiles.component';
+import { FeedbackNotificationsComponent } from './feedback-notifications/feedback-notifications.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
 
 @NgModule({
   declarations: [
@@ -93,8 +95,9 @@ import { GuestProfilesComponent } from './guest-profiles/guest-profiles.componen
     NotificationsComponent,
     TreeFamilyComponent,
     NotificationContantComponent,
-    GuestProfilesComponent
-
+    GuestProfilesComponent,
+    FeedbackNotificationsComponent,
+    ContactUsComponent
   ],
   imports: [
     CommonModule,

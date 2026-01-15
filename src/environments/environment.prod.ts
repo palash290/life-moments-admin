@@ -4,7 +4,8 @@ export const environment = {
   production: true,
   apiUrl: '',
 
-  baseUrl: 'http://18.229.202.71:4000/',
+  //baseUrl: 'https://18.229.202.71:4000/',
+  baseUrl: 'https://lifesmomentsapp.com:4000/',
   firebaseConfig: {
     apiKey: "AIzaSyAU9-A84T1L9LCE9m5OLlOqFC8WWGoKcJI",
     authDomain: "lifesmoments-c1d5d.firebaseapp.com",

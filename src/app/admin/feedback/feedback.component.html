@@ -2,8 +2,14 @@
     <div class="d-flex align-items-center justify-content-between">
         <h4 class="mb-0 ct_fs_22">Feedback List</h4>
         <div class="d-flex align-items-center gap-3">
+
             <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
                 <!-- <span class="ct_text_op_5  ct_fs_13" style="white-space: nowrap;">Select Language :</span> -->
+                @if(user_id){
+                <i class="fa-solid fa-rotate-right" style="cursor: pointer;" (click)="reloadAllFeedback()"></i>
+                }
+
+                @if(!user_id){
                 <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px;"
                     (change)="onStatusChange($event)">
                     <option value=''>
@@ -16,8 +22,10 @@
                         Pending
                     </option>
                 </select>
-            </div>
+                }
 
+            </div>
+            @if(!user_id){
             <div class="d-flex align-items-center gap-3">
                 <div class="position-relative ct_search_input">
                     <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery"
@@ -25,6 +33,8 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
             </div>
+            }
+
         </div>
     </div>
 

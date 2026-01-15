@@ -102,14 +102,6 @@ export class SharedService {
     return this.http.delete(this.apiUrl + url, { headers: headers })
   };
 
-  private refreshSidebarSource = new BehaviorSubject<void | null>(null);
-  refreshSidebar$ = this.refreshSidebarSource.asObservable();
-
-  triggerRefresh() {
-    this.refreshSidebarSource.next(null);
-  }
-
-
   logout() {
     localStorage.removeItem('userIdForPet');
     localStorage.removeItem('lifeMToken');
@@ -150,6 +142,13 @@ export class SharedService {
   // Clear history
   clearHistory() {
     this.history = [];
+  }
+
+  private refreshSidebarSource = new BehaviorSubject<void | null>(null);
+  refreshSidebar$ = this.refreshSidebarSource.asObservable();
+
+  triggerRefresh() {
+    this.refreshSidebarSource.next(null);
   }
 
 

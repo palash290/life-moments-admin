@@ -9,7 +9,8 @@
         </div>
         <div class="d-flex align-items-center gap-3">
             <div class="position-relative ct_search_input">
-                <input type="text" class="form-control" placeholder="Search " style="padding-right: 35px;" [(ngModel)]="searchQuery" />
+                <input type="text" class="form-control" placeholder="Search " style="padding-right: 35px;"
+                    [(ngModel)]="searchQuery" />
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
             <!-- <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add-new-member">Add New Member</button> -->
@@ -23,15 +24,15 @@
                 <div class="d-flex align-items-center gap-2">
                     <div class="position-relative">
                         <img [src]="filteredOutMembers[0]?.image_link" class="ct_img_40 ct_border_2"
-                            style="border: solid var(--dark_green); cursor: pointer;" (click)="showImg(filteredOutMembers[0]?.image_link)"
-                            data-bs-toggle="modal" data-bs-target="#img1"/>
+                            style="border: solid var(--dark_green); cursor: pointer;"
+                            (click)="showImg(filteredOutMembers[0]?.image_link)" data-bs-toggle="modal"
+                            data-bs-target="#img1" />
 
                         <div *ngIf="filteredOutMembers[0]?.pet_id" class="ct_pet_overlay_icon">
-                            <img src="http://18.229.202.71:4000/pets_album/1734086102101.png" alt=""
+                            <img src="https://lifesmomentsapp.com:4000/pets_album/1734086102101.png" alt=""
                                 class="ct_img_20 ct_border_22">
                         </div>
                     </div>
-
 
                     <div>
                         <p class="mb-0 ct_fs_18 ct_fw_600">{{filteredOutMembers[0]?.first_name}}
@@ -75,13 +76,13 @@
                                     <div class="d-flex align-items-center gap-2">
 
                                         <div class="position-relative" (click)="showImg(item.image_link)"
-                                            data-bs-toggle="modal" data-bs-target="#img1" >
-                                            <img [src]='item?.image_link ? item?.image_link : "http://18.229.202.71:4000/images/1727186679509.png"'
+                                            data-bs-toggle="modal" data-bs-target="#img1">
+                                            <img [src]='item?.image_link ? item?.image_link : "https://lifesmomentsapp.com:4000/images/1727186679509.png"'
                                                 class="ct_img_40 ct_border_2"
                                                 style="border: solid var(--dark_green); cursor: pointer;" />
                                             <div *ngIf="item.pet_id" class="ct_pet_overlay_icon">
-                                                <img src="http://18.229.202.71:4000/pets_album/1734086102101.png" alt=""
-                                                    class="ct_img_20 ct_border_22">
+                                                <img src="https://lifesmomentsapp.com:4000/pets_album/1734086102101.png"
+                                                    alt="" class="ct_img_20 ct_border_22">
                                             </div>
                                         </div>
 
@@ -279,7 +280,7 @@
                 <form [formGroup]="newMemberForm">
                     <div class="pt-5">
                         <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
-                            <img [src]="parentImage1 ? parentImage1 : 'http://18.229.202.71:4000/images/1727186679509.png'"
+                            <img [src]="parentImage1 ? parentImage1 : 'https://lifesmomentsapp.com:4000/images/1727186679509.png'"
                                 alt="" class="ct_img_164 mx-auto d-block" style="border: solid var(--dark_green);">
 
                             <label for="ct_edit_img1">
@@ -533,7 +534,7 @@
                     <div class="pt-5">
                         <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
                             <img id="blah2"
-                                [src]="filteredOutMembers[0]?.image_link ? filteredOutMembers[0]?.image_link : 'http://18.229.202.71:4000/images/1727186679509.png'"
+                                [src]="filteredOutMembers[0]?.image_link ? filteredOutMembers[0]?.image_link : 'https://lifesmomentsapp.com:4000/images/1727186679509.png'"
                                 alt="" class="ct_img_164 mx-auto d-block" style="border: solid var(--dark_green);">
                             <label for="ct_edit_img">
                                 <input accept="image/*" type="file" id="ct_edit_img" class="d-none"
@@ -767,7 +768,7 @@
                     <div class="pt-5">
                         <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
                             <img id="blagEditMem"
-                                [src]="this.singleMemberDetail?.image_link ? this.singleMemberDetail?.image_link : 'http://18.229.202.71:4000/images/1727186679509.png'"
+                                [src]="this.singleMemberDetail?.image_link ? this.singleMemberDetail?.image_link : 'https://lifesmomentsapp.com:4000/images/1727186679509.png'"
                                 alt="" class="ct_img_164 mx-auto d-block" style="border: solid var(--dark_green);">
                             <label for="ct_edit_img_44">
                                 <input accept="image/*" type="file" id="ct_edit_img_44" class="d-none"
@@ -1219,7 +1220,7 @@
                     data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coming Soon"></i> -->
                 <div class="pt-5">
                     <div>
-                        <img [src]="singleMemberDetail?.image_link ? singleMemberDetail?.image_link : 'http://18.229.202.71:4000/images/1727186679509.png'"
+                        <img [src]="singleMemberDetail?.image_link ? singleMemberDetail?.image_link : 'https://lifesmomentsapp.com:4000/images/1727186679509.png'"
                             alt="" class="ct_img_164 mx-auto d-block ct_mb_32" style="border: solid var(--dark_green);">
                         <!-- <h4 class="mb-2 text-center ct_fs_24">{{singleMemberDetail?.full_name}}, <span
                                 class="ct_green_text">42</span></h4> -->

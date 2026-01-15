@@ -1,0 +1,87 @@
+<!-- contact dispatch section S -->
+<div class="ct_dashbaord_bg">
+    <header>
+        <div class="ct_contact_logo">
+            <img src="assets/img/ShareLogoEnglish.png" />
+        </div>
+    </header>
+    <section class="py-5" id="contact-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ct_contact_white_bg">
+                        <h3 class="ct_fs_22 ct_fw_600 mb-4 text-center">Contact Us</h3>
+                        <form [formGroup]="contactForm">
+                            <div class="form-group mb-4">
+                                <label for="" class=" ct_fw_600 mb-2">Name</label>
+                                <input type="text" class="ct_input_48 form-control" placeholder="Enter your name"
+                                    formControlName="name">
+                                <div *ngIf="contactForm.controls['name'].invalid && contactForm.controls['name'].touched"
+                                    class="error-message">
+                                    <div *ngIf="contactForm.controls['name'].errors?.['required']"
+                                        class="ct_fs_14 mt-1">
+                                        Name is required.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="" class=" ct_fw_600 mb-2">Email</label>
+                                <input type="text" class="ct_input_48 form-control" placeholder="Enter your email"
+                                    formControlName="email">
+                                <div *ngIf="contactForm.controls['email'].invalid && contactForm.controls['email'].touched"
+                                    class="error-message">
+                                    <div *ngIf="contactForm.controls['email'].errors?.['required']"
+                                        class="ct_fs_14 mt-1">
+                                        Email is required.
+                                    </div>
+                                    <div *ngIf="contactForm.controls['email'].errors?.['email'] && !contactForm.controls['email'].errors?.['required']"
+                                        class="ct_fs_14 mt-1">
+                                        Invalid email format.</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="" class=" ct_fw_600 mb-2">Message</label>
+                                <textarea class="ct_input_48 form-control h-auto" rows="5"
+                                    placeholder="Type your message here..." formControlName="message"></textarea>
+
+                                <div *ngIf="contactForm.controls['message'].invalid && contactForm.controls['message'].touched"
+                                    class="error-message">
+                                    <div *ngIf="contactForm.controls['message'].errors?.['required']"
+                                        class="ct_fs_14 mt-1">
+                                        Message is required.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                <button (click)="submitForm()" class="ct_green_btn mx-auto">Send message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- contact dispatch section E -->
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>

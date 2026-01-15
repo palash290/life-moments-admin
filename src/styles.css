@@ -292,3 +292,7 @@ ngx-editor .ProseMirror {
     font-family: "Open Sans", serif !important;
     font-size: 12px !important;
 }
+
+.ct_cursor_pointer {
+    cursor: pointer;
+  }
