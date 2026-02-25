@@ -14,6 +14,7 @@ import { environment } from '../environments/environment';
 import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 import { initializeApp } from 'firebase/app';
 import { MessagingService } from './shared/services/messaging.service';
+import { NgApexchartsModule } from 'ng-apexcharts';
 // initializeApp(environment.firebaseConfig)
 //firebase.initializeApp(environment.firebaseConfig);
 
@@ -32,6 +33,7 @@ import { MessagingService } from './shared/services/messaging.service';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgApexchartsModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-top-right',

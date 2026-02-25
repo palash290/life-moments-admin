@@ -41,6 +41,7 @@ import { TreeFamilyComponent } from './member-profiles/tree-family/tree-family.c
 import { NotificationContantComponent } from './notification-contant/notification-contant.component';
 import { GuestProfilesComponent } from './guest-profiles/guest-profiles.component';
 import { FeedbackNotificationsComponent } from './feedback-notifications/feedback-notifications.component';
+import { AnalyticDashboardComponent } from './analytic-dashboard/analytic-dashboard.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,10 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent
+      },
+      {
+        path: 'google-analytic',
+        component: AnalyticDashboardComponent
       },
       {
         path: 'sub-admins',

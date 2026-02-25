@@ -59,9 +59,11 @@ export class FeedbackComponent {
     const filterVal = filter ? filter : '';
     this.service.getApi(`sub-admin/get-allfeedback?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}&filter=${filterVal}`).subscribe({
       next: resp => {
-        let feedbackList = resp.data;
+        debugger
+        const apiData = resp.data;
+        let feedbackList = apiData;
         if (this.user_id) {
-          feedbackList = feedbackList.filter((item: any) => item.user_id == this.user_id);
+          feedbackList = apiData.filter((item: any) => item.user_id == this.user_id);
         }
         this.data = feedbackList;
         this.hasMoreData = this.data.length === this.pageSize;

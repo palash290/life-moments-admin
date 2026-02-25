@@ -282,7 +282,7 @@ export class MemberProfilesComponent {
   }
 
   handleCheckboxChange(row: any) {
-    debugger
+    
     if (row.block_status == 1) {
       Swal.fire({
         title: "Are you sure?",

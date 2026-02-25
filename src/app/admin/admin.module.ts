@@ -51,6 +51,8 @@ import { NotificationContantComponent } from './notification-contant/notificatio
 import { GuestProfilesComponent } from './guest-profiles/guest-profiles.component';
 import { FeedbackNotificationsComponent } from './feedback-notifications/feedback-notifications.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
+import { AnalyticDashboardComponent } from './analytic-dashboard/analytic-dashboard.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
@@ -97,7 +99,8 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
     NotificationContantComponent,
     GuestProfilesComponent,
     FeedbackNotificationsComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    AnalyticDashboardComponent
   ],
   imports: [
     CommonModule,
@@ -107,7 +110,8 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
     NgxEditorModule,
     CKEditorModule,
     PickerModule,
-    DragDropModule
+    DragDropModule,
+    NgApexchartsModule
   ]
 })
 export class AdminModule { }

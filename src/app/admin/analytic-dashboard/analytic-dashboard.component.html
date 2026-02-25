@@ -1,0 +1,100 @@
+<div class="container-fluid ct_dash">
+
+  <!-- Filters -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex gap-2">
+      <input type="date" class="form-control" [(ngModel)]="fromDate">
+      <input type="date" class="form-control" [(ngModel)]="toDate">
+      <button class="btn btn-primary" (click)="getUsers()">Apply Filter</button>
+    </div>
+  </div>
+
+  <!-- TOP CARDS -->
+  <div class="row">
+    <div class="col-md-3" *ngFor="let card of topCards">
+      <div class="card ct_card p-3">
+        <h6>{{card.title}}</h6>
+        <h2>{{card.value}}</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- USER JOURNEY -->
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h5>User Journey</h5>
+        <div *ngFor="let item of journey">
+          <div class="d-flex justify-content-between">
+            <span>{{item.label}}</span>
+            <span>{{item.value}}</span>
+          </div>
+          <div class="progress mb-3">
+            <div class="progress-bar" [style.width.%]="item.percent"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBSCRIPTION OVERVIEW -->
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h5>Subscription Overview</h5>
+        <div class="row text-center">
+          <div class="col-4" *ngFor="let s of subscriptions">
+            <h6>{{s.label}}</h6>
+            <h4>{{s.value}}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURE USAGE TABLE -->
+  <div class="card mt-4 p-3">
+    <h5>Feature Usage</h5>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Usage</th>
+          <th>Percentage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let f of featureUsage">
+          <td>{{f.feature}}</td>
+          <td>{{f.usage}}</td>
+          <td>{{f.percent}}%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ENGAGEMENT CHART -->
+  <div class="card mt-4 p-3">
+    <h5>Engagement Overview</h5>
+    <apx-chart [series]="engagementChart.series" [chart]="engagementChart.chart" [xaxis]="engagementChart.xaxis"
+      [dataLabels]="engagementChart.dataLabels" [plotOptions]="engagementChart.plotOptions">
+    </apx-chart>
+  </div>
+</div>
+
+<div class="ct_loader_main" *ngIf="loading">
+  <div class="loadingio-spinner-spinner-977el9wwy2v">
+    <div class="ldio-4j5ay0xf86g">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
