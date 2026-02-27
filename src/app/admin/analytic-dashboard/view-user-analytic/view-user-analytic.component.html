@@ -1,0 +1,162 @@
+<div class="ct_dashbaord_middle">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+            <a (click)="backClicked()" style="cursor: pointer;"
+                class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+                    class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
+            <!-- <h4 class="mb-0 ct_fs_22">{{parentDetail?.fullName}} {{filteredOutMembers[0]?.last_name}}'s
+                Family Members</h4> -->
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid py-3">
+
+    <!-- ================= HEADER ================= -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">Analytics Overview</h3>
+
+        <div class="d-flex gap-2">
+            <input type="date" class="form-control" [(ngModel)]="fromDate">
+            <input type="date" class="form-control" [(ngModel)]="toDate">
+            <button class="btn btn-success" (click)="getUsers()">Apply</button>
+        </div>
+    </div>
+
+    <!-- ================= TOP CARDS ================= -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3" *ngFor="let card of topCards">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-1">{{card.title}}</p>
+                    <h3 class="fw-bold">{{card.value}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= SECOND ROW ================= -->
+    <div class="row g-3 mb-4">
+        <!-- USER JOURNEY -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-3">User Journey</h5>
+                    <div *ngFor="let j of journey" class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span>{{j.label}}</span>
+                            <span class="fw-semibold">{{j.value}}</span>
+                        </div>
+                        <div class="progress" style="height:6px;">
+                            <div class="progress-bar bg-success" [style.width.%]="j.percent || (j.value / 100)"></div>
+                        </div>
+                    </div>
+                    <div class="bg-success text-white text-center py-2 rounded mt-3">
+                        Overall Conversion {{journeyConversion}}%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBSCRIPTIONS -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-1">Subscription Overview</h5>
+                    <small class="text-muted">Trial & subscription metrics</small>
+
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-6" *ngFor="let s of subscriptions">
+                            <div class="border rounded p-3 h-100">
+                                <p class="mb-1 text-muted">{{s.label}}</p>
+                                <h5 class="fw-bold">{{s.value}}</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= ENGAGEMENT ================= -->
+    <!-- <div class="row g-3 mb-4">
+
+    <div class="col-md-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="fw-bold mb-3">Engagement Overview</h5>
+
+          <div class="row g-3">
+            <div class="col-md-3" *ngFor="let f of featureUsage">
+              <div class="border rounded p-3 text-center">
+                <p class="text-muted mb-1">{{f.feature}}</p>
+                <h5 class="fw-bold">{{f.usage}}</h5>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div> -->
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body">
+            <h5 class="fw-bold mb-3">Engagement Overview</h5>
+
+            <apx-chart [series]="sessionTrendChart.series" [chart]="sessionTrendChart.chart"
+                [stroke]="sessionTrendChart.stroke" [xaxis]="sessionTrendChart.xaxis">
+            </apx-chart>
+
+        </div>
+    </div>
+
+    <!-- ================= ENGAGEMENT CHART ================= -->
+    <div class="row g-3 mb-4 mt-3">
+        <div class="col-md-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-3">Session Trend</h5>
+
+                    <apx-chart [series]="engagementChart.series" [chart]="engagementChart.chart"
+                        [xaxis]="engagementChart.xaxis">
+                    </apx-chart>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MOMENTS ACTIVITY ================= -->
+    <div class="row g-3">
+        <div class="col-md-4" *ngFor="let f of featureUsage">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <p class="text-muted">{{f.feature}}</p>
+                    <h4 class="fw-bold">{{f.usage}}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+<div class="container-fluid py-3">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <p class="text-muted">Unique Users</p>
+                    <h4 class="fw-bold">{{data?.unique_users}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <p class="text-muted">Googleplay Total</p>
+                    <h4 class="fw-bold">{{data?.google_play_total}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <p class="text-muted">Googleplay Top</p>
+                    <h4 class="fw-bold">{{data?.google_play_top}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <p class="text-muted">Googleplay Bottom</p>
+                    <h4 class="fw-bold">{{data?.google_play_bottom}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <p class="text-muted">Appstore Total</p>
+                    <h4 class="fw-bold">{{data?.app_store_total}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <p class="text-muted">Appstore Top</p>
+                    <h4 class="fw-bold">{{data?.app_store_top}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <p class="text-muted">Appstore Bottom</p>
+                    <h4 class="fw-bold">{{data?.app_store_bottom}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <p class="text-muted">Video Plays</p>
+                    <h4 class="fw-bold">{{data?.video_plays}}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>

@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
-import { SharedService } from '../../shared/services/shared.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { SharedService } from '../../../shared/services/shared.service';
 
 @Component({
-  selector: 'app-analytic-dashboard',
-  templateUrl: './analytic-dashboard.component.html',
-  styleUrl: './analytic-dashboard.component.css'
+  selector: 'app-view-user-analytic',
+  templateUrl: './view-user-analytic.component.html',
+  styleUrl: './view-user-analytic.component.css'
 })
-export class AnalyticDashboardComponent {
+export class ViewUserAnalyticComponent {
 
-  selectedOption: any = '0';
+
   data: any[] = [];
   fromDate: any;
   toDate: any;
@@ -19,7 +20,7 @@ export class AnalyticDashboardComponent {
   featureUsage: any[] = [];
   loading: boolean = false;
   journeyConversion: number = 0;
-  kpiList: any[] = [];
+  user_id: any;
 
   engagementChart: any = {
     series: [
@@ -49,31 +50,28 @@ export class AnalyticDashboardComponent {
   sessionTrendChart: any = {
     series: [],
     chart: {
-      type: 'bar',
+      type: 'line',
       height: 300,
       toolbar: { show: false }
     },
-    plotOptions: {
-      bar: {
-        borderRadius: 6,
-        columnWidth: '40%'
-      }
-    },
-    dataLabels: {
-      enabled: false
+    stroke: {
+      curve: 'smooth',
+      width: 3
     },
     xaxis: {
       categories: []
     }
   };
 
-  constructor(private service: SharedService, private toastr: ToastrService) { }
+  constructor(private service: SharedService, private toastr: ToastrService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.selectedOption = localStorage.getItem('selectedOption') || '0';
+
     this.setDefaultDateRange();
-    this.getUsers();
-    this.getSubAdmins();
+    this.route.queryParams.subscribe(params => {
+      this.user_id = params['user_id'];
+      this.getUsers();
+    });
   }
 
   setDefaultDateRange() {
@@ -100,7 +98,7 @@ export class AnalyticDashboardComponent {
   getUsers() {
     this.loading = true;
 
-    this.service.getApi(`analytics/overview?from=${this.fromDate}&to=${this.toDate}`).subscribe({
+    this.service.getApi(`analytics/dashboard?from=${this.fromDate}&to=${this.toDate}`).subscribe({
       next: (resp: any) => {
 
         // ================= TOP CARDS =================
@@ -113,7 +111,7 @@ export class AnalyticDashboardComponent {
 
         // ================= USER JOURNEY =================
         this.journey = Object.keys(resp.journey || {})
-          .filter(key => key !== 'overallConversion')
+          .filter(key => key !== 'overallConversion')   // ❗ remove conversion from steps
           .map((key: string) => ({
             label: this.formatLabel(key),
             value: resp.journey[key],
@@ -145,34 +143,21 @@ export class AnalyticDashboardComponent {
         // ================= SESSION TREND GRAPH =================
         // this.sessionTrend = resp.graphs?.sessionTrend || [];
         // ================= SESSION TREND GRAPH =================
-        // ================= KPI CHART =================
-        // const kpis = resp.kpis || {};
+        const trend = resp.graphs?.sessionTrend || [];
 
-        // const categories = Object.keys(kpis).map(key => this.formatLabel(key));
-        // const data = Object.keys(kpis).map(key => kpis[key].value);
+        const categories2 = trend.map((t: any) => this.formatDateLabel(t.date));
+        const data2 = trend.map((t: any) => t.total);
 
-        // this.sessionTrendChart.series = [
-        //   {
-        //     name: 'Count',
-        //     data: data
-        //   }
-        // ];
+        this.sessionTrendChart.series = [
+          {
+            name: 'Sessions',
+            data: data2
+          }
+        ];
 
-        // this.sessionTrendChart.chart = {
-        //   type: 'bar',
-        //   height: 300,
-        //   toolbar: { show: false }
-        // };
-
-        // this.sessionTrendChart.xaxis = {
-        //   categories: categories
-        // };
-        // ================= KPI LIST (for journey section top) =================
-        this.kpiList = Object.keys(resp.kpis || {}).map((key: string) => ({
-          label: this.formatLabel(key),
-          value: resp.kpis[key].value,
-          percent: this.calculatePercent(resp.kpis[key].value, resp.kpis?.totalSessions?.value)
-        }));
+        this.sessionTrendChart.xaxis = {
+          categories: categories2
+        };
 
 
         this.loading = false;
@@ -190,11 +175,11 @@ export class AnalyticDashboardComponent {
     return Math.round((value / total) * 100);
   }
 
-  // formatLabel(key: string): string {
-  //   return key
-  //     .replace(/_/g, ' ')
-  //     .replace(/\b\w/g, (char) => char.toUpperCase());
-  // }
+  formatLabel(key: string): string {
+    return key
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  }
 
   formatDateLabel(dateStr: string): string {
     if (!dateStr || dateStr.length !== 8) return '';
@@ -211,74 +196,8 @@ export class AnalyticDashboardComponent {
     });
   }
 
-  currentPage: number = 1;
-  pageSize: number = 10;
-  hasMoreData: boolean = true;
-  totalPages: number = 0;
-  searchQuery = '';
-
-  getSubAdmins(filter?: any) {
-
-    this.service.getApi(`sub-admin/get-all-users?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}`).subscribe({
-      next: resp => {
-        this.data = resp.data;
-        //this.loading = false;
-        this.totalPages = resp.pagination.totalPages;
-        this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
-          item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
-          return item;
-        });
-        this.hasMoreData = resp.data.length == this.pageSize;
-      },
-      error: error => {
-        //this.loading = false;
-        console.log(error.message);
-      }
-    });
+  backClicked() {
+    this.router.navigateByUrl(`/admin/main/google-analytic`);
   }
-
-  resetAndSearch(fill: any) {
-    this.currentPage = 1; // Reset to first page on search
-    this.getSubAdmins(fill);
-  }
-
-  onStatusChange(): void {
-    this.currentPage = 1;
-    this.getSubAdmins(this.selectedOption);
-    localStorage.setItem('selectedOption', this.selectedOption);
-  }
-
-  nextPage() {
-    if (this.hasMoreData) {
-      this.currentPage++;
-      this.getSubAdmins(this.selectedOption);
-    }
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.getSubAdmins(this.selectedOption);
-    }
-  }
-
-  formatLabel(key: string): string {
-    if (!key) return '';
-
-    return key
-      // convert camelCase / PascalCase → space separated
-      .replace(/([a-z])([A-Z])/g, '$1 $2')
-
-      // replace underscore with space
-      .replace(/_/g, ' ')
-
-      // capitalize first letter of each word
-      .replace(/\b\w/g, (char) => char.toUpperCase());
-  }
-
-  comingSoon() {
-    this.toastr.warning('Coming Soon!')
-  }
-
 
 }

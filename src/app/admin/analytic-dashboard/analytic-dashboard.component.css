@@ -1,15 +1,15 @@
-.ct_card {
+.card {
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .progress {
-  height: 8px;
-  background: #eee;
-  border-radius: 10px;
+  background: #e9ecef;
 }
 
 .progress-bar {
-  background: #4e73df;
   border-radius: 10px;
+}
+
+h3, h4, h5 {
+  letter-spacing: 0.3px;
 }

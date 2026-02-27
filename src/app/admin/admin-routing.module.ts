@@ -42,6 +42,8 @@ import { NotificationContantComponent } from './notification-contant/notificatio
 import { GuestProfilesComponent } from './guest-profiles/guest-profiles.component';
 import { FeedbackNotificationsComponent } from './feedback-notifications/feedback-notifications.component';
 import { AnalyticDashboardComponent } from './analytic-dashboard/analytic-dashboard.component';
+import { WebAnalyticComponent } from './web-analytic/web-analytic.component';
+import { ViewUserAnalyticComponent } from './analytic-dashboard/view-user-analytic/view-user-analytic.component';
 
 const routes: Routes = [
   {
@@ -55,6 +57,14 @@ const routes: Routes = [
       {
         path: 'google-analytic',
         component: AnalyticDashboardComponent
+      },
+      {
+        path: 'view-user-analytic',
+        component: ViewUserAnalyticComponent
+      },
+      {
+        path: 'web-analytic',
+        component: WebAnalyticComponent
       },
       {
         path: 'sub-admins',

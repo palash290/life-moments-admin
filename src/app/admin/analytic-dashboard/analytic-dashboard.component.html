@@ -1,84 +1,269 @@
-<div class="container-fluid ct_dash">
+<div class="ct_dashbaord_middle">
 
-  <!-- Filters -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <div class="d-flex gap-2">
-      <input type="date" class="form-control" [(ngModel)]="fromDate">
-      <input type="date" class="form-control" [(ngModel)]="toDate">
-      <button class="btn btn-primary" (click)="getUsers()">Apply Filter</button>
+  <div class="mt-3">
+    <div class="form-check form-check-inline" (change)="onStatusChange()">
+      <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio11" value="0"
+        [(ngModel)]="selectedOption" [ngModelOptions]="{ standalone: true }" />
+      <label class="form-check-label ct_fw_600" for="inlineRadio11">Overall Analytics</label>
+    </div>
+    <div class="form-check form-check-inline" (change)="onStatusChange()">
+      <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio22" value="1"
+        [(ngModel)]="selectedOption" [ngModelOptions]="{ standalone: true }" />
+      <label class="form-check-label ct_fw_600" for="inlineRadio22">User-wise Analytics</label>
     </div>
   </div>
 
-  <!-- TOP CARDS -->
-  <div class="row">
-    <div class="col-md-3" *ngFor="let card of topCards">
-      <div class="card ct_card p-3">
-        <h6>{{card.title}}</h6>
-        <h2>{{card.value}}</h2>
+
+  <div class="container-fluid py-3" *ngIf="selectedOption == '0'">
+
+    <!-- ================= HEADER ================= -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="fw-bold">Analytics Overview</h3>
+
+      <div class="d-flex gap-2">
+        <input type="date" class="form-control" [(ngModel)]="fromDate">
+        <input type="date" class="form-control" [(ngModel)]="toDate">
+        <button class="btn btn-success" (click)="getUsers()">Apply</button>
       </div>
     </div>
-  </div>
 
-  <!-- USER JOURNEY -->
-  <div class="row mt-4">
-    <div class="col-md-6">
-      <div class="card p-3">
-        <h5>User Journey</h5>
-        <div *ngFor="let item of journey">
-          <div class="d-flex justify-content-between">
-            <span>{{item.label}}</span>
-            <span>{{item.value}}</span>
+    <!-- ================= TOP CARDS ================= -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-3" *ngFor="let card of topCards">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-body">
+            <p class="text-muted mb-1">{{card.title}}</p>
+            <h3 class="fw-bold">{{card.value}}</h3>
           </div>
-          <div class="progress mb-3">
-            <div class="progress-bar" [style.width.%]="item.percent"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= SECOND ROW ================= -->
+    <div class="row g-3 mb-4">
+      <!-- USER JOURNEY -->
+      <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-body">
+            <h5 class="fw-bold mb-3">User Journey Metrics</h5>
+            <!-- ================= KPI SECTION ================= -->
+            <div *ngFor="let k of kpiList" class="mb-3">
+              <div class="d-flex justify-content-between">
+                <span>{{k.label}}</span>
+                <span class="fw-bold">{{k.value}}</span>
+              </div>
+
+              <div class="progress" style="height:6px;">
+                <div class="progress-bar bg-success" [style.width.%]="k.percent"></div>
+              </div>
+            </div>
+
+            <div *ngFor="let j of journey" class="mb-3">
+              <div class="d-flex justify-content-between">
+                <span>{{j.label}}</span>
+                <span class="fw-semibold">{{j.value}}</span>
+              </div>
+              <div class="progress" style="height:6px;">
+                <div class="progress-bar bg-success" [style.width.%]="j.percent || (j.value / 100)"></div>
+              </div>
+            </div>
+            <div class="bg-success text-white text-center py-2 rounded mt-3">
+              Overall Conversion {{journeyConversion}}%
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBSCRIPTIONS -->
+      <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-body">
+            <h5 class="fw-bold mb-1">Subscription Overview</h5>
+            <small class="text-muted">Trial & subscription metrics</small>
+            <div class="row g-3 mt-2">
+              <div class="col-md-6" *ngFor="let s of subscriptions">
+                <div class="border rounded p-3 h-100">
+                  <p class="mb-1 text-muted">{{s.label}}</p>
+                  <h5 class="fw-bold">{{s.value}}</h5>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SUBSCRIPTION OVERVIEW -->
-    <div class="col-md-6">
-      <div class="card p-3">
-        <h5>Subscription Overview</h5>
-        <div class="row text-center">
-          <div class="col-4" *ngFor="let s of subscriptions">
-            <h6>{{s.label}}</h6>
-            <h4>{{s.value}}</h4>
+    <!-- ================= ENGAGEMENT ================= -->
+    <!-- <div class="row g-3 mb-4">
+
+    <div class="col-md-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="fw-bold mb-3">Engagement Overview</h5>
+
+          <div class="row g-3">
+            <div class="col-md-3" *ngFor="let f of featureUsage">
+              <div class="border rounded p-3 text-center">
+                <p class="text-muted mb-1">{{f.feature}}</p>
+                <h5 class="fw-bold">{{f.usage}}</h5>
+              </div>
+            </div>
           </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div> -->
+    <!-- <div class="card shadow-sm border-0 mt-4">
+      <div class="card-body">
+        <h5 class="fw-bold mb-3">KPI Overview</h5>
+
+        <apx-chart [series]="sessionTrendChart.series" [chart]="sessionTrendChart.chart"
+          [xaxis]="sessionTrendChart.xaxis" [plotOptions]="sessionTrendChart.plotOptions"
+          [dataLabels]="sessionTrendChart.dataLabels">
+        </apx-chart>
+
+      </div>
+    </div> -->
+
+    <!-- ================= ENGAGEMENT CHART ================= -->
+    <div class="row g-3 mb-4 mt-3">
+      <div class="col-md-12">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="fw-bold mb-3">Engagement</h5>
+
+            <apx-chart [series]="engagementChart.series" [chart]="engagementChart.chart"
+              [xaxis]="engagementChart.xaxis">
+            </apx-chart>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MOMENTS ACTIVITY ================= -->
+    <div class="row g-3">
+      <div class="col-md-4" *ngFor="let f of featureUsage">
+        <div class="card shadow-sm border-0 text-center">
+          <div class="card-body">
+            <p class="text-muted">{{f.feature}}</p>
+            <h4 class="fw-bold">{{f.usage}}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row ct_mt_30" *ngIf="selectedOption == '1'">
+    <div class="col-lg-12 mb-4 mb-lg-0">
+      <div class="table-responsive">
+        <table class="table ct_project_table">
+          <thead>
+            <tr>
+              <th>S No.</th>
+              <th>Full Name</th>
+              <th>Display Name</th>
+              <!-- <th>Email</th> -->
+              <th>Gender</th>
+              <th>DOB</th>
+              <th>View</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data; let i = index;">
+              <td>{{ i + 1 + (currentPage - 1) * pageSize }}</td>
+              <td>
+                <a>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="position-relative" data-bs-toggle="modal" data-bs-target="#img">
+                      <img
+                        [src]='item.profile_image ? item?.profile_image : "https://lifesmomentsapp.com:4000/images/1727186679509.png"'
+                        class="ct_img_40 ct_border_22" />
+                    </div>
+                    <p class="mb-0 ct_fs_16">{{item.fullName}}</p>
+                  </div>
+                </a>
+              </td>
+              <td>{{item.displayName}}</td>
+              <!-- <td>{{item.email}}</td> -->
+              <td>
+                @if(item.other_gender == 'none' || item.other_gender == 'null'){
+                <div *ngIf="item.gender == 'male'">
+                  Male
+                </div>
+                <div *ngIf="item.gender == 'female'">
+                  Female
+                </div>
+                <div *ngIf="item.gender == 'prefer-not-to-say'">
+                  Prefer Not To Say
+                </div>
+                <div *ngIf="item.gender == 'PreferNotToSay'">
+                  Prefer Not To Say
+                </div>
+                <div *ngIf="item.gender == 'non-binary'">
+                  Non Binary
+                </div>
+                <div *ngIf="item.gender == 'NonBinary'">
+                  Non Binary
+                </div>
+                <div *ngIf="item.gender == 'unknown'">
+                  Gender Unknown
+                </div>
+                } @else {
+                <div *ngIf="item.other_gender == 'prefer-not-to-say'">
+                  Prefer Not To Say
+                </div>
+                <div *ngIf="item.other_gender == 'PreferNotToSay'">
+                  Prefer Not To Say
+                </div>
+                <div *ngIf="item.other_gender == 'non-binary'">
+                  Non Binary
+                </div>
+                <div *ngIf="item.other_gender == 'NonBinary'">
+                  Non Binary
+                </div>
+                <div *ngIf="item.other_gender == 'unknown'">
+                  Gender Unknown
+                </div>
+                }
+              </td>
+              <td class="text-end">{{item.birth}}</td>
+              <td class="text-end">
+                <!-- <div class="d-flex align-items-center gap-3" [routerLink]="['/admin/main/view-user-analytic']"
+                  [queryParams]="{ user_id: item.id }">
+                  <i class="fa-regular fa-eye ct_green_text" style="cursor: pointer"></i>
+                </div> -->
+                <div class="d-flex align-items-center gap-3" (click)="comingSoon()">
+                  <i class="fa-regular fa-eye ct_green_text" style="cursor: pointer"></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="data?.length == 0" class="text-center">
+        <p class="ct_fs_15 mt-5">No members found</p>
+      </div>
+      <!-- Pagination Controls -->
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="pagination-controls">
+          <button (click)="previousPage()" class="ct_previous" [disabled]="currentPage === 1">Previous</button>
+          <button>
+            {{ currentPage }}
+          </button>
+          @if(totalPages != currentPage){
+          <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+          }
         </div>
       </div>
     </div>
   </div>
 
-  <!-- FEATURE USAGE TABLE -->
-  <div class="card mt-4 p-3">
-    <h5>Feature Usage</h5>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Feature</th>
-          <th>Usage</th>
-          <th>Percentage</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let f of featureUsage">
-          <td>{{f.feature}}</td>
-          <td>{{f.usage}}</td>
-          <td>{{f.percent}}%</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- ENGAGEMENT CHART -->
-  <div class="card mt-4 p-3">
-    <h5>Engagement Overview</h5>
-    <apx-chart [series]="engagementChart.series" [chart]="engagementChart.chart" [xaxis]="engagementChart.xaxis"
-      [dataLabels]="engagementChart.dataLabels" [plotOptions]="engagementChart.plotOptions">
-    </apx-chart>
-  </div>
 </div>
+
 
 <div class="ct_loader_main" *ngIf="loading">
   <div class="loadingio-spinner-spinner-977el9wwy2v">

@@ -53,6 +53,8 @@ import { FeedbackNotificationsComponent } from './feedback-notifications/feedbac
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { AnalyticDashboardComponent } from './analytic-dashboard/analytic-dashboard.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { WebAnalyticComponent } from './web-analytic/web-analytic.component';
+import { ViewUserAnalyticComponent } from './analytic-dashboard/view-user-analytic/view-user-analytic.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +102,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     GuestProfilesComponent,
     FeedbackNotificationsComponent,
     ContactUsComponent,
-    AnalyticDashboardComponent
+    AnalyticDashboardComponent,
+    WebAnalyticComponent,
+    ViewUserAnalyticComponent
   ],
   imports: [
     CommonModule,
