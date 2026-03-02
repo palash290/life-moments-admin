@@ -23,6 +23,7 @@ export class SideMenuComponent {
   }
 
   referHeader() {
+    localStorage.removeItem('selectedOption');
     this.service.triggerRefresh();
   }
 

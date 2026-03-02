@@ -112,12 +112,27 @@ export class AnalyticDashboardComponent {
         ];
 
         // ================= USER JOURNEY =================
+        // this.journey = Object.keys(resp.journey || {})
+        //   .filter(key => key !== 'overallConversion')
+        //   .map((key: string) => ({
+        //     label: this.formatLabel(key),
+        //     value: resp.journey[key],
+        //     percent: this.calculatePercent(resp.journey[key], resp.journey?.signup_started)
+        //   }));
+        // find max value from journey to normalize %
+        const journeyValues = Object.keys(resp.journey || {})
+          .filter(key => key !== 'overallConversion')
+          .map(key => resp.journey[key]);
+
+        const maxJourneyValue = Math.max(...journeyValues, 1);
+
+        // map journey
         this.journey = Object.keys(resp.journey || {})
           .filter(key => key !== 'overallConversion')
           .map((key: string) => ({
             label: this.formatLabel(key),
             value: resp.journey[key],
-            percent: this.calculatePercent(resp.journey[key], resp.journey?.signup_started)
+            percent: Math.round((resp.journey[key] / maxJourneyValue) * 100)
           }));
 
         // overall conversion
