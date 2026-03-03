@@ -1,6 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { SharedService } from '../../shared/services/shared.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-feedback-notifications',
@@ -12,7 +11,7 @@ export class FeedbackNotificationsComponent {
   data: any;
   feedbackDetails: any;
 
-  constructor(private service: SharedService, private toastr: ToastrService) { }
+  constructor(private service: SharedService) { }
 
   ngOnInit() {
     this.getUsers();
@@ -26,7 +25,6 @@ export class FeedbackNotificationsComponent {
   loading: boolean = false;
 
   getUsers(filter?: any) {
-
     this.service.getApi(`notification/getAdminNotification`).subscribe({
       next: resp => {
         this.data = resp.data;

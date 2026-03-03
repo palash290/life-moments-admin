@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { SharedService } from '../../shared/services/shared.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-guest-profiles',
@@ -16,7 +14,7 @@ export class GuestProfilesComponent {
 
   selectedOption: any = '0';
 
-  constructor(private route: Router, private service: SharedService, private toastr: ToastrService) { }
+  constructor(private service: SharedService) { }
 
   ngOnInit() {
     this.getSubAdmins(0);

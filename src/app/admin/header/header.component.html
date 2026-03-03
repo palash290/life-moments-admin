@@ -6,7 +6,6 @@
 <div class="ct_dashboard_head">
   <!-- <i class="fa-solid fa-bell"></i> -->
   <div class="ms-auto d-flex gap-3">
-
     <div class="ct_notification_main">
       <div class="position-relative ct_notification_click" (click)="toggleDropdown($event)">
         <button class="ct_logout_btn ct_white_btn dropdown ct_custom_dropdown py-2">
@@ -16,7 +15,6 @@
           <span>{{notifications.length}}</span>
         </div>
       </div>
-
       <div class="ct_notification_custom_dropdown" [class.ct_notification_active]="dropdownOpen">
         <div class="d-flex align-items-center justify-content-between gap-2">
           <p class="mb-0 ct_fw_600">All Notifications</p>
@@ -43,7 +41,6 @@
         </ul>
       </div>
     </div>
-
     <button class="ct_logout_btn ct_white_btn dropdown ct_custom_dropdown py-2 px-3">
       <div class=" ">
         <div class="ct_user_name_info d-flex align-items-center gap-2 justify-content-between " id="dropdownMenuButton1"
@@ -62,7 +59,6 @@
               data-bs-target="#ct_logout_modal">Log Out</a></li>
         </ul>
       </div>
-
     </button>
   </div>
 </div>

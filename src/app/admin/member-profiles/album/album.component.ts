@@ -1,7 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../../../shared/services/shared.service';
-import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -18,7 +17,7 @@ export class AlbumComponent {
   role: any;
   loading: boolean = false;
 
-  constructor(private rout: ActivatedRoute, private route: Router, private service: SharedService, private location: Location, private toastr: ToastrService) { }
+  constructor(private rout: ActivatedRoute, private route: Router, private service: SharedService, private toastr: ToastrService) { }
 
   // backClicked() {
   //   this.location.back();

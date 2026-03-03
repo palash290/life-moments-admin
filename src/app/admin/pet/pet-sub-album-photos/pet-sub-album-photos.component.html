@@ -8,9 +8,7 @@
         <div class="col-lg-12 mb-5 mb-lg-0">
             <div>
                 <ul class="d-flex align-items-center gap-md-4 gap-3 justify-content-end">
-                   
                     <!-- <li>12 item selected</li> -->
-
                     <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
                         <select class="form-control py-2 h-auto ct_input" [(ngModel)]="filterValue" (change)="applyFilter()">
                             <option value="">All</option>
@@ -19,7 +17,6 @@
                             <option value="PDF">PDF</option>
                         </select>
                     </div>
-
                     <!-- <li>
                         <div class="ct_checkbox_main">
                             <div>
@@ -37,7 +34,6 @@
                     </li> -->
                 </ul>
             </div>
-
             <!-- <ul class="d-flex align-items-center gap-md-3 gap-2 mt-4 mb-3 ct_breadcrumb_list flex-wrap">
                 <li style="cursor: pointer;" routerLink="/admin/main/timeline">{{year}} </li>
                 <li>>> </li>
@@ -47,14 +43,12 @@
                 <li>>> </li>
                 <li class="border-0">{{picLength}} Files</li>
             </ul> -->
-
             <div class="ct_grid_6 mt-4" [ngClass]="{'ct_grid_2_conditon': photos?.length == 2}">
                 <div class="ct_album_photo ct_max_w_214" *ngFor="let pic of filteredPhotos; let i = index" (click)="openModal(i)">
                     <div *ngIf="pic.albumItemType == 'Photo'">
                         <img [src]="pic.images_url ? pic.images_url : 'assets/img/timeline_img.png'" alt="Not Found"
                             data-bs-toggle="modal" data-bs-target="#preview_img" style="cursor: pointer;" class="ct_img_h_214">
                     </div>
-
                     <div *ngIf="pic.albumItemType == 'Video'">
                         <video class="ct_img_h_214" [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'"
                             style="filter: brightness(0.8);object-position: bottom;" #videoPlayer1
@@ -67,7 +61,6 @@
                             <source [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'" type="video/mov">
                             <source [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'" type="video/ogg">
                         </video>
-
                         <div class="ct_video_icon" style="cursor: pointer;" data-bs-toggle="modal"
                             data-bs-target="#preview_img">
                             <a>
@@ -80,18 +73,14 @@
                                 </svg>
                             </a>
                         </div>
-
                     </div>
-
                     <div *ngIf="pic.albumItemType == 'PDF'" class="pdf">
                         <div>
                             <div data-bs-toggle="modal" data-bs-target="#preview_img" class="ct_pdf_model"></div>
-
                             <iframe scrolling="no" [src]="sanitizeUrl(pic.images_url)" width="100%" height="250"
                                 class="ct_pdf_scroll ct_img_h_214"></iframe>
                         </div>
                     </div>
-
                     <div class="ct_checkbox_main ct_file_select">
                         <!-- <div>
                             <input type="checkbox" [(ngModel)]="pic.checked" id="ct_checkbox_cbx{{ pic.id }}"
@@ -111,10 +100,7 @@
 
 
 
-
-
 <!-- view photo  S -->
-
 <div class="modal fade Committed_Price" id="preview_img" tabindex="-1" aria-labelledby="preview_imgLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
@@ -125,7 +111,6 @@
                         <div class="image-carousel">
                             <a href="javascript:void(0)" (click)="prevImage()" class=" mb-0 text-dark"><i
                                     class="fa-solid fa-chevron-left"></i></a>
-
                             <div class="ct_preview_img mx-2">
                                 <div *ngIf="filteredPhotos[currentIndex]?.albumItemType == 'Photo'">
                                     <img [src]="filteredPhotos[currentIndex]?.images_url">
@@ -152,16 +137,13 @@
                                             [src]="filteredPhotos[currentIndex]?.images_url ? filteredPhotos[currentIndex]?.images_url : 'assets/img/demo.png'"
                                             type="video/ogg">
                                     </video>
-
                                     <!-- Fullscreen Button with Font Awesome Icon -->
                                     <button (click)="toggleFullscreen(videoPlayer1)" class="fullscreen-button">
                                         <i class="fas fa-expand"></i>
                                     </button>
-
                                     <!-- Seek bar -->
                                     <!-- <input type="range" class="custom-seekbar1" *ngIf="currentVideoId1 === videoPlayer1"
                                         (input)="onSeek1($event, videoPlayer1)" [value]="seekValue" /> -->
-
                                     <div class="ct_video_icon" *ngIf="!isVideoPlaying1(videoPlayer1)"
                                         (click)="toggleVideo1(videoPlayer1, photos[currentIndex]?.id)"
                                         style="cursor: pointer;">
@@ -175,7 +157,6 @@
                                             </svg>
                                         </a>
                                     </div>
-
                                 </div>
                                 <div *ngIf="filteredPhotos[currentIndex]?.albumItemType == 'PDF'">
                                     <iframe [src]="sanitizeUrl(filteredPhotos[currentIndex]?.images_url)" width="100%"
@@ -184,11 +165,9 @@
                                 <h3 class="text-center mb-0 mt-3">{{ filteredPhotos[currentIndex]?.title }}</h3>
                                 <h4 class="text-center mb-0 mt-3">{{ filteredPhotos[currentIndex]?.description }}</h4>
                             </div>
-
                             <a href="javascript:void(0)" (click)="nextImage()" class=" mb-0 text-dark"><i
                                     class="fa-solid fa-chevron-right"></i></a>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -201,7 +180,6 @@
                     <i class="fa-solid fa-download me-2"></i> Download
                 </button>
             </div>
-
         </div>
     </div>
 </div>

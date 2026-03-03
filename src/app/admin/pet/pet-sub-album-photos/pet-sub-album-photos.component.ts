@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../../shared/services/shared.service';
-import { Location } from '@angular/common';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-pet-sub-album-photos',
@@ -18,7 +15,7 @@ export class PetSubAlbumPhotosComponent {
   albumId: any;
   petId: any;
 
-  constructor(private sanitizer: DomSanitizer, private router: Router, private route: ActivatedRoute, private service: SharedService, private location: Location, private toastr: ToastrService) { }
+  constructor(private sanitizer: DomSanitizer, private router: Router, private route: ActivatedRoute) { }
 
   backClicked() {
     // this.location.back();

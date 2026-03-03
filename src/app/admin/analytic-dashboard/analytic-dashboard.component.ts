@@ -107,7 +107,7 @@ export class AnalyticDashboardComponent {
         this.topCards = [
           { title: 'Total Sessions', value: resp.kpis?.totalSessions?.value || 0 },
           { title: 'Active Subscriptions', value: resp.kpis?.activeSubscriptions?.value || 0 },
-          { title: 'Free Trials Started', value: resp.subscriptions?.free_trial_started || 0 },
+          { title: 'Free Trials Started', value: resp.subscriptions?.freeTrialStarted || 0 },
           { title: 'Signup Completed', value: resp.journey?.signup_completed || 0 }
         ];
 

@@ -14,7 +14,6 @@
             <!-- <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add_album">Add New Album</button> -->
         </div>
     </div>
-
     <div class="row ct_mt_30">
         <div class="col-lg-12 mb-5 mb-lg-0">
             <div>
@@ -44,7 +43,6 @@
                 <li>>> </li>
                 <li>Sub - Albumname x</li>
             </ul> -->
-
             <div class="ct_grid_6 mt-3" [ngClass]="{'ct_grid_2_conditon': data.length == 2}">
                 <a *ngFor="let pic of data; let i = index" class="text-dark">
                     <figure class="ct_file_main mb-0">
@@ -83,9 +81,7 @@
 
 
 
-
 <!-- view family  S -->
-
 <div class="modal fade Committed_Price" id="edit_file" tabindex="-1" aria-labelledby="edit_fileLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -127,16 +123,13 @@
                     Update
                 </button>
             </div>
-
         </div>
     </div>
 </div>
-
 <!--  view family  E -->
 
 
 <!-- add Album family  S -->
-
 <div class="modal fade Committed_Price" id="add_album" tabindex="-1" aria-labelledby="add_albumLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -145,7 +138,6 @@
                 <div class="pt-5">
                     <h4 class="ct_fw_500 mb-5 text-center">Add New Sub Album</h4>
                     <form action="">
-
                         <div class="form-group mb-3">
                             <label for="" class="mb-2"><span class="ct_fw_600 ct_fs_18">Sub Album Name </span></label>
                             <input type="text" class="form-control" placeholder="Enter Album Name" value="Album name 1">
@@ -162,11 +154,9 @@
                     Add Album
                 </button>
             </div>
-
         </div>
     </div>
 </div>
-
 <!--  view family  E -->
 
 
@@ -179,7 +169,6 @@
                     <img src="assets/img/remove.png" alt="" class="ct_img_60 mx-auto d-block mb-4">
                     <h4 class="ct_fw_500 mb-3 text-center">Are you Sure?</h4>
                     <p class="text-center">Do you really want to delete this? after deleting <br> you can't undone</p>
-
                 </div>
             </div>
             <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-0">
@@ -191,11 +180,9 @@
                     Delete
                 </button>
             </div>
-
         </div>
     </div>
 </div>
-
 
 
 

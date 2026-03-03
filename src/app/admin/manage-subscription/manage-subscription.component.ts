@@ -1,7 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../shared/services/shared.service';
-declare const $: any; // To use jQuery
+import { Router } from '@angular/router';
+declare const $: any;
 
 @Component({
   selector: 'app-manage-subscription',
@@ -26,7 +27,7 @@ export class ManageSubscriptionComponent {
   hasMoreData2: boolean = true;
   selectedOption: any = 'all';
 
-  constructor(private service: SharedService, private toastr: ToastrService) { }
+  constructor(private service: SharedService, private toastr: ToastrService, private route: Router) { }
 
   ngOnInit() {
     this.getAllUsers('');
@@ -251,6 +252,14 @@ export class ManageSubscriptionComponent {
       $('#membersSelect').select2('destroy');
       this.selectedPlanId = '';
     }
+  }
+
+  getMemberAlbum(item: any) {
+    this.route.navigateByUrl(`/admin/main/tree-member/${item.user_id}`);
+  }
+
+    getMemberAlbum1(item: any) {
+    this.route.navigateByUrl(`/admin/main/tree-member/${item.users_id}`);
   }
 
 

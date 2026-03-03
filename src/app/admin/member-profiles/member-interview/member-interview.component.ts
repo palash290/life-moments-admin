@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { SharedService } from '../../../shared/services/shared.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-member-interview',
@@ -20,7 +19,7 @@ export class MemberInterviewComponent {
 
   constructor(private service: SharedService, private route: Router, private rout: ActivatedRoute) { }
 
-  goBack(){
+  goBack() {
     this.route.navigateByUrl(`/admin/main/family-member/${this.itemId}/${this.familyId}`);
     localStorage.removeItem('itemId')
     localStorage.removeItem('parentFamilyId')
@@ -58,11 +57,11 @@ export class MemberInterviewComponent {
   }
 
   // Helper function to convert 'dd/MM/yyyy' to ISO format
-formatDateToISO(dateString: string): string {
-  const [day, month, year] = dateString.split('/').map(Number);
-  const date = new Date(year, month - 1, day); // Month is zero-based
-  return date.toISOString(); // Convert to ISO format
-}
+  formatDateToISO(dateString: string): string {
+    const [day, month, year] = dateString.split('/').map(Number);
+    const date = new Date(year, month - 1, day); // Month is zero-based
+    return date.toISOString(); // Convert to ISO format
+  }
 
 
 }

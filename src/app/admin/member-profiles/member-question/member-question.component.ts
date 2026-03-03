@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { SharedService } from '../../../shared/services/shared.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -15,7 +14,7 @@ export class MemberQuestionComponent {
   filteredQuestions: any;
   year: any;
 
-  constructor(private service: SharedService, private route: Router, private rout: ActivatedRoute, private location: Location) { }
+  constructor(private rout: ActivatedRoute, private location: Location) { }
 
   backClicked() {
     this.location.back();

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../../../shared/services/shared.service';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-pet-timeline',
@@ -19,7 +18,7 @@ export class PetTimelineComponent {
   loading: boolean = false;
   petName: any;
 
-  constructor(private sanitizer: DomSanitizer, private rout: ActivatedRoute, private service: SharedService, private route: Router, private location: Location) { }
+  constructor(private sanitizer: DomSanitizer, private rout: ActivatedRoute, private service: SharedService, private route: Router) { }
 
   backClicked() {
     //this.location.back();

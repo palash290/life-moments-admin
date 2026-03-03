@@ -16,6 +16,7 @@ export class MemberProfilesComponent {
   searchQuery = '';
   loading: boolean = false;
   editParentForm!: FormGroup;
+  date: any;
 
   constructor(private route: Router, private service: SharedService, private toastr: ToastrService) { }
 
@@ -174,19 +175,49 @@ export class MemberProfilesComponent {
   pageSize: number = 10;
   hasMoreData: boolean = true;
 
+  // getSubAdmins() {
+  //   this.service.getApi(`sub-admin/get-all-users?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}`).subscribe({
+  //     next: resp => {
+  //       this.data = resp.data;
+  //       this.loading = false;
+  //       this.totalPages = resp.pagination.totalPages;
+  //       this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
+  //         item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
+  //         return item;
+  //       });
+  //       this.hasMoreData = resp.data.length == this.pageSize;
+  //     },
+  //     error: error => {
+  //       this.loading = false;
+  //       console.log(error.message);
+  //     }
+  //   });
+  // }
+
   getSubAdmins() {
-    this.service.getApi(`sub-admin/get-all-users?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}`).subscribe({
-      next: resp => {
-        this.data = resp.data;
+    this.loading = true;
+
+    let url = `sub-admin/get-all-users?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery || ''}`;
+
+    // ✅ add date filter if selected
+    if (this.date) {
+      url += `&date=${this.date}`;
+    }
+
+    this.service.getApi(url).subscribe({
+      next: (resp: any) => {
         this.loading = false;
+
         this.totalPages = resp.pagination.totalPages;
-        this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
+
+        this.data = resp.data.map((item: any, index: number) => {
           item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
           return item;
         });
+
         this.hasMoreData = resp.data.length == this.pageSize;
       },
-      error: error => {
+      error: (error) => {
         this.loading = false;
         console.log(error.message);
       }
@@ -277,12 +308,18 @@ export class MemberProfilesComponent {
   // }
 
 
+  // getMemberAlbum(item: any) {
+  //   this.route.navigateByUrl(`/admin/main/tree-member/${item.id}`);
+  // }
   getMemberAlbum(item: any) {
-    this.route.navigateByUrl(`/admin/main/tree-member/${item.id}`);
+    this.route.navigate(
+      ['/admin/main/tree-member', item.id],
+      { queryParams: { isAlbum: true } }
+    );
   }
 
   handleCheckboxChange(row: any) {
-    
+
     if (row.block_status == 1) {
       Swal.fire({
         title: "Are you sure?",

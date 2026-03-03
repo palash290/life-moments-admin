@@ -15,7 +15,6 @@
             <!-- <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add_album">Add New Album</button> -->
         </div>
     </div>
-
     <div class="row ct_mt_30">
         <div class="col-lg-12 mb-5 mb-lg-0">
             <div>
@@ -58,7 +57,6 @@
                             <div class="ct_edit_file_cnt ct_total_count_btm">
                                 <h4 class="mb-0 ct_fs_14">{{pic.totalalbumphoto}}</h4>
                             </div>
-
                             <div class="ct_checkbox_main ct_file_select">
                                 <!-- <div>
                                     <input [(ngModel)]="pic.checked" type="checkbox" id="ct_checkbox_cbx{{ pic.id }}"
@@ -83,7 +81,6 @@
 
 
 <!-- edit album  S -->
-
 <div class="modal fade Committed_Price" id="edit_file" tabindex="-1" aria-labelledby="edit_fileLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -91,7 +88,6 @@
             <div class="modal-body px-0">
                 <div class="pt-5">
                     <h4 class="ct_fw_500 mb-5 text-center">Edit Album</h4>
-
                     <div class="form-group mb-3">
                         <label for="ct_file_edit" class="position-relative mx-auto mb-4 d-flex justify-content-center">
                             <input type="file" class="d-none" id="ct_file_edit"
@@ -107,14 +103,12 @@
                                 </div>
                             </div>
                         </label>
-
                     </div>
                     <div class="form-group mb-3">
                         <label for="" class="mb-2">Change Title</label>
                         <input type="text" class="form-control" placeholder="Enter Title Name"
                             [(ngModel)]="editAlbumName">
                     </div>
-
                 </div>
             </div>
             <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-0">
@@ -128,16 +122,13 @@
                 <button hidden type="button" class="btn btn-secondary" #closeModalEdit
                     data-bs-dismiss="modal">Close</button>
             </div>
-
         </div>
     </div>
 </div>
-
 <!--  edit album  E -->
 
 
 <!-- add Album family  S -->
-
 <div class="modal fade Committed_Price" id="add_album" tabindex="-1" aria-labelledby="add_albumLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -146,15 +137,11 @@
                 <div class="pt-5">
                     <h4 class="ct_fw_500 mb-5 text-center">Add New Album</h4>
                     <div class="form-group mb-3">
-
                         <label for="ct_file_edit1" class="position-relative mx-auto mb-4 d-flex justify-content-center">
                             <input type="file" class="d-none" id="ct_file_edit1"
                                 (change)="onFileSelected($event, 'add')">
-
                             <div class="ct_file_change">
                                 <img [src]="imagePreview || 'assets/img/file_img.png'" alt="File Preview">
-
-
                                 <div class="ct_edit_icon ct_file_edit_icon">
                                     <svg width="26" height="24" viewBox="0 0 26 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -170,10 +157,8 @@
                                             fill="white" />
                                     </svg>
                                 </div>
-
                             </div>
                         </label>
-
                         <label for="" class="mb-2">
                             <span class="ct_fw_600 ct_fs_18">Add Title
                             </span></label>
@@ -181,7 +166,6 @@
                         <input type="text" class="form-control" placeholder="Enter Album Name"
                             [(ngModel)]="albumName" />
                     </div>
-
                 </div>
             </div>
             <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-0">
@@ -195,13 +179,10 @@
                 <button hidden type="button" class="btn btn-secondary" #closeModalAdd
                     data-bs-dismiss="modal">Close</button>
             </div>
-
         </div>
     </div>
 </div>
-
-<!--  view family  E -->
-
+<!--  view family E -->
 
 <div class="modal fade Committed_Price" id="delete_modal" tabindex="-1" aria-labelledby="delete_modalLabel"
     aria-hidden="true">
@@ -212,7 +193,6 @@
                     <img src="assets/img/remove.png" alt="" class="ct_img_60 mx-auto d-block mb-4">
                     <h4 class="ct_fw_500 mb-3 text-center">Are you Sure?</h4>
                     <p class="text-center">Do you really want to delete this? after deleting <br> you can't undone</p>
-
                 </div>
             </div>
             <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-0">
@@ -231,13 +211,9 @@
                 <button hidden type="button" class="btn btn-secondary" #closeModalDel
                     data-bs-dismiss="modal">Close</button>
             </div>
-
         </div>
     </div>
 </div>
-
-
-
 
 <div class="ct_loader_main" *ngIf="loading">
     <div class="loadingio-spinner-spinner-977el9wwy2v">

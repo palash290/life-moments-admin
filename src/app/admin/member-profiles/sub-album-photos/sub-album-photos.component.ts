@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../../shared/services/shared.service';
-import { Location } from '@angular/common';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
@@ -20,7 +17,7 @@ export class SubAlbumPhotosComponent {
   userId: any;
   userId2: any;
 
-  constructor(private sanitizer: DomSanitizer, private router: Router, private route: ActivatedRoute, private service: SharedService, private location: Location, private toastr: ToastrService) { }
+  constructor(private sanitizer: DomSanitizer, private router: Router, private route: ActivatedRoute) { }
 
   backClicked() {
     //this.location.back();
@@ -202,34 +199,3 @@ export class SubAlbumPhotosComponent {
 
 
 }
-
-// albumId
-// :
-// 26437
-// albumItemType
-// :
-// "Photo"
-// creationDate
-// :
-// "19 / 11 / 2024"
-// description
-// :
-// "laptop "
-// id
-// :
-// 1350
-// images_url
-// :
-// "http://18.229.202.71:4000/album/1732047647095.png"
-// is_cover_image
-// :
-// 0
-// mediaFileName
-// :
-// "1732047647095.png"
-// title
-// :
-// "laptop "
-// uploadDate
-// :
-// "2024-11-19T20:20:50.000Z"

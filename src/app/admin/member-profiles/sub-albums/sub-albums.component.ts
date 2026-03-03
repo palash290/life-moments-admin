@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../../../shared/services/shared.service';
-import { Location } from '@angular/common';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sub-albums',
@@ -21,7 +19,7 @@ export class SubAlbumsComponent {
   previousAlbumId!: any;
   previousUserId: any;
 
-  constructor(private router: Router, private route: ActivatedRoute, private service: SharedService, private location: Location, private toastr: ToastrService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private service: SharedService) { }
 
   // backClicked() {
   //   //this.router.navigateByUrl(`/admin/main/sub-albums/${this.previousAlbumId}/${this.previousUserId}`);

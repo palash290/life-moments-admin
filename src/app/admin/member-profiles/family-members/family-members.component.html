@@ -14,7 +14,6 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
             <!-- <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add-new-member">Add New Member</button> -->
-
         </div>
     </div>
 
@@ -27,13 +26,11 @@
                             style="border: solid var(--dark_green); cursor: pointer;"
                             (click)="showImg(filteredOutMembers[0]?.image_link)" data-bs-toggle="modal"
                             data-bs-target="#img1" />
-
                         <div *ngIf="filteredOutMembers[0]?.pet_id" class="ct_pet_overlay_icon">
                             <img src="https://lifesmomentsapp.com:4000/pets_album/1734086102101.png" alt=""
                                 class="ct_img_20 ct_border_22">
                         </div>
                     </div>
-
                     <div>
                         <p class="mb-0 ct_fs_18 ct_fw_600">{{filteredOutMembers[0]?.first_name}}
                             {{filteredOutMembers[0]?.last_name}}</p>
@@ -48,12 +45,9 @@
                     <!-- <i class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
                         data-bs-target="#edit-family-parent" style="cursor: pointer"
                         (click)="getParentId(filteredOutMembers[0]?.id)"></i> -->
-
                     <i class="fa-solid fa-paw ct_green_text" style="cursor: pointer"
                         (click)="goToPetList(filteredOutMembers[0]?.id)"></i>
-
                 </div>
-
             </div>
             <div class="table-responsive">
                 <table class="table ct_project_table ct_table_td_white">
@@ -62,7 +56,6 @@
                             <th>Full Name</th>
                             <th>Display Name</th>
                             <th>Gender</th>
-                            <!-- <th>DOB</th> -->
                             <th>Relation</th>
                             <th>Relationship With</th>
                             <th>Is Alive</th>
@@ -74,7 +67,6 @@
                             <td>
                                 <a>
                                     <div class="d-flex align-items-center gap-2">
-
                                         <div class="position-relative" (click)="showImg(item.image_link)"
                                             data-bs-toggle="modal" data-bs-target="#img1">
                                             <img [src]='item?.image_link ? item?.image_link : "https://lifesmomentsapp.com:4000/images/1727186679509.png"'
@@ -85,7 +77,6 @@
                                                     alt="" class="ct_img_20 ct_border_22">
                                             </div>
                                         </div>
-
                                         <p class="mb-0 ct_fs_16 ct_green_text">{{item.full_name}}</p>
                                     </div>
                                 </a>
@@ -233,7 +224,6 @@
                                     <i (click)="getSingleMemberData(item.id)"
                                         class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
                                         data-bs-target="#edit-pet"></i>
-
                                 </div>
                                 } @else {
                                 <div class="d-flex align-items-center gap-3">
@@ -243,10 +233,8 @@
                                     <!-- <i (click)="getSingleMemberData(item)"
                                         class="fa-regular fa-pen-to-square ct_green_text" data-bs-toggle="modal"
                                         data-bs-target="#edit-family-detail" style="cursor: pointer"></i> -->
-
                                     <i class="fa-solid fa-paw ct_green_text" style="cursor: pointer"
                                         (click)="goToPetList(item.id, item.full_name)"></i>
-
                                     <!-- <i (click)="openDeleteModal(item)" class="fa-regular fa-trash ct_green_text"
                                         data-bs-toggle="modal" data-bs-target="#delete_modal"
                                         style="cursor: pointer"></i> -->
@@ -268,8 +256,6 @@
 
 
 
-
-
 <!-- add new member Detail S -->
 <div class="modal fade Committed_Price" id="add-new-member" tabindex="-1" aria-labelledby="add-new-memberLabel"
     aria-hidden="true">
@@ -282,7 +268,6 @@
                         <div class="position-relative ct_w_fit_content mx-auto ct_mb_32">
                             <img [src]="parentImage1 ? parentImage1 : 'https://lifesmomentsapp.com:4000/images/1727186679509.png'"
                                 alt="" class="ct_img_164 mx-auto d-block" style="border: solid var(--dark_green);">
-
                             <label for="ct_edit_img1">
                                 <!-- <input accept="image/*" type="file" id="imgInp1" class="d-none" -->
                                 <input type="file" accept="image/*" class="d-none" id="ct_edit_img1"
@@ -304,7 +289,6 @@
                                 </div>
                             </label>
                         </div>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
@@ -321,7 +305,6 @@
                                             Name must contain at least two words.
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -395,7 +378,6 @@
                                         <option *ngFor="let relation of filteredRelations" [value]="relation.value">
                                             {{ relation.label }}
                                         </option>
-
                                     </select>
                                     <!-- <select [(ngModel)]="relationId"
                                         class="form-control" formControlName="relationName">
@@ -457,7 +439,6 @@
                                                 id="flexSwitchCheckChecked" formControlName="isAdult" />
                                         </div>
                                     </div> -->
-
                                     <div *ngIf="newMemberForm.get('isDOBUnknown')?.value"
                                         class="d-flex align-items-center gap-3">
                                         <!-- <label class="form-check-label mb-0">Age</label> -->
@@ -474,7 +455,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -549,7 +529,6 @@
                                 </div>
                             </label>
                         </div>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
@@ -565,8 +544,6 @@
                                             required.
                                         </div>
                                     </div> -->
-
-
                                     <div *ngIf="editParentForm.controls['name'].invalid && editParentForm.controls['name'].touched"
                                         class="error-message">
                                         <div *ngIf="editParentForm.controls['name'].errors?.['required']"
@@ -578,7 +555,6 @@
                                             Name must contain at least two words.
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -696,8 +672,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <!-- <button (click)="getMemberAlbum()" type="button ct_" class="ct_green_btn ct_h_50 w-100">
                             <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22"
                                     fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -721,7 +695,6 @@
                         </button> -->
                     </div>
                 </form>
-
             </div>
             <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767">
                 <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
@@ -745,13 +718,6 @@
     </div>
 </div>
 <!-- Edit parent Family Detail E -->
-
-
-
-
-
-
-
 
 
 
@@ -783,7 +749,6 @@
                                 </div>
                             </label>
                         </div>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
@@ -799,7 +764,6 @@
                                             required.
                                         </div>
                                     </div> -->
-
                                     <div *ngIf="editMemberForm.controls['name'].invalid && editMemberForm.controls['name'].touched"
                                         class="error-message">
                                         <div *ngIf="editMemberForm.controls['name'].errors?.['required']"
@@ -884,7 +848,6 @@
                                         <option *ngFor="let relation of filteredRelationsEdit" [value]="relation.id">
                                             {{ relation.label }}
                                         </option>
-
                                     </select>
                                     <div *ngIf="editMemberForm.controls['relationName'].invalid && editMemberForm.controls['relationName'].touched"
                                         class="error-message">
@@ -919,7 +882,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-md-12">
                                 <div
                                     class="d-flex align-items-center justify-content-between gap-3 flex-wrap pb-4 pt-2">
@@ -942,7 +904,6 @@
                                                 id="flexSwitchCheckChecked1" formControlName="isAdult" />
                                         </div>
                                     </div> -->
-
                                     <div *ngIf="editMemberForm.get('isDOBUnknown')?.value"
                                         class="d-flex align-items-center gap-3">
                                         <!-- <label class="form-check-label mb-0">Age</label> -->
@@ -959,10 +920,8 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-
                             <div class="col-md-12">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Date of Birth <span
@@ -1007,9 +966,6 @@
 
 
 
-
-
-
 <!-- View Parent Family Detail S -->
 <div class="modal fade Committed_Price" id="view-family-parent" tabindex="-1" aria-labelledby="view-family-parentLabel"
     aria-hidden="true">
@@ -1046,14 +1002,12 @@
                                     @if(filteredOutMembers[0]?.other_gender == 'none'){
                                     <!-- <input type="text" class="form-control" placeholder="Display Name" disabled
                                         [value]="filteredOutMembers[0]?.gender" /> -->
-
                                     @if(filteredOutMembers[0]?.gender == 'male'){
                                     <input type="text" class="form-control" disabled value="Male" />
                                     }
                                     @if(filteredOutMembers[0]?.gender == 'female'){
                                     <input type="text" class="form-control" disabled value="Female" />
                                     }
-
                                     @if(filteredOutMembers[0]?.gender == 'prefer-not-to-say'){
                                     <input type="text" class="form-control" disabled value="Prefer Not To Say" />
                                     }
@@ -1063,26 +1017,21 @@
                                     @if(filteredOutMembers[0]?.gender == 'non-binary'){
                                     <input type="text" class="form-control" disabled value="Non Binary" />
                                     }
-
                                     @if(filteredOutMembers[0]?.gender == 'NonBinary'){
                                     <input type="text" class="form-control" disabled value="Non Binary" />
                                     }
                                     @if(filteredOutMembers[0]?.gender == 'unknown'){
                                     <input type="text" class="form-control" disabled value="Gender Unknown" />
                                     }
-
-
                                     } @else {
                                     <!-- <input type="text" class="form-control" placeholder="Display Name" disabled
                                         [value]="filteredOutMembers[0]?.other_gender" /> -->
-
                                     @if(filteredOutMembers[0]?.other_gender == 'male'){
                                     <input type="text" class="form-control" disabled value="Male" />
                                     }
                                     @if(filteredOutMembers[0]?.other_gender == 'female'){
                                     <input type="text" class="form-control" disabled value="Female" />
                                     }
-
                                     @if(filteredOutMembers[0]?.other_gender == 'prefer-not-to-say'){
                                     <input type="text" class="form-control" disabled value="Prefer Not To Say" />
                                     }
@@ -1092,17 +1041,13 @@
                                     @if(filteredOutMembers[0]?.other_gender == 'non-binary'){
                                     <input type="text" class="form-control" disabled value="Non Binary" />
                                     }
-
                                     @if(filteredOutMembers[0]?.other_gender == 'NonBinary'){
                                     <input type="text" class="form-control" disabled value="Non Binary" />
                                     }
                                     @if(filteredOutMembers[0]?.other_gender == 'unknown'){
                                     <input type="text" class="form-control" disabled value="Gender Unknown" />
                                     }
-
                                     }
-
-
                                     <!-- <select class="form-control" disabled [value]="filteredOutMembers[0]?.gender">
                                         <option value="female">Female</option>
                                         <option value="male">Male</option>
@@ -1169,7 +1114,6 @@
                 data-bs-target="#edit-family-detail" -->
                 <button (click)="getMemberInterview()" type="button"
                     class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark m-0">
-
                     <!-- <svg width="22" class="me-2" height="22" viewBox="0 0 22 22" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -1190,7 +1134,6 @@
                                 fill="#0EAE00" />
                         </svg> -->
                     View Interview
-
                 </button>
             </div>
             <button hidden type="button" class="btn btn-secondary" #closeModalViewParent
@@ -1251,14 +1194,12 @@
                     @if(singleMemberDetail?.other_gender == 'none'){
                     <!-- <input type="text" class="form-control" placeholder="Display Name" disabled
                         [value]="singleMemberDetail?.gender" /> -->
-
                     @if(singleMemberDetail?.gender == 'male'){
                     <input type="text" class="form-control" disabled value="Male" />
                     }
                     @if(singleMemberDetail?.gender == 'female'){
                     <input type="text" class="form-control" disabled value="Female" />
                     }
-
                     @if(singleMemberDetail?.gender == 'prefer-not-to-say'){
                     <input type="text" class="form-control" disabled value="Prefer Not To Say" />
                     }
@@ -1268,25 +1209,21 @@
                     @if(singleMemberDetail?.gender == 'non-binary'){
                     <input type="text" class="form-control" disabled value="Non Binary" />
                     }
-
                     @if(singleMemberDetail?.gender == 'NonBinary'){
                     <input type="text" class="form-control" disabled value="Non Binary" />
                     }
                     @if(singleMemberDetail?.gender == 'unknown'){
                     <input type="text" class="form-control" disabled value="Gender Unknown" />
                     }
-
                     } @else {
                     <!-- <input type="text" class="form-control" placeholder="Display Name" disabled
                         [value]="singleMemberDetail?.other_gender" /> -->
-
                     @if(singleMemberDetail?.other_gender == 'male'){
                     <input type="text" class="form-control" disabled value="Male" />
                     }
                     @if(singleMemberDetail?.other_gender == 'female'){
                     <input type="text" class="form-control" disabled value="Female" />
                     }
-
                     @if(singleMemberDetail?.other_gender == 'prefer-not-to-say'){
                     <input type="text" class="form-control" disabled value="Prefer Not To Say" />
                     }
@@ -1296,14 +1233,12 @@
                     @if(singleMemberDetail?.other_gender == 'non-binary'){
                     <input type="text" class="form-control" disabled value="Non Binary" />
                     }
-
                     @if(singleMemberDetail?.other_gender == 'NonBinary'){
                     <input type="text" class="form-control" disabled value="Non Binary" />
                     }
                     @if(singleMemberDetail?.other_gender == 'unknown'){
                     <input type="text" class="form-control" disabled value="Gender Unknown" />
                     }
-
                     }
                     <!-- <select class="form-control" disabled [value]="singleMemberDetail?.gender">
                         <option value="female">Female</option>
@@ -1337,7 +1272,6 @@
                     </button>
                     <button (click)="getMemberInterview()" type="button"
                         class="ct_green_btn mx-auto ct_green_outline_btn text-dark  ct_h_50">
-
                         <!-- <svg width="22" class="me-2" height="22" viewBox="0 0 22 22" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -1358,7 +1292,6 @@
                                     fill="#0EAE00" />
                             </svg> -->
                         View Interview
-
                     </button>
                     <button hidden type="button" class="btn btn-secondary" #closeModalViewMember
                         data-bs-dismiss="modal">Close</button>
@@ -1371,20 +1304,11 @@
                     </button>
                 </div>
                 }
-
             </div>
-
-
         </div>
     </div>
 </div>
 <!--  view family list E -->
-
-
-
-
-
-
 
 
 
@@ -1436,7 +1360,6 @@
                 <button hidden type="button" class="btn btn-secondary" #closeModalDel
                     data-bs-dismiss="modal">Close</button>
             </div>
-
         </div>
     </div>
 </div>

@@ -21,6 +21,7 @@ export class ViewUserAnalyticComponent {
   loading: boolean = false;
   journeyConversion: number = 0;
   user_id: any;
+  kpiList: any[] = [];
 
   engagementChart: any = {
     series: [
@@ -66,7 +67,6 @@ export class ViewUserAnalyticComponent {
   constructor(private service: SharedService, private toastr: ToastrService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-
     this.setDefaultDateRange();
     this.route.queryParams.subscribe(params => {
       this.user_id = params['user_id'];
@@ -80,7 +80,7 @@ export class ViewUserAnalyticComponent {
     // TO date = today
     this.toDate = this.formatDate(today);
 
-    // FROM date = today - 6 days (so total 7 days including today)
+    // FROM date = today - 6 days
     const from = new Date();
     from.setDate(today.getDate() - 6);
 
@@ -98,24 +98,39 @@ export class ViewUserAnalyticComponent {
   getUsers() {
     this.loading = true;
 
-    this.service.getApi(`analytics/dashboard?from=${this.fromDate}&to=${this.toDate}`).subscribe({
+    this.service.getApi(`analytics/user/${this.user_id}`).subscribe({
       next: (resp: any) => {
 
         // ================= TOP CARDS =================
         this.topCards = [
           { title: 'Total Sessions', value: resp.kpis?.totalSessions?.value || 0 },
           { title: 'Active Subscriptions', value: resp.kpis?.activeSubscriptions?.value || 0 },
-          { title: 'Free Trials Started', value: resp.subscriptions?.free_trial_started || 0 },
+          { title: 'Free Trials Started', value: resp.subscriptions?.free_trial_start || 0 },
           { title: 'Signup Completed', value: resp.journey?.signup_completed || 0 }
         ];
 
         // ================= USER JOURNEY =================
+        // this.journey = Object.keys(resp.journey || {})
+        //   .filter(key => key !== 'overallConversion')
+        //   .map((key: string) => ({
+        //     label: this.formatLabel(key),
+        //     value: resp.journey[key],
+        //     percent: this.calculatePercent(resp.journey[key], resp.journey?.signup_started)
+        //   }));
+        // find max value from journey to normalize %
+        const journeyValues = Object.keys(resp.journey || {})
+          .filter(key => key !== 'overallConversion')
+          .map(key => resp.journey[key]);
+
+        const maxJourneyValue = Math.max(...journeyValues, 1);
+
+        // map journey
         this.journey = Object.keys(resp.journey || {})
-          .filter(key => key !== 'overallConversion')   // ❗ remove conversion from steps
+          .filter(key => key !== 'overallConversion')
           .map((key: string) => ({
             label: this.formatLabel(key),
             value: resp.journey[key],
-            percent: this.calculatePercent(resp.journey[key], resp.journey?.signup_started)
+            percent: Math.round((resp.journey[key] / maxJourneyValue) * 100)
           }));
 
         // overall conversion
@@ -142,22 +157,35 @@ export class ViewUserAnalyticComponent {
 
         // ================= SESSION TREND GRAPH =================
         // this.sessionTrend = resp.graphs?.sessionTrend || [];
-        // ================= SESSION TREND GRAPH =================
-        const trend = resp.graphs?.sessionTrend || [];
+        
+        // ================= KPI CHART =================
+        // const kpis = resp.kpis || {};
 
-        const categories2 = trend.map((t: any) => this.formatDateLabel(t.date));
-        const data2 = trend.map((t: any) => t.total);
+        // const categories = Object.keys(kpis).map(key => this.formatLabel(key));
+        // const data = Object.keys(kpis).map(key => kpis[key].value);
 
-        this.sessionTrendChart.series = [
-          {
-            name: 'Sessions',
-            data: data2
-          }
-        ];
+        // this.sessionTrendChart.series = [
+        //   {
+        //     name: 'Count',
+        //     data: data
+        //   }
+        // ];
 
-        this.sessionTrendChart.xaxis = {
-          categories: categories2
-        };
+        // this.sessionTrendChart.chart = {
+        //   type: 'bar',
+        //   height: 300,
+        //   toolbar: { show: false }
+        // };
+
+        // this.sessionTrendChart.xaxis = {
+        //   categories: categories
+        // };
+        // ================= KPI LIST (for journey section top) =================
+        this.kpiList = Object.keys(resp.kpis || {}).map((key: string) => ({
+          label: this.formatLabel(key),
+          value: resp.kpis[key].value,
+          percent: this.calculatePercent(resp.kpis[key].value, resp.kpis?.totalSessions?.value)
+        }));
 
 
         this.loading = false;

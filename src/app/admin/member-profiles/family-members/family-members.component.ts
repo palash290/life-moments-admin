@@ -35,7 +35,7 @@ export class FamilyMembersComponent {
 
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
-  constructor(private aRoute: ActivatedRoute, private service: SharedService, private toastr: ToastrService, private route: Router, private location: Location) { }
+  constructor(private aRoute: ActivatedRoute, private service: SharedService, private toastr: ToastrService, private route: Router) { }
 
   backClicked() {
     //this.location.back();

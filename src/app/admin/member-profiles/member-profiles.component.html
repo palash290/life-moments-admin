@@ -7,9 +7,11 @@
           style="padding-right: 35px;" [(ngModel)]="searchQuery" (ngModelChange)="resetAndSearch()" />
         <i class="fa-solid fa-magnifying-glass"></i>
       </div>
+      <div class="form-check form-check-inline">
+        <input type="date" class="form-control" [(ngModel)]="date" (change)="resetAndSearch()">
+      </div>
     </div>
   </div>
-
   <div class="row ct_mt_30">
     <div class="col-lg-12 mb-4 mb-lg-0">
       <div class="table-responsive">
@@ -156,7 +158,6 @@
                 </div>
               </label>
             </div>
-
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group mb-3">
@@ -226,7 +227,6 @@
             </div>
           </div>
         </form>
-
       </div>
       <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767">
         <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark" data-bs-dismiss="modal">
@@ -249,7 +249,6 @@
   </div>
 </div>
 <!-- Edit parent Family Detail E -->
-
 
 <div class="ct_loader_main" *ngIf="loading">
   <div class="loadingio-spinner-spinner-977el9wwy2v">

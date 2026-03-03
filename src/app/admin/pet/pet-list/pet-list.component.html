@@ -10,12 +10,9 @@
                 <input type="text" class="form-control" placeholder="Search " style="padding-right: 35px;" [(ngModel)]="searchQuery" />
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-
             <!-- <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#add-new-pet">Add Pet</button> -->
-
         </div>
     </div>
-
     <div class="row ct_mt_30">
         <div class="col-lg-12 mb-4 mb-lg-0">
             <div class="table-responsive">
@@ -103,14 +100,11 @@
                                     <i class="fa-regular fa-eye ct_green_text" data-bs-toggle="modal"
                                         data-bs-target="#view-pet" (click)="getPetDetails(item)"
                                         style="cursor: pointer;"></i>
-
                                     <!-- <i (click)="getPetDetails(item)" class="fa-regular fa-pen-to-square ct_green_text"
                                         data-bs-toggle="modal" data-bs-target="#edit-pet" style="cursor: pointer;"></i> -->
                                 </div>
-
                             </td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>
@@ -123,7 +117,6 @@
         </div>
     </div>
 </div>
-
 
 
 
@@ -149,7 +142,6 @@
                                 d="M9.755,15.531A5.155,5.155,0,0,0,8,15.062a5.77,5.77,0,0,0-1.851.464,5.8,5.8,0,0,1-1.928.464q-1.759,0-1.76-1.521A4.6,4.6,0,0,1,3,12.474a8.935,8.935,0,0,1,1.342-2.005,7.972,7.972,0,0,1,1.8-1.521A3.6,3.6,0,0,1,8,8.333a4.119,4.119,0,0,1,2.452,1.016,8.968,8.968,0,0,1,2.2,2.469,5.2,5.2,0,0,1,.885,2.65,1.737,1.737,0,0,1-.164.8,1.04,1.04,0,0,1-.466.469,2.279,2.279,0,0,1-.62.208,4.1,4.1,0,0,1-.731.058A5.186,5.186,0,0,1,9.755,15.531Zm2.437-5.468a2.58,2.58,0,0,1-.4-1.448,4.163,4.163,0,0,1,.337-1.589,3.864,3.864,0,0,1,.967-1.4,1.98,1.98,0,0,1,1.361-.579,1.289,1.289,0,0,1,1.144.62A2.6,2.6,0,0,1,16,7.125a4.127,4.127,0,0,1-.337,1.583A3.863,3.863,0,0,1,14.7,10.1a1.979,1.979,0,0,1-1.361.578A1.291,1.291,0,0,1,12.192,10.063ZM1.3,10.1A3.863,3.863,0,0,1,.337,8.708,4.127,4.127,0,0,1,0,7.125,2.6,2.6,0,0,1,.4,5.672a1.289,1.289,0,0,1,1.144-.62,1.983,1.983,0,0,1,1.361.579,3.875,3.875,0,0,1,.967,1.4,4.161,4.161,0,0,1,.336,1.589,2.58,2.58,0,0,1-.4,1.448,1.291,1.291,0,0,1-1.145.614A1.978,1.978,0,0,1,1.3,10.1ZM9.289,5.729a2.32,2.32,0,0,1-.607-.964A3.783,3.783,0,0,1,8.5,3.583a4.665,4.665,0,0,1,.289-1.578A3.779,3.779,0,0,1,9.669.6,1.828,1.828,0,0,1,11,0a1.406,1.406,0,0,1,1.01.406,2.318,2.318,0,0,1,.606.964A3.783,3.783,0,0,1,12.8,2.552a4.7,4.7,0,0,1-.288,1.572,3.769,3.769,0,0,1-.885,1.412,1.837,1.837,0,0,1-1.328.6A1.4,1.4,0,0,1,9.289,5.729ZM4.375,5.537A3.769,3.769,0,0,1,3.49,4.125,4.7,4.7,0,0,1,3.2,2.552,3.757,3.757,0,0,1,3.385,1.37,2.309,2.309,0,0,1,3.991.406,1.406,1.406,0,0,1,5,0,1.828,1.828,0,0,1,6.332.6a3.79,3.79,0,0,1,.88,1.406A4.685,4.685,0,0,1,7.5,3.583a3.757,3.757,0,0,1-.183,1.183,2.309,2.309,0,0,1-.606.964,1.406,1.406,0,0,1-1.01.406A1.837,1.837,0,0,1,4.375,5.537Z"
                                 fill="#0EB200" />
                         </svg> -->
-
                         <div class="ct_img_164 mx-auto d-block ct_mb_32 d-flex align-items-center justify-content-center"
                             style="border: solid var(--dark_green);">
                             <svg xmlns="http://www.w3.org/2000/svg" width="100px" viewBox="0 0 16 16">
@@ -159,8 +151,6 @@
                             </svg>
                         </div>
                         }
-
-
                         <!-- <img src="assets/img/pet.svg" alt="" class="ct_img_164 mx-auto d-block ct_mb_32"> -->
                         <h4 class="mb-2 text-center ct_fs_24">{{petDetails?.name}}</h4>
                         <p class="mb-0 ct_text_op_8 text-center ct_fw_500">{{petDetails?.displayname}}</p>
@@ -199,7 +189,6 @@
                     <div>
                         <h6 class="ct_fs_16 ct_fw_500 mb-2 ct_green_text">Date of Birth</h6>
                         <p class="ct_fs_14 ct_fw_500">{{ petDetails?.dob ? petDetails.dob : 'Unknown' }}</p>
-
                     </div>
                     <div>
                         <h6 class="ct_fs_16 ct_fw_500 mb-2 ct_green_text">Is pet alive?</h6>
@@ -221,7 +210,6 @@
                         <div *ngIf="item.is_alive == '4'">
                             Angel Baby
                         </div> -->
-
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center border-0 gap-4 px-0 pb-0 ct_flex_wrap_767">
@@ -253,7 +241,6 @@
                     <button hidden type="button" class="btn btn-secondary" #closeModalViewPet
                         data-bs-dismiss="modal">Close</button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -280,7 +267,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- add new pet  Detail S -->
 <div class="modal fade Committed_Price" id="add-new-pet" tabindex="-1" aria-labelledby="add-new-petLabel"
@@ -324,7 +310,6 @@
                                 </div>
                             </label>
                         </div>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
@@ -420,7 +405,6 @@
                                     </div>
                                 </div>
                             </div> -->
-
                             <div class="col-md-12">
                                 <div
                                     class="d-flex align-items-center justify-content-between gap-3 flex-wrap pb-4 pt-2">
@@ -454,7 +438,6 @@
                         </div>
                     </div>
                 </form>
-
             </div>
             <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 pb-4">
                 <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
@@ -464,17 +447,13 @@
                 <button type="button ct_" class="ct_green_btn ct_h_50" (click)="addNewPet()">
                     Add to tree
                 </button>
-
                 <button hidden type="button" class="btn btn-secondary" #closeModalAdd
                     data-bs-dismiss="modal">Close</button>
-
             </div>
-
         </div>
     </div>
 </div>
 <!-- add new membe E -->
-
 
 
 
@@ -492,7 +471,6 @@
                             <!-- <img id="blahPet"
                                 [src]="this.petDetails?.images_url ? this.petDetails?.images_url : 'assets/img/men_user.png'"
                                 alt="" class="ct_img_164 mx-auto d-block"> -->
-
                             @if(this.petDetails?.images_url){
                             <img id="blahPet" [src]="this.petDetails?.images_url" alt=""
                                 class="ct_img_164 mx-auto d-block ct_mb_32" style="border: solid var(--dark_green);">
@@ -506,7 +484,6 @@
                                 </svg>
                             </div>
                             }
-
                             <label for="ct_edit_img_1">
                                 <input accept="image/*" type="file" id="ct_edit_img_1" class="d-none"
                                     (change)="handleFileInputEditPet($event)" formControlName="image">
@@ -520,7 +497,6 @@
                                 </div>
                             </label>
                         </div>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
@@ -596,7 +572,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="" class="mb-2">Link to a Family Member <span
@@ -616,7 +591,6 @@
                                     </div>
                                 </div>
                             </div> -->
-
                             <!-- <div class="col-md-12">
                                 <div class="form-group mb-3" >
                                     <label for="" class="mb-2">Date of Birth <span
@@ -624,7 +598,6 @@
                                     <input type="date" class="form-control" formControlName="dob"/>
                                 </div>
                             </div> -->
-
                             <div class="col-md-12">
                                 <div
                                     class="d-flex align-items-center justify-content-between gap-3 flex-wrap pb-4 pt-2">
@@ -637,7 +610,6 @@
                                         </div>
                                         <p class="mb-0">Date of birth unknown</p>
                                     </div>
-
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group mb-3">
@@ -656,11 +628,7 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
-
-
                         <!-- <button  type="button ct_" class="ct_green_btn ct_h_50 w-100">
                             <a class="text-white"> <svg width="22" class="me-2" height="22" viewBox="0 0 22 22"
                                     fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -684,7 +652,6 @@
                         </button> -->
                     </div>
                 </form>
-
             </div>
             <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767">
                 <button type="button ct_" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"

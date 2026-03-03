@@ -36,18 +36,24 @@ export class TreeFamilyComponent {
   pageSize: number = 10;
   hasMoreData: boolean = true;
   totalPages: number = 0;
+  maxDate: any;
+
+  isAlbum: any;
 
   @ViewChild('closeModalAdd') closeModalAdd!: ElementRef;
 
   constructor(private aRoute: ActivatedRoute, private service: SharedService, private toastr: ToastrService, private route: Router) { }
 
   backClicked() {
-    this.route.navigateByUrl(`/admin/main/member-profile`);
+    if (this.isAlbum == 'true') {
+      this.route.navigateByUrl(`/admin/main/member-profile`);
+    } else {
+      this.route.navigateByUrl(`/admin/main/manage-subscription`);
+    }
     localStorage.removeItem('itemId');
     localStorage.removeItem('itemEmail');
   }
 
-  maxDate: any;
   setMaxDate() {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -62,6 +68,12 @@ export class TreeFamilyComponent {
       this.parentId = params.get('parentId');
       this.email = params.get('email');
     });
+
+    this.aRoute.queryParams.subscribe(params => {
+      this.isAlbum = params['isAlbum'];
+      console.log(this.isAlbum); // true
+    });
+
     localStorage.setItem('itemId', this.parentId)
     localStorage.setItem('itemEmail', this.email)
 
@@ -109,7 +121,7 @@ export class TreeFamilyComponent {
   parentDetail: any;
 
   getMembers() {
- 
+
     // this.service.getApi(`sub-admin/get-all-familys/?userId=${this.parentId}`).subscribe({
     this.service.getApi(`sub-admin/get-all-familys/?userId=${this.parentId}&page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}`).subscribe({
       next: (resp) => {

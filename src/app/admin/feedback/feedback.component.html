@@ -2,13 +2,11 @@
     <div class="d-flex align-items-center justify-content-between">
         <h4 class="mb-0 ct_fs_22">Feedback List</h4>
         <div class="d-flex align-items-center gap-3">
-
             <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
                 <!-- <span class="ct_text_op_5  ct_fs_13" style="white-space: nowrap;">Select Language :</span> -->
                 @if(user_id){
                 <i class="fa-solid fa-rotate-right" style="cursor: pointer;" (click)="reloadAllFeedback()"></i>
                 }
-
                 @if(!user_id){
                 <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px;"
                     (change)="onStatusChange($event)">
@@ -23,7 +21,6 @@
                     </option>
                 </select>
                 }
-
             </div>
             @if(!user_id){
             <div class="d-flex align-items-center gap-3">
@@ -34,10 +31,8 @@
                 </div>
             </div>
             }
-
         </div>
     </div>
-
     <div class="row ct_mt_30">
         <div class="col-lg-12 mb-4 mb-lg-0">
             <div class="table-responsive">
@@ -57,7 +52,6 @@
                     <tbody>
                         <tr *ngFor="let item of data; let i = index">
                             <td>{{ i + 1 + (currentPage - 1) * pageSize }}</td>
-
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <img [src]='item.profile_image ? item.profile_image : "assets/img/np_pro.png"'
@@ -93,23 +87,18 @@
                             </td> -->
                         </tr>
                     </tbody>
-
                 </table>
             </div>
             <div *ngIf="data?.length == 0 || !data" class="text-center">
                 <p class="ct_fs_15 mt-5">No feedback found</p>
             </div>
-
             <!-- Pagination Controls -->
             <div class="d-flex justify-content-between align-items-center mt-3">
-
-
                 <div class="pagination-controls">
                     <!-- @if(totalPages == currentPage){ -->
                     <button (click)="previousPage()" class="ct_previous"
                         [disabled]="currentPage === 1">Previous</button>
                     <!-- } -->
-
                     <button>
                         {{ currentPage }}
                     </button>
@@ -117,9 +106,7 @@
                     <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
                     }
                 </div>
-
             </div>
-
             <!-- Pagination Controls -->
             <!-- <div class="d-flex justify-content-between align-items-center mt-3">
                 
@@ -140,7 +127,6 @@
                     <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
                 </div>
             </div> -->
-
         </div>
     </div>
 </div>
@@ -148,9 +134,7 @@
 
 
 
-
 <!-- CREATE PROJECT modal S -->
-
 <div class="modal fade Committed_Price" id="ct_see_review" tabindex="-1" aria-labelledby="ct_see_reviewLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
@@ -158,7 +142,6 @@
             <div class="modal-body">
                 <div class="">
                     <!-- <div class=" mb-3">
-
                         <h4 class="mb-0 text-center mx-auto">Feedback</h4>
                         <div class="d-flex justify-content-end">
                             @if(isLanguageChange) {
@@ -178,11 +161,9 @@
                             <li><span class="ct_fw_600">Date : </span>{{feedbackDetails?.created_date}}</li>
                         </ul>
                     </div> -->
-
                     <div class="position-relative mb-3">
                         <!-- Centered Heading -->
                         <h4 class="mb-0 text-center">Feedback</h4>
-
                         <!-- Button on the Right -->
                         <div class="position-absolute" style="top: 0; right: 0;">
                             @if(isLanguageChange) {
@@ -196,13 +177,11 @@
                             }
                         </div>
                     </div>
-
                     <!-- Time and Date Section -->
                     <ul class="d-flex align-items-center gap-3 mt-5 justify-content-center">
                         <li><span class="ct_fw_600">Time:</span> {{feedbackDetails?.create_time}}</li>
                         <li><span class="ct_fw_600">Date:</span> {{feedbackDetails?.created_date}}</li>
                     </ul>
-
                     <!-- <ul class="ct_rating_star123 mb-2">
                         <li *ngFor="let full of [].constructor(getFullStars(feedbackDetails?.rating))">
                             <i class="fa-solid fa-star ct_rated_star"></i>
@@ -217,20 +196,17 @@
                     <p class="mb-0 text-center" style="word-break:break-all">
                         {{changeLangResp ? changeLangResp : feedbackDetails?.feedback}}
                     </p>
-
                     <div class="form-group mt-3" *ngIf="feedbackDetails?.feedback_status == 0">
                         <span><span class="ct_fw_600 ">Reply To : </span>{{feedbackDetails?.email}}</span>
                         <textarea class="form-control ct_input h-auto" rows="5" [(ngModel)]="message"
                             placeholder="Type here...."></textarea>
                     </div>
-
                     <div class="form-group mt-3" *ngIf="feedbackDetails?.feedback_status == 1">
                         <span><span class="ct_fw_600 ">Replied To : </span>{{feedbackDetails?.email}}</span>
                         <textarea class="form-control ct_input h-auto" rows="5"
                             [value]="feedback_response ? feedback_response : feedbackDetails?.feedback_response"
                             disabled></textarea>
                     </div>
-
                     <button *ngIf="feedbackDetails?.feedback_status == 0" (click)="addSendMsg(feedbackDetails)"
                         class="ct_green_btn mt-3 d-flex" style="width: fit-content;">
                         <div class="d-flex align-items-center justify-content-center">
@@ -260,7 +236,6 @@
                 <div>
                     <div class="modal-content">
                         <div class="msg-head d-flex align-items-center justify-content-between gap-3 flex-wrap px-4">
-
                             <div (click)="getMessages(ticketId)" style="cursor: pointer;">
                                 <i class="fa fa-refresh" aria-hidden="true"></i>
                             </div>
@@ -276,10 +251,7 @@
                                 }
                             </div>
                         </div>
-
                         <!-- Button on the Right -->
-
-
                         <div class="modal-body ct_modal_scroll_h_300" #scrollMe [scrollTop]="scrollMe?.scrollHeight">
                             <div class="msg-body"
                                 *ngFor="let msg of isLanguageChange == true ? allMessages : feedback_response">
@@ -288,7 +260,6 @@
                                         <p style="word-break:break-word"> {{msg?.message}} </p>
                                         <span class="time">{{msg.date_time}}</span>
                                     </li>
-
                                     <li *ngIf="msg.sender_id == 1" class="repaly">
                                         <p style="word-break:break-word"> {{msg?.message }} </p>
                                         <span class="time">{{msg.date_time}}</span>
@@ -296,18 +267,14 @@
                                 </ul>
                             </div>
                         </div>
-
-
                         <div class="send-box">
                             <form action="">
                                 <input type="text" class="form-control" aria-label="message…"
                                     placeholder="Write message…" [(ngModel)]="message"
                                     [ngModelOptions]="{standalone: true}" (keydown.enter)="addSendMsg(allMessages)">
                                 <div class="d-flex align-items-center">
-
                                     <button [disabled]="isDisabled" (click)="addSendMsg(allMessages)" type="button"><i
                                             class="fa fa-paper-plane" aria-hidden="true"></i>Send</button>
-
                                     <!-- <button 
                                         (click)="addSendMsg(allMessages)" class="ct_green_btn mt-3 d-flex"
                                         style="width: fit-content;">
@@ -318,7 +285,6 @@
                                             <span *ngIf="!btnLoader">Send</span>
                                         </div>
                                     </button> -->
-
                                 </div>
                             </form>
                         </div>

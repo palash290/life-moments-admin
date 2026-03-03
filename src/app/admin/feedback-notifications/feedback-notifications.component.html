@@ -17,7 +17,6 @@
                     </option>
                 </select>
             </div>
-
             <div class="d-flex align-items-center gap-3">
                 <div class="position-relative ct_search_input">
                     <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery"
@@ -27,7 +26,6 @@
             </div>
         </div>
     </div>
-
     <div class="row ct_mt_30">
         <div class="col-lg-12 mb-4 mb-lg-0">
             <div class="table-responsive">
@@ -38,15 +36,13 @@
                             <!-- <th>Member</th> -->
                             <th>Title</th>
                             <th>Body</th>
-                            <!-- <th>Date</th> -->
-                         
+                            <!-- <th>Date</th> -->               
                             <!-- <th>View</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of data; let i = index">
                             <td routerLink="/admin/main/feedback" style="cursor: pointer;">{{ i + 1 + (currentPage - 1) * pageSize }}</td>
-
                             <!-- <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <img [src]='item.profile_image ? item.profile_image : "assets/img/np_pro.png"'
@@ -57,7 +53,6 @@
                             <td routerLink="/admin/main/feedback" style="cursor: pointer;">{{item.title}}</td>
                             <td routerLink="/admin/main/feedback" style="cursor: pointer;">{{item.body}}</td>
                             <!-- <td>{{item.created_date}}</td> -->
-                            
                             <!-- <td class="text-end">
                                 <div class="d-flex align-items-center gap-3">
                                     <i class="fa-regular fa-eye ct_green_text" style="cursor: pointer"></i>
@@ -65,23 +60,18 @@
                             </td> -->
                         </tr>
                     </tbody>
-
                 </table>
             </div>
             <div *ngIf="data?.length == 0 || !data" class="text-center">
                 <p class="ct_fs_15 mt-5">No feedback found</p>
             </div>
-
             <!-- Pagination Controls -->
             <div class="d-flex justify-content-between align-items-center mt-3">
-
-
                 <div class="pagination-controls">
                     <!-- @if(totalPages == currentPage){ -->
                     <button (click)="previousPage()" class="ct_previous"
                         [disabled]="currentPage === 1">Previous</button>
                     <!-- } -->
-
                     <button>
                         {{ currentPage }}
                     </button>
@@ -89,9 +79,7 @@
                     <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
                     }
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>

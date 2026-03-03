@@ -2,7 +2,6 @@ import { Component, HostListener } from '@angular/core';
 import { Editor, Toolbar } from 'ngx-editor';
 import { SharedService } from '../../shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-notification-contant',
@@ -26,7 +25,7 @@ export class NotificationContantComponent {
   prerequisiteId: any;
 
 
-  constructor(private service: SharedService, private toastr: ToastrService, private sanitizer: DomSanitizer) { }
+  constructor(private service: SharedService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.editor1 = new Editor();

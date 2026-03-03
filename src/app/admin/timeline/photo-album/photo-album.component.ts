@@ -25,7 +25,7 @@ export class PhotoAlbumComponent {
   demoFile: any = 'assets/img/file_img.png';
   loading: boolean = false;
 
-  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private service: SharedService, private location: Location, private router: Router, private toastr: ToastrService) { }
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private service: SharedService, private router: Router, private toastr: ToastrService) { }
 
   // backClicked() {
   //   this.location.back();
@@ -86,7 +86,6 @@ export class PhotoAlbumComponent {
   
 
   getPhotosAlbum() {
-    // debugger
     this.loading = true;
     const formURlData = new URLSearchParams();
     formURlData.set('year', this.date);
@@ -94,7 +93,6 @@ export class PhotoAlbumComponent {
     formURlData.set('type', this.filterValue);
     this.service.postAPI(`sub-admin/getYealydata_photos`, formURlData.toString()).subscribe({
       next: (resp) => {
-        //debugger
         if(resp.success){
           this.loading = false;
           this.imageObject = resp.yearly?.map((item: any) => ({ ...item, checked: false })).reverse();
@@ -104,7 +102,6 @@ export class PhotoAlbumComponent {
           this.imageObject = []
           this.loading = false;
         }
-        
       },
       error: (error) => {
         console.log(error.message);
@@ -114,19 +111,8 @@ export class PhotoAlbumComponent {
 
   onFilterChange(value: string): void {
     console.log('Selected filter value:', value);
-    // Handle the value change logic here
     this.getPhotosAlbum();
   }
-  // onFilterChange(filter: string) {
-  //   this.filterValue = filter;
-
-  //   if (filter) {
-  //     this.filteredImages = this.imageObject.filter((pic) => pic.type === filter);
-  //   } else {
-  //     this.filteredImages = [...this.imageObject]; // Show all if no filter
-  //   }
-  // }
-
 
   toggleAllCheckboxes() {
     this.imageObject.forEach((item) => (item.checked = this.checkAll));

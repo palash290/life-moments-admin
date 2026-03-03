@@ -1,11 +1,9 @@
 <div class="ct_dashbaord_middle">
-
     <div class="d-flex align-items-center gap-3">
         <a (click)="backClicked()" style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
                 class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
         <h4 class="mb-0 ct_fs_22">{{petName}}'s Timeline</h4>
     </div>
-
     <div class="d-flex align-items-center justify-content-between mt-3">
         <div class="ct_subscription_tab">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -27,11 +25,9 @@
                         data-bs-target="#pills-date" type="button" role="tab" aria-controls="pills-date"
                         aria-selected="false">Days</button>
                 </li>
-
             </ul>
         </div>
     </div>
-
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show " [ngClass]="{ 'active': activeTab == 'year' }" id="pills-year" role="tabpanel"
             aria-labelledby="pills-year-tab">
@@ -52,7 +48,6 @@
                 </div>
             </div>
         </div>
-
         <div class="tab-pane fade" id="pills-month" role="tabpanel" aria-labelledby="pills-month-tab">
             <div class="row ct_mt_30">
                 <div class="col-lg-12 mb-4 mb-lg-0">
@@ -70,7 +65,6 @@
                 </div>
             </div>
         </div>
-
         <div class="tab-pane fade" [ngClass]="{ 'active': activeTab == 'date' }" id="pills-date" role="tabpanel"
             aria-labelledby="pills-date-tab">
             <div class="row ct_mt_30">
@@ -87,13 +81,9 @@
                     </div>
                 </div>
             </div>
-
             <!-- <div class="row ct_mt_30" *ngFor="let group of imageGroups">
-
                 <h3 class="formatted-date ct_fs_24 ct_fw_600 text-center">{{ group.formatted_date }}</h3>
-
                 <div class="col-lg-12 mb-5 mb-lg-0">
-
                     <div class="ct_grid_6 mt-4">
                         <div class="ct_album_photo ct_max_w_214" *ngFor="let pic of group.albums_data; let i = index"
                             (click)="openModal(i)">
@@ -102,7 +92,6 @@
                                     alt="Not Found" data-bs-toggle="modal" data-bs-target="#preview_img"
                                     style="cursor: pointer;" class="ct_img_h_214">
                             </div>
-
                             <div *ngIf="pic.type == 'Video'">
                                 <video class="ct_img_h_214" [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'"
                                     style="filter: brightness(0.8);object-position: bottom;" #videoPlayer1
@@ -115,7 +104,6 @@
                                     <source [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'" type="video/mov">
                                     <source [src]="pic.images_url ? pic.images_url : 'assets/img/demo.png'" type="video/ogg">
                                 </video>
-
                                 <div class="ct_video_icon" style="cursor: pointer;" data-bs-toggle="modal"
                                     data-bs-target="#preview_img">
                                     <a>
@@ -128,19 +116,15 @@
                                         </svg>
                                     </a>
                                 </div>
-
                             </div>
-
                             <div *ngIf="pic.type == 'PDF'" class="pdf">
                                 <div>
                                     <div data-bs-toggle="modal" data-bs-target="#preview_img" class="ct_pdf_model">
                                     </div>
-
                                     <iframe scrolling="no" [src]="sanitizeUrl(pic.images_url)" width="100%" height="250"
                                         class="ct_pdf_scroll ct_img_h_214"></iframe>
                                 </div>
                             </div>
-
                             <div class="ct_checkbox_main ct_file_select">
                                 <div>
                                     <input type="checkbox" [(ngModel)]="pic.checked" id="ct_checkbox_cbx{{ pic.id }}"
@@ -152,26 +136,17 @@
                     </div>
                 </div>
             </div> -->
-
             <!-- <div *ngIf="!imageGroups || imageGroups.length === 0" class="text-center">
                 <p class="ct_fs_15 mt-5">No items found</p>
             </div> -->
         </div>
     </div>
-
 </div>
 
 
 
 
-
-
-
-
-
-
 <!-- view photo  S -->
-
 <div class="modal fade Committed_Price" id="preview_img" tabindex="-1" aria-labelledby="preview_imgLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
@@ -182,7 +157,6 @@
                         <div class="image-carousel">
                             <a href="javascript:void(0)" (click)="prevImage()" class=" mb-0 text-dark"><i
                                     class="fa-solid fa-chevron-left"></i></a>
-
                             <div class="ct_preview_img mx-2">
                                 <div *ngIf="imageObject[currentIndex]?.type == 'Photo'">
                                     <img [src]="imageObject[currentIndex]?.images_url">
@@ -209,16 +183,13 @@
                                             [src]="imageObject[currentIndex]?.images_url ? imageObject[currentIndex]?.images_url : 'assets/img/demo.png'"
                                             type="video/ogg">
                                     </video>
-
                                     <!-- Fullscreen Button with Font Awesome Icon -->
                                     <button (click)="toggleFullscreen(videoPlayer1)" class="fullscreen-button">
                                         <i class="fas fa-expand"></i>
                                     </button>
-
                                     <!-- Seek bar -->
                                     <!-- <input type="range" class="custom-seekbar1" *ngIf="currentVideoId1 === videoPlayer1"
                                         (input)="onSeek1($event, videoPlayer1)" [value]="seekValue" /> -->
-
                                     <div class="ct_video_icon" *ngIf="!isVideoPlaying1(videoPlayer1)"
                                         (click)="toggleVideo1(videoPlayer1, imageObject[currentIndex]?.id)"
                                         style="cursor: pointer;">
@@ -232,7 +203,6 @@
                                             </svg>
                                         </a>
                                     </div>
-
                                 </div>
                                 <div *ngIf="imageObject[currentIndex]?.type == 'PDF'">
                                     <iframe [src]="sanitizeUrl(imageObject[currentIndex]?.images_url)" width="100%"
@@ -241,11 +211,9 @@
                                 <h3 class="text-center mb-0 mt-3">{{ imageObject[currentIndex]?.title }}</h3>
                                 <h4 class="text-center mb-0 mt-3">{{ imageObject[currentIndex]?.description }}</h4>
                             </div>
-
                             <a href="javascript:void(0)" (click)="nextImage()" class=" mb-0 text-dark"><i
                                     class="fa-solid fa-chevron-right"></i></a>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -258,11 +226,9 @@
                     <i class="fa-solid fa-download me-2"></i> Download
                 </button>
             </div>
-
         </div>
     </div>
 </div>
-
 
 
 

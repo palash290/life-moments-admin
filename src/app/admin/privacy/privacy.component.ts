@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { SharedService } from '../../shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Editor, Toolbar } from 'ngx-editor';
 
 @Component({
@@ -21,7 +20,7 @@ export class PrivacyComponent {
   editor2!: Editor;
   editor3!: Editor;
 
-  constructor(private service: SharedService, private toastr: ToastrService, private sanitizer: DomSanitizer) { }
+  constructor(private service: SharedService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.editor1 = new Editor();

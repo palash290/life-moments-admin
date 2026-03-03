@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../../../shared/services/shared.service';
-import { ToastrService } from 'ngx-toastr';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-pet-album',
@@ -18,7 +16,7 @@ export class PetAlbumComponent {
   loading: boolean = false;
   petName: any;
 
-  constructor(private rout: ActivatedRoute, private route: Router, private service: SharedService, private location: Location, private toastr: ToastrService) { }
+  constructor(private rout: ActivatedRoute, private route: Router, private service: SharedService) { }
 
   backClicked() {
     // this.location.back();

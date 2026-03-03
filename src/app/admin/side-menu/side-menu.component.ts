@@ -15,7 +15,6 @@ export class SideMenuComponent {
 
   toggleMenu() {
     this.toggleEvent.emit(false);
-
   }
 
   isActive(route: string): boolean {

@@ -2,7 +2,6 @@
     <div class="d-flex align-items-center justify-content-between">
         <h4 class="mb-0 ct_fs_22">My Profile</h4>
     </div>
-
     <div class="row mt-5">
         <div class="col-md-8 mx-auto">
             <div class="ct_white_bg_1 py-5">
@@ -22,7 +21,6 @@
                         <label for="" class="mb-2">Contact No</label>
                         <input type="number" class="form-control ct_input" formControlName="phone"
                             placeholder="Enter Contact No" maxlength="13">
-
                         <div *ngIf="profileForm.controls['phone'].invalid && profileForm.controls['phone'].touched"
                             class="error-message">
                             <div *ngIf="profileForm.controls['phone'].errors?.['required']">Contact

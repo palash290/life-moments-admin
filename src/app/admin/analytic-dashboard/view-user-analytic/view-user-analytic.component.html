@@ -9,20 +9,7 @@
         </div>
     </div>
 </div>
-
 <div class="container-fluid py-3">
-
-    <!-- ================= HEADER ================= -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold">Analytics Overview</h3>
-
-        <div class="d-flex gap-2">
-            <input type="date" class="form-control" [(ngModel)]="fromDate">
-            <input type="date" class="form-control" [(ngModel)]="toDate">
-            <button class="btn btn-success" (click)="getUsers()">Apply</button>
-        </div>
-    </div>
-
     <!-- ================= TOP CARDS ================= -->
     <div class="row g-3 mb-4">
         <div class="col-md-3" *ngFor="let card of topCards">
@@ -41,7 +28,19 @@
         <div class="col-md-6">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h5 class="fw-bold mb-3">User Journey</h5>
+                    <h5 class="fw-bold mb-3">User Journey Metrics</h5>
+                    <!-- ================= KPI SECTION ================= -->
+                    <div *ngFor="let k of kpiList" class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span>{{k.label}}</span>
+                            <span class="fw-bold">{{k.value}}</span>
+                        </div>
+
+                        <div class="progress" style="height:6px;">
+                            <div class="progress-bar bg-success" [style.width.%]="k.percent"></div>
+                        </div>
+                    </div>
+
                     <div *ngFor="let j of journey" class="mb-3">
                         <div class="d-flex justify-content-between">
                             <span>{{j.label}}</span>
@@ -64,7 +63,6 @@
                 <div class="card-body">
                     <h5 class="fw-bold mb-1">Subscription Overview</h5>
                     <small class="text-muted">Trial & subscription metrics</small>
-
                     <div class="row g-3 mt-2">
                         <div class="col-md-6" *ngFor="let s of subscriptions">
                             <div class="border rounded p-3 h-100">
@@ -73,7 +71,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -81,12 +78,10 @@
 
     <!-- ================= ENGAGEMENT ================= -->
     <!-- <div class="row g-3 mb-4">
-
     <div class="col-md-12">
       <div class="card shadow-sm border-0">
         <div class="card-body">
           <h5 class="fw-bold mb-3">Engagement Overview</h5>
-
           <div class="row g-3">
             <div class="col-md-3" *ngFor="let f of featureUsage">
               <div class="border rounded p-3 text-center">
@@ -95,34 +90,30 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
-
   </div> -->
-    <div class="card shadow-sm border-0 mt-4">
-        <div class="card-body">
-            <h5 class="fw-bold mb-3">Engagement Overview</h5>
 
-            <apx-chart [series]="sessionTrendChart.series" [chart]="sessionTrendChart.chart"
-                [stroke]="sessionTrendChart.stroke" [xaxis]="sessionTrendChart.xaxis">
-            </apx-chart>
-
-        </div>
-    </div>
+    <!-- <div class="card shadow-sm border-0 mt-4">
+      <div class="card-body">
+        <h5 class="fw-bold mb-3">KPI Overview</h5>
+        <apx-chart [series]="sessionTrendChart.series" [chart]="sessionTrendChart.chart"
+          [xaxis]="sessionTrendChart.xaxis" [plotOptions]="sessionTrendChart.plotOptions"
+          [dataLabels]="sessionTrendChart.dataLabels">
+        </apx-chart>
+      </div>
+    </div> -->
 
     <!-- ================= ENGAGEMENT CHART ================= -->
     <div class="row g-3 mb-4 mt-3">
         <div class="col-md-12">
             <div class="card shadow-sm border-0">
                 <div class="card-body">
-                    <h5 class="fw-bold mb-3">Session Trend</h5>
-
+                    <h5 class="fw-bold mb-3">Engagement</h5>
                     <apx-chart [series]="engagementChart.series" [chart]="engagementChart.chart"
                         [xaxis]="engagementChart.xaxis">
                     </apx-chart>
-
                 </div>
             </div>
         </div>

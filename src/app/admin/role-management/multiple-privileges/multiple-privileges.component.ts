@@ -11,7 +11,7 @@ export class MultiplePrivilegesComponent {
 
   adminLength: any;
 
-  constructor(private router: Router, private route: ActivatedRoute, private service: SharedService) { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
   
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {

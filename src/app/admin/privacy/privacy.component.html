@@ -2,7 +2,6 @@
   <div class="d-flex align-items-center justify-content-between">
     <h4 class="mb-0 ct_fs_22">Content Management</h4>
     <div class="d-flex align-items-center gap-3">
-
       <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2 ">
         <span class="ct_text_op_5  ct_fs_13" style="white-space: nowrap;">Select Language :</span>
         <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px;" [(ngModel)]="languageId"
@@ -12,7 +11,6 @@
           </option>
         </select>
       </div>
-
       <button (click)="onUpdate()" [disabled]="btnLoader" style="cursor: pointer;" class="ct_green_btn px-5">
         <div class="d-flex align-items-center justify-content-center">
           <div class="spinner-border me-2" role="status" *ngIf="btnLoader">
@@ -23,10 +21,8 @@
       </button>
     </div>
   </div>
-
   <div class="row ct_mt_30">
     <div class="col-lg-12 mb-4 mb-lg-0">
-
       <!-- Radio buttons for selecting the editor -->
       <div class="form-group mb-3">
         <label for="" class="mb-2">Select Section</label>
@@ -45,7 +41,6 @@
           </label>
         </div>
       </div>
-
       <div *ngIf="selectedEditor === 'about_us'" class="form-group mb-3">
         <!-- <label for="" class="mb-2 ">About Us</label> -->
         <!-- <textarea class="form-control ct_input h-auto" rows="15" [innerHTML]="about_us" placeholder="Type here...."></textarea> -->
@@ -74,11 +69,9 @@
         <ngx-editor-menu [editor]="editor2" [toolbar]="toolbar2"></ngx-editor-menu>
         <ngx-editor [editor]="editor2" [(ngModel)]="termsResult"></ngx-editor>
       </div>
-
     </div>
   </div>
 </div>
-
 
 
 

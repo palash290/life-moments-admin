@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../shared/services/shared.service';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -20,7 +19,7 @@ export class MyProfileComponent {
 
   pattern1 = "^[0-9_-]{8,15}";
 
-  constructor(private route: Router, private service: SharedService, private toastr: ToastrService) { }
+  constructor(private service: SharedService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.initForm();

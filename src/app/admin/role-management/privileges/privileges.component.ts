@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SharedService } from '../../../shared/services/shared.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-privileges',
@@ -8,6 +7,7 @@ import { SharedService } from '../../../shared/services/shared.service';
   styleUrl: './privileges.component.css'
 })
 export class PrivilegesComponent {
+
   [key: string]: any;
   name: any = null;
   count: any = null;
@@ -21,7 +21,7 @@ export class PrivilegesComponent {
   checkAllEdit = false;
   checkAllDelete = false;
 
-  constructor(private route: ActivatedRoute, private service: SharedService) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -95,7 +95,6 @@ export class PrivilegesComponent {
       });
     console.log('==========>', selectedModules);
   }
-
 
 
 }

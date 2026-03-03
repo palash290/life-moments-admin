@@ -6,10 +6,8 @@
                     class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
             <h4 *ngIf="year != 0" class="mb-0 ct_fs_22">{{year}}{{ getOrdinalSuffix(year) }} Questions</h4>
         </div>
-
         <!-- <h4 class="mb-0 ct_fs_22">13th Birthday Questions</h4> -->
         <!-- <div class="d-flex align-items-center gap-3">
-
             <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2 ">
                 <span class="ct_text_op_5  ct_fs_13" style="white-space: nowrap;">Select Language :</span>
                 <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px;" [(ngModel)]="languageId"
@@ -19,15 +17,12 @@
                     </option>
                 </select>
             </div>
-
             <button style="cursor: pointer;" class="ct_green_btn px-5" data-bs-toggle="modal"
                 data-bs-target="#ct_add_sub_admin">
                 Add Question
             </button>
         </div> -->
     </div>
-
-
     <div class="table-responsive">
         <div class="col-md-8 mx-auto">
             @if(video){
@@ -37,7 +32,6 @@
                 </video>
             </div>
             }
-
         </div>
         <table class="table ct_project_table">
             <thead>
@@ -67,6 +61,4 @@
             </tbody>
         </table>
     </div>
-
-
 </div>
