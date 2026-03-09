@@ -46,7 +46,6 @@ export class MyProfileComponent {
           phone: this.phone,
           email: this.userEmail
         });
-
       },
       error: (error) => {
         console.log(error.message);
@@ -63,7 +62,7 @@ export class MyProfileComponent {
       formURlData.set('name', this.profileForm.value.name);
       formURlData.set('email', this.userEmail);
       formURlData.set('contact_no', this.profileForm.value.phone);
-     
+      
       this.service.postAPI('sub-admin/update-profile', formURlData.toString()).subscribe({
         next: (resp) => {
           if (resp.success === true) {
