@@ -12,18 +12,8 @@
         <div class="wa-section-header">Traffic Overview</div>
         <div class="wa-grid">
             <div class="wa-card">
-                <div class="wa-card-icon user">
-
-                </div>
                 <div>
-                    <div class="wa-card-title">Unique Users</div>
-                    <div class="wa-card-value">{{data?.unique_users}}</div>
-                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
-                </div>
-            </div>
-            <div class="wa-card">
-                <div class="">
-                    <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_1541_142)">
                             <path
                                 d="M11.2083 12.3945L0.0996094 23.8001C0.224359 24.2333 0.448539 24.6329 0.755011 24.9682C1.06148 25.3035 1.44213 25.5657 1.86786 25.7348C2.2936 25.9039 2.75314 25.9753 3.21136 25.9437C3.66958 25.912 4.11435 25.7781 4.51167 25.5522L17.0111 18.5759L11.2083 12.3945Z"
@@ -43,8 +33,8 @@
                                 <rect width="24" height="26" fill="white" />
                             </clipPath>
                         </defs>
-                    </svg>
-
+                    </svg> -->
+                    <i class="fa-brands fa-google-play" style="font-size:32px"></i>
                 </div>
                 <div>
                     <div class="wa-card-title">Google Play Total</div>
@@ -53,17 +43,70 @@
                 </div>
             </div>
             <div class="wa-card">
-                <div class="wa-card-icon up"></div>
                 <div>
-                    <div class="wa-card-title">Googleplay Top</div>
-                    <div class="wa-card-value">{{data?.google_play_top}}</div>
+                    <i class="fa fa-angle-up" style="font-size:34px"></i>
+                </div>
+                <div>
+                    <div class="wa-card-title">Google Play Top</div>
+                    <div class="wa-card-value">{{data?.google_play_total}}</div>
+                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
+                </div>
+            </div>
+            <div class="wa-card">
+                <div>
+                    <i class="fa fa-angle-down" style="font-size:34px"></i>
+                </div>
+                <div>
+                    <div class="wa-card-title">Google Play Bottom</div>
+                    <div class="wa-card-value">{{data?.google_play_bottom}}</div>
+                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
+                </div>
+            </div>
+
+            <div class="wa-card">
+                <div>
+                    <i class="fa-brands fa-apple" style="font-size:36px"></i>
+                </div>
+                <div>
+                    <div class="wa-card-title">App Store Total</div>
+                    <div class="wa-card-value">{{data?.app_store_total}}</div>
+                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
+                </div>
+            </div>
+            <div class="wa-card">
+                <div>
+                    <i class="fa fa-angle-up" style="font-size:34px"></i>
+                </div>
+                <div>
+                    <div class="wa-card-title">App Store Top</div>
+                    <div class="wa-card-value">{{data?.app_store_top}}</div>
+                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
+                </div>
+            </div>
+            <div class="wa-card">
+                <div>
+                    <i class="fa fa-angle-down" style="font-size:34px"></i>
+                </div>
+                <div>
+                    <div class="wa-card-title">Google play Bottom</div>
+                    <div class="wa-card-value">{{data?.app_store_bottom}}</div>
+                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
+                </div>
+            </div>
+            <div class="wa-card">
+                <div>
+                    <i class="fa-solid fa-video" style="font-size:32px"></i>
+                </div>
+                <div>
+                    <div class="wa-card-title">Video Plays</div>
+                    <div class="wa-card-value">{{data?.video_plays}}</div>
                     <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="wa-section">
+    <!-- <section class="wa-section">
         <div class="wa-section-header">Google Play</div>
         <div class="wa-grid">
             <div class="wa-card">
@@ -93,7 +136,7 @@
                 <div>
                     <div class="wa-card-title">Google Play Total</div>
                     <div class="wa-card-value">{{data?.google_play_total}}</div>
-                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
+                    <div class="wa-card-sub">+ 0% from last week</div>
                 </div>
             </div>
             <div class="wa-card">
@@ -101,7 +144,7 @@
                 <div>
                     <div class="wa-card-title">Google Play Top</div>
                     <div class="wa-card-value">{{data?.google_play_top}}</div>
-                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
+                    <div class="wa-card-sub">+ 0% from last week</div>
                 </div>
             </div>
             <div class="wa-card">
@@ -130,24 +173,24 @@
                 <div>
                     <div class="wa-card-title">App Store Total</div>
                     <div class="wa-card-value">{{data?.app_store_total}}</div>
-                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
+                    <div class="wa-card-sub">+ 0% from last week</div>
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <section class="wa-section">
-        <div class="wa-section-header">App Store</div>
+        <div class="wa-section-header">Graphical Data</div>
         <div class="wa-grid wa-grid-3">
-            <div class="wa-card chart-card">
+            <!-- <div class="wa-card chart-card">
                 <div class="wa-card-title">Unique Users Over Time</div>
                 <apx-chart [series]="uniqueUsersChart.series" [chart]="uniqueUsersChart.chart"
                     [stroke]="uniqueUsersChart.stroke" [fill]="uniqueUsersChart.fill" [colors]="uniqueUsersChart.colors"
                     [dataLabels]="uniqueUsersChart.dataLabels" [xaxis]="uniqueUsersChart.xaxis"
                     [grid]="uniqueUsersChart.grid">
                 </apx-chart>
-                <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
-            </div>
+                <div class="wa-card-sub">+ 0% from last week</div>
+            </div> -->
 
             <div class="wa-card chart-card">
                 <div class="wa-card-title">Scroll Depth</div>
