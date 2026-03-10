@@ -12,19 +12,44 @@
         <div class="wa-section-header">Traffic Overview</div>
         <div class="wa-grid">
             <div class="wa-card">
-                <div class="wa-card-icon user"></div>
+                <div class="wa-card-icon user">
+
+                </div>
                 <div>
                     <div class="wa-card-title">Unique Users</div>
                     <div class="wa-card-value">{{data?.unique_users}}</div>
-                    <div class="wa-card-sub">+ 0% from last week</div>
+                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
                 </div>
             </div>
             <div class="wa-card">
-                <div class="wa-card-icon phone"></div>
+                <div class="">
+                    <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1541_142)">
+                            <path
+                                d="M11.2083 12.3945L0.0996094 23.8001C0.224359 24.2333 0.448539 24.6329 0.755011 24.9682C1.06148 25.3035 1.44213 25.5657 1.86786 25.7348C2.2936 25.9039 2.75314 25.9753 3.21136 25.9437C3.66958 25.912 4.11435 25.7781 4.51167 25.5522L17.0111 18.5759L11.2083 12.3945Z"
+                                fill="#EA4335" />
+                            <path
+                                d="M22.4405 10.4559L17.0354 7.42188L10.9512 12.654L17.0601 18.5596L22.4241 15.5581C22.8993 15.3143 23.2973 14.9476 23.575 14.4979C23.8527 14.0482 23.9996 13.5326 23.9996 13.007C23.9996 12.4813 23.8527 11.9657 23.575 11.516C23.2973 11.0663 22.8993 10.6996 22.4241 10.4558L22.4405 10.4559Z"
+                                fill="#FBBC04" />
+                            <path
+                                d="M0.099404 2.1582C0.0322971 2.40147 -0.00112731 2.65248 2.90029e-05 2.90449V23.0547C0.000691635 23.3066 0.0340852 23.5574 0.099404 23.801L11.5889 12.6876L0.099404 2.1582Z"
+                                fill="#4285F4" />
+                            <path
+                                d="M11.2911 12.9792L17.0359 7.4225L4.55311 0.413709C4.08345 0.144173 3.54928 0.00142639 3.00502 5.63459e-06C1.65436 -0.0025668 0.466922 0.875921 0.0996094 2.14974L11.2911 12.9792Z"
+                                fill="#34A853" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1541_142">
+                                <rect width="24" height="26" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+
+                </div>
                 <div>
                     <div class="wa-card-title">Google Play Total</div>
                     <div class="wa-card-value">{{data?.google_play_total}}</div>
-                    <div class="wa-card-sub">+ 0% from last week</div>
+                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
                 </div>
             </div>
             <div class="wa-card">
@@ -32,7 +57,7 @@
                 <div>
                     <div class="wa-card-title">Googleplay Top</div>
                     <div class="wa-card-value">{{data?.google_play_top}}</div>
-                    <div class="wa-card-sub">+ 0% from last week</div>
+                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
                 </div>
             </div>
         </div>
@@ -42,11 +67,33 @@
         <div class="wa-section-header">Google Play</div>
         <div class="wa-grid">
             <div class="wa-card">
-                <div class="wa-card-icon phone"></div>
+                <div class="">
+                    <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1541_142)">
+                            <path
+                                d="M11.2083 12.3945L0.0996094 23.8001C0.224359 24.2333 0.448539 24.6329 0.755011 24.9682C1.06148 25.3035 1.44213 25.5657 1.86786 25.7348C2.2936 25.9039 2.75314 25.9753 3.21136 25.9437C3.66958 25.912 4.11435 25.7781 4.51167 25.5522L17.0111 18.5759L11.2083 12.3945Z"
+                                fill="#EA4335" />
+                            <path
+                                d="M22.4405 10.4559L17.0354 7.42188L10.9512 12.654L17.0601 18.5596L22.4241 15.5581C22.8993 15.3143 23.2973 14.9476 23.575 14.4979C23.8527 14.0482 23.9996 13.5326 23.9996 13.007C23.9996 12.4813 23.8527 11.9657 23.575 11.516C23.2973 11.0663 22.8993 10.6996 22.4241 10.4558L22.4405 10.4559Z"
+                                fill="#FBBC04" />
+                            <path
+                                d="M0.099404 2.1582C0.0322971 2.40147 -0.00112731 2.65248 2.90029e-05 2.90449V23.0547C0.000691635 23.3066 0.0340852 23.5574 0.099404 23.801L11.5889 12.6876L0.099404 2.1582Z"
+                                fill="#4285F4" />
+                            <path
+                                d="M11.2911 12.9792L17.0359 7.4225L4.55311 0.413709C4.08345 0.144173 3.54928 0.00142639 3.00502 5.63459e-06C1.65436 -0.0025668 0.466922 0.875921 0.0996094 2.14974L11.2911 12.9792Z"
+                                fill="#34A853" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1541_142">
+                                <rect width="24" height="26" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
                 <div>
                     <div class="wa-card-title">Google Play Total</div>
                     <div class="wa-card-value">{{data?.google_play_total}}</div>
-                    <div class="wa-card-sub">+ 0% from last week</div>
+                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
                 </div>
             </div>
             <div class="wa-card">
@@ -54,15 +101,36 @@
                 <div>
                     <div class="wa-card-title">Google Play Top</div>
                     <div class="wa-card-value">{{data?.google_play_top}}</div>
-                    <div class="wa-card-sub">+ 0% from last week</div>
+                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
                 </div>
             </div>
             <div class="wa-card">
-                <div class="wa-card-icon apple"></div>
+                <div class="">
+                    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1542_448)">
+                            <path
+                                d="M5.694 0H20.306C23.4508 0 26 2.54922 26 5.694V20.306C26 23.4508 23.4508 26 20.306 26H5.694C2.54922 26 0 23.4508 0 20.306V5.694C0 2.54922 2.54922 0 5.694 0Z"
+                                fill="url(#paint0_linear_1542_448)" />
+                            <path
+                                d="M8.33211 18.8713L8.33455 18.8722L7.44557 20.4118C7.12108 20.9739 6.40242 21.1665 5.84038 20.842C5.27833 20.5175 5.08577 19.7988 5.41026 19.2368L6.06513 18.1025L6.128 17.9936C6.24023 17.8324 6.51719 17.5539 7.07121 17.6063C7.07121 17.6063 8.37497 17.7478 8.46932 18.4254C8.46932 18.4254 8.48212 18.6483 8.33211 18.8713ZM20.9404 14.9388H18.1683C17.9795 14.9261 17.8972 14.8587 17.8647 14.8195L17.8626 14.816L14.8953 9.67628L14.8914 9.67882L14.7135 9.4237C14.4218 8.97763 13.9587 10.1184 13.9587 10.1184C13.4057 11.3895 14.0372 12.8347 14.2573 13.2715L18.3789 20.4103C18.7033 20.9723 19.4219 21.1649 19.9841 20.8403C20.546 20.5158 20.7387 19.7972 20.4141 19.2351L19.3835 17.4501C19.3635 17.4068 19.3288 17.2894 19.5401 17.2889H20.9404C21.5894 17.2889 22.1155 16.7628 22.1155 16.1138C22.1155 15.4648 21.5894 14.9388 20.9404 14.9388ZM15.5561 16.5361C15.5561 16.5361 15.7041 17.2888 15.1316 17.2888H4.88406C4.23508 17.2888 3.70898 16.7627 3.70898 16.1137C3.70898 15.4647 4.23508 14.9386 4.88406 14.9386H7.51859C7.94394 14.9141 8.04469 14.6685 8.04469 14.6685L8.04713 14.6697L11.486 8.71327L11.485 8.71306C11.5477 8.59799 11.4955 8.48922 11.4864 8.47206L10.3507 6.50489C10.0262 5.94295 10.2187 5.22419 10.7808 4.8998C11.3428 4.57541 12.0615 4.76777 12.386 5.32981L12.9127 6.24215L13.4385 5.33144C13.763 4.76949 14.4816 4.57683 15.0437 4.90142C15.6057 5.22602 15.7983 5.94447 15.4738 6.50652L10.6884 14.795C10.6674 14.8455 10.661 14.9247 10.8167 14.9386H13.6771L13.6777 14.9666C13.6777 14.9666 15.331 14.9923 15.5561 16.5361Z"
+                                fill="white" />
+                        </g>
+                        <defs>
+                            <linearGradient id="paint0_linear_1542_448" x1="1300" y1="0" x2="1300" y2="2600" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#17C9FB" />
+                                <stop offset="1" stop-color="#1A74E8" />
+                            </linearGradient>
+                            <clipPath id="clip0_1542_448">
+                                <rect width="26" height="26" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+
+                </div>
                 <div>
                     <div class="wa-card-title">App Store Total</div>
                     <div class="wa-card-value">{{data?.app_store_total}}</div>
-                    <div class="wa-card-sub">+ 0% from last week</div>
+                    <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
                 </div>
             </div>
         </div>
@@ -73,55 +141,30 @@
         <div class="wa-grid wa-grid-3">
             <div class="wa-card chart-card">
                 <div class="wa-card-title">Unique Users Over Time</div>
-                <div class="wa-line-chart">
-                    <svg viewBox="0 0 300 120" preserveAspectRatio="none">
-                        <defs>
-                            <linearGradient id="waLineFill" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stop-color="#6dbb7a" stop-opacity="0.35"></stop>
-                                <stop offset="100%" stop-color="#6dbb7a" stop-opacity="0.05"></stop>
-                            </linearGradient>
-                        </defs>
-                        <path class="wa-line-fill" d="M10 95 L90 60 L170 70 L290 30 L290 110 L10 110 Z"></path>
-                        <path class="wa-line" d="M10 95 L90 60 L170 70 L290 30"></path>
-                        <circle class="wa-dot" cx="10" cy="95" r="4"></circle>
-                        <circle class="wa-dot" cx="90" cy="60" r="4"></circle>
-                        <circle class="wa-dot" cx="170" cy="70" r="4"></circle>
-                        <circle class="wa-dot" cx="290" cy="30" r="4"></circle>
-                    </svg>
-                    <div class="wa-axis">
-                        <span *ngFor="let label of uniqueLabels">{{label}}</span>
-                    </div>
-                </div>
-                <div class="wa-card-sub">+ 0% from last week</div>
+                <apx-chart [series]="uniqueUsersChart.series" [chart]="uniqueUsersChart.chart"
+                    [stroke]="uniqueUsersChart.stroke" [fill]="uniqueUsersChart.fill" [colors]="uniqueUsersChart.colors"
+                    [dataLabels]="uniqueUsersChart.dataLabels" [xaxis]="uniqueUsersChart.xaxis"
+                    [grid]="uniqueUsersChart.grid">
+                </apx-chart>
+                <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
             </div>
 
             <div class="wa-card chart-card">
                 <div class="wa-card-title">Scroll Depth</div>
-                <div class="wa-bars">
-                    <div class="wa-bar-row" *ngFor="let item of data?.scroll_depth">
-                        <div class="wa-bar-label">{{item?.percent_scrolled}}%</div>
-                        <div class="wa-bar-track">
-                            <div class="wa-bar-fill" [style.width]="getScrollWidth(item?.total)"></div>
-                        </div>
-                        <div class="wa-bar-value">{{item?.total}}</div>
-                    </div>
-                </div>
-                <div class="wa-card-sub">+ 0% from last week</div>
+                <apx-chart [series]="scrollDepthChart.series" [chart]="scrollDepthChart.chart"
+                    [plotOptions]="scrollDepthChart.plotOptions" [dataLabels]="scrollDepthChart.dataLabels"
+                    [xaxis]="scrollDepthChart.xaxis">
+                </apx-chart>
+                <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
             </div>
 
             <div class="wa-card chart-card">
                 <div class="wa-card-title">Social Clicks</div>
-                <div class="wa-social">
-                    <div class="wa-social-item" *ngFor="let item of data?.social_clicks">
-                        <div class="wa-social-count">{{item?.total}}</div>
-                        <div class="wa-social-bar">
-                            <div class="wa-social-fill" [style.height]="getSocialHeight(item?.total)"></div>
-                        </div>
-                        <div class="wa-social-icon" [ngClass]="item?.social_platform"></div>
-                        <div class="wa-social-label">{{item?.social_platform}}</div>
-                    </div>
-                </div>
-                <div class="wa-card-sub">+ 0% from last week</div>
+                <apx-chart [series]="socialClicksChart.series" [chart]="socialClicksChart.chart"
+                    [plotOptions]="socialClicksChart.plotOptions" [dataLabels]="socialClicksChart.dataLabels"
+                    [xaxis]="socialClicksChart.xaxis">
+                </apx-chart>
+                <!-- <div class="wa-card-sub">+ 0% from last week</div> -->
             </div>
         </div>
     </section>
