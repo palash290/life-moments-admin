@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SharedService } from '../../shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
-
+declare var bootstrap: any;
 @Component({
   selector: 'app-analytic-dashboard',
   templateUrl: './analytic-dashboard.component.html',
@@ -20,7 +20,7 @@ export class AnalyticDashboardComponent {
   loading: boolean = false;
   journeyConversion: number = 0;
   kpiList: any[] = [];
-
+  screenActivity: any[] = [];
   engagementChart: any = {
     series: [
       {
@@ -66,7 +66,9 @@ export class AnalyticDashboardComponent {
       categories: []
     }
   };
-
+  modalData: any;
+  modalTitle: string = '';
+  clickableList: string[] = ['give_it_try_(email_15)', 'free_trial_(email_16)', 'one_free_trial_(email_17)', 'one_trial_screen_(email_19)', 'trial_screen_(email_18)', 'two_trial_screen_(email_19_a)'];
   constructor(private service: SharedService, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -132,9 +134,19 @@ export class AnalyticDashboardComponent {
           .map((key: string) => ({
             label: this.formatLabel(key),
             value: resp.journey[key],
+            eventKey: key,
             percent: Math.round((resp.journey[key] / maxJourneyValue) * 100)
           }));
 
+
+        this.screenActivity = Object.keys(resp.screenActivity || {})
+          .filter(key => key !== 'overallConversion')
+          .map((key: string) => ({
+            label: this.formatLabel(key),
+            value: resp.screenActivity[key],
+            eventKey: key,
+            percent: Math.round((resp.screenActivity[key] / maxJourneyValue) * 100)
+          }));
         // overall conversion
         this.journeyConversion = resp.journey?.overallConversion || 0;
 
@@ -295,5 +307,24 @@ export class AnalyticDashboardComponent {
     this.toastr.warning('Coming Soon!')
   }
 
-
+  viewDetails(journeyStep: any) {
+    if (!this.clickableList.includes(journeyStep.eventKey)) {
+      return;
+    } else {
+      this.service.getApi(`analytics/event-emails?event=${journeyStep.eventKey}&from=${this.fromDate}&to=${this.toDate}&count=${journeyStep.value}`).subscribe({
+        next: (resp: any) => {
+          this.modalData = resp.data || [];
+          this.modalTitle = journeyStep.label;
+          let modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+          modal.show();
+          this.loading = false;
+        },
+        error: (err) => {
+          console.log(err);
+          this.loading = false;
+          this.toastr.error('Failed to load analytics');
+        }
+      });
+    }
+  }
 }

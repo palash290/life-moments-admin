@@ -2,7 +2,7 @@
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center gap-3">
             <a (click)="goBack()" style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
-                class="fa-solid fa-arrow-left-long me-1 "></i>Back</a>
+                    class="fa-solid fa-arrow-left-long me-1 "></i>Back</a>
             <!-- <a style="cursor: pointer;" (click)="backClicked()" class="mb-0 ct_fs_22 text-dark ct_fw_500"><i
                     class="fa-solid fa-arrow-left-long me-3"></i>Back</a> -->
             <h4 class="mb-0 ct_fs_22 ct_fw_500">{{getMonthName(monthRoute)}}-{{date}}</h4>
@@ -23,7 +23,8 @@
                     <!-- <li>12 item selected</li> -->
 
                     <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
-                        <select class="form-control py-2 h-auto ct_input" [(ngModel)]="filterValue" (ngModelChange)="onFilterChange($event)">
+                        <select class="form-control py-2 h-auto ct_input" [(ngModel)]="filterValue"
+                            (ngModelChange)="onFilterChange($event)">
                             <option value="">All</option>
                             <option value="Photo">Photos</option>
                             <option value="Video">Videos</option>
@@ -60,10 +61,12 @@
             </ul> -->
 
             <div class="ct_grid_6 mt-4" [ngClass]="{'ct_grid_2_conditon': imageObject?.length == 2}">
-                <div class="ct_album_photo ct_max_w_214" *ngFor="let pic of imageObject; let i = index" (click)="openModal(i)">
+                <div class="ct_album_photo ct_max_w_214" *ngFor="let pic of imageObject; let i = index"
+                    (click)="openModal(i)">
                     <div *ngIf="pic.type == 'Photo'">
                         <img [src]="pic.images_url ? pic.images_url : 'assets/img/timeline_img.png'" alt="Not Found"
-                            data-bs-toggle="modal" data-bs-target="#preview_img" style="cursor: pointer;" class="ct_img_h_214" >
+                            data-bs-toggle="modal" data-bs-target="#preview_img" style="cursor: pointer;"
+                            class="ct_img_h_214">
                     </div>
 
                     <div *ngIf="pic.type == 'Video'">

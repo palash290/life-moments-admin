@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../../shared/services/shared.service';
-
+declare var bootstrap: any;
 @Component({
   selector: 'app-view-user-analytic',
   templateUrl: './view-user-analytic.component.html',
@@ -63,7 +63,10 @@ export class ViewUserAnalyticComponent {
       categories: []
     }
   };
-
+  modalData: any;
+  modalTitle: string = '';
+  clickableList: string[] = ['give_it_try_(email_15)', 'free_trial_(email_16)', 'one_free_trial_(email_17)', 'one_trial_screen_(email_19)', 'trial_screen_(email_18)', 'two_trial_screen_(email_19_a)'];
+  screenActivity: any[] = [];
   constructor(private service: SharedService, private toastr: ToastrService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -133,6 +136,14 @@ export class ViewUserAnalyticComponent {
             percent: Math.round((resp.journey[key] / maxJourneyValue) * 100)
           }));
 
+        this.screenActivity = Object.keys(resp.screenActivity || {})
+          .filter(key => key !== 'overallConversion')
+          .map((key: string) => ({
+            label: this.formatLabel(key),
+            value: resp.screenActivity[key],
+            eventKey: key,
+            percent: Math.round((resp.screenActivity[key] / maxJourneyValue) * 100)
+          }));
         // overall conversion
         this.journeyConversion = resp.journey?.overallConversion || 0;
 
@@ -157,7 +168,7 @@ export class ViewUserAnalyticComponent {
 
         // ================= SESSION TREND GRAPH =================
         // this.sessionTrend = resp.graphs?.sessionTrend || [];
-        
+
         // ================= KPI CHART =================
         // const kpis = resp.kpis || {};
 
@@ -227,5 +238,24 @@ export class ViewUserAnalyticComponent {
   backClicked() {
     this.router.navigateByUrl(`/admin/main/google-analytic`);
   }
-
+  viewDetails(journeyStep: any) {
+    if (!this.clickableList.includes(journeyStep.eventKey)) {
+      return;
+    } else {
+      this.service.getApi(`analytics/event-emails?event=${journeyStep.eventKey}&from=${this.fromDate}&to=${this.toDate}&count=${journeyStep.value}&userId=${this.user_id}`).subscribe({
+        next: (resp: any) => {
+          this.modalData = resp.data || [];
+          this.modalTitle = journeyStep.label;
+          let modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+          modal.show();
+          this.loading = false;
+        },
+        error: (err) => {
+          console.log(err);
+          this.loading = false;
+          this.toastr.error('Failed to load analytics');
+        }
+      });
+    }
+  }
 }

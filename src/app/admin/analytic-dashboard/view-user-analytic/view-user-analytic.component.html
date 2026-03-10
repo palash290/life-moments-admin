@@ -1,12 +1,14 @@
 <div class="ct_dashbaord_middle">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-        <div class="d-flex align-items-center gap-3">
-            <a (click)="backClicked()" style="cursor: pointer;"
-                class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
-                    class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
-            <!-- <h4 class="mb-0 ct_fs_22">{{parentDetail?.fullName}} {{filteredOutMembers[0]?.last_name}}'s
-                Family Members</h4> -->
+        <a (click)="backClicked()" style="cursor: pointer;" class="mb-0 ct_back_btn_4 ct_fs_22 text-dark ct_fw_500"><i
+                class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
+        <div class="d-flex gap-2">
+            <input type="date" class="form-control" [(ngModel)]="fromDate">
+            <input type="date" class="form-control" [(ngModel)]="toDate">
+            <button class="btn btn-success" (click)="getUsers()">Apply</button>
         </div>
+        <!-- <h4 class="mb-0 ct_fs_22">{{parentDetail?.fullName}} {{filteredOutMembers[0]?.last_name}}'s
+                Family Members</h4> -->
     </div>
 </div>
 <div class="container-fluid py-3">
@@ -107,7 +109,28 @@
 
     <!-- ================= ENGAGEMENT CHART ================= -->
     <div class="row g-3 mb-4 mt-3">
-        <div class="col-md-12">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-3">Screen Activity</h5>
+                    <div *ngFor="let s of screenActivity" class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <a class="text-dark">{{s.label}}</a>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="fw-semibold">{{s.value}}</span>
+                                @if(clickableList.includes(s.eventKey)){
+                                <i class="fa-regular fa-eye text-muted cursor-pointer" (click)="viewDetails(s)"></i>
+                                }
+                            </div>
+                        </div>
+                        <!-- <div class="progress" style="height:6px;">
+                    <div class="progress-bar bg-success" [style.width.%]="s.percent || (s.value / 100)"></div>
+                  </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
             <div class="card shadow-sm border-0">
                 <div class="card-body">
                     <h5 class="fw-bold mb-3">Engagement</h5>
@@ -148,6 +171,43 @@
             <div></div>
             <div></div>
             <div></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{ modalTitle }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Sent At</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if(modalData?.length == 0){
+                        <tr>
+                            <td colspan="3" class="text-center">No data found</td>
+                        </tr>
+                        }
+                        <tr *ngFor="let user of modalData">
+                            <td>{{ user.fullName }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.sent_at | date }}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
         </div>
     </div>
 </div>
