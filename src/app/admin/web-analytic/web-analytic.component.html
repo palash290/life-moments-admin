@@ -1,70 +1,130 @@
-<div class="container-fluid py-3">
-    <div class="row g-3">
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <p class="text-muted">Unique Users</p>
-                    <h4 class="fw-bold">{{data?.unique_users}}</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <p class="text-muted">Googleplay Total</p>
-                    <h4 class="fw-bold">{{data?.google_play_total}}</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <p class="text-muted">Googleplay Top</p>
-                    <h4 class="fw-bold">{{data?.google_play_top}}</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <p class="text-muted">Googleplay Bottom</p>
-                    <h4 class="fw-bold">{{data?.google_play_bottom}}</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <p class="text-muted">Appstore Total</p>
-                    <h4 class="fw-bold">{{data?.app_store_total}}</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <p class="text-muted">Appstore Top</p>
-                    <h4 class="fw-bold">{{data?.app_store_top}}</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <p class="text-muted">Appstore Bottom</p>
-                    <h4 class="fw-bold">{{data?.app_store_bottom}}</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <p class="text-muted">Video Plays</p>
-                    <h4 class="fw-bold">{{data?.video_plays}}</h4>
-                </div>
-            </div>
+<div class="web-analytics">
+    <div class="wa-header">
+        <h2 class="wa-title">Web Analytics</h2>
+        <div class="d-flex gap-2">
+            <input type="date" class="form-control" [(ngModel)]="fromDate">
+            <input type="date" class="form-control" [(ngModel)]="toDate">
+            <button class="btn btn-success" (click)="getUsers()">Apply</button>
         </div>
     </div>
+
+    <section class="wa-section">
+        <div class="wa-section-header">Traffic Overview</div>
+        <div class="wa-grid">
+            <div class="wa-card">
+                <div class="wa-card-icon user"></div>
+                <div>
+                    <div class="wa-card-title">Unique Users</div>
+                    <div class="wa-card-value">{{data?.unique_users}}</div>
+                    <div class="wa-card-sub">+ 0% from last week</div>
+                </div>
+            </div>
+            <div class="wa-card">
+                <div class="wa-card-icon phone"></div>
+                <div>
+                    <div class="wa-card-title">Google Play Total</div>
+                    <div class="wa-card-value">{{data?.google_play_total}}</div>
+                    <div class="wa-card-sub">+ 0% from last week</div>
+                </div>
+            </div>
+            <div class="wa-card">
+                <div class="wa-card-icon up"></div>
+                <div>
+                    <div class="wa-card-title">Googleplay Top</div>
+                    <div class="wa-card-value">{{data?.google_play_top}}</div>
+                    <div class="wa-card-sub">+ 0% from last week</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="wa-section">
+        <div class="wa-section-header">Google Play</div>
+        <div class="wa-grid">
+            <div class="wa-card">
+                <div class="wa-card-icon phone"></div>
+                <div>
+                    <div class="wa-card-title">Google Play Total</div>
+                    <div class="wa-card-value">{{data?.google_play_total}}</div>
+                    <div class="wa-card-sub">+ 0% from last week</div>
+                </div>
+            </div>
+            <div class="wa-card">
+                <div class="wa-card-icon up"></div>
+                <div>
+                    <div class="wa-card-title">Google Play Top</div>
+                    <div class="wa-card-value">{{data?.google_play_top}}</div>
+                    <div class="wa-card-sub">+ 0% from last week</div>
+                </div>
+            </div>
+            <div class="wa-card">
+                <div class="wa-card-icon apple"></div>
+                <div>
+                    <div class="wa-card-title">App Store Total</div>
+                    <div class="wa-card-value">{{data?.app_store_total}}</div>
+                    <div class="wa-card-sub">+ 0% from last week</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="wa-section">
+        <div class="wa-section-header">App Store</div>
+        <div class="wa-grid wa-grid-3">
+            <div class="wa-card chart-card">
+                <div class="wa-card-title">Unique Users Over Time</div>
+                <div class="wa-line-chart">
+                    <svg viewBox="0 0 300 120" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="waLineFill" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#6dbb7a" stop-opacity="0.35"></stop>
+                                <stop offset="100%" stop-color="#6dbb7a" stop-opacity="0.05"></stop>
+                            </linearGradient>
+                        </defs>
+                        <path class="wa-line-fill" d="M10 95 L90 60 L170 70 L290 30 L290 110 L10 110 Z"></path>
+                        <path class="wa-line" d="M10 95 L90 60 L170 70 L290 30"></path>
+                        <circle class="wa-dot" cx="10" cy="95" r="4"></circle>
+                        <circle class="wa-dot" cx="90" cy="60" r="4"></circle>
+                        <circle class="wa-dot" cx="170" cy="70" r="4"></circle>
+                        <circle class="wa-dot" cx="290" cy="30" r="4"></circle>
+                    </svg>
+                    <div class="wa-axis">
+                        <span *ngFor="let label of uniqueLabels">{{label}}</span>
+                    </div>
+                </div>
+                <div class="wa-card-sub">+ 0% from last week</div>
+            </div>
+
+            <div class="wa-card chart-card">
+                <div class="wa-card-title">Scroll Depth</div>
+                <div class="wa-bars">
+                    <div class="wa-bar-row" *ngFor="let item of data?.scroll_depth">
+                        <div class="wa-bar-label">{{item?.percent_scrolled}}%</div>
+                        <div class="wa-bar-track">
+                            <div class="wa-bar-fill" [style.width]="getScrollWidth(item?.total)"></div>
+                        </div>
+                        <div class="wa-bar-value">{{item?.total}}</div>
+                    </div>
+                </div>
+                <div class="wa-card-sub">+ 0% from last week</div>
+            </div>
+
+            <div class="wa-card chart-card">
+                <div class="wa-card-title">Social Clicks</div>
+                <div class="wa-social">
+                    <div class="wa-social-item" *ngFor="let item of data?.social_clicks">
+                        <div class="wa-social-count">{{item?.total}}</div>
+                        <div class="wa-social-bar">
+                            <div class="wa-social-fill" [style.height]="getSocialHeight(item?.total)"></div>
+                        </div>
+                        <div class="wa-social-icon" [ngClass]="item?.social_platform"></div>
+                        <div class="wa-social-label">{{item?.social_platform}}</div>
+                    </div>
+                </div>
+                <div class="wa-card-sub">+ 0% from last week</div>
+            </div>
+        </div>
+    </section>
 </div>
 
 
