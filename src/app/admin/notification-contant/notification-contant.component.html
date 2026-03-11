@@ -111,7 +111,7 @@
                         <tbody>
                             <tr style="cursor: pointer;" (click)="selectedOptionPaywall = '100'"
                                 (click)="getEventById(4)">
-                                <td class="ct_fw_600">72 Hours after Account created</td>
+                                <td class="ct_fw_600">24 Hours after Account created</td>
                             </tr>
                             <tr style="cursor: pointer;" (click)="selectedOptionPaywall = '101'"
                                 (click)="getEventById(5)">
@@ -214,7 +214,7 @@
                                 class="fa-solid fa-arrow-left-long me-1"></i>Back</a>
                     </div>
                     <!-- <button *ngIf="showForm && selectedNotification == 'Paywall'" (click)="paywallBack()">Back</button> -->
-                    <h2 *ngIf="selectedOptionPaywall === '100'" class="ct_fs_22 my-4">72 Hours after Account created
+                    <h2 *ngIf="selectedOptionPaywall === '100'" class="ct_fs_22 my-4">24 Hours after Account created
                     </h2>
                     <h2 *ngIf="selectedOptionPaywall === '101'" class="ct_fs_22 my-4">24 Hours after the clicked into
                         the 101.0 page and
@@ -226,7 +226,7 @@
                         <div class="form-group mb-4 w-100" *ngIf="selectedOptionPaywall === '100'">
                             <label class="mb-2 ct_fw_600">Prerequisite 1</label>
                             <input type="text" class="form-control ct_input"
-                                value="at 72 hour mark Check still hasn't  clicked Get Started Button before sending message"
+                                value="at 24 hour mark Check still hasn't  clicked Get Started Button before sending message"
                                 disabled>
                         </div>
                         <div class="form-group mb-4 w-100" *ngIf="selectedOptionPaywall === '101'">

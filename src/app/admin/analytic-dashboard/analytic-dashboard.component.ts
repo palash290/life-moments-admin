@@ -98,12 +98,18 @@ export class AnalyticDashboardComponent {
 
     return `${year}-${month}-${day}`;
   }
+  
+  learnMoreCount: any;
+  welcomePopupCount: any;
 
   getUsers() {
     this.loading = true;
 
     this.service.getApi(`analytics/overview?from=${this.fromDate}&to=${this.toDate}`).subscribe({
       next: (resp: any) => {
+
+        this.learnMoreCount = resp.learnMoreCount;
+        this.welcomePopupCount = resp.welcomePopupCount;
 
         // ================= TOP CARDS =================
         this.topCards = [

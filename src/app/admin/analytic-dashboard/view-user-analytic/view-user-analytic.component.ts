@@ -98,11 +98,17 @@ export class ViewUserAnalyticComponent {
     return `${year}-${month}-${day}`;
   }
 
+  learnMoreCount: any;
+  welcomePopupCount: any;
+
   getUsers() {
     this.loading = true;
 
     this.service.getApi(`analytics/user/${this.user_id}`).subscribe({
       next: (resp: any) => {
+
+        this.learnMoreCount = resp.learnMoreCount;
+        this.welcomePopupCount = resp.welcomePopupCount;
 
         // ================= TOP CARDS =================
         this.topCards = [
