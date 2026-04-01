@@ -24,23 +24,23 @@
         </div>
     </div>
 
-        <div class="row g-3 mb-4">
-      <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-          <div class="card-body">
-            <p class="text-muted mb-1">Learn More Count</p>
-            <h3 class="fw-bold">{{learnMoreCount}}</h3>
-          </div>
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Learn More Count</p>
+                    <h3 class="fw-bold">{{learnMoreCount}}</h3>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-          <div class="card-body">
-            <p class="text-muted mb-1">Welcome Popup Count</p>
-            <h3 class="fw-bold">{{welcomePopupCount}}</h3>
-          </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Welcome Popup Count</p>
+                    <h3 class="fw-bold">{{welcomePopupCount}}</h3>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <!-- ================= SECOND ROW ================= -->
@@ -136,7 +136,7 @@
                         <div class="d-flex justify-content-between">
                             <a class="text-dark">{{s.label}}</a>
                             <div class="d-flex align-items-center gap-2">
-                                <span class="fw-semibold">{{s.value}}</span>
+                                <span class="fw-semibold">{{s.value.total}}</span>
                                 @if(clickableList.includes(s.eventKey)){
                                 <i class="fa-regular fa-eye text-muted cursor-pointer" (click)="viewDetails(s)"></i>
                                 }

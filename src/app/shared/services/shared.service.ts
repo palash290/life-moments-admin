@@ -73,6 +73,12 @@ export class SharedService {
     );
   }
 
+  postJSON(url: string, data: any): Observable<any> {
+    return this.http.post(this.apiUrl + url, data, { headers: this.getHeaders('application/json') }).pipe(
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     if (error.status === 401) {
       this.handleUnauthorizedError();

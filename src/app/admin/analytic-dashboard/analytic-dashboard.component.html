@@ -156,7 +156,7 @@
               <div class="d-flex justify-content-between">
                 <a class="text-dark">{{s.label}}</a>
                 <div class="d-flex align-items-center gap-2">
-                  <span class="fw-semibold">{{s.value}}</span>
+                  <span class="fw-semibold">{{s.value.total}}</span>
                   @if(clickableList.includes(s.eventKey)){
                   <i class="fa-regular fa-eye text-muted cursor-pointer" (click)="viewDetails(s)"></i>
                   }
@@ -304,26 +304,6 @@
 
 </div>
 
-
-<div class="ct_loader_main" *ngIf="loading">
-  <div class="loadingio-spinner-spinner-977el9wwy2v">
-    <div class="ldio-4j5ay0xf86g">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-  </div>
-</div>
-
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -358,6 +338,25 @@
 
         </table>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="ct_loader_main" *ngIf="loading">
+  <div class="loadingio-spinner-spinner-977el9wwy2v">
+    <div class="ldio-4j5ay0xf86g">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
   </div>
 </div>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { SharedService } from '../../shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 declare var bootstrap: any;
+
 @Component({
   selector: 'app-analytic-dashboard',
   templateUrl: './analytic-dashboard.component.html',
@@ -98,7 +99,7 @@ export class AnalyticDashboardComponent {
 
     return `${year}-${month}-${day}`;
   }
-  
+
   learnMoreCount: any;
   welcomePopupCount: any;
 
@@ -147,12 +148,18 @@ export class AnalyticDashboardComponent {
 
         this.screenActivity = Object.keys(resp.screenActivity || {})
           .filter(key => key !== 'overallConversion')
-          .map((key: string) => ({
-            label: this.formatLabel(key),
-            value: resp.screenActivity[key],
-            eventKey: key,
-            percent: Math.round((resp.screenActivity[key] / maxJourneyValue) * 100)
-          }));
+          .map((key: string) => {
+            const rawValue = resp.screenActivity[key];
+            const total = (rawValue && typeof rawValue === 'object') ? (rawValue.total || 0) : (rawValue || 0);
+            const dateWise = (rawValue && typeof rawValue === 'object' && rawValue.dateWise) ? rawValue.dateWise : {};
+
+            return {
+              label: this.formatLabel(key),
+              value: { total, dateWise },
+              eventKey: key,
+              percent: Math.round((total / maxJourneyValue) * 100)
+            };
+          });
         // overall conversion
         this.journeyConversion = resp.journey?.overallConversion || 0;
 
@@ -317,7 +324,20 @@ export class AnalyticDashboardComponent {
     if (!this.clickableList.includes(journeyStep.eventKey)) {
       return;
     } else {
-      this.service.getApi(`analytics/event-emails?event=${journeyStep.eventKey}&from=${this.fromDate}&to=${this.toDate}&count=${journeyStep.value}`).subscribe({
+      const eventKey = (journeyStep.eventKey || '').split('_(')[0];
+      const dateWise = journeyStep?.value?.dateWise || {};
+      const dates = Object.keys(dateWise).map((date) => ({
+        date,
+        count: dateWise[date]
+      }));
+
+      const payload = {
+        event: eventKey,
+        userId: '',
+        dates
+      };
+
+      this.service.postJSON('analytics/event-emails', payload).subscribe({
         next: (resp: any) => {
           this.modalData = resp.data || [];
           this.modalTitle = journeyStep.label;
@@ -333,4 +353,6 @@ export class AnalyticDashboardComponent {
       });
     }
   }
+
+
 }
