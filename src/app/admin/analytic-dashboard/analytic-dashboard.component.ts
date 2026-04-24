@@ -11,6 +11,7 @@ declare var bootstrap: any;
 export class AnalyticDashboardComponent {
 
   selectedOption: any = '0';
+  isHide: boolean = false;
   data: any[] = [];
   fromDate: any;
   toDate: any;
@@ -106,7 +107,7 @@ export class AnalyticDashboardComponent {
   getUsers() {
     this.loading = true;
 
-    this.service.getApi(`analytics/overview?from=${this.fromDate}&to=${this.toDate}`).subscribe({
+    this.service.getApi(`analytics/overview?from=${this.fromDate}&to=${this.toDate}&is_hide=${this.isHide}`).subscribe({
       next: (resp: any) => {
 
         this.learnMoreCount = resp.learnMoreCount;
@@ -223,6 +224,10 @@ export class AnalyticDashboardComponent {
         this.toastr.error('Failed to load analytics');
       }
     });
+  }
+
+  onHideToggle() {
+    this.getUsers();
   }
 
   calculatePercent(value: number, total: number): number {

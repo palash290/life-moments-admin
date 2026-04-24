@@ -19,3 +19,27 @@ h5 {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.form-check-input:checked{
+    background-color: var(--dark_green);
+    border-color: var(--dark_green);
+}
+.ct_switch .form-check-input {
+  height: 20px;
+  cursor: pointer;
+}
+
+.ct_switch .form-check-input:focus {
+  box-shadow: unset;
+}
+
+.ct_switch .form-check-input {
+  height: 20px;
+  cursor: pointer;
+}
+
+.ct_switch .form-check-input:focus {
+  box-shadow: unset;
+}
+
+
