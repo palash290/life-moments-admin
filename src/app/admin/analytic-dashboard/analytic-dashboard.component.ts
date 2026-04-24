@@ -11,7 +11,8 @@ declare var bootstrap: any;
 export class AnalyticDashboardComponent {
 
   selectedOption: any = '0';
-  isHide: boolean = false;
+  isHide: boolean = true;
+  isUserWiseHide: boolean = true;
   data: any[] = [];
   fromDate: any;
   toDate: any;
@@ -230,6 +231,11 @@ export class AnalyticDashboardComponent {
     this.getUsers();
   }
 
+  onUserWiseHideToggle() {
+    this.currentPage = 1;
+    this.getSubAdmins(this.selectedOption);
+  }
+
   calculatePercent(value: number, total: number): number {
     if (!total || total === 0) return 0;
     return Math.round((value / total) * 100);
@@ -266,10 +272,13 @@ export class AnalyticDashboardComponent {
 
     this.service.getApi(`sub-admin/get-all-users?page=${this.currentPage}&limit=${this.pageSize}&search=${this.searchQuery}`).subscribe({
       next: resp => {
-        this.data = resp.data;
+        const filteredData = this.isUserWiseHide
+          ? (resp.data || []).filter((item: any) => !this.isTestEmail(item?.email))
+          : (resp.data || []);
+
         //this.loading = false;
         this.totalPages = resp.pagination.totalPages;
-        this.data = resp.data.map((item: { serialNumber: any; }, index: any) => {
+        this.data = filteredData.map((item: { serialNumber: any; }, index: any) => {
           item.serialNumber = (this.currentPage - 1) * this.pageSize + index + 1;
           return item;
         });
@@ -280,6 +289,11 @@ export class AnalyticDashboardComponent {
         console.log(error.message);
       }
     });
+  }
+
+  isTestEmail(email: string): boolean {
+    const normalizedEmail = (email || '').toLowerCase();
+    return normalizedEmail.includes('mailinator') || normalizedEmail.includes('yopmail');
   }
 
   resetAndSearch(fill: any) {
