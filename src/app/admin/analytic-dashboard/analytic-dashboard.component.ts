@@ -347,12 +347,11 @@ export class AnalyticDashboardComponent {
       const dateWise = journeyStep?.value?.dateWise || {};
       const dates = Object.keys(dateWise).map((date) => ({
         date,
-        count: dateWise[date]
+        userIds: Array.isArray(dateWise[date]) ? dateWise[date] : []
       }));
 
       const payload = {
         event: eventKey,
-        userId: '',
         dates
       };
 

@@ -218,12 +218,12 @@
 
   <div class="d-flex gap-2 mt-2 justify-content-end">
 
-    <div class="d-flex align-items-center gap-2">
+    <div class="d-flex align-items-center gap-2" *ngIf="selectedOption == '1'">
       <span class="ct_fw_600 mb-0">Hide test emails</span>
       <span class="text-muted">{{ isUserWiseHide ? 'Yes' : 'No' }}</span>
-    </div> 
+    </div>
 
-    <div class="form-check form-switch ct_switch mb-0">
+    <div class="form-check form-switch ct_switch mb-0" *ngIf="selectedOption == '1'">
       <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="isUserWiseHide"
         [ngModelOptions]="{ standalone: true }" (change)="onUserWiseHideToggle()">
     </div>
