@@ -103,9 +103,21 @@
                 <div class="progress-bar bg-success" [style.width.%]="j.percent || (j.value / 100)"></div>
               </div>
             </div>
-            <div class="bg-success text-white text-center py-2 rounded mt-3">
+            <div class="bg-success text-white text-center py-2 rounded mt-5">
+              Profile Creation Conversion {{profileCreationConversion}}%
+            </div>
+            <!-- <div class="bg-success text-white text-center py-2 rounded mt-3">
               Overall Conversion {{journeyConversion}}%
             </div>
+            <div class="bg-success text-white text-center py-2 rounded mt-3">
+              Free Trial Conversion {{freeTrialConversion}}%
+            </div>
+            <div class="bg-success text-white text-center py-2 rounded mt-3">
+              Monthly Subscription Conversion {{monthlySubscriptionConversion}}%
+            </div>
+            <div class="bg-success text-white text-center py-2 rounded mt-3">
+              Yearly Subscription Conversion {{yearlySubscriptionConversion}}%
+            </div> -->
           </div>
         </div>
       </div>
@@ -123,6 +135,18 @@
                   <h5 class="fw-bold">{{s.value}}</h5>
                 </div>
               </div>
+            </div>
+            <div class="bg-success text-white text-center py-2 rounded mt-3">
+              Overall Conversion {{journeyConversion}}%
+            </div>
+            <div class="bg-success text-white text-center py-2 rounded mt-3">
+              Free Trial Conversion {{freeTrialConversion}}%
+            </div>
+            <div class="bg-success text-white text-center py-2 rounded mt-3">
+              Monthly Subscription Conversion {{monthlySubscriptionConversion}}%
+            </div>
+            <div class="bg-success text-white text-center py-2 rounded mt-3">
+              Yearly Subscription Conversion {{yearlySubscriptionConversion}}%
             </div>
           </div>
         </div>

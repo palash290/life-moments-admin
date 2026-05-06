@@ -22,6 +22,11 @@ export class AnalyticDashboardComponent {
   featureUsage: any[] = [];
   loading: boolean = false;
   journeyConversion: number = 0;
+  freeTrialConversion: number = 0;
+  monthlySubscriptionConversion: number = 0;
+  yearlySubscriptionConversion: number = 0;
+  profileCreationConversion: number = 0;
+  
   kpiList: any[] = [];
   screenActivity: any[] = [];
   engagementChart: any = {
@@ -139,7 +144,7 @@ export class AnalyticDashboardComponent {
 
         // map journey
         this.journey = Object.keys(resp.journey || {})
-          .filter(key => key !== 'overallConversion')
+          .filter(key => !['overallConversion', 'freeTrialConversion', 'yearlySubscriptionConversion', 'monthlySubscriptionConversion', 'profileCreationConversion'].includes(key))
           .map((key: string) => ({
             label: this.formatLabel(key),
             value: resp.journey[key],
@@ -164,6 +169,10 @@ export class AnalyticDashboardComponent {
           });
         // overall conversion
         this.journeyConversion = resp.journey?.overallConversion || 0;
+        this.freeTrialConversion = resp.journey?.freeTrialConversion || 0;
+        this.monthlySubscriptionConversion = resp.journey?.monthlySubscriptionConversion || 0;
+        this.yearlySubscriptionConversion = resp.journey?.yearlySubscriptionConversion || 0;
+        this.profileCreationConversion = resp.journey?.profileCreationConversion || 0;
 
         // ================= SUBSCRIPTIONS =================
         this.subscriptions = Object.keys(resp.subscriptions || {}).map((key: string) => ({
