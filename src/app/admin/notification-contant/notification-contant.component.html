@@ -194,15 +194,15 @@
                         <div class="form-group mb-4 w-50"
                             *ngIf="selectedOptionInterview === '24' || selectedOptionInterview === '72'">
                             <label class="mb-2 ct_fw_600">Prerequisite 1</label>
-                            <input type="text" class="form-control ct_input"
-                                value="Only send if Interview NOT YET DONE" disabled>
+                            <input type="text" class="form-control ct_input" value="Only send if Interview NOT YET DONE"
+                                disabled>
                         </div>
                         <!-- Prerequisite 2 (Visible for '24', '72', or '30') -->
                         <div class="form-group mb-4 w-50"
                             *ngIf="selectedOptionInterview === '24' || selectedOptionInterview === '72' || selectedOptionInterview === '30'">
-                            <label class="mb-2 ct_fw_600">{{selectedOptionInterview === '30' ? 'Prerequisite 1' : 'Prerequisite 2'}}</label>
-                            <input type="text" class="form-control ct_input"
-                                value="Check Alive Status  = Yes" disabled>
+                            <label class="mb-2 ct_fw_600">{{selectedOptionInterview === '30' ? 'Prerequisite 1' :
+                                'Prerequisite 2'}}</label>
+                            <input type="text" class="form-control ct_input" value="Check Alive Status  = Yes" disabled>
                         </div>
                     </div>
                 </div>
@@ -251,12 +251,12 @@
                     </div>
                     <div class="form-group mb-3 mt-3">
                         <label class="mb-3 ct_fw_600" for="groupSelect">Message</label>
-                        <div class="position-relative" >
+                        <div class="position-relative">
                             <p class="ct_emoji_icon_position" (click)="toggleEmojiPicker()"><i
                                     class="fa-regular fa-face-smile"></i>
                             </p>
                             <ngx-editor-menu [editor]="editor1" [toolbar]="toolbar1"></ngx-editor-menu>
-                            <ngx-editor [editor]="editor1" [(ngModel)]="about_us" 
+                            <ngx-editor [editor]="editor1" [(ngModel)]="about_us"
                                 [ngModelOptions]="{ standalone: true }"></ngx-editor>
                         </div>
                         <!-- <ckeditor [editor]="editor" [data]="data"></ckeditor> -->
