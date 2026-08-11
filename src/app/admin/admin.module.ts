@@ -55,6 +55,7 @@ import { AnalyticDashboardComponent } from './analytic-dashboard/analytic-dashbo
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { WebAnalyticComponent } from './web-analytic/web-analytic.component';
 import { ViewUserAnalyticComponent } from './analytic-dashboard/view-user-analytic/view-user-analytic.component';
+import { CuponCodesComponent } from './cupon-codes/cupon-codes.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { ViewUserAnalyticComponent } from './analytic-dashboard/view-user-analyt
     ContactUsComponent,
     AnalyticDashboardComponent,
     WebAnalyticComponent,
-    ViewUserAnalyticComponent
+    ViewUserAnalyticComponent,
+    CuponCodesComponent
   ],
   imports: [
     CommonModule,

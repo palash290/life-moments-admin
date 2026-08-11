@@ -79,6 +79,18 @@ export class SharedService {
     );
   }
 
+  putJSON(url: string, data: any): Observable<any> {
+    return this.http.put(this.apiUrl + url, data, { headers: this.getHeaders('application/json') }).pipe(
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
+
+  patchJSON(url: string, data: any): Observable<any> {
+    return this.http.patch(this.apiUrl + url, data, { headers: this.getHeaders('application/json') }).pipe(
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     if (error.status === 401) {
       this.handleUnauthorizedError();

@@ -44,6 +44,7 @@ import { FeedbackNotificationsComponent } from './feedback-notifications/feedbac
 import { AnalyticDashboardComponent } from './analytic-dashboard/analytic-dashboard.component';
 import { WebAnalyticComponent } from './web-analytic/web-analytic.component';
 import { ViewUserAnalyticComponent } from './analytic-dashboard/view-user-analytic/view-user-analytic.component';
+import { CuponCodesComponent } from './cupon-codes/cupon-codes.component';
 
 const routes: Routes = [
   {
@@ -232,6 +233,10 @@ const routes: Routes = [
       {
         path: 'feedback-notification',
         component: FeedbackNotificationsComponent
+      },
+      {
+        path: 'cupon-codes',
+        component: CuponCodesComponent
       },
     ]
   }

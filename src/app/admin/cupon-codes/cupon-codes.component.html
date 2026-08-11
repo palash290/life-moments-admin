@@ -1,0 +1,396 @@
+<div class="ct_dashbaord_middle">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <h4 class="mb-0 ct_fs_22">All Discount Codes</h4>
+        <div class="d-flex align-items-center gap-3 flex-wrap ">
+            <div class="position-relative ct_search_input">
+                <input type="text" class="form-control" placeholder="Search code/email" style="padding-right: 35px;"
+                    [(ngModel)]="searchQuery" (ngModelChange)="resetAndSearch()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
+                <span class="ct_text_op_5 ct_fs_13" style="white-space: nowrap;">Status :</span>
+                <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px; width: 120px;"
+                    [(ngModel)]="statusFilter" (change)="resetAndSearch()">
+                    <option value="">All</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </select>
+            </div>
+            <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
+                <span class="ct_text_op_5 ct_fs_13" style="white-space: nowrap;">Type :</span>
+                <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px; width: 120px;"
+                    [(ngModel)]="discountTypeFilter" (change)="resetAndSearch()">
+                    <option value="">All Types</option>
+                    <option value="percentage">Percentage</option>
+                    <option value="fixed">Fixed</option>
+                </select>
+            </div>
+            <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#ct_add_coupon">Add Coupon</button>
+        </div>
+    </div>
+
+    <div class="row ct_mt_30">
+        <div class="col-lg-12 mb-4 mb-lg-0">
+            <div class="table-responsive">
+                <table class="table ct_project_table">
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>Code</th>
+                            <th>Discount</th>
+                            <th>Plan</th>
+                            <th>Usage Limit</th>
+                            <th>Influencer Email</th>
+                            <th>Valid From</th>
+                            <th>Valid Until</th>
+                            <th>Status</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of data; let i = index">
+                            <td>{{ i + 1 + (currentPage - 1) * pageSize }}</td>
+                            <td class="fw-bold">{{ item.code }}</td>
+                            <td>{{ item.discount_type === 'percentage' ? item.discount_value + '%' : '$' +
+                                item.discount_value }}</td>
+                            <td>{{ getPlanName(item.plan_id) }}</td>
+                            <td>{{ item.usage_limit }}</td>
+                            <td>{{ item.influencer_email }}</td>
+                            <td>{{ item.valid_from ? (item.valid_from | date:'yyyy-MM-dd') : '-' }}</td>
+                            <td>{{ item.valid_until ? (item.valid_until | date:'yyyy-MM-dd') : '-' }}</td>
+                            <td class="text-end">
+                                <div class="form-check form-switch ct_custom_switch d-flex justify-content-end">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        [checked]="item.status == 1" (change)="handleStatusChange(item)" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <button *ngIf="item.influencer_email" class="ct_green_btn py-1 px-2 h-auto ct_fs_12"
+                                        [disabled]="emailLoaders[item.id]" (click)="sendEmail(item)">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <div class="spinner-border spinner-border-sm me-1 text-light" role="status"
+                                                style="width: 0.85rem; height: 0.85rem;" *ngIf="emailLoaders[item.id]">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            <span>Send Email</span>
+                                        </div>
+                                    </button>
+                                    <i style="cursor: pointer;" class="fas fa-edit"
+                                        (click)="fetchDetailsAndOpenEdit(item)" data-bs-toggle="modal"
+                                        data-bs-target="#ct_edit_coupon"></i>
+                                    <i style="cursor: pointer;" class="fa-solid fa-trash-can text-danger"
+                                        data-bs-toggle="modal" data-bs-target="#ct_delete_coupon"
+                                        (click)="patchDelete(item)"></i>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="data.length === 0" class="text-center">
+                    <p class="ct_fs_15 mt-5">No discount code found</p>
+                </div>
+            </div>
+
+
+            <!-- Pagination Controls -->
+            <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="data.length > 0">
+                <div class="pagination-controls">
+                    <button (click)="previousPage()" class="ct_previous"
+                        [disabled]="currentPage === 1">Previous</button>
+                    <button>
+                        {{ currentPage }}
+                    </button>
+                    @if(totalPages != currentPage){
+                    <button class="ct_nxt" (click)="nextPage()" [disabled]="!hasMoreData">Next</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade Committed_Price" id="ct_add_coupon" tabindex="-1" aria-labelledby="ct_add_couponLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body pt-5">
+                <h4 class="mb-4 text-center ct_fs_24 ct_fw_600">Add Coupon Code</h4>
+                <form [formGroup]="couponForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Coupon Code <span class="ct_required_star">*</span></label>
+                            <input type="text" class="form-control" placeholder="Enter Coupon Code"
+                                formControlName="code">
+                            <div *ngIf="couponForm.controls['code'].invalid && couponForm.controls['code'].touched"
+                                class="text-danger mt-1">
+                                <div *ngIf="couponForm.controls['code'].errors?.['required']" class="ct_fs_14">Code is
+                                    required.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Discount Type <span class="ct_required_star">*</span></label>
+                            <select class="form-control" formControlName="discount_type">
+                                <option value="percentage">Percentage</option>
+                                <option value="fixed">Fixed</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Discount Value <span class="ct_required_star">*</span></label>
+                            <input type="number" class="form-control"
+                                [placeholder]="couponForm.get('discount_type')?.value === 'percentage' ? 'Enter Discount %' : 'Enter Discount Amount ($)'"
+                                formControlName="discount_value">
+                            <div *ngIf="couponForm.controls['discount_value'].invalid && couponForm.controls['discount_value'].touched"
+                                class="text-danger mt-1">
+                                <div *ngIf="couponForm.controls['discount_value'].errors?.['required']"
+                                    class="ct_fs_14">Discount value is required.</div>
+                                <div *ngIf="couponForm.controls['discount_value'].errors?.['min']" class="ct_fs_14">Must
+                                    be at least 1.</div>
+                                <div *ngIf="couponForm.controls['discount_value'].errors?.['max']" class="ct_fs_14">
+                                    Cannot exceed 100%.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Usage Limit <span class="ct_required_star">*</span></label>
+                            <input type="number" class="form-control" placeholder="Enter Usage Limit"
+                                formControlName="usage_limit">
+                            <div *ngIf="couponForm.controls['usage_limit'].invalid && couponForm.controls['usage_limit'].touched"
+                                class="text-danger mt-1">
+                                <div *ngIf="couponForm.controls['usage_limit'].errors?.['required']" class="ct_fs_14">
+                                    Usage limit is required.</div>
+                                <div *ngIf="couponForm.controls['usage_limit'].errors?.['min']" class="ct_fs_14">Must be
+                                    at least 1.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Influencer Email <span class="ct_required_star">*</span></label>
+                            <input type="email" class="form-control" placeholder="Enter Influencer Email"
+                                formControlName="influencer_email">
+                            <div *ngIf="couponForm.controls['influencer_email'].invalid && couponForm.controls['influencer_email'].touched"
+                                class="text-danger mt-1">
+                                <div *ngIf="couponForm.controls['influencer_email'].errors?.['required']"
+                                    class="ct_fs_14">Email is required.</div>
+                                <div *ngIf="couponForm.controls['influencer_email'].errors?.['email']" class="ct_fs_14">
+                                    Invalid email format.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Plan Type <span class="ct_required_star">*</span></label>
+                            <select class="form-control" formControlName="plan_id">
+                                <option *ngFor="let plan of plans" [value]="plan.id">
+                                    {{ plan.name === 'Yearly' ? 'Annual Membership US$44.99' : plan.name }}
+                                </option>
+                            </select>
+                            <div *ngIf="couponForm.controls['plan_id'].invalid && couponForm.controls['plan_id'].touched"
+                                class="text-danger mt-1">
+                                <div *ngIf="couponForm.controls['plan_id'].errors?.['required']" class="ct_fs_14">Plan
+                                    Type is required.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Valid From</label>
+                            <input type="date" class="form-control" formControlName="valid_from">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Valid Until</label>
+                            <input type="date" class="form-control" formControlName="valid_until">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 mb-4">
+                <button type="button" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
+                    data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="ct_green_btn ct_h_50" (click)="addCoupon()">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="spinner-border me-2" role="status" *ngIf="btnLoader">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span *ngIf="!btnLoader">Add Coupon</span>
+                    </div>
+                </button>
+                <button hidden type="button" class="btn btn-secondary" #closeAddModal
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade Committed_Price" id="ct_edit_coupon" tabindex="-1" aria-labelledby="ct_edit_couponLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body pt-5">
+                <h4 class="mb-4 text-center ct_fs_24 ct_fw_600">Edit Coupon Code</h4>
+                <form [formGroup]="editCouponForm" *ngIf="editCouponForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Coupon Code <span class="ct_required_star">*</span></label>
+                            <input type="text" class="form-control" placeholder="Enter Coupon Code"
+                                formControlName="code">
+                            <div *ngIf="editCouponForm.controls['code'].invalid && editCouponForm.controls['code'].touched"
+                                class="text-danger mt-1">
+                                <div *ngIf="editCouponForm.controls['code'].errors?.['required']" class="ct_fs_14">Code
+                                    is required.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Discount Type <span class="ct_required_star">*</span></label>
+                            <select class="form-control" formControlName="discount_type">
+                                <option value="percentage">Percentage</option>
+                                <option value="fixed">Fixed</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Discount Value <span class="ct_required_star">*</span></label>
+                            <input type="number" class="form-control"
+                                [placeholder]="editCouponForm.get('discount_type')?.value === 'percentage' ? 'Enter Discount %' : 'Enter Discount Amount ($)'"
+                                formControlName="discount_value">
+                            <div *ngIf="editCouponForm.controls['discount_value'].invalid && editCouponForm.controls['discount_value'].touched"
+                                class="text-danger mt-1">
+                                <div *ngIf="editCouponForm.controls['discount_value'].errors?.['required']"
+                                    class="ct_fs_14">Discount value is required.</div>
+                                <div *ngIf="editCouponForm.controls['discount_value'].errors?.['min']" class="ct_fs_14">
+                                    Must be at least 1.</div>
+                                <div *ngIf="editCouponForm.controls['discount_value'].errors?.['max']" class="ct_fs_14">
+                                    Cannot exceed 100%.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Usage Limit <span class="ct_required_star">*</span></label>
+                            <input type="number" class="form-control" placeholder="Enter Usage Limit"
+                                formControlName="usage_limit">
+                            <div *ngIf="editCouponForm.controls['usage_limit'].invalid && editCouponForm.controls['usage_limit'].touched"
+                                class="text-danger mt-1">
+                                <div *ngIf="editCouponForm.controls['usage_limit'].errors?.['required']"
+                                    class="ct_fs_14">Usage limit is required.</div>
+                                <div *ngIf="editCouponForm.controls['usage_limit'].errors?.['min']" class="ct_fs_14">
+                                    Must be at least 1.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Influencer Email <span class="ct_required_star">*</span></label>
+                            <input type="email" class="form-control" placeholder="Enter Influencer Email"
+                                formControlName="influencer_email">
+                            <div *ngIf="editCouponForm.controls['influencer_email'].invalid && editCouponForm.controls['influencer_email'].touched"
+                                class="text-danger mt-1">
+                                <div *ngIf="editCouponForm.controls['influencer_email'].errors?.['required']"
+                                    class="ct_fs_14">Email is required.</div>
+                                <div *ngIf="editCouponForm.controls['influencer_email'].errors?.['email']"
+                                    class="ct_fs_14">Invalid email format.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Plan Type <span class="ct_required_star">*</span></label>
+                            <select class="form-control" formControlName="plan_id">
+                                <option *ngFor="let plan of plans" [value]="plan.id">
+                                    {{ plan.name === 'Yearly' ? 'Annual Membership US$44.99' : plan.name }}
+                                </option>
+                            </select>
+                            <div *ngIf="editCouponForm.controls['plan_id'].invalid && editCouponForm.controls['plan_id'].touched"
+                                class="text-danger mt-1">
+                                <div *ngIf="editCouponForm.controls['plan_id'].errors?.['required']" class="ct_fs_14">
+                                    Plan Type is required.</div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Valid From</label>
+                            <input type="date" class="form-control" formControlName="valid_from">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Valid Until</label>
+                            <input type="date" class="form-control" formControlName="valid_until">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center border-0 gap-4 ct_flex_wrap_767 mb-4">
+                <button type="button" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark"
+                    data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="ct_green_btn ct_h_50" (click)="updateCoupon()">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="spinner-border me-2" role="status" *ngIf="btnEditLoader">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span *ngIf="!btnEditLoader">Update</span>
+                    </div>
+                </button>
+                <button hidden type="button" class="btn btn-secondary" #closeEditModal
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="ct_delete_coupon" tabindex="-1" aria-labelledby="ct_delete_couponLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="ct_delete_post_modal">
+                    <figure>
+                        <figcaption class="mt-4">
+                            <h4 class="ct_fs_18 ct_fw_600">Delete Coupon Code</h4>
+                            <p class="mb-0">Are you sure you want to delete coupon code <strong>{{ updateDet?.code
+                                    }}</strong>? This action cannot be undone.</p>
+                        </figcaption>
+                    </figure>
+                    <div class="modal-footer border-0 justify-content-center mt-3">
+                        <button type="button" class="ct_green_btn ct_green_outline_btn"
+                            data-bs-dismiss="modal">Cancel</button>
+                        <a (click)="deleteCoupon()" type="button"
+                            class="bg-danger ct_green_btn ct_btn_red justify-content-center"
+                            style="border-color: rgb(220, 53, 69); cursor: pointer;">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="spinner-border me-2" role="status" *ngIf="btnDelLoader">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span *ngIf="!btnDelLoader">Delete</span>
+                            </div>
+                        </a>
+                        <button hidden type="button" class="btn btn-secondary" #closeDeleteModal
+                            data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="ct_loader_main" *ngIf="loading">
+    <div class="loadingio-spinner-spinner-977el9wwy2v">
+        <div class="ldio-4j5ay0xf86g">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
