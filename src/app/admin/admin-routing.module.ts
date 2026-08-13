@@ -45,6 +45,8 @@ import { AnalyticDashboardComponent } from './analytic-dashboard/analytic-dashbo
 import { WebAnalyticComponent } from './web-analytic/web-analytic.component';
 import { ViewUserAnalyticComponent } from './analytic-dashboard/view-user-analytic/view-user-analytic.component';
 import { CuponCodesComponent } from './cupon-codes/cupon-codes.component';
+import { InfluencerManagementComponent } from './influencer-management/influencer-management.component';
+import { InviteMembersComponent } from './invite-members/invite-members.component';
 
 const routes: Routes = [
   {
@@ -237,6 +239,14 @@ const routes: Routes = [
       {
         path: 'cupon-codes',
         component: CuponCodesComponent
+      },
+      {
+        path: 'influencer-management',
+        component: InfluencerManagementComponent
+      },
+      {
+        path: 'invite-members',
+        component: InviteMembersComponent
       },
     ]
   }

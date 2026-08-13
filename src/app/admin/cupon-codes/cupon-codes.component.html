@@ -7,7 +7,7 @@
                     [(ngModel)]="searchQuery" (ngModelChange)="resetAndSearch()">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
+            <!-- <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
                 <span class="ct_text_op_5 ct_fs_13" style="white-space: nowrap;">Status :</span>
                 <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px; width: 120px;"
                     [(ngModel)]="statusFilter" (change)="resetAndSearch()">
@@ -15,7 +15,7 @@
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
                 </select>
-            </div>
+            </div> -->
             <div class="ct_category_filter123 ct_575_100 d-flex align-items-center gap-2">
                 <span class="ct_text_op_5 ct_fs_13" style="white-space: nowrap;">Type :</span>
                 <select class="form-control py-2 h-auto ct_input" style="border-radius: 5px; width: 120px;"
@@ -40,11 +40,10 @@
                             <th>Discount</th>
                             <th>Plan</th>
                             <th>Usage Limit</th>
-                            <th>Influencer Email</th>
-                            <th>Valid From</th>
-                            <th>Valid Until</th>
-                            <th>Status</th>
-                            <th class="text-end">Action</th>
+                            <!-- <th>Valid From</th>
+                            <th>Valid Until</th> -->
+                            <!-- <th>Status</th> -->
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,27 +52,24 @@
                             <td class="fw-bold">{{ item.code }}</td>
                             <td>{{ item.discount_type === 'percentage' ? item.discount_value + '%' : '$' +
                                 item.discount_value }}</td>
-                            <td>{{ getPlanName(item.plan_id) }}</td>
-                            <td>{{ item.usage_limit }}</td>
-                            <td>{{ item.influencer_email }}</td>
-                            <td>{{ item.valid_from ? (item.valid_from | date:'yyyy-MM-dd') : '-' }}</td>
-                            <td>{{ item.valid_until ? (item.valid_until | date:'yyyy-MM-dd') : '-' }}</td>
-                            <td class="text-end">
+                            <td>{{ item.discount_for == 'users' ? 'Users' : 'Influencers' }}</td>
+                            <td>{{ item.usage_type == 'unlimited' ? 'Unlimited' : 'Once' }}</td>
+                            <!-- <td>{{ item.valid_from ? (item.valid_from | date:'yyyy-MM-dd') : '-' }}</td>
+                            <td>{{ item.valid_until ? (item.valid_until | date:'yyyy-MM-dd') : '-' }}</td> -->
+                            <!-- <td class="text-end">
                                 <div class="form-check form-switch ct_custom_switch d-flex justify-content-end">
                                     <input class="form-check-input" type="checkbox" role="switch"
                                         [checked]="item.status == 1" (change)="handleStatusChange(item)" />
                                 </div>
-                            </td>
+                            </td> -->
                             <td>
-                                <div class="d-flex align-items-center gap-3">
-                                    <button *ngIf="item.influencer_email" class="ct_green_btn py-1 px-2 h-auto ct_fs_12"
-                                        [disabled]="emailLoaders[item.id]" (click)="sendEmail(item)">
+                                <div class="d-flex align-items-center gap-3 justify-content-end">
+                                    <button class="ct_green_btn py-2 px-2 h-auto ct_fs_12">
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <div class="spinner-border spinner-border-sm me-1 text-light" role="status"
-                                                style="width: 0.85rem; height: 0.85rem;" *ngIf="emailLoaders[item.id]">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
-                                            <span>Send Email</span>
+                                            <i class="fa-solid fa-paper-plane me-1"
+                                                [routerLink]="['/admin/main/invite-members']"
+                                                [queryParams]="{ coupon_id: item.id, discount_for: item.discount_for }"></i>
+                                            <span></span>
                                         </div>
                                     </button>
                                     <i style="cursor: pointer;" class="fas fa-edit"
@@ -155,28 +151,24 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
+                            <label class="mb-2">Discount For <span class="ct_required_star">*</span></label>
+                            <select class="form-control" formControlName="discount_for">
+                                <option value="users">Member</option>
+                                <option value="influencers">Influencer</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
                             <label class="mb-2">Usage Limit <span class="ct_required_star">*</span></label>
-                            <input type="number" class="form-control" placeholder="Enter Usage Limit"
-                                formControlName="usage_limit">
+                            <select class="form-control" formControlName="usage_limit"
+                                [attr.disabled]="couponForm.get('discount_for')?.value === 'influencers' ? true : null">
+                                <option value="once">Once</option>
+                                <option value="unlimited">Unlimited</option>
+                            </select>
                             <div *ngIf="couponForm.controls['usage_limit'].invalid && couponForm.controls['usage_limit'].touched"
                                 class="text-danger mt-1">
                                 <div *ngIf="couponForm.controls['usage_limit'].errors?.['required']" class="ct_fs_14">
                                     Usage limit is required.</div>
-                                <div *ngIf="couponForm.controls['usage_limit'].errors?.['min']" class="ct_fs_14">Must be
-                                    at least 1.</div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="mb-2">Influencer Email <span class="ct_required_star">*</span></label>
-                            <input type="email" class="form-control" placeholder="Enter Influencer Email"
-                                formControlName="influencer_email">
-                            <div *ngIf="couponForm.controls['influencer_email'].invalid && couponForm.controls['influencer_email'].touched"
-                                class="text-danger mt-1">
-                                <div *ngIf="couponForm.controls['influencer_email'].errors?.['required']"
-                                    class="ct_fs_14">Email is required.</div>
-                                <div *ngIf="couponForm.controls['influencer_email'].errors?.['email']" class="ct_fs_14">
-                                    Invalid email format.</div>
                             </div>
                         </div>
 
@@ -269,28 +261,24 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
+                            <label class="mb-2">Discount For <span class="ct_required_star">*</span></label>
+                            <select class="form-control" formControlName="discount_for">
+                                <option value="users">Member</option>
+                                <option value="influencers">Influencer</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
                             <label class="mb-2">Usage Limit <span class="ct_required_star">*</span></label>
-                            <input type="number" class="form-control" placeholder="Enter Usage Limit"
-                                formControlName="usage_limit">
+                            <select class="form-control" formControlName="usage_limit"
+                                [attr.disabled]="editCouponForm.get('discount_for')?.value === 'influencers' ? true : null">
+                                <option value="once">Once</option>
+                                <option value="unlimited">Unlimited</option>
+                            </select>
                             <div *ngIf="editCouponForm.controls['usage_limit'].invalid && editCouponForm.controls['usage_limit'].touched"
                                 class="text-danger mt-1">
                                 <div *ngIf="editCouponForm.controls['usage_limit'].errors?.['required']"
                                     class="ct_fs_14">Usage limit is required.</div>
-                                <div *ngIf="editCouponForm.controls['usage_limit'].errors?.['min']" class="ct_fs_14">
-                                    Must be at least 1.</div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="mb-2">Influencer Email <span class="ct_required_star">*</span></label>
-                            <input type="email" class="form-control" placeholder="Enter Influencer Email"
-                                formControlName="influencer_email">
-                            <div *ngIf="editCouponForm.controls['influencer_email'].invalid && editCouponForm.controls['influencer_email'].touched"
-                                class="text-danger mt-1">
-                                <div *ngIf="editCouponForm.controls['influencer_email'].errors?.['required']"
-                                    class="ct_fs_14">Email is required.</div>
-                                <div *ngIf="editCouponForm.controls['influencer_email'].errors?.['email']"
-                                    class="ct_fs_14">Invalid email format.</div>
                             </div>
                         </div>
 

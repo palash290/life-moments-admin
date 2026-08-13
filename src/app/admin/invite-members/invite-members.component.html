@@ -1,0 +1,161 @@
+<div class="ct_dashbaord_middle">
+    <!-- Header Block -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <a routerLink="/admin/main/cupon-codes" class="ct_back_btn_4 text-decoration-none text-dark">
+                <i class="fa-solid fa-arrow-left me-1"></i>
+            </a>
+            <h4 class="mb-0 ct_fs_22">Invite Members / Influencers</h4>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <span class="badge bg-light text-dark border p-2 ct_fs_14" *ngIf="getSelectedCount() > 0">
+                {{ getSelectedCount() }} Selected
+            </span>
+            <button class="ct_green_btn d-flex align-items-center gap-2" 
+                    (click)="sendInvites()" 
+                    [disabled]="btnLoader || getSelectedCount() === 0">
+                <div class="spinner-border spinner-border-sm text-light" role="status" *ngIf="btnLoader">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <span>Send Invitation</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Radio Button Selectors Card -->
+    <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius: 12px; background: #fff;">
+        <div class="row align-items-center gap-3">
+            <div class="col-md-6" *ngIf="!discount_for">
+                <h5 class="ct_fs_15 ct_fw_600 mb-2 text-muted">Select Recipient Type</h5>
+                <div class="d-flex align-items-center gap-4 mt-2">
+                    <div class="form-check form-check-inline d-flex align-items-center gap-2">
+                        <input class="form-check-input ct_cursor_pointer" type="radio" name="userType" id="typeInfluencer" 
+                               value="influencer" [(ngModel)]="selectedType" (change)="onTypeChange()">
+                        <label class="form-check-label ct_cursor_pointer ct_fs_15 mb-0" for="typeInfluencer">Influencer</label>
+                    </div>
+                    <div class="form-check form-check-inline d-flex align-items-center gap-2">
+                        <input class="form-check-input ct_cursor_pointer" type="radio" name="userType" id="typeMember" 
+                               value="member" [(ngModel)]="selectedType" (change)="onTypeChange()">
+                        <label class="form-check-label ct_cursor_pointer ct_fs_15 mb-0" for="typeMember">Members</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search bar -->
+            <div class="col-md-5" [ngClass]="discount_for ? 'col-md-12' : 'ms-auto'">
+                <div class="position-relative ct_search_input mt-3 mt-md-0">
+                    <input type="text" class="form-control" style="padding-right: 35px;"
+                           placeholder="Search by name, email or phone..." [(ngModel)]="searchQuery" />
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main List Container -->
+    <div class="ct_all_table_list_parent position-relative">
+        
+        <!-- Loading Spinner -->
+        <div *ngIf="loading" class="d-flex justify-content-center align-items-center py-5">
+            <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <ng-container *ngIf="!loading">
+            <!-- Influencer Table -->
+            <div class="table-responsive ct_all_table_list_scrolll" *ngIf="selectedType === 'influencer'">
+                <table class="table ct_project_table ct_table_padd_0">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px;">
+                                <div class="form-check ct_checkbox_custom_1">
+                                    <input class="form-check-input ct_cursor_pointer" type="checkbox"
+                                           [checked]="isAllSelected()" (change)="toggleSelectAll($any($event.target).checked)" />
+                                    <span class="ms-1">All</span>
+                                </div>
+                            </th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of getFilteredData(); let i = index">
+                            <td>
+                                <div class="form-check ct_checkbox_custom_1">
+                                    <input class="form-check-input ct_cursor_pointer" type="checkbox" [(ngModel)]="item.isSelected" />
+                                </div>
+                            </td>
+                            <td>{{ item.id }}</td>
+                            <td class="fw-bold">{{ item.name }}</td>
+                            <td>{{ item.email }}</td>
+                            <td>{{ item.phone || '-' }}</td>
+                            <td>
+                                <span class="badge" [ngClass]="item.status === 1 ? 'bg-success' : 'bg-secondary'">
+                                    {{ item.status === 1 ? 'Active' : 'Inactive' }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="getFilteredData().length === 0">
+                            <td colspan="6" class="text-center py-4">
+                                <p class="text-muted mb-0 ct_fs_14">No influencers found matching your query.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Members Table -->
+            <div class="table-responsive ct_all_table_list_scrolll" *ngIf="selectedType === 'member'">
+                <table class="table ct_project_table ct_table_padd_0">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px;">
+                                <div class="form-check ct_checkbox_custom_1">
+                                    <input class="form-check-input ct_cursor_pointer" type="checkbox"
+                                           [checked]="isAllSelected()" (change)="toggleSelectAll($any($event.target).checked)" />
+                                    <span class="ms-1">All</span>
+                                </div>
+                            </th>
+                            <th>User ID</th>
+                            <th>Full Name</th>
+                            <th>Member Name</th>
+                            <th>Email</th>
+                            <th>Is Alive</th>
+                            <th>DOB</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of getFilteredData(); let i = index">
+                            <td>
+                                <div class="form-check ct_checkbox_custom_1">
+                                    <input class="form-check-input ct_cursor_pointer" type="checkbox" [(ngModel)]="item.isSelected" />
+                                </div>
+                            </td>
+                            <td>{{ item.user_id || '-' }}</td>
+                            <td class="fw-bold">{{ item.fullName }}</td>
+                            <td>{{ item.member_name || '-' }}</td>
+                            <td>{{ item.email }}</td>
+                            <td>
+                                <span *ngIf="item.is_alive == 1" class="badge bg-success">Yes</span>
+                                <span *ngIf="item.is_alive == 2" class="badge bg-danger">No</span>
+                                <span *ngIf="item.is_alive == 3" class="badge bg-info">Not yet born</span>
+                                <span *ngIf="item.is_alive == 4" class="badge bg-warning">Angel Baby</span>
+                                <span *ngIf="item.is_alive === undefined || item.is_alive === null" class="badge bg-secondary">-</span>
+                            </td>
+                            <td>{{ item.date_of_birth || '-' }}</td>
+                        </tr>
+                        <tr *ngIf="getFilteredData().length === 0">
+                            <td colspan="7" class="text-center py-4">
+                                <p class="text-muted mb-0 ct_fs_14">No members found matching your query.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </ng-container>
+    </div>
+</div>

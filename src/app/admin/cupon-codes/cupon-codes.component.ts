@@ -32,7 +32,6 @@ export class CuponCodesComponent implements OnInit {
 
   updateDet: any;
   updateId: any;
-  emailLoaders: { [key: number]: boolean } = {};
 
   plans = [
     { id: 3, name: 'Yearly' }
@@ -54,8 +53,8 @@ export class CuponCodesComponent implements OnInit {
       code: new FormControl('', Validators.required),
       discount_type: new FormControl('percentage', Validators.required),
       discount_value: new FormControl('', [Validators.required, Validators.min(1), Validators.max(100)]),
-      usage_limit: new FormControl('', [Validators.required, Validators.min(1)]),
-      influencer_email: new FormControl('', [Validators.required, Validators.email]),
+      discount_for: new FormControl('users', Validators.required),
+      usage_limit: new FormControl('once', Validators.required),
       plan_id: new FormControl(3, Validators.required),
       valid_from: new FormControl(''),
       valid_until: new FormControl(''),
@@ -71,20 +70,29 @@ export class CuponCodesComponent implements OnInit {
       }
       valControl?.updateValueAndValidity();
     });
+
+    this.couponForm.get('discount_for')?.valueChanges.subscribe(discountFor => {
+      if (discountFor === 'influencers') {
+        this.couponForm.get('usage_limit')?.setValue('unlimited');
+      }
+    });
   }
 
   initUpdateForm() {
     const initialType = this.updateDet?.discount_type || 'percentage';
-    const valValidators = initialType === 'percentage' 
-      ? [Validators.required, Validators.min(1), Validators.max(100)] 
+    const valValidators = initialType === 'percentage'
+      ? [Validators.required, Validators.min(1), Validators.max(100)]
       : [Validators.required, Validators.min(1)];
+
+    const initialUsageLimit = this.updateDet?.usage_type || ((this.updateDet?.usage_limit === null || this.updateDet?.usage_limit === undefined || Number(this.updateDet?.usage_limit) === 0) ? 'unlimited' : 'once');
+    const initialDiscountFor = this.updateDet?.discount_for || 'users';
 
     this.editCouponForm = new FormGroup({
       code: new FormControl(this.updateDet?.code || '', Validators.required),
       discount_type: new FormControl(initialType, Validators.required),
       discount_value: new FormControl(this.updateDet?.discount_value || '', valValidators),
-      usage_limit: new FormControl(this.updateDet?.usage_limit || '', [Validators.required, Validators.min(1)]),
-      influencer_email: new FormControl(this.updateDet?.influencer_email || '', [Validators.required, Validators.email]),
+      discount_for: new FormControl({ value: initialDiscountFor, disabled: true }, Validators.required),
+      usage_limit: new FormControl({ value: initialUsageLimit, disabled: true }, Validators.required),
       plan_id: new FormControl(this.updateDet?.plan_id || 3, Validators.required),
       valid_from: new FormControl(this.formatDate(this.updateDet?.valid_from)),
       valid_until: new FormControl(this.formatDate(this.updateDet?.valid_until)),
@@ -106,7 +114,7 @@ export class CuponCodesComponent implements OnInit {
     if (showLoader) {
       this.loading = true;
     }
-    let url = 'sub-admin/discount-list';
+    let url = 'sub-admin/discount-coupons/list';
     const params: string[] = [];
     params.push(`page=${this.currentPage}`);
     params.push(`limit=${this.pageSize}`);
@@ -180,8 +188,8 @@ export class CuponCodesComponent implements OnInit {
         code: formVal.code,
         discount_type: formVal.discount_type,
         discount_value: Number(formVal.discount_value),
-        usage_limit: Number(formVal.usage_limit),
-        influencer_email: formVal.influencer_email,
+        discount_for: formVal.discount_for,
+        usage_type: formVal.usage_limit,
         plan_id: Number(formVal.plan_id),
         duration_months: 12,
         valid_from: formVal.valid_from ? formVal.valid_from : null,
@@ -189,13 +197,13 @@ export class CuponCodesComponent implements OnInit {
         status: Number(formVal.status)
       };
 
-      this.service.postJSON('sub-admin/create-discount', payload).subscribe({
+      this.service.postJSON('sub-admin/discount-coupons/create', payload).subscribe({
         next: (resp) => {
           this.btnLoader = false;
           if (resp && resp.success) {
             this.toastr.success(resp.message || 'Coupon created successfully.');
             this.closeAddModal.nativeElement.click();
-            this.couponForm.reset({ status: 1, plan_id: 3, discount_type: 'percentage' });
+            this.couponForm.reset({ status: 1, plan_id: 3, discount_type: 'percentage', discount_for: 'users', usage_limit: 'once' });
             this.getCoupons();
           } else {
             this.toastr.warning(resp.message || 'Failed to create coupon.');
@@ -216,7 +224,7 @@ export class CuponCodesComponent implements OnInit {
   fetchDetailsAndOpenEdit(row: any) {
     this.updateId = row.id;
     this.loading = true;
-    this.service.getApi(`sub-admin/discount-details/${row.id}`).subscribe({
+    this.service.getApi(`sub-admin/discount-coupons/details/${row.id}`).subscribe({
       next: (resp) => {
         this.loading = false;
         if (resp && resp.success) {
@@ -237,14 +245,14 @@ export class CuponCodesComponent implements OnInit {
     this.editCouponForm.markAllAsTouched();
     if (this.editCouponForm.valid) {
       this.btnEditLoader = true;
-      const formVal = this.editCouponForm.value;
+      const formVal = this.editCouponForm.getRawValue();
       const payload = {
         id: this.updateId,
         code: formVal.code,
         discount_type: formVal.discount_type,
         discount_value: Number(formVal.discount_value),
-        usage_limit: Number(formVal.usage_limit),
-        influencer_email: formVal.influencer_email,
+        discount_for: formVal.discount_for,
+        usage_type: formVal.usage_limit,
         plan_id: Number(formVal.plan_id),
         duration_months: 12,
         valid_from: formVal.valid_from ? formVal.valid_from : null,
@@ -252,7 +260,7 @@ export class CuponCodesComponent implements OnInit {
         status: Number(formVal.status)
       };
 
-      this.service.putJSON('sub-admin/update-discount', payload).subscribe({
+      this.service.putJSON(`sub-admin/discount-coupons/update/${this.updateId}`, payload).subscribe({
         next: (resp) => {
           this.btnEditLoader = false;
           if (resp && resp.success) {
@@ -282,7 +290,7 @@ export class CuponCodesComponent implements OnInit {
 
   deleteCoupon() {
     this.btnDelLoader = true;
-    this.service.deleteAcc(`sub-admin/discount-delete/${this.updateId}`).subscribe({
+    this.service.deleteAcc(`sub-admin/discount-coupons/delete/${this.updateId}`).subscribe({
       next: (resp) => {
         this.btnDelLoader = false;
         if (resp && resp.success) {
@@ -296,32 +304,6 @@ export class CuponCodesComponent implements OnInit {
       error: (error) => {
         this.btnDelLoader = false;
         this.toastr.error('Something went wrong while deleting.');
-      }
-    });
-  }
-
-  sendEmail(item: any) {
-    if (this.emailLoaders[item.id]) return;
-    this.emailLoaders[item.id] = true;
-    const payload = {
-      discount_code_id: item.id
-    };
-    this.service.postJSON('sub-admin/discount-send-email', payload).subscribe({
-      next: (resp) => {
-        this.emailLoaders[item.id] = false;
-        if (resp && resp.success) {
-          this.toastr.success(resp.message || 'Email sent successfully.');
-        } else {
-          this.toastr.warning(resp.message || 'Failed to send email.');
-        }
-      },
-      error: (error) => {
-        this.emailLoaders[item.id] = false;
-        if (error.error && error.error.message) {
-          this.toastr.error(error.error.message);
-        } else {
-          this.toastr.error('Something went wrong while sending email.');
-        }
       }
     });
   }
@@ -367,8 +349,5 @@ export class CuponCodesComponent implements OnInit {
     });
   }
 
-  getPlanName(planId: any): string {
-    const plan = this.plans.find(p => p.id == planId);
-    return plan ? plan.name : 'Unknown';
-  }
+
 }

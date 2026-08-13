@@ -56,6 +56,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { WebAnalyticComponent } from './web-analytic/web-analytic.component';
 import { ViewUserAnalyticComponent } from './analytic-dashboard/view-user-analytic/view-user-analytic.component';
 import { CuponCodesComponent } from './cupon-codes/cupon-codes.component';
+import { InfluencerManagementComponent } from './influencer-management/influencer-management.component';
+import { InviteMembersComponent } from './invite-members/invite-members.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +108,9 @@ import { CuponCodesComponent } from './cupon-codes/cupon-codes.component';
     AnalyticDashboardComponent,
     WebAnalyticComponent,
     ViewUserAnalyticComponent,
-    CuponCodesComponent
+    CuponCodesComponent,
+    InfluencerManagementComponent,
+    InviteMembersComponent
   ],
   imports: [
     CommonModule,

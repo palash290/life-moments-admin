@@ -274,7 +274,7 @@
 
     <li [ngClass]="{ 'active': isActive('/admin/main/cupon-codes')}" (click)="toggleMenu()">
       <a routerLink="/admin/main/cupon-codes" (click)="referHeader()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-ticket"
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#F1F1F1" class="bi bi-ticket"
           viewBox="0 0 16 16">
           <path
             d="M0 4.5V6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4.5a2 2 0 0 0-2-2h-1.11a2.5 2.5 0 0 1-4.78 0H2a2 2 0 0 0-2 2ZM12 4.5a1 1 0 0 0-1-1h-.282a2.5 2.5 0 0 1-1.364 0H8a1 1 0 0 0-1 1v.5h2a2 2 0 0 0 2-2Z" />
@@ -282,6 +282,17 @@
             d="M0 11.5v-2A2 2 0 0 1 2 9h12a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2Zm11 0a1 1 0 0 0-1 1v.5h2v-.5a1 1 0 0 0-1-1Z" />
         </svg>
         Discount Code Management
+      </a>
+    </li>
+
+    <li [ngClass]="{ 'active': isActive('/admin/main/influencer-management')}" (click)="toggleMenu()">
+      <a routerLink="/admin/main/influencer-management" (click)="referHeader()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#F1F1F1" class="bi bi-ticket"
+          viewBox="0 0 16 16">
+          <path
+            d="M16 6.5a.5.5 0 0 0-.5-.5h-1V4a1 1 0 0 0-1-1H1a1 1 0 0 0-1 1v2h1V5a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5v-5Zm-11-1a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5ZM0 14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7H0v7Zm2-3a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1Zm7 0a1 1 0 1 1 0 2h2a1 1 0 1 1 0-2h-2Z" />
+        </svg>
+        Influencer Management
       </a>
     </li>
 
