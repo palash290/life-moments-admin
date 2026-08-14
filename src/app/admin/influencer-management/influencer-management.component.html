@@ -118,13 +118,11 @@
                         </div>
 
                         <div class="col-md-12 mb-3">
-                            <label class="mb-2">Contact Number <span class="ct_required_star">*</span></label>
+                            <label class="mb-2">Contact Number</label>
                             <input type="text" class="form-control" placeholder="Enter Contact Number"
                                 formControlName="number">
                             <div *ngIf="influencerForm.controls['number'].invalid && influencerForm.controls['number'].touched"
                                 class="text-danger mt-1">
-                                <div *ngIf="influencerForm.controls['number'].errors?.['required']" class="ct_fs_14">
-                                    Contact number is required.</div>
                                 <div *ngIf="influencerForm.controls['number'].errors?.['pattern']" class="ct_fs_14">Must
                                     be a valid number of 10-15 digits.</div>
                             </div>
@@ -187,13 +185,11 @@
                         </div>
 
                         <div class="col-md-12 mb-3">
-                            <label class="mb-2">Contact Number <span class="ct_required_star">*</span></label>
+                            <label class="mb-2">Contact Number</label>
                             <input type="text" class="form-control" placeholder="Enter Contact Number"
                                 formControlName="number">
                             <div *ngIf="editInfluencerForm.controls['number'].invalid && editInfluencerForm.controls['number'].touched"
                                 class="text-danger mt-1">
-                                <div *ngIf="editInfluencerForm.controls['number'].errors?.['required']"
-                                    class="ct_fs_14">Contact number is required.</div>
                                 <div *ngIf="editInfluencerForm.controls['number'].errors?.['pattern']" class="ct_fs_14">
                                     Must be a valid number of 10-15 digits.</div>
                             </div>

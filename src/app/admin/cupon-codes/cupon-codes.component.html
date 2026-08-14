@@ -25,7 +25,7 @@
                     <option value="fixed">Fixed</option>
                 </select>
             </div>
-            <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#ct_add_coupon">Add Coupon</button>
+            <button class="ct_green_btn" data-bs-toggle="modal" data-bs-target="#ct_add_coupon">Add Discount</button>
         </div>
     </div>
 
@@ -72,6 +72,9 @@
                                             <span></span>
                                         </div>
                                     </button>
+                                    <i style="cursor: pointer;" class="fa-solid fa-scroll"
+                                        (click)="viewUsageDetails(item)" data-bs-toggle="modal"
+                                        data-bs-target="#ct_usage_details"></i>
                                     <i style="cursor: pointer;" class="fas fa-edit"
                                         (click)="fetchDetailsAndOpenEdit(item)" data-bs-toggle="modal"
                                         data-bs-target="#ct_edit_coupon"></i>
@@ -112,12 +115,12 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body pt-5">
-                <h4 class="mb-4 text-center ct_fs_24 ct_fw_600">Add Coupon Code</h4>
+                <h4 class="mb-4 text-center ct_fs_24 ct_fw_600">Add Discount Code</h4>
                 <form [formGroup]="couponForm">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="mb-2">Coupon Code <span class="ct_required_star">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter Coupon Code"
+                            <label class="mb-2">Discount Code <span class="ct_required_star">*</span></label>
+                            <input type="text" class="form-control" placeholder="Enter Discount Code"
                                 formControlName="code">
                             <div *ngIf="couponForm.controls['code'].invalid && couponForm.controls['code'].touched"
                                 class="text-danger mt-1">
@@ -153,7 +156,7 @@
                         <div class="col-md-6 mb-3">
                             <label class="mb-2">Discount For <span class="ct_required_star">*</span></label>
                             <select class="form-control" formControlName="discount_for">
-                                <option value="users">Member</option>
+                                <option value="users">User</option>
                                 <option value="influencers">Influencer</option>
                             </select>
                         </div>
@@ -188,12 +191,13 @@
 
                         <div class="col-md-6 mb-3">
                             <label class="mb-2">Valid From</label>
-                            <input type="date" class="form-control" formControlName="valid_from">
+                            <input type="date" class="form-control" formControlName="valid_from" [min]="todayDate">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label class="mb-2">Valid Until</label>
-                            <input type="date" class="form-control" formControlName="valid_until">
+                            <input type="date" class="form-control" formControlName="valid_until"
+                                [min]="couponForm.get('valid_from')?.value || todayDate">
                         </div>
                     </div>
                 </form>
@@ -206,7 +210,7 @@
                         <div class="spinner-border me-2" role="status" *ngIf="btnLoader">
                             <span class="visually-hidden">Loading...</span>
                         </div>
-                        <span *ngIf="!btnLoader">Add Coupon</span>
+                        <span *ngIf="!btnLoader">Add Discount</span>
                     </div>
                 </button>
                 <button hidden type="button" class="btn btn-secondary" #closeAddModal
@@ -222,12 +226,12 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body pt-5">
-                <h4 class="mb-4 text-center ct_fs_24 ct_fw_600">Edit Coupon Code</h4>
+                <h4 class="mb-4 text-center ct_fs_24 ct_fw_600">Edit Discount Code</h4>
                 <form [formGroup]="editCouponForm" *ngIf="editCouponForm">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="mb-2">Coupon Code <span class="ct_required_star">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter Coupon Code"
+                            <label class="mb-2">Discount Code <span class="ct_required_star">*</span></label>
+                            <input type="text" class="form-control" placeholder="Enter Discount Code"
                                 formControlName="code">
                             <div *ngIf="editCouponForm.controls['code'].invalid && editCouponForm.controls['code'].touched"
                                 class="text-danger mt-1">
@@ -263,7 +267,7 @@
                         <div class="col-md-6 mb-3">
                             <label class="mb-2">Discount For <span class="ct_required_star">*</span></label>
                             <select class="form-control" formControlName="discount_for">
-                                <option value="users">Member</option>
+                                <option value="users">User</option>
                                 <option value="influencers">Influencer</option>
                             </select>
                         </div>
@@ -296,16 +300,15 @@
                             </div>
                         </div>
 
-
-
                         <div class="col-md-6 mb-3">
                             <label class="mb-2">Valid From</label>
-                            <input type="date" class="form-control" formControlName="valid_from">
+                            <input type="date" class="form-control" formControlName="valid_from" [min]="todayDate">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label class="mb-2">Valid Until</label>
-                            <input type="date" class="form-control" formControlName="valid_until">
+                            <input type="date" class="form-control" formControlName="valid_until"
+                                [min]="editCouponForm.get('valid_from')?.value || todayDate">
                         </div>
                     </div>
                 </form>
@@ -336,8 +339,8 @@
                 <div class="ct_delete_post_modal">
                     <figure>
                         <figcaption class="mt-4">
-                            <h4 class="ct_fs_18 ct_fw_600">Delete Coupon Code</h4>
-                            <p class="mb-0">Are you sure you want to delete coupon code <strong>{{ updateDet?.code
+                            <h4 class="ct_fs_18 ct_fw_600">Delete Discount Code</h4>
+                            <p class="mb-0">Are you sure you want to delete discount code <strong>{{ updateDet?.code
                                     }}</strong>? This action cannot be undone.</p>
                         </figcaption>
                     </figure>
@@ -358,6 +361,93 @@
                             data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Usage Details Modal -->
+<div class="modal fade Committed_Price" id="ct_usage_details" tabindex="-1" aria-labelledby="ct_usage_detailsLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body pt-5">
+                <h4 class="mb-4 text-center ct_fs_24 ct_fw_600" id="ct_usage_detailsLabel">Usage Details - <span
+                        class="text-success">{{ selectedCouponCode }}</span></h4>
+
+                <div *ngIf="!selectedUsage" class="d-flex justify-content-center align-items-center py-5">
+                    <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+
+                <div *ngIf="selectedUsage">
+                    <!-- Usage Summary Cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <div class="p-3 border rounded text-center bg-light">
+                                <h6 class="text-muted ct_fs_13 mb-1">Usage Limit Type</h6>
+                                <p class="mb-0 ct_fs_18 fw-bold text-dark">{{ selectedUsage.usage_limit ||
+                                    selectedUsage.usage_type | uppercase }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <div class="p-3 border rounded text-center bg-light">
+                                <h6 class="text-muted ct_fs_13 mb-1">Total Used Count</h6>
+                                <p class="mb-0 ct_fs_18 fw-bold text-success">{{ selectedUsage.used_count }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded text-center bg-light">
+                                <h6 class="text-muted ct_fs_13 mb-1">Unique User Count</h6>
+                                <p class="mb-0 ct_fs_18 fw-bold text-info">{{ selectedUsage.unique_user_count }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Usage History Section -->
+                    <h5 class="ct_fs_16 ct_fw_600 mb-3">Usage History</h5>
+                    <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
+                        <table class="table ct_project_table">
+                            <thead>
+                                <tr>
+                                    <th>S No.</th>
+                                    <th>Sender Name</th>
+                                    <th>Sender Email</th>
+                                    <th>Original Amt</th>
+                                    <th>Discount Amt</th>
+                                    <th>Paid Amt</th>
+                                    <th>Transaction ID</th>
+                                    <th>Payment Method</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let history of selectedUsage.usage_history; let i = index">
+                                    <td>{{ i + 1 }}</td>
+                                    <td class="fw-bold">{{ history.sender_name || '-' }}</td>
+                                    <td>{{ history.sender_email || '-' }}</td>
+                                    <td>${{ history.original_amount }}</td>
+                                    <td class="text-danger">-${{ history.discount_amount }}</td>
+                                    <td class="text-success">${{ history.paid_amount }}</td>
+                                    <td><small class="text-muted">{{ history.transaction_id || '-' }}</small></td>
+                                    <td><span class="badge bg-secondary text-uppercase">{{ history.payment_method || '-'
+                                            }}</span></td>
+                                    <td>{{ history.created_at | date:'yyyy-MM-dd HH:mm' }}</td>
+                                </tr>
+                                <tr *ngIf="!selectedUsage.usage_history || selectedUsage.usage_history.length === 0">
+                                    <td colspan="9" class="text-center py-4">
+                                        <p class="text-muted mb-0 ct_fs_14">No usage history found for this coupon.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-end border-0 gap-4 mb-4 pe-4">
+                <button type="button" class="ct_green_btn ct_green_outline_btn ct_h_50 text-dark w-auto px-5"
+                    data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

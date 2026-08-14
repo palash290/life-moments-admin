@@ -32,6 +32,9 @@ export class CuponCodesComponent implements OnInit {
 
   updateDet: any;
   updateId: any;
+  selectedUsage: any;
+  selectedCouponCode: string = '';
+  todayDate: string = '';
 
   plans = [
     { id: 3, name: 'Yearly' }
@@ -44,6 +47,8 @@ export class CuponCodesComponent implements OnInit {
   constructor(private service: SharedService, private toastr: ToastrService) { }
 
   ngOnInit() {
+    const today = new Date();
+    this.todayDate = today.toISOString().split('T')[0];
     this.initForm();
     this.getCoupons();
   }
@@ -74,6 +79,13 @@ export class CuponCodesComponent implements OnInit {
     this.couponForm.get('discount_for')?.valueChanges.subscribe(discountFor => {
       if (discountFor === 'influencers') {
         this.couponForm.get('usage_limit')?.setValue('unlimited');
+      }
+    });
+
+    this.couponForm.get('valid_from')?.valueChanges.subscribe(validFrom => {
+      const validUntil = this.couponForm.get('valid_until')?.value;
+      if (validFrom && validUntil && validUntil < validFrom) {
+        this.couponForm.get('valid_until')?.setValue('');
       }
     });
   }
@@ -107,6 +119,13 @@ export class CuponCodesComponent implements OnInit {
         valControl?.setValidators([Validators.required, Validators.min(1)]);
       }
       valControl?.updateValueAndValidity();
+    });
+
+    this.editCouponForm.get('valid_from')?.valueChanges.subscribe(validFrom => {
+      const validUntil = this.editCouponForm.get('valid_until')?.value;
+      if (validFrom && validUntil && validUntil < validFrom) {
+        this.editCouponForm.get('valid_until')?.setValue('');
+      }
     });
   }
 
@@ -349,5 +368,23 @@ export class CuponCodesComponent implements OnInit {
     });
   }
 
-
+  viewUsageDetails(row: any) {
+    this.selectedUsage = null;
+    this.selectedCouponCode = row.code;
+    this.loading = true;
+    this.service.getApi(`sub-admin/discount-coupons/details/${row.id}`).subscribe({
+      next: (resp) => {
+        this.loading = false;
+        if (resp && resp.success) {
+          this.selectedUsage = resp.data?.usage || { used_count: 0, unique_user_count: 0, usage_history: [] };
+        } else {
+          this.toastr.error('Failed to load usage details.');
+        }
+      },
+      error: (error) => {
+        this.loading = false;
+        this.toastr.error('Failed to load usage details.');
+      }
+    });
+  }
 }

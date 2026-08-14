@@ -46,7 +46,7 @@ export class InfluencerManagementComponent implements OnInit {
     this.influencerForm = new FormGroup({
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      number: new FormControl('', [Validators.required, Validators.pattern(this.phonePattern)]),
+      number: new FormControl('', [Validators.pattern(this.phonePattern)]),
       status: new FormControl(1)
     });
   }
@@ -55,7 +55,7 @@ export class InfluencerManagementComponent implements OnInit {
     this.editInfluencerForm = new FormGroup({
       name: new FormControl(this.updateDet?.name || '', Validators.required),
       email: new FormControl(this.updateDet?.email || '', [Validators.required, Validators.email]),
-      number: new FormControl(this.updateDet?.phone || '', [Validators.required, Validators.pattern(this.phonePattern)]),
+      number: new FormControl(this.updateDet?.phone || '', [Validators.pattern(this.phonePattern)]),
       status: new FormControl(this.updateDet?.status !== undefined ? this.updateDet.status : 1)
     });
   }

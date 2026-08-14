@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SharedService } from '../../shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-invite-members',
@@ -20,7 +20,7 @@ export class InviteMembersComponent {
   loading: boolean = false;
   discount_for: string = '';
 
-  constructor(private service: SharedService, private toastr: ToastrService, private route: ActivatedRoute) { }
+  constructor(private service: SharedService, private toastr: ToastrService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -159,6 +159,7 @@ export class InviteMembersComponent {
         if (resp && resp.success) {
           this.toastr.success(resp.message || 'Invitation emails sent successfully.');
           currentList.forEach((item: any) => item.isSelected = false);
+          this.router.navigate(['/admin/main/cupon-codes']);
         } else {
           this.toastr.warning(resp.message || 'Failed to send invitations.');
         }
